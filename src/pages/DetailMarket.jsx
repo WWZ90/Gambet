@@ -8,6 +8,7 @@ import Image1 from '../assets/img/slider/1.jpg';
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
 import { OrderBook } from '../components/OrderBook';
 import { ActionOrders } from '../components/ActionOrders';
+import { OutcomeTable } from '../components/OutcomeTable';
 
 export const DetailMarket = () => {
     const { id } = useParams();
@@ -74,9 +75,14 @@ export const DetailMarket = () => {
                                 </div>
                             </div>
                             <div className='details'>
-                                <div className="chart">
-                                    <ReactEcharts option={option} />
+                                <div className="row">
+                                    <div className="col-12">
+                                        <div className="chart">
+                                            <ReactEcharts option={option} />
+                                        </div>
+                                    </div>
                                 </div>
+                                <OutcomeTable />
                                 <OrderBook data={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"} />
                                 <div className="module">
                                     <div className='about'>
@@ -88,9 +94,11 @@ export const DetailMarket = () => {
                                         <a role="button" onClick={updateCollapse} className="collapsed" data-toggle="collapse" href="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout">
                                             {!showAboutCollapse ? ('+ Show more') : ('- Show less')}
                                         </a>
-
                                     </div>
-
+                                    <div className='resolution_outcome mt-4'>
+                                        <h3>Resolution</h3>
+                                        <p>No outcome has been proposed yet.</p>
+                                    </div>
 
                                 </div>
                             </div>

@@ -936,4 +936,12 @@ button.swithToChain:hover {
     color: var(--color-3) !important;
 }
 
+table{
+    font-family: var(--onboard-font-family-regular);
+    font-size: 13px !important;
+}
+
+table th{
+    font-family: var(--onboard-font-family-semibold);
+}
 

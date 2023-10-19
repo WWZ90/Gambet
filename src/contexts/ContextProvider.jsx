@@ -33,6 +33,8 @@ export const ContextProvider = ({ children }) => {
     const [dataAsksPrice, setDataAsksPrice] = useState([]); //Datos de Precio
     const [dataBidsPrice, setDataBidsPrice] = useState([]); //Datos de Precio
 
+    const [outcomeData, setOutcomeData] = useState([]); //Arreglo de datos que se muestra en la tabla en DetailMarket
+
     //BOX de buy y sell
     const [activeOption, setActiveOption] = useState('buy'); //Para controlar si esta en Buy o en Sell
     const [limitPrice, setLimitPrice] = useState(0); 
@@ -68,6 +70,7 @@ export const ContextProvider = ({ children }) => {
                 limitPrice, setLimitPrice,
                 shares, setShares,
                 amount, setAmount,
+                outcomeData, setOutcomeData,
             }}>
             {children}
         </StateContext.Provider>
