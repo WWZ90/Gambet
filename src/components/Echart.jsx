@@ -220,13 +220,14 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
                                 <div className="row price_shares">
                                     <div className="col-7 text-center">
                                         {dataAsksPrice.slice().reverse().map((price, index) => (
-                                            <div className='option price'>{price}</div>
+                                            <div key={index} className='option price'>{price}</div>
                                         ))}
                                     </div>
                                     <div className="col-1 text-left">
                                         {dataAsks.slice().reverse().map((shares, index) => (
-                                            <div className='option share'>{shares}</div>
-                                        ))}</div>
+                                            <div key={index} className='option share'>{shares}</div>
+                                        ))}
+                                    </div>
                                 </div>
 
 
@@ -252,12 +253,12 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
                                 <div className="row price_shares">
                                     <div className="col-7 text-center">
                                         {dataBidsPrice.map((price, index) => (
-                                            <div className='option price'>{price}</div>
+                                            <div key={index} className='option price'>{price}</div>
                                         ))}
                                     </div>
                                     <div className="col-1 text-left">
                                         {dataBids.map((shares, index) => (
-                                            <div className='option share'>{shares}</div>
+                                            <div key={index} className='option share'>{shares}</div>
                                         ))}</div>
                                 </div>
 

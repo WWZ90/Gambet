@@ -1,39 +1,31 @@
 import React, { useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { NavLink } from "react-router-dom";
 
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-
-// import required modules
-import { Keyboard, Navigation, Autoplay } from 'swiper/modules';
-
-import { useSetChain } from "@web3-onboard/react";
-
 import { useStateContext } from '../contexts/ContextProvider'
 
-import { NavBar } from '../components/NavBar'
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
 
-import Image1 from '../assets/img/slider/1.jpg';
 import heroLogo from '../assets/img/hero-img.png';
 
-import { CardSwiperSlide } from '../components/CardSwiperSlide';
-
 import { browseMarkets, truncateText } from '../utils/services';
-import { delay } from 'framer-motion';
+
 
 import AOS from 'aos';
 import 'aos/dist/aos';
+import { FreqAskQ } from '../components/FreqAskQ';
+import { Footer } from '../components/Footer';
 
 export const Home = () => {
 
-    const { provider } = useStateContext();
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+
     const { activeContract, setActiveContract } = useStateContext();
     const { marketsArray, setMarketsArray } = useStateContext();
 
@@ -96,45 +88,33 @@ export const Home = () => {
 
             <section className='slider_markets' id='hero'>
 
-                {!marketsArray ? (
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-                                <h1>Gambeth</h1>
-                                <h2>A fully decentralized, blockchain-based web application in which anyone can participate on or create their own parimutuel betting pools.</h2>
-                                <div className="d-flex justify-content-center justify-content-lg-start">
-                                    <a href="#about" className="btn-get-started scrollto">Connect your wallet</a>
-                                </div>
-                            </div>
-                            <div className="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-                                <img src={heroLogo} className="img-fluid animated" alt="" />
+                <div className="container position-relative align-items-center">
+                    <div className="row">
+                        <div className="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+                            <h1>Gambeth</h1>
+                            <h2>A fully decentralized, blockchain-based web application in which anyone can participate on or create their own parimutuel betting pools.</h2>
+                            <div className="d-flex justify-content-center justify-content-lg-start">
+                                {!wallet ? (
+                                    <a href="#" className="btn-get-started scrollto" onClick={async () => {
+                                        const walletsConnected = await connect()
+                                        console.log('connected wallets: ', walletsConnected)
+                                    }}>Connect your wallet</a>
+                                ) : (
+                                    <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse markets</NavLink>
+                                )}
+
                             </div>
                         </div>
+                        <div className="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+                            <img src={heroLogo} className="img-fluid animated" alt="" />
+                        </div>
                     </div>
-                ) : (
-                    <>
-                        <h1>Bet on your beliefs</h1>
-                        <Slider {...settings}>
-                            {marketsArray.map(function (item, i) {
-                                return <>
-                                    <Link className="box_market" to='market/test'>
-                                        <div className='market_img'>
-                                            <img src={Image1}></img>
-                                        </div>
-                                        <div className="market_info">
-                                            <div className='market_title'>{item.name}</div>
-                                            <div className='market_desc'>Shares: {item.totalShares}</div>
-                                        </div>
-                                    </Link>
-                                </>
-                            })}
-                        </Slider>
-                    </>
-
-                )}
-
-
+                </div>
             </section >
+
+            <FreqAskQ />
+
+            <Footer />
         </>
     )
 }

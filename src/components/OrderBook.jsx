@@ -12,7 +12,6 @@ import { useStateContext } from '../contexts/ContextProvider';
 import { Echart } from './Echart';
 
 export const OrderBook = React.memo(({ parameters }) => {
-    const { myMarketOptionSelected, setMyMarketOptionSelected } = useStateContext();
     const { showModalMarket, setShowModalMarket } = useStateContext();
     const { showModalMyMarket, setShowModalMyMarket } = useStateContext();
 
@@ -21,6 +20,9 @@ export const OrderBook = React.memo(({ parameters }) => {
 
     const { dataAsksPrice, setDataAsksPrice } = useStateContext([]); //Datos de Precio
     const { dataBidsPrice, setDataBidsPrice } = useStateContext([]); //Datos de Precio
+
+    const { marketOptionSelected, setMarketOptionSelected } = useStateContext();
+    const { myMarketOptionSelected, setMyMarketOptionSelected } = useStateContext();
 
     const [yAxisHeightAsks, setYAxisHeightAsks] = useState(10);
     const [yAxisHeightBids, setYAxisHeightBids] = useState(0);
@@ -36,12 +38,24 @@ export const OrderBook = React.memo(({ parameters }) => {
         setShowModalMyMarket(true);
     }
 
-    let myMarketOptions = ['Patricia Bullrich', 'Javier Milei', 'Other candidate'];
+    let marketOptions = [
+        { name: 'Sergio Massa', price: '$0.514' },
+        { name: 'Patricia Bullrich', price: '$0.514' },
+        { name: 'Javier Milei', price: '$0.114' },
+        { name: 'Tiebreaker', price: '$0.723' },
+        { name: 'Other candidate', price: '$0.002' },
+    ];
+
+    let myMarketOptions = [
+        { name: 'Patricia Bullrich', price: '$0.514' },
+        { name: 'Tiebreaker', price: '$0.723' },
+        { name: 'Other candidate', price: '$0.002' },
+    ];
 
     console.log('Order Book')
 
     useEffect(() => {
-        setMyMarketOptionSelected(myMarketOptions[0])
+        setMarketOptionSelected(marketOptions[0].name)
         console.log('entreeeee')
     }, [])
 
@@ -51,24 +65,6 @@ export const OrderBook = React.memo(({ parameters }) => {
     useEffect(() => {
 
         const updateChartOptions = () => {
-
-            /*
-            const newDataAsks = [];
-            const newDataBids = [];
-
-            const newDataAsksPrice = [];
-            const newDataBidsPrice = [];
-
-            for (let i = 0; i < 6; ++i) {
-                newDataAsks.push(Math.round(Math.random() * 200));
-                newDataAsksPrice.push(Math.round(Math.random() * 10));
-            }
-            for (let i = 0; i < 6; ++i) {
-                newDataBids.push(Math.round(Math.random() * 100));
-                newDataBidsPrice.push(Math.round(Math.random() * 10));
-            }
-            */
-
 
             const newDataAsks = ['135', '200', '256', '356', '400', '452'];
             const newDataAsksPrice = ['$0.54', '$0.6', '$0.7', '$0.8', '$0.9', '$0.95'];
@@ -123,27 +119,27 @@ export const OrderBook = React.memo(({ parameters }) => {
                                     </div>
 
                                     <Echart type={'bids'} yAxisHeightBids={yAxisHeightBids} barWidth={barWidth} />
-                                </Tab>
-                                <Tab eventKey="my-orders" title="My Orders">
-                                    <div className="select_markets_options">
-                                        <div className="select_market" onClick={() => handleShow('myMarket')}>
-                                            <span className='name'>{myMarketOptionSelected}</span>
-                                            <span><i className="bi bi-caret-down"></i></span>
-                                        </div>
+
+                                    <div className='d-flex flex-row flex-wrap'>
+                                        {marketOptions.map((option, index) => (
+                                            <div key={index} className={`market_option d-flex mb-2 mr-2 ${marketOptionSelected == option.name ? 'active' : ''}`} onClick={() => setMarketOptionSelected(option.name)} label={option.name}>
+                                                <span className="mr-2">
+                                                    <i className="bi bi-check2-circle"></i>
+                                                </span>
+                                                <div className='d-flex'>
+                                                    <p>{option.name}</p>
+                                                    <p className='price'>{option.price}</p>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
 
+                                </Tab>
+                                <Tab eventKey="my-orders" title="My Orders">
                                     <div className="last_price_data d-flex">
                                         <span className="col-10 text-end">Price</span>
                                         <span className="col-1 text-end">Shares</span>
                                     </div>
-
-                                    <CenterModal
-                                        show={showModalMyMarket}
-                                        type={'myMarket'}
-                                        options={myMarketOptions}
-                                        onHide={handleClose}
-                                    />
-
 
                                     <Echart type={'asks'} dataAsks={dataAsks} yAxisHeightAsks={yAxisHeightAsks} barWidth={barWidth} />
 
@@ -153,6 +149,20 @@ export const OrderBook = React.memo(({ parameters }) => {
                                     </div>
 
                                     <Echart type={'bids'} dataBids={dataBids} yAxisHeightBids={yAxisHeightBids} barWidth={barWidth} />
+
+                                    <div className='d-flex flex-row flex-wrap'>
+                                        {myMarketOptions.map((option, index) => (
+                                            <div key={index} className={`market_option d-flex align-items-center mb-2 mr-2 ${marketOptionSelected == option.name ? 'active' : ''}`} onClick={() => setMarketOptionSelected(option.name)} label={option.name}>
+                                                <span className="mr-2">
+                                                    <i className="bi bi-check2-circle"></i>
+                                                </span>
+                                                <div className='d-flex'>
+                                                    <p>{option.name}</p>
+                                                    <p className='price'>{option.price}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </Tab>
                             </Tabs>
 

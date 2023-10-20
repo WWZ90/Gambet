@@ -15,12 +15,10 @@ export const ActionOrders = () => {
     const { shares, setShares } = useStateContext();
     const { amount, setAmount } = useStateContext();
     const { showModalMarket, setShowModalMarket } = useStateContext();
-    const { marketOptionSelected, setMarketOptionSelected } = useStateContext();
+    const { marketOptionSelected } = useStateContext();
 
     const [shown, setShown] = useState(false);
     const [type, setType] = useState('limit'); //Si es Limit o AMM
-
-    let marketOptions = ['Sergio Massa', 'Patricia Bullrich', 'Javier Milei', 'Tiebreaker', 'Other candidate'];
 
     const showMenu = {
         enter: {
@@ -52,10 +50,6 @@ export const ActionOrders = () => {
     const handleShow = (type) => {
         setShowModalMarket(true);
     }
-
-    useEffect(() => {
-        setMarketOptionSelected(marketOptions[0]);
-    }, [])
 
     const handleIncrementLimitPrice = () => {
         setLimitPrice(limitPrice + 1);
@@ -147,17 +141,8 @@ export const ActionOrders = () => {
                     </div>
                 </div>
                 <div className='box_content'>
-                    <div className="select_markets_options">
-                        <div className="select_market" onClick={() => handleShow('market')}>
-                            <span className='name'>{marketOptionSelected}</span>
-                            <span><i className="bi bi-caret-down"></i></span>
-                        </div>
-                        <CenterModal
-                            show={showModalMarket}
-                            type={'market'}
-                            options={marketOptions}
-                            onHide={handleClose}
-                        />
+                    <div className="market_option_selected">
+                        <p>Market option selected:  &nbsp;</p> {marketOptionSelected}
                     </div>
 
                     {type == 'limit' ? (
@@ -213,30 +198,49 @@ export const ActionOrders = () => {
                         </>
                     ) : (
                         <div className='inputData'>
-                                <div className='inputDataTitle'>Amount</div>
-                                <div className='inputStyle'>
-                                    <OverlayTrigger
-                                        overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
-                                        placement="top"
-                                    >
-                                        <button className='buttonStyle' onClick={handleDecrementAmount}>-</button>
-                                    </OverlayTrigger>
-                                    <input
-                                        type="text"
-                                        className="form-control text-center"
-                                        value={amount}
-                                        style={{ flex: 1, border: 'none' }}
-                                        onChange={handleInputChangeAmount}
-                                    />
-                                    <OverlayTrigger
-                                        overlay={<Tooltip id="tooltip-increment">+1</Tooltip>}
-                                        placement="top"
-                                    >
-                                        <button className='buttonStyle' onClick={handleIncrementAmount}>+</button>
-                                    </OverlayTrigger>
-                                </div>
+                            <div className='inputDataTitle'>Amount</div>
+                            <div className='inputStyle'>
+                                <OverlayTrigger
+                                    overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
+                                    placement="top"
+                                >
+                                    <button className='buttonStyle' onClick={handleDecrementAmount}>-</button>
+                                </OverlayTrigger>
+                                <input
+                                    type="text"
+                                    className="form-control text-center"
+                                    value={amount}
+                                    style={{ flex: 1, border: 'none' }}
+                                    onChange={handleInputChangeAmount}
+                                />
+                                <OverlayTrigger
+                                    overlay={<Tooltip id="tooltip-increment">+1</Tooltip>}
+                                    placement="top"
+                                >
+                                    <button className='buttonStyle' onClick={handleIncrementAmount}>+</button>
+                                </OverlayTrigger>
                             </div>
+                        </div>
                     )}
+
+                    <div className='action_info'>
+                        <div className='d-flex justify-content-between mt-3 mb-2'>
+                            <div className=''>Average price:</div>
+                            <div className=''>$0.00</div>
+                        </div>
+                        <div className='d-flex justify-content-between mt-2 mb-2'>
+                            <div className=''>Estimated shares:</div>
+                            <div className=''>0.00</div>
+                        </div>
+                        <div className='d-flex justify-content-between mt-2 mb-2'>
+                            <div className=''>Max profit:</div>
+                            <div className=''>$0.00</div>
+                        </div>
+                        <div className='d-flex justify-content-between mt-2'>
+                            <div className=''>Estimated fees (shares):</div>
+                            <div className=''>$0.00</div>
+                        </div>
+                    </div>
 
 
                     <button className='addButton'>Add</button>

@@ -38,6 +38,8 @@ export const NavBarWeb3Onboard = () => {
     const { owner, setOwner } = useStateContext();
     const { betType, setBetType } = useStateContext();
 
+    const { marketsArray, setMarketsArray } = useStateContext();
+
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [
         {
@@ -297,7 +299,7 @@ export const NavBarWeb3Onboard = () => {
 
                                         <NavDropdown.Divider />
 
-                                        <NavDropdown.Item onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false) }} className='wallet_disconnet'>
+                                        <NavDropdown.Item onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setMarketsArray(null) }} className='wallet_disconnet'>
                                             Disconnet
                                         </NavDropdown.Item>
 
