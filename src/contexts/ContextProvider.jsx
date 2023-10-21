@@ -27,6 +27,7 @@ export const ContextProvider = ({ children }) => {
     const [showModalMarket, setShowModalMarket] = useState(null);  
     const [showModalMyMarket, setShowModalMyMarket] = useState(null); 
     
+    const [optionActive, setOptionActive] = useState('orders'); //Control de si tiene seleccionado en Orders o My Orders
     const [dataAsks, setDataAsks] = useState([]); //Datos de Shares
     const [dataBids, setDataBids] = useState([]); //Datos de Shares
 
@@ -71,6 +72,7 @@ export const ContextProvider = ({ children }) => {
                 shares, setShares,
                 amount, setAmount,
                 outcomeData, setOutcomeData,
+                optionActive, setOptionActive,
             }}>
             {children}
         </StateContext.Provider>

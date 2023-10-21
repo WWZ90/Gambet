@@ -9,6 +9,7 @@ import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
 import { OrderBook } from '../components/OrderBook';
 import { ActionOrders } from '../components/ActionOrders';
 import { OutcomeTable } from '../components/OutcomeTable';
+import { Footer } from '../components/Footer';
 
 export const DetailMarket = () => {
     const { id } = useParams();
@@ -58,6 +59,7 @@ export const DetailMarket = () => {
     return (
         <>
             <NavBarWeb3Onboard />
+            
             <section className='detail_market'>
                 <div className="content">
                     <div className="inside">
@@ -111,6 +113,8 @@ export const DetailMarket = () => {
 
                 </div>
             </section>
+
+            <Footer />
         </>
     )
 }

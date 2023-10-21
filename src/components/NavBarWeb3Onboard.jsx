@@ -55,14 +55,15 @@ export const NavBarWeb3Onboard = () => {
     const showMenu = {
         enter: {
             opacity: 1,
-            top: 50,
-            y: 0,
+            top: 55,
+            x: -10,
             display: "block",
             position: "absolute",
             cursor: "pointer"
         },
         exit: {
-            y: -10,
+            top: 55,
+            x: 10,
             opacity: 0,
             transition: {
                 duration: 0.1,
