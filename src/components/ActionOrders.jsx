@@ -16,8 +16,8 @@ export const ActionOrders = () => {
     const { amount, setAmount } = useStateContext();
     const { showModalMarket, setShowModalMarket } = useStateContext();
 
-    const { optionActive } = useStateContext(); //Control de si tiene seleccionado en Orders o My Orders
-    const { marketOptionSelected, setMarketOptionSelected } = useStateContext();
+    const { outcomeData, setOutcomeData } = useStateContext();
+    const { outcomeOptionSelected, setOutcomeOptionSelected } = useStateContext();
 
     const [shown, setShown] = useState(false);
     const [type, setType] = useState('limit'); //Si es Limit o AMM
@@ -108,22 +108,10 @@ export const ActionOrders = () => {
         }
     };
 
-    let marketOptions = [
-        { name: 'Sergio Massa', price: '$0.514' },
-        { name: 'Patricia Bullrich', price: '$0.514' },
-        { name: 'Javier Milei', price: '$0.114' },
-        { name: 'Tiebreaker', price: '$0.723' },
-        { name: 'Other candidate', price: '$0.002' },
-    ];
 
-    let myMarketOptions = [
-        { name: 'Patricia Bullrich', price: '$0.514' },
-        { name: 'Tiebreaker', price: '$0.723' },
-        { name: 'Other candidate', price: '$0.002' },
-    ];
 
     useEffect(() => {
-        setMarketOptionSelected(marketOptions[0].name)
+        
     }, [])
 
 
@@ -162,24 +150,24 @@ export const ActionOrders = () => {
                 </div>
                 <div className='box_content'>
 
-                    {optionActive === 'orders' ? (
+                    {activeOption === 'buy' ? (
                         <div className='d-flex flex-row flex-wrap'>
-                            {marketOptions.map((option, index) => (
-                                <div key={index} className={`market_option ${marketOptionSelected == option.name ? 'active' : ''}`} onClick={() => setMarketOptionSelected(option.name)} label={option.name}>
+                            {outcomeData.map((option, index) => (
+                                <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                     <div className='d-flex justify-content-between'>
-                                        <p>{option.name}</p>
-                                        <p className='price'>{option.price}</p>
+                                        <p>{option.outcome}</p>
+                                        <p className='price'>{option.marketPrice}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
                         <div className='d-flex flex-row flex-wrap'>
-                            {myMarketOptions.map((option, index) => (
-                                <div key={index} className={`market_option ${marketOptionSelected == option.name ? 'active' : ''}`} onClick={() => setMarketOptionSelected(option.name)} label={option.name}>
+                            {outcomeOption.map((option, index) => (
+                                <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                     <div className='d-flex justify-content-between'>
-                                        <p>{option.name}</p>
-                                        <p className='price'>{option.price}</p>
+                                        <p>{option.outcome}</p>
+                                        <p className='price'>{option.marketPrice}</p>
                                     </div>
                                 </div>
                             ))}

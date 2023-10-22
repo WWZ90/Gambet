@@ -22,12 +22,10 @@ export const ContextProvider = ({ children }) => {
     const [betType, setBetType] = useState("oo");
     
     const [marketsArray, setMarketsArray] = useState(null);
-    const [marketOptionSelected, setMarketOptionSelected] = useState(null);
-    const [myMarketOptionSelected, setMyMarketOptionSelected] = useState(null);
+    const [outcomeOptionSelected, setOutcomeOptionSelected] = useState(null);
     const [showModalMarket, setShowModalMarket] = useState(null);  
     const [showModalMyMarket, setShowModalMyMarket] = useState(null); 
     
-    const [optionActive, setOptionActive] = useState('orders'); //Control de si tiene seleccionado en Orders o My Orders
     const [dataAsks, setDataAsks] = useState([]); //Datos de Shares
     const [dataBids, setDataBids] = useState([]); //Datos de Shares
 
@@ -35,6 +33,7 @@ export const ContextProvider = ({ children }) => {
     const [dataBidsPrice, setDataBidsPrice] = useState([]); //Datos de Precio
 
     const [outcomeData, setOutcomeData] = useState([]); //Arreglo de datos que se muestra en la tabla en DetailMarket
+    const [myOutcomeByMarket, setMyOutcomeByMarket] = useState([]); //Arreglo de datos para los outcomes que tienes en un market en especifico
 
     //BOX de buy y sell
     const [activeOption, setActiveOption] = useState('buy'); //Para controlar si esta en Buy o en Sell
@@ -59,8 +58,7 @@ export const ContextProvider = ({ children }) => {
                 newmarketId, setNewmarketId,
                 betType, setBetType,
                 marketsArray, setMarketsArray,
-                marketOptionSelected, setMarketOptionSelected,
-                myMarketOptionSelected, setMyMarketOptionSelected,
+                outcomeOptionSelected, setOutcomeOptionSelected,
                 showModalMarket, setShowModalMarket,
                 showModalMyMarket, setShowModalMyMarket,
                 dataAsks, setDataAsks,
@@ -72,7 +70,7 @@ export const ContextProvider = ({ children }) => {
                 shares, setShares,
                 amount, setAmount,
                 outcomeData, setOutcomeData,
-                optionActive, setOptionActive,
+                myOutcomeByMarket, setMyOutcomeByMarket,
             }}>
             {children}
         </StateContext.Provider>
