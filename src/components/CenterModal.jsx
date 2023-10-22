@@ -16,7 +16,6 @@ export const CenterModal = (props) => {
     const updateData = (event) => {
 
         const label = event.target.getAttribute('label');
-        console.log(props.type)
         if (props.type == 'market'){
 
             setOutcomeOptionSelected(label);

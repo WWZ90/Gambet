@@ -18,6 +18,7 @@ export const ActionOrders = () => {
 
     const { outcomeData, setOutcomeData } = useStateContext();
     const { outcomeOptionSelected, setOutcomeOptionSelected } = useStateContext();
+    const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
 
     const [shown, setShown] = useState(false);
     const [type, setType] = useState('limit'); //Si es Limit o AMM
@@ -64,7 +65,6 @@ export const ActionOrders = () => {
     };
 
     const handleIncrementShares = () => {
-        console.log(shares);
         setShares(shares + 100);
     };
 
@@ -163,7 +163,7 @@ export const ActionOrders = () => {
                         </div>
                     ) : (
                         <div className='d-flex flex-row flex-wrap'>
-                            {outcomeOption.map((option, index) => (
+                            {myOutcomeByMarket.map((option, index) => (
                                 <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                     <div className='d-flex justify-content-between'>
                                         <p>{option.outcome}</p>

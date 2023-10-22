@@ -6,8 +6,6 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barWidth }) => {
 
-    console.log('Echart')
-
     const { dataAsks } = useStateContext([]); //Datos de Shares
     const { dataBids } = useStateContext([]); //Datos de Shares
 
@@ -185,7 +183,6 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
             // Verificar si el evento se disparó en la serie de barras y no en otro lugar
             const dataIndex = params.dataIndex; // Obtener el índice de datos
             const selectedCategory = optionAsks.yAxis.data[dataIndex]; // Obtener el valor del label en el eje Y
-            console.log(`Categoría seleccionada: ${selectedCategory}`);
         }
     };
 
@@ -194,7 +191,6 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
             // Verificar si el evento se disparó en la serie de barras y no en otro lugar
             const dataIndex = params.dataIndex; // Obtener el índice de datos
             const selectedCategory = optionBids.yAxis.data[dataIndex]; // Obtener el valor del label en el eje Y
-            console.log(`Categoría seleccionada: ${selectedCategory}`);
         }
     };
 

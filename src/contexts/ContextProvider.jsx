@@ -26,6 +26,7 @@ export const ContextProvider = ({ children }) => {
     const [showModalMarket, setShowModalMarket] = useState(null);  
     const [showModalMyMarket, setShowModalMyMarket] = useState(null); 
     
+    const [optionActive, setOptionActive] = useState('orders'); //Si estoy en Orders o My Orders
     const [dataAsks, setDataAsks] = useState([]); //Datos de Shares
     const [dataBids, setDataBids] = useState([]); //Datos de Shares
 
@@ -62,6 +63,7 @@ export const ContextProvider = ({ children }) => {
                 showModalMarket, setShowModalMarket,
                 showModalMyMarket, setShowModalMyMarket,
                 dataAsks, setDataAsks,
+                optionActive, setOptionActive,
                 dataAsksPrice, setDataAsksPrice,
                 dataBids, setDataBids,
                 dataBidsPrice, setDataBidsPrice,

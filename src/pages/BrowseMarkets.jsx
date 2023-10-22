@@ -51,9 +51,6 @@ export const BrowseMarkets = () => {
   useEffect(() => {
 
     const getMarkets = async () => {
-      console.log("Active contract desde Browse Markets: ");
-      console.log(activeContract);
-
       return await browseMarkets(activeContract);
     }
 
@@ -72,15 +69,15 @@ export const BrowseMarkets = () => {
     autoplay: false,
     autoplaySpeed: 2000,
     nextArrow: (
-      <div class="c-dhzjXW c-iBHQOu c-iBHQOu-fNKXAf-side-right slick-arrow slick-next" style="display: block;">
-        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="c-fAcSzf" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+      <div className="c-dhzjXW c-iBHQOu c-iBHQOu-fNKXAf-side-right slick-arrow slick-next" style="display: block;">
+        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" className="c-fAcSzf" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
           <path d="M10.707 17.707L16.414 12 10.707 6.293 9.293 7.707 13.586 12 9.293 16.293z"></path>
         </svg>
       </div>
     ),
     prevArrow: (
-      <div class="c-dhzjXW c-iBHQOu c-iBHQOu-bMZvXX-side-left slick-arrow slick-prev" style="display: block;">
-        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="c-fAcSzf" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+      <div className="c-dhzjXW c-iBHQOu c-iBHQOu-bMZvXX-side-left slick-arrow slick-prev" style="display: block;">
+        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" className="c-fAcSzf" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
           <path d="M13.293 6.293L7.586 12 13.293 17.707 14.707 16.293 10.414 12 14.707 7.707z"></path>
         </svg>
       </div>
@@ -96,7 +93,7 @@ export const BrowseMarkets = () => {
         {!marketsArray ? (
           <>
             <div className="container align-items-center text-center">
-              <div class="lds-ripple"><div></div><div></div></div>
+              <div className="lds-ripple"><div></div><div></div></div>
             </div>
           </>
         ) : (

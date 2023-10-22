@@ -100,8 +100,6 @@ export const NavBarWeb3Onboard = () => {
 
             temp_singer = await provider.getSigner();
 
-            console.log("Signer: " + temp_singer);
-
             if (marketId && activeContract) {
                 //alert("marketId && activeContract");
                 const betKind = (await getMarket(marketId)).kind;
@@ -117,7 +115,6 @@ export const NavBarWeb3Onboard = () => {
                 //alert("betType: " + betType);
                 switch (betType) {
                     case "oo":
-                        console.log("oo");
                         temp_activeContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(temp_singer);
                         break;
                     case "bc":
@@ -137,19 +134,12 @@ export const NavBarWeb3Onboard = () => {
             }
 
             if (temp_activeContract) {
-                console.log("Active contract: ");
-                console.log(temp_activeContract);
-                console.log("Fin");
                 setOwner(await temp_singer.getAddress());
-                console.log("Owner address: " + owner);
-
-                //console.log(browseMarkets(activeContract));
             }
 
         }
 
         if (provider) {
-            console.log("start");
             start().then(result => {
                 setSigner(temp_singer);
                 setActiveContract(temp_activeContract);
@@ -168,7 +158,6 @@ export const NavBarWeb3Onboard = () => {
     }, [wallet])
 
     useEffect(() => {
-        console.log(connectedChain);
         if (wallet) {
             verifyCorrectChain();
         }
@@ -214,7 +203,6 @@ export const NavBarWeb3Onboard = () => {
                                 className="wallet_connect_button"
                                 onClick={async () => {
                                     const walletsConnected = await connect()
-                                    console.log('connected wallets: ', walletsConnected)
                                 }}
                             >
                                 Connect

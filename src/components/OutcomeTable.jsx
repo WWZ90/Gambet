@@ -20,7 +20,7 @@ export const OutcomeTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {outcomeData?.map((item, index) => (
+                    {outcomeData.map((item, index) => (
                         <tr key={index} onClick={()=>setOutcomeOptionSelected(item.outcome)}>
                             <th scope="row">{item.outcome}</th>
                             <td>{item.owned}</td>

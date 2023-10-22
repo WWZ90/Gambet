@@ -95,7 +95,7 @@ const web3Onboard = init({
   apiKey: dappId,
   notify: {
     transactionHandler: transaction => {
-      console.log({ transaction })
+
       if (transaction.eventCode === 'txPool') {
         return {
           // autoDismiss set to zero will persist the notification until the user excuses it
@@ -114,8 +114,7 @@ const web3Onboard = init({
 function AppWeb3Onboard() {
 
   useEffect(() => {
-    web3Onboard,
-    console.log('Entre por AppWeb3Onboard.jsx')
+    web3Onboard
   }, [])
 
   return (
@@ -127,19 +126,19 @@ function AppWeb3Onboard() {
         </Helmet>
       </HelmetProvider>
       <Web3OnboardProvider web3Onboard={web3Onboard}>
-      <ContextProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/browsemarkets" element={<BrowseMarkets />} />
-            <Route path="/market/:id" element={<DetailMarket />} />
-            <Route path="/createmarket" element={<CreateMarket />} />
-            <Route path="/whatwedo" element={<WhatWeDo />} />
+        <ContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/browsemarkets" element={<BrowseMarkets />} />
+              <Route path="/market/:id" element={<DetailMarket />} />
+              <Route path="/createmarket" element={<CreateMarket />} />
+              <Route path="/whatwedo" element={<WhatWeDo />} />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </ContextProvider>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </ContextProvider>
       </Web3OnboardProvider>
     </>
   )

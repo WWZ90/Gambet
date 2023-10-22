@@ -17,8 +17,6 @@ export const DetailMarket = () => {
     const [style, setStyle] = useState('collapse')
     const [showAboutCollapse, setShowAboutCollapse] = useState(false)
 
-    console.log('Renderizando de nuevo!')
-
     const updateCollapse = () => {
         if (showAboutCollapse) {
             setStyle('collapse')
@@ -85,7 +83,7 @@ export const DetailMarket = () => {
                                     </div>
                                 </div>
                                 <OutcomeTable />
-                                <OrderBook data={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"} />
+                                <OrderBook />
                                 <div className="module">
                                     <div className='about'>
                                         <h3>About</h3>

@@ -62,7 +62,7 @@ export const MarketTabs = ({ categories, myRef }) => {
                         {!marketsArray ? (
                             <>
                                 <div className="container align-items-center text-center">
-                                    <div class="lds-ripple"><div></div><div></div></div>
+                                    <div className="lds-ripple"><div></div><div></div></div>
                                 </div>
                             </>
                         ) : (

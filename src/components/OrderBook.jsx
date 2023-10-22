@@ -67,12 +67,9 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         updateChartOptions();
 
-        console.log('Entro a actualizar data');
-
     }, [])
 
     const handleTabChange = (eventKey) => {
-        console.log(`Se seleccionó la pestaña con eventKey: ${eventKey}`);
         setOptionActive(eventKey);
       };
 

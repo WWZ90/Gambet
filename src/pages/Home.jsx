@@ -40,9 +40,6 @@ export const Home = () => {
     useEffect(() => {
 
         const getMarkets = async () => {
-            console.log("Active contract desde Home: ");
-            console.log(activeContract);
-
             return await browseMarkets(activeContract);
         }
 
@@ -153,7 +150,6 @@ export const Home = () => {
                                 {!wallet ? (
                                     <a href="#" className="btn-get-started scrollto" onClick={async () => {
                                         const walletsConnected = await connect()
-                                        console.log('connected wallets: ', walletsConnected)
                                     }}>Connect your wallet</a>
                                 ) : (
                                     <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse markets</NavLink>
