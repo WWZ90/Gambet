@@ -1124,21 +1124,41 @@ button.swithToChain:hover {
     font-family: var(--onboard-font-family-semibold);
 }
 
-.box .addButton {
+.box .button{
     margin-top: 20px;
     width: 100%;
     border-radius: 7px;
     border: 1px solid #dfdfdf;
-    background: #f3f3f3;
-    color: #3f3f3f;
-    padding: 10px;
-    font-family: var(--onboard-font-family-semibold);
-    transition: 0.5s all;
+    padding: 10px 0px;
+    transition: 0.3s all;
+}
+
+.box .addButton {
+    background: #009b0d;
+    color: #ffffff;
 }
 
 .box .addButton:hover {
-    background-color: #e6e6e6;
+    background-color: #00bb10;
 }
+
+.box .sellButton {
+    background: #c70000;
+    color: #ffffff;
+}
+
+.box .sellButton:hover {
+    background-color: #e50101;
+}
+
+.box .addToCartButton{
+    background-color: #e0e0e0;
+}
+
+.box .addToCartButton:hover{
+    background-color: #c5c5c5;
+}
+
 
 .box .dropdown-menu {
     opacity: 1;
@@ -1380,6 +1400,7 @@ table th {
     flex-direction: column;
     justify-content: space-between;
     height: 80px;
+    margin-top: 5px;
     overflow-y: hidden;
     mask-image: linear-gradient(white 65%, transparent 100%);
     -webkit-mask-image: linear-gradient(white 65%, transparent 100%);

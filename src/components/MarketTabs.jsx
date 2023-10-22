@@ -108,7 +108,7 @@ export const MarketTabs = ({ categories, myRef }) => {
                                                 </div>
                                                 <hr className='c-jKkUoB' />
                                                 <div className='c-dhzjXW c-jHpYkO'>
-                                                    <span className='c-PJLV'>
+                                                    <span className='c-PJLV pt-2'>
                                                         Shares: {item.totalShares}
                                                     </span>
                                                 </div>

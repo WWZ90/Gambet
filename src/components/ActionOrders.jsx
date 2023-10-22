@@ -274,8 +274,13 @@ export const ActionOrders = () => {
                         </div>
                     </div>
 
+                    {activeOption === 'buy' ? (
+                        <button className='button addButton'>Buy Now</button>
+                    ):(
+                        <button className='button sellButton'>Sell Now</button>
+                    )}
 
-                    <button className='addButton'>Add</button>
+                    <button className='button addToCartButton'>Add to Cart</button>
 
                 </div>
             </div>
