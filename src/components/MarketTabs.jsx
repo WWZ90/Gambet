@@ -32,10 +32,10 @@ export const MarketTabs = ({ categories, myRef }) => {
         vertical: true,
         verticalSwiping: true,
         autoplay: true,
-        autoplaySpeed: 4000, // Cambia el intervalo según tus preferencias
-        speed: 1000,
-        slidesToShow: 2, // Número de elementos visibles a la vez
-        slidesToScroll: 2,
+        autoplaySpeed: 1, // Cambia el intervalo según tus preferencias
+        speed: 2000,
+        slidesToShow: 1, // Número de elementos visibles a la vez
+        slidesToScroll: 1,
     };
 
     return (

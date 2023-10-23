@@ -1467,6 +1467,10 @@ hr {
     padding: 2px 2px !important;
 }
 
+.market_tabs .market_option:hover{
+    background-color: transparent !important;
+}
+
 .market_tabs .slick-slide{
     width: 100% !important;
     margin: 0 !important;
