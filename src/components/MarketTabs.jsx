@@ -69,7 +69,7 @@ export const MarketTabs = ({ categories, myRef }) => {
                             <div className="c-dhzjXW c-dhzjXW-iuYlq-css">
                                 <div className='c-bQzyIt c-cYEHai'>
                                     {marketsArray?.map(function (item, i) {
-                                        return <Link className="" to='/market/test'>
+                                        return <Link key={i} className="" to='/market/test'>
                                             <div className="c-dhzjXW c-cZDZbz c-dhzjXW-iQMpow-css mt-3">
                                                 <div className='c-dhzjXW c-goxxzP'>
                                                     <div className="c-dhzjXW c-chvCSy">

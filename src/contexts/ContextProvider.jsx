@@ -42,6 +42,9 @@ export const ContextProvider = ({ children }) => {
     const [shares, setShares] = useState(0); 
     const [amount, setAmount] = useState(0); 
 
+    const [cart, setCart] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
+
     return (
         <StateContext.Provider value={
             {
@@ -73,6 +76,8 @@ export const ContextProvider = ({ children }) => {
                 amount, setAmount,
                 outcomeData, setOutcomeData,
                 myOutcomeByMarket, setMyOutcomeByMarket,
+                cart, setCart,
+                cartCount, setCartCount,
             }}>
             {children}
         </StateContext.Provider>

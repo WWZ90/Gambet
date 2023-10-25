@@ -505,11 +505,48 @@ section h1 {
 }
 
 .header .wallet_address {
+    display: flex;
     padding: 10px 35px !important;
 }
 
 .header .wallet_address i {
     padding-left: 10px !important;
+}
+
+
+.header #cart_menu_num {
+    position: absolute;
+    top: 5px;
+    left: 80%;
+    background: rgb(182, 57, 57);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 2px;
+    font-family: var(--onboard-font-family-light);
+}
+
+@keyframes badgeBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+.badge {
+    animation: none;
+    /* Inicialmente sin animación */
+    animation-iteration-count: 1;
+    /* Reproducción una vez */
 }
 
 .header .wallet_connect_button:hover {
@@ -1124,7 +1161,7 @@ button.swithToChain:hover {
     font-family: var(--onboard-font-family-semibold);
 }
 
-.box .button{
+.box .button {
     margin-top: 20px;
     width: 100%;
     border-radius: 7px;
@@ -1151,11 +1188,11 @@ button.swithToChain:hover {
     background-color: #e50101;
 }
 
-.box .addToCartButton{
+.box .addToCartButton {
     background-color: #e0e0e0;
 }
 
-.box .addToCartButton:hover{
+.box .addToCartButton:hover {
     background-color: #c5c5c5;
 }
 
@@ -1212,17 +1249,17 @@ table th {
     min-height: 70vh;
 }
 
-.market_tabs .nav-item{
+.market_tabs .nav-item {
     transition: 0.2s all;
     border-radius: 10px;
 }
 
-.market_tabs .nav-item.active{
+.market_tabs .nav-item.active {
     border-radius: 10px;
     background-color: rgb(110 37 5);
 }
 
-.market_tabs .nav-item.active .nav-link{
+.market_tabs .nav-item.active .nav-link {
     color: #fff !important;
     border: 1px solid rgba(255, 0, 0, 0);
 }
@@ -1232,7 +1269,7 @@ table th {
     font-family: var(--onboard-font-family-semibold);
 }
 
-.market_tabs .nav-tabs .nav-link{
+.market_tabs .nav-tabs .nav-link {
     font-family: var(--onboard-font-family-semibold);
 }
 
@@ -1258,6 +1295,7 @@ table th {
 .c-dhzjXW-iQMpow-css {
     animation: auto ease 0s 1 normal none running none;
 }
+
 .c-cZDZbz {
     flex-direction: column;
     padding: 1rem 1rem 0.5rem;
@@ -1286,9 +1324,9 @@ table th {
     cursor: pointer;
     color: black;
     transition: all 0.2s ease 0s;
-}v
+}
 
-.c-goxxzP {
+v .c-goxxzP {
     width: 100%;
     gap: 12px;
     overflow: hidden;
@@ -1302,7 +1340,7 @@ table th {
     border-radius: 30px;
 }
 
-.c-chvCSy img{
+.c-chvCSy img {
     flex-basis: 104px;
     width: 72px;
     border-radius: 8px;
@@ -1339,12 +1377,15 @@ table th {
     line-height: 1.2;
     transition: all 0.2s ease 0s;
 }
+
 .c-dqzIym-jalaKP-weight-normal {
     font-weight: 400 !important;
 }
+
 .c-dqzIym-cTvRMP-spacing-normal {
     letter-spacing: 2;
 }
+
 .c-dqzIym-fxyRaa-color-normal {
     color: var(--colors-shadeDarker);
 }
@@ -1370,19 +1411,24 @@ table th {
     -webkit-line-clamp: 3;
     overflow: hidden;
 }
+
 .c-dqzIym-hzzdKO-size-md {
     font-size: 15px;
     line-height: 1.25;
 }
+
 .c-dqzIym-ojJRN-color-dark {
     color: rgba(0, 0, 0, 0.87);
 }
+
 .c-dqzIym-eYAYgJ-weight-semi {
     font-weight: 600 !important;
 }
+
 .c-dqzIym-cTvRMP-spacing-normal {
     letter-spacing: 0;
 }
+
 .c-dqzIym {
     font-family: var(--onboard-font-family-semibold) !important;
     margin: 0px;
@@ -1425,6 +1471,7 @@ table th {
     color: transparent;
     border: unset;
 }
+
 hr {
     box-sizing: content-box;
     height: 0;
@@ -1455,23 +1502,23 @@ hr {
     white-space: nowrap;
 }
 
-.c-PJLV{
+.c-PJLV {
     font-size: 12px;
     color: #808080;
     font-family: var(--onboard-font-family-semibold);
 }
 
-.market_tabs .market_option{
+.market_tabs .market_option {
     border: none !important;
     margin: 0 !important;
     padding: 2px 2px !important;
 }
 
-.market_tabs .market_option:hover{
+.market_tabs .market_option:hover {
     background-color: transparent !important;
 }
 
-.market_tabs .slick-slide{
+.market_tabs .slick-slide {
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -1479,7 +1526,7 @@ hr {
     box-shadow: none !important;
 }
 
-.market_tabs .slick-slider{
+.market_tabs .slick-slider {
     padding: 0px !important;
 }
 

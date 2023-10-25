@@ -40,6 +40,9 @@ export const NavBarWeb3Onboard = () => {
 
     const { marketsArray, setMarketsArray } = useStateContext();
 
+    const { cartCount, setCartCount } = useStateContext();
+    const [addedToCart, setAddedToCart] = useState(false);
+
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [
         {
@@ -199,14 +202,16 @@ export const NavBarWeb3Onboard = () => {
                             </div>
                         </Navbar.Collapse>
                         {!wallet ? (
-                            <button
-                                className="wallet_connect_button"
-                                onClick={async () => {
-                                    const walletsConnected = await connect()
-                                }}
-                            >
-                                Connect
-                            </button>
+                            <>
+                                <button
+                                    className="wallet_connect_button"
+                                    onClick={async () => {
+                                        const walletsConnected = await connect()
+                                    }}
+                                >
+                                    Connect
+                                </button>
+                            </>
                         ) : (
 
                             /*
@@ -225,9 +230,18 @@ export const NavBarWeb3Onboard = () => {
                                     onHoverStart={() => setShown(true)}
                                     onHoverEnd={() => setShown(false)}
                                 >
+
                                     <div className="wallet_address">
-                                        <span>{formatAddress(wallet?.accounts[0]?.address)}</span>
-                                        <i className="bi bi-person"></i>
+                                        <div className="">
+                                            <span>{formatAddress(wallet?.accounts[0]?.address)}</span>
+                                            <i className="bi bi-person"></i>
+                                        </div>
+                                        <div className='cart'>
+                                            <i className="bi bi-basket-fill">
+                                                <span id="cart_menu_num" data-action="cart-can" className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                            </i>
+                                        </div>
+
                                     </div>
 
                                     <motion.ul

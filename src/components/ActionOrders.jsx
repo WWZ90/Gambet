@@ -20,6 +20,10 @@ export const ActionOrders = () => {
     const { outcomeOptionSelected, setOutcomeOptionSelected } = useStateContext();
     const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
 
+    const { cart, setCart } = useStateContext();
+    const { cartCount, setCartCount } = useStateContext();
+
+
     const [shown, setShown] = useState(false);
     const [type, setType] = useState('limit'); //Si es Limit o AMM
 
@@ -109,10 +113,68 @@ export const ActionOrders = () => {
     };
 
 
+    const [newOrder, setNewOrder] = useState({
+        outcome: '',
+        price: 0.0,
+        shares: 0,
+        action: '',
+    });
+
+    const addToCart = () => {
+
+        console.log('Outcome: ' + outcomeOptionSelected);
+        // Nuevo elemento que deseas agregar al carrito
+        const newCartItem = {
+            outcome: outcomeOptionSelected,
+            price: limitPrice,
+            shares: shares,
+            action: activeOption, //buy or sell
+        };
+
+        const existingItem = cart.find(
+            (item) =>
+                item.outcome === newCartItem.outcome &&
+                item.price === newCartItem.price &&
+                item.action === newCartItem.action
+        );
+
+        if (existingItem) {
+            // Si ya existe un elemento con las mismas propiedades, aumenta la cantidad de shares
+            const updatedCart = cart.map((item) =>
+                item === existingItem
+                    ? { ...item, shares: item.shares + newCartItem.shares }
+                    : item
+            );
+
+            // Actualiza el estado del carrito con el nuevo arreglo
+            setCart(updatedCart);
+        } else {
+            // Si no existe un elemento con las mismas propiedades, agrega el nuevo elemento al carrito
+            const updatedCart = [...cart, newCartItem];
+
+            // Actualiza el estado del carrito con el nuevo arreglo
+            setCart(updatedCart);
+            setCartCount(cartCount + 1);
+
+            const badgeElement = document.querySelector('.badge');
+            badgeElement.style.animation = 'badgeBounce 0.5s ease'; // Aplicar la animación
+            badgeElement.style.animationIterationCount = '1'; // Reproducción una vez
+
+
+            // Restablecer la animación después de un breve período de tiempo
+            setTimeout(() => {
+                badgeElement.style.animation = 'none';
+                badgeElement.style.animationIterationCount = '1';
+            }, 500); // Cambia este valor para ajustar la duración de la animación
+
+        }
+
+    }
 
     useEffect(() => {
-        
-    }, [])
+        console.log('Cantidad en el carrito: ' + cartCount);
+        console.log('Carrito: ' + JSON.stringify(cart));
+    }, [cart])
 
 
     return (
@@ -236,20 +298,20 @@ export const ActionOrders = () => {
                                     overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
                                     placement="top"
                                 >
-                                    <button className='buttonStyle' onClick={handleDecrementAmount}>-</button>
+                                    <button className='buttonStyle' onClick={handleDecrementShares}>-</button>
                                 </OverlayTrigger>
                                 <input
                                     type="text"
                                     className="form-control text-center"
                                     value={amount}
                                     style={{ flex: 1, border: 'none' }}
-                                    onChange={handleInputChangeAmount}
+                                    onChange={handleInputChangeShares}
                                 />
                                 <OverlayTrigger
                                     overlay={<Tooltip id="tooltip-increment">+1</Tooltip>}
                                     placement="top"
                                 >
-                                    <button className='buttonStyle' onClick={handleIncrementAmount}>+</button>
+                                    <button className='buttonStyle' onClick={handleIncrementShares}>+</button>
                                 </OverlayTrigger>
                             </div>
                         </div>
@@ -276,11 +338,11 @@ export const ActionOrders = () => {
 
                     {activeOption === 'buy' ? (
                         <button className='button addButton'>Buy Now</button>
-                    ):(
+                    ) : (
                         <button className='button sellButton'>Sell Now</button>
                     )}
 
-                    <button className='button addToCartButton'>Add to Cart</button>
+                    <button className='button addToCartButton' onClick={addToCart}>Add to Cart</button>
 
                 </div>
             </div>
