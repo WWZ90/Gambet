@@ -238,7 +238,10 @@ export const NavBarWeb3Onboard = () => {
                                         </div>
                                         <div className='cart'>
                                             <i className="bi bi-basket-fill">
-                                                <span id="cart_menu_num" data-action="cart-can" className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                                {cartCount > 0 && (
+                                                    <span id="cart_menu_num" data-action="cart-can" className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                                )}
+
                                             </i>
                                         </div>
 
