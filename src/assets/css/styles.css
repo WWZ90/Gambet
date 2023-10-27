@@ -369,7 +369,7 @@ section h1 {
 /* Home Page Custom Header
   ------------------------------*/
 .index-page .header {
-    --color-nav-background: rgba(255, 255, 255, 0);
+    --color-nav-background: rgba(255, 255, 255, 1);
     --color-nav: rgba(255, 255, 255, 0.515);
     --color-nav-hover: #ffffff;
 }
@@ -460,6 +460,25 @@ section h1 {
     border-color: #e1e1e1ad !important;
 }
 
+@keyframes badgeBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+.badge {
+    animation: none;
+    /* Inicialmente sin animación */
+    animation-iteration-count: 1;
+    /* Reproducción una vez */
+}
+
 .index-page.scrolled .has-search .form-control {
     border-color: #e1e1e138 !important;
 }
@@ -485,9 +504,9 @@ section h1 {
     color: #464646 !important;
 }
 
-.header .wallet_address,
-.header .wallet_connect_button {
-    color: var(--color-link-nav);
+.index-page .header .wallet_address,
+.index-page .header .wallet_connect_button {
+    color: #9c9c9c;
     font-size: 16px;
     padding: 7px 20px;
     border-radius: 35px;
@@ -496,8 +515,15 @@ section h1 {
     cursor: pointer;
     position: relative;
     z-index: 2 !important;
-    border: 1px solid #e1e1e1ad;
+    border: 1px solid #97979749;
     transition: all 0.3s !important;
+}
+
+.index-page .header .wallet_address:hover,
+.index-page .header .wallet_connect_button:hover {
+    background-color: #9999991f;
+    border: 1px solid #85858549;
+    color: #7e7e7e;
 }
 
 .header .dropdown-toggle::after {
@@ -530,43 +556,6 @@ section h1 {
     font-family: var(--onboard-font-family-light);
 }
 
-@keyframes badgeBounce {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-2px);
-    }
-}
-
-.badge {
-    animation: none;
-    /* Inicialmente sin animación */
-    animation-iteration-count: 1;
-    /* Reproducción una vez */
-}
-
-.header .wallet_connect_button:hover {
-    color: #000 !important;
-    background-color: #00000017 !important;
-    border: 1px solid var(--color-4) !important;
-}
-
-.index-page.scrolled .header .wallet_connect_button:hover {
-    border-color: #00000096 !important;
-    color: #b1b1b1 !important;
-    border: 1px solid #e1e1e181 !important;
-}
-
-.header .wallet_address:hover,
-.header .wallet_connect_button:hover {
-    color: var(--color-link-nav-hover);
-    border: 1px solid #c7c7c7;
-}
-
 .header .dropdown-menu {
     background-color: var(--color-nav-background);
     padding-left: 10px;
@@ -591,6 +580,23 @@ button.swithToChain {
 button.swithToChain:hover {
     background-color: transparent;
     color: var(--color-link-nav-hover);
+}
+
+.notification {
+    position: fixed;
+    top: 100px;
+    /* Margen superior deseado */
+    right: 0;
+    background-color: #007bff;
+    /* Color de fondo */
+    color: #fff;
+    /* Color del texto */
+    padding: 10px;
+    transition: opacity 0.3s;
+    opacity: 0;
+    /* Inicialmente invisible */
+    z-index: 999;
+    /* Asegura que esté sobre otros elementos */
 }
 
 /************* MENU FRAME MOTION ****************/

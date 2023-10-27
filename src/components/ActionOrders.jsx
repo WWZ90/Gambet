@@ -8,6 +8,10 @@ import { CenterModal } from './CenterModal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 export const ActionOrders = () => {
 
     const { activeOption, setActiveOption } = useStateContext(); //Buy or sell
@@ -168,6 +172,20 @@ export const ActionOrders = () => {
             }, 500); // Cambia este valor para ajustar la duración de la animación
 
         }
+
+        toast.success('Add to cart!', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            style: {
+                marginTop: '50px', // Margen de 100px desde la parte superior
+            },
+        });
 
     }
 
@@ -343,6 +361,19 @@ export const ActionOrders = () => {
                     )}
 
                     <button className='button addToCartButton' onClick={addToCart}>Add to Cart</button>
+
+                    <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover={false}
+                        theme="light"
+                    />
 
                 </div>
             </div>
