@@ -15,6 +15,7 @@ import { WagmiConfig } from 'wagmi'
 import { arbitrum, mainnet, goerli } from 'wagmi/chains'
 import { BrowseMarkets } from './pages/BrowseMarkets';
 import { CreateMarket } from './pages/CreateMarket';
+import { Cart } from './pages/Cart';
 import { WhatWeDo } from './pages/whatwedo';
 import { NotFound } from './pages/NotFound';
 
@@ -62,6 +63,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/browsemarkets" element={<BrowseMarkets />} />
             <Route path="/createmarket" element={<CreateMarket />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/whatwedo" element={<WhatWeDo />} />
 
             <Route path="*" element={<NotFound />} />

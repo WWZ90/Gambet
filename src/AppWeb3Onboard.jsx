@@ -28,6 +28,7 @@ import injectedModule from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import coinbaseModule from '@web3-onboard/coinbase'
 import { DetailMarket } from './pages/DetailMarket';
+import { Cart } from './pages/Cart';
 
 const injected = injectedModule()
 const coinbase = coinbaseModule()
@@ -133,6 +134,7 @@ function AppWeb3Onboard() {
               <Route path="/browsemarkets" element={<BrowseMarkets />} />
               <Route path="/market/:id" element={<DetailMarket />} />
               <Route path="/createmarket" element={<CreateMarket />} />
+              <Route path="/cart" element={<Cart />} />
               <Route path="/whatwedo" element={<WhatWeDo />} />
 
               <Route path="*" element={<NotFound />} />

@@ -37,13 +37,14 @@ export const ContextProvider = ({ children }) => {
     const [myOutcomeByMarket, setMyOutcomeByMarket] = useState([]); //Arreglo de datos para los outcomes que tienes en un market en especifico
 
     //BOX de buy y sell
-    const [activeOption, setActiveOption] = useState('buy'); //Para controlar si esta en Buy o en Sell
+    const [activeOption, setActiveOption] = useState('BUY'); //Para controlar si esta en Buy o en Sell
     const [limitPrice, setLimitPrice] = useState(0); 
     const [shares, setShares] = useState(0); 
     const [amount, setAmount] = useState(0); 
 
     const [cart, setCart] = useState([]);
     const [cartCount, setCartCount] = useState(0);
+    const [idCartCounter, setIdCartCounter] = useState(1);
 
     return (
         <StateContext.Provider value={
@@ -78,6 +79,7 @@ export const ContextProvider = ({ children }) => {
                 myOutcomeByMarket, setMyOutcomeByMarket,
                 cart, setCart,
                 cartCount, setCartCount,
+                idCartCounter, setIdCartCounter,
             }}>
             {children}
         </StateContext.Provider>

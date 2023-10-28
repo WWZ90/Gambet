@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const ActionOrders = () => {
 
-    const { activeOption, setActiveOption } = useStateContext(); //Buy or sell
+    const { activeOption, setActiveOption } = useStateContext(); //BUY or SELL
     const { limitPrice, setLimitPrice } = useStateContext();
     const { shares, setShares } = useStateContext();
     const { amount, setAmount } = useStateContext();
@@ -26,6 +26,7 @@ export const ActionOrders = () => {
 
     const { cart, setCart } = useStateContext();
     const { cartCount, setCartCount } = useStateContext();
+    const { idCartCounter, setIdCartCounter } = useStateContext();
 
 
     const [shown, setShown] = useState(false);
@@ -129,10 +130,11 @@ export const ActionOrders = () => {
         console.log('Outcome: ' + outcomeOptionSelected);
         // Nuevo elemento que deseas agregar al carrito
         const newCartItem = {
+            id: idCartCounter,
             outcome: outcomeOptionSelected,
             price: limitPrice,
             shares: shares,
-            action: activeOption, //buy or sell
+            action: activeOption, //BUY or SELL
         };
 
         const existingItem = cart.find(
@@ -158,19 +160,20 @@ export const ActionOrders = () => {
 
             // Actualiza el estado del carrito con el nuevo arreglo
             setCart(updatedCart);
+            setIdCartCounter(idCartCounter + 1);
             setCartCount(cartCount + 1);
 
             const badgeElement = document.querySelector('.badge');
-            badgeElement.style.animation = 'badgeBounce 0.5s ease'; // Aplicar la animación
-            badgeElement.style.animationIterationCount = '1'; // Reproducción una vez
+            if (badgeElement) {
+                badgeElement.style.animation = 'badgeBounce 0.5s ease'; // Aplicar la animación
+                badgeElement.style.animationIterationCount = '1'; // Reproducción una vez
 
-
-            // Restablecer la animación después de un breve período de tiempo
-            setTimeout(() => {
-                badgeElement.style.animation = 'none';
-                badgeElement.style.animationIterationCount = '1';
-            }, 500); // Cambia este valor para ajustar la duración de la animación
-
+                // Restablecer la animación después de un breve período de tiempo
+                setTimeout(() => {
+                    badgeElement.style.animation = 'none';
+                    badgeElement.style.animationIterationCount = '1';
+                }, 500); // Cambia este valor para ajustar la duración de la animación
+            }
         }
 
         toast.success('Add to cart!', {
@@ -201,10 +204,10 @@ export const ActionOrders = () => {
                 <div className='box_header'>
                     <div className="row">
                         <div className="col-2 text-center">
-                            <a className={`${activeOption == 'buy' ? 'active buy' : ''}`} onClick={() => { setActiveOption('buy') }}>Buy</a>
+                            <a className={`${activeOption == 'BUY' ? 'active buy' : ''}`} onClick={() => { setActiveOption('BUY') }}>Buy</a>
                         </div>
                         <div className="col-2 text-start p-0">
-                            <a className={`${activeOption == 'sell' ? 'active sell' : ''}`} onClick={() => { setActiveOption('sell') }}>Sell</a>
+                            <a className={`${activeOption == 'SELL' ? 'active sell' : ''}`} onClick={() => { setActiveOption('SELL') }}>Sell</a>
                         </div>
                         <motion.div className="col-7 text-end dropdown"
                             onHoverStart={() => setShown(true)}
@@ -230,7 +233,7 @@ export const ActionOrders = () => {
                 </div>
                 <div className='box_content'>
 
-                    {activeOption === 'buy' ? (
+                    {activeOption === 'BUY' ? (
                         <div className='d-flex flex-row flex-wrap'>
                             {outcomeData.map((option, index) => (
                                 <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
@@ -354,7 +357,7 @@ export const ActionOrders = () => {
                         </div>
                     </div>
 
-                    {activeOption === 'buy' ? (
+                    {activeOption === 'BUY' ? (
                         <button className='button addButton'>Buy Now</button>
                     ) : (
                         <button className='button sellButton'>Sell Now</button>

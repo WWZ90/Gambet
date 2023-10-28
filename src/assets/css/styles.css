@@ -599,6 +599,26 @@ button.swithToChain:hover {
     /* Asegura que esté sobre otros elementos */
 }
 
+/************* CART *****************************/
+
+.cart_table button{
+    width: 10px;
+    height: 0px;
+}
+
+.cart_table p{
+    font-family: var(--onboard-font-family-light);
+}
+
+.cart_table .bi-trash3-fill{
+    transition: 0.3s all;
+    color: #bbbbbb;
+}
+
+.cart_table .bi-trash3-fill:hover{
+    color: red;
+}
+
 /************* MENU FRAME MOTION ****************/
 
 .header .dropdown-menu .wallet_balance {

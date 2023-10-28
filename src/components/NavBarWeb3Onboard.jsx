@@ -292,6 +292,17 @@ export const NavBarWeb3Onboard = () => {
                                             </motion.li>
                                         </NavLink>
 
+                                        <NavLink to="/cart" className='animated-line'>
+                                            <motion.li
+                                                whileHover={{
+                                                    x: 2,
+                                                }}
+                                                className="cursor-pointer"
+                                            >
+                                                View cart
+                                            </motion.li>
+                                        </NavLink>
+
                                         <NavLink to="/whatwedo" className='animated-line'>
                                             <motion.li
                                                 whileHover={{
