@@ -28,6 +28,8 @@ export const ActionOrders = () => {
     const { cartCount, setCartCount } = useStateContext();
     const { idCartCounter, setIdCartCounter } = useStateContext();
 
+    const { activeMarket } = useStateContext();
+
 
     const [shown, setShown] = useState(false);
     const [type, setType] = useState('limit'); //Si es Limit o AMM
@@ -131,6 +133,7 @@ export const ActionOrders = () => {
         // Nuevo elemento que deseas agregar al carrito
         const newCartItem = {
             id: idCartCounter,
+            market: activeMarket,
             outcome: outcomeOptionSelected,
             price: limitPrice,
             shares: shares,

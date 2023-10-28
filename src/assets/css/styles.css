@@ -601,6 +601,10 @@ button.swithToChain:hover {
 
 /************* CART *****************************/
 
+.cart .container{
+    max-width: 800px;
+}
+
 .cart_table button{
     width: 10px;
     height: 0px;
@@ -1187,7 +1191,7 @@ button.swithToChain:hover {
     font-family: var(--onboard-font-family-semibold);
 }
 
-.box .button {
+.button {
     margin-top: 20px;
     width: 100%;
     border-radius: 7px;
@@ -1352,7 +1356,7 @@ table th {
     transition: all 0.2s ease 0s;
 }
 
-v .c-goxxzP {
+.c-goxxzP {
     width: 100%;
     gap: 12px;
     overflow: hidden;

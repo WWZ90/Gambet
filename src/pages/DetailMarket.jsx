@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 
 import { useParams } from 'react-router-dom';
 
+import { useStateContext } from '../contexts/ContextProvider';
+
 import ReactEcharts from "echarts-for-react";
 
 import Image1 from '../assets/img/slider/1.jpg';
@@ -14,8 +16,11 @@ import { Footer } from '../components/Footer';
 export const DetailMarket = () => {
     const { id } = useParams();
 
+    const { activeMarket, setActiveMarket } = useStateContext();
+
     const [style, setStyle] = useState('collapse')
     const [showAboutCollapse, setShowAboutCollapse] = useState(false)
+
 
     const updateCollapse = () => {
         if (showAboutCollapse) {
@@ -53,6 +58,13 @@ export const DetailMarket = () => {
             }
         ]
     };
+
+    useEffect(() => {
+      //TODO: Buscar los detalles del market según el marketID 
+
+      setActiveMarket(id); //Se debe de cambiar por el name del market cuando se obtengan de los datos reales
+    }, [])
+    
 
     return (
         <>

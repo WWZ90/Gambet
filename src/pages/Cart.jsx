@@ -28,6 +28,7 @@ export const Cart = () => {
                     <div className="cart_table asks">
                         <CartTable cart={cart} action="SELL" removeFromCart={removeFromCart} />
                     </div>
+                    <button className='button'>Complete orders</button>
                 </div>
             </section>
 

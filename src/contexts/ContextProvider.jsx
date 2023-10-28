@@ -56,9 +56,9 @@ export const ContextProvider = ({ children }) => {
                 signer, setSigner,
                 activeContract, setActiveContract,
                 owner, setOwner,
-                marketId, setMarketId,
-                activeMarketId, setActiveMarketId,
-                activeMarket, setActiveMarket,
+                marketId, setMarketId, //ID del market
+                activeMarketId, setActiveMarketId, //ID del market activo
+                activeMarket, setActiveMarket,  //Nombre del market activo
                 placedBets, setPlacedBets,
                 newmarketId, setNewmarketId,
                 betType, setBetType,

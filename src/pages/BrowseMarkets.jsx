@@ -101,7 +101,7 @@ export const BrowseMarkets = () => {
             <h1>Bet on your beliefs</h1>
             <Slider {...settings}>
               {marketsArray.map(function (item, i) {
-                return <Link key={item.name} className="box_market" to='/market/test'>
+                return <Link key={item.name} className="box_market" to={`/market/${item.marketId}`}>
                   <div className='market_img'>
                     <img src={Image1}></img>
                   </div>
