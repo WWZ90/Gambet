@@ -93,7 +93,7 @@ export const getPrices = async (market, owned, userAddress, activeContract) => {
 }
 
 export const calculateCost = (market) => {
-    return Math.sqrt(market.shares.reduce((a, b) => a**2 + b**2, 0))
+    return Math.sqrt(market.shares.map(a => a ** 2).reduce((a, b) => a + b, 0))
 }
 
 export const calculatePrice = (market, outcome) => {
