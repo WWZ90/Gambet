@@ -242,7 +242,7 @@ export const ActionOrders = () => {
                                 <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                     <div className='d-flex justify-content-between'>
                                         <p>{option.outcome}</p>
-                                        <p className='price'>{option.marketPrice}</p>
+                                        <p className='price'>${option.marketPrice}</p>
                                     </div>
                                 </div>
                             ))}

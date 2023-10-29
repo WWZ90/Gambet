@@ -101,10 +101,10 @@ export const DetailMarket = () => {
                 const data = foundMarket.outcomes.map((outcome, index) => ({
                     outcome,
                     owned: Number(ow[index]),
-                    total: Number(foundMarket.shares[index]),
-                    marketPrice: calculatePrice(foundMarket, outcome),
-                    averagePrice: ap[index],
-                    sharePayout: 1 / calculatePrice(foundMarket, outcome),
+                    share: Number(foundMarket.shares[index]),
+                    marketPrice: calculatePrice(foundMarket, outcome).toFixed(3),
+                    averagePrice: (Number.isNaN(ap[index]) || !Number.isFinite(ap[index])) ? "-" : ap[index] ,
+                    sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
                 }));
 
                 console.log(foundMarket);
