@@ -80,4 +80,19 @@ export const getMarket = async (marketId, activeContract) => {
     return m;
 }
 
+export const getOwned = async (market, userAddress, activeContract) => {
+    const owned = await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
+
+    console.log(owned);
+
+    return owned;
+} 
+
+export const getPrices = async (market, owned, userAddress, activeContract) => {
+    const avgPrices = await Promise.all(market.outcomes.map((outcome, idx) => activeContract.userTransfers(market.marketId, userAddress, outcome).then(async a => Math.round((Number(a) / 10 ** 6) / Number(owned[idx]) * 1000) / 1000)));
+
+    console.log(avgPrices);
+
+    return avgPrices;
+}
 

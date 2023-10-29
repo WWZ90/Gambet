@@ -13,17 +13,44 @@ import { ActionOrders } from '../components/ActionOrders';
 import { OutcomeTable } from '../components/OutcomeTable';
 import { Footer } from '../components/Footer';
 
-import { formatDate } from '../utils/services';
+import { getOwned, getPrices } from '../utils/services';
 
 export const DetailMarket = () => {
     const { id } = useParams();
 
+    const { activeContract } = useStateContext();
+    const { owner } = useStateContext();
+
     const { activeMarket, setActiveMarket } = useStateContext();
     const { marketsArray, setMarketsArray } = useStateContext();
 
-    const [style, setStyle] = useState('collapse')
-    const [showAboutCollapse, setShowAboutCollapse] = useState(false)
+    const [style, setStyle] = useState('collapse');
+    const [showAboutCollapse, setShowAboutCollapse] = useState(false);
 
+    const { outcomeData, setOutcomeData } = useStateContext();
+    const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
+    const { setOutcomeOptionSelected } = useStateContext();
+
+    const [option, setOption] = useState({
+        // Otras opciones del gráfico
+        tooltip: {
+            trigger: 'item',
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: '50%',
+                data: [], // Inicialmente vacío
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    },
+                },
+            },
+        ],
+    });
 
     const updateCollapse = () => {
         if (showAboutCollapse) {
@@ -36,39 +63,55 @@ export const DetailMarket = () => {
         }
     }
 
-    const option = {
-        tooltip: {
-            trigger: 'item'
-        },
-        series: [
-            {
-                type: 'pie',
-                radius: '50%',
-                data: [
-                    { value: 314, name: 'Sergio Massa' },
-                    { value: 100, name: 'Patricia Bullrich	' },
-                    { value: 300, name: 'Javier Milei	' },
-                    { value: 500, name: 'Tiebreaker' },
-                    { value: 1, name: 'Other candidate	' }
-                ],
-                emphasis: {
-                    itemStyle: {
-                        shadowBlur: 10,
-                        shadowOffsetX: 0,
-                        shadowColor: 'rgba(0, 0, 0, 0.5)'
-                    }
-                }
-            }
-        ]
-    };
+
 
     useEffect(() => {
-        // Buscar el elemento en marketsArray con el ID deseado
         const foundMarket = marketsArray.find((market) => market.marketId === id);
 
-        // Si se encuentra el elemento, copiarlo a activeMarket
         if (foundMarket) {
+
+            const seriesData = foundMarket.outcomes.map((name, index) => ({ value: foundMarket.shares[index], name }));
+
+            setOption((prevOption) => ({
+                ...prevOption, 
+                series: prevOption.series.map((series) => ({
+                    ...series,
+                    data: seriesData,
+                })),
+            }));
+
             setActiveMarket(foundMarket);
+
+            const data = foundMarket.outcomes.map((outcome, index) => ({
+                outcome,
+                owned: 0, 
+                total: foundMarket.shares[index], 
+                marketPrice: '$0.514', 
+                averagePrice: '-', 
+                sharePayout: '-', 
+            }));
+
+            setOutcomeData(data);
+
+            setOutcomeOptionSelected(data[0].outcome)
+
+            let owned = [];
+            let price = [];
+            const getOw = async () => {
+                return await getOwned(foundMarket, owner, activeContract);
+            }
+
+            getOw().then(result => {
+                owned = result;
+            });
+
+            const getPr = async () => {
+                return await getPrices(foundMarket, owned, owner, activeContract);
+            }
+
+            getPr().then(result => {
+                price = result;
+            })
         }
 
         //console.log(marketsArray);
