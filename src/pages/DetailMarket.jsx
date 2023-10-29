@@ -13,7 +13,7 @@ import { ActionOrders } from '../components/ActionOrders';
 import { OutcomeTable } from '../components/OutcomeTable';
 import { Footer } from '../components/Footer';
 
-import { getOwned, getPrices } from '../utils/services';
+import { getOwned, getPrices, calculateCost, calculatePrice } from '../utils/services';
 
 export const DetailMarket = () => {
     const { id } = useParams();
@@ -73,38 +73,51 @@ export const DetailMarket = () => {
             const seriesData = foundMarket.outcomes.map((name, index) => ({ value: foundMarket.shares[index], name }));
 
             setOption((prevOption) => ({
-                ...prevOption, 
+                ...prevOption,
                 series: prevOption.series.map((series) => ({
                     ...series,
                     data: seriesData,
                 })),
             }));
 
-            setActiveMarket(foundMarket);
 
+            let ow = [];
             const getOw = async () => {
-                setActiveMarket({...activeMarket, owned: await getOwned(foundMarket, owner, activeContract)});
+                ow = await getOwned(foundMarket, owner, activeContract);
+                return ow;
             }
 
+            let ap = [];
             getOw().then(async () => {
-                setActiveMarket({...activeMarket, average: await getPrices(foundMarket, activeMarket.owned, owner, activeContract)});
+                ap = await getPrices(foundMarket, ow, owner, activeContract);
 
-                const data = activeMarket.outcomes.map((outcome, index) => ({
+                console.log(foundMarket);
+                console.log(ow);
+                console.log(ap);
+
+                foundMarket.owned = ow;
+                foundMarket.averagePrice = ap;
+
+                const data = foundMarket.outcomes.map((outcome, index) => ({
                     outcome,
-                    owned: activeMarket.owned[index],
-                    total: foundMarket.shares[index],
-                    marketPrice: '$0.514',
-                    averagePrice: activeMarket.average[index],
-                    sharePayout: '-',
+                    owned: Number(ow[index]),
+                    total: Number(foundMarket.shares[index]),
+                    marketPrice: calculatePrice(foundMarket, outcome),
+                    averagePrice: ap[index],
+                    sharePayout: 1 / calculatePrice(foundMarket, outcome),
                 }));
+
+                console.log(foundMarket);
 
                 setOutcomeData(data);
 
                 setOutcomeOptionSelected(data[0].outcome);
             });
+
+            setActiveMarket(foundMarket);
         }
 
-        //console.log(marketsArray);
+        console.log(activeMarket);
 
     }, [])
 

@@ -33,14 +33,12 @@ export const browseMarkets = async (activeContract) => {
         .map(e => [e.args[1], e.args[2]])
         .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
         .map(market => {
-            console.log(market);
             const [{ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution }, name] = market;
             const mkt = {marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name};
-            console.log(mkt);
             return mkt;
         });
 
-    console.log(markets);
+    //console.log(markets);
 
     return markets;
 }
@@ -69,8 +67,6 @@ export const getMarket = async (marketId, activeContract) => {
         }
     });
 
-    console.log(m);
-
     const name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
 
     m.name = name;
@@ -83,7 +79,7 @@ export const getMarket = async (marketId, activeContract) => {
 export const getOwned = async (market, userAddress, activeContract) => {
     const owned = await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
 
-    console.log(owned);
+    //console.log(owned);
 
     return owned;
 } 
@@ -91,8 +87,15 @@ export const getOwned = async (market, userAddress, activeContract) => {
 export const getPrices = async (market, owned, userAddress, activeContract) => {
     const avgPrices = await Promise.all(market.outcomes.map((outcome, idx) => activeContract.userTransfers(market.marketId, userAddress, outcome).then(async a => Math.round((Number(a) / 10 ** 6) / Number(owned[idx]) * 1000) / 1000)));
 
-    console.log(avgPrices);
+    //console.log(avgPrices);
 
     return avgPrices;
 }
 
+export const calculateCost = (market) => {
+    return Math.sqrt(market.shares.reduce((a, b) => a**2 + b**2, 0))
+}
+
+export const calculatePrice = (market, outcome) => {
+     return market.shares[market.outcomes.indexOf(outcome)] / calculateCost(market)
+}
