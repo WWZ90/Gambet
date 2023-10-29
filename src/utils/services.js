@@ -10,6 +10,19 @@ export function truncateText(str) {
     return str.length > 35 ? str.substring(0, 35) + "..." : str;
 }
 
+export function formatDate(d) {
+    const dateString = Date(d * 1000);
+
+    const date = new Date(dateString);
+
+    const options = { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+
+    const formattedDate = date.toLocaleString('en-US', options);
+
+    return formattedDate;
+}
+
+
 export const browseMarkets = async (activeContract) => {
 
     let markets = null;
@@ -17,9 +30,9 @@ export const browseMarkets = async (activeContract) => {
     //alert(activeContract);
 
     markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
-    .map(e => [e.args[1], e.args[2]])
-    .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
-    .map(([{marketId, created, finished, creation, outcomeIndex, deadline, owner, commission,  totalShares, shares, outcomes, resolution}, name]) => ({marketId, created, finished, creation, outcomeIndex, deadline, owner, commission,  totalShares, shares, outcomes, resolution, name}));
+        .map(e => [e.args[1], e.args[2]])
+        .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
+        .map(([{ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution }, name]) => ({ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name }));
 
     console.log(markets);
 
@@ -54,3 +67,5 @@ export const getMarket = async (marketId, activeContract) => {
 
     return m;
 }
+
+

@@ -13,6 +13,8 @@ import { ActionOrders } from '../components/ActionOrders';
 import { OutcomeTable } from '../components/OutcomeTable';
 import { Footer } from '../components/Footer';
 
+import { formatDate } from '../utils/services';
+
 export const DetailMarket = () => {
     const { id } = useParams();
 
@@ -66,14 +68,14 @@ export const DetailMarket = () => {
 
         // Si se encuentra el elemento, copiarlo a activeMarket
         if (foundMarket) {
+            console.log(foundMarket.deadline);
+            foundMarket.deadline = formatDate(foundMarket.deadline);
+            foundMarket.resolution = formatDate(foundMarket.resolution);
+
             setActiveMarket(foundMarket);
         }
 
-        const date = Date(foundMarket.deadline * 1000);
-
-        console.log(date);
-
-        console.log(marketsArray);
+        //console.log(marketsArray);
 
     }, [])
 
@@ -93,7 +95,7 @@ export const DetailMarket = () => {
                                 <div>
                                     <div className='d-flex'>
                                         <div className='title_gray first'>Deadline: {activeMarket.deadline}</div>
-                                        <div className='title_gray'>Lockout: {activeMarket.resolution}</div>
+                                        <div className='title_gray'>Resolution: {activeMarket.resolution}</div>
                                     </div>
                                     <div className='title'>{activeMarket.name}</div>
                                 </div>
