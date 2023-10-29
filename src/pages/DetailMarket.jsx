@@ -95,23 +95,13 @@ export const DetailMarket = () => {
 
             setOutcomeOptionSelected(data[0].outcome)
 
-            let owned = [];
-            let price = [];
             const getOw = async () => {
-                return await getOwned(foundMarket, owner, activeContract);
+                setActiveMarket({...activeMarket, owned: await getOwned(foundMarket, owner, activeContract)});
             }
 
-            getOw().then(result => {
-                owned = result;
+            getOw().then(async () => {
+                setActiveMarket({...activeMarket, average: await getPrices(foundMarket, activeMarket.owned, owner, activeContract)})
             });
-
-            const getPr = async () => {
-                return await getPrices(foundMarket, owned, owner, activeContract);
-            }
-
-            getPr().then(result => {
-                price = result;
-            })
         }
 
         //console.log(marketsArray);
