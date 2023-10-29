@@ -19,7 +19,7 @@ export const browseMarkets = async (activeContract) => {
     markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
     .map(e => [e.args[1], e.args[2]])
     .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
-    .map(([{marketId, created, finished, creation, outcomeIndex, lockout, deadline, owner, commission,  totalShares, shares, outcomes, resolution}, name]) => ({marketId, created, finished, creation, outcomeIndex, lockout, deadline, owner, commission,  totalShares, shares, outcomes, resolution, name}));
+    .map(([{marketId, created, finished, creation, outcomeIndex, deadline, owner, commission,  totalShares, shares, outcomes, resolution}, name]) => ({marketId, created, finished, creation, outcomeIndex, deadline, owner, commission,  totalShares, shares, outcomes, resolution, name}));
 
     console.log(markets);
 
@@ -29,21 +29,20 @@ export const browseMarkets = async (activeContract) => {
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
-    const m = marketCache[marketId] || await activeContract.markets(marketId).then(([marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, resolution]) => marketCache[marketId] = {
+    const m = marketCache[marketId] || await activeContract.markets(marketId).then(([marketId, created, finished, creation, outcomeIndex, kind, resolution, deadline, owner, totalShares, outcomes, shares]) => marketCache[marketId] = {
         marketId,
         created,
         finished,
         creation: Number(creation),
         outcomeIndex,
         kind,
-        lockout: Number(lockout),
+        resolution: Number(resolution),
         deadline: Number(deadline),
         owner,
         commission: 5,
         totalShares: Number(totalShares),
         outcomes,
         shares,
-        resolution,
         commissionDenominator: 100,
     });
 

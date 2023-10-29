@@ -93,7 +93,7 @@ export const DetailMarket = () => {
                                 <div>
                                     <div className='d-flex'>
                                         <div className='title_gray first'>Deadline: {activeMarket.deadline}</div>
-                                        <div className='title_gray'>Lockout: {activeMarket.lockout}</div>
+                                        <div className='title_gray'>Lockout: {activeMarket.resolution}</div>
                                     </div>
                                     <div className='title'>{activeMarket.name}</div>
                                 </div>
