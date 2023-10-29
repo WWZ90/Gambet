@@ -41,8 +41,8 @@ export const getMarket = async (marketId, activeContract) => {
         owner,
         commission: 5,
         totalShares: Number(totalShares),
-        outcomes,
-        shares,
+        outcomes: outcomes.split(" || "),
+        shares: shares.split(" || ").map(n => Number(n)),
         commissionDenominator: 100,
     });
 
