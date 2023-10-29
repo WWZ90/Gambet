@@ -12,22 +12,23 @@ export function truncateText(str) {
 
 export const browseMarkets = async (activeContract) => {
 
-    let ma = null;
+    let markets = null;
 
     //alert(activeContract);
 
-    ma = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
+    markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
     .map(e => [e.args[1], e.args[2]])
     .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
-    .map(([{marketId, totalShares}, name]) => ({marketId, totalShares, name}));
+    .map(([{marketId, totalShares, shares, outcomes}, name]) => ({marketId, totalShares, shares, outcomes, name}));
 
-    console.log(ma);
+    console.log(markets);
 
-    return ma;
+    return markets;
 }
 
 const marketCache = {};
 
+/*
 export const getMarket = async (marketId, activeContract) => {
     return marketCache[marketId] || await activeContract.markets(marketId).then(([marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, commission, totalShares, commissionDenominator]) => marketCache[marketId] = {
         marketId,
@@ -43,4 +44,27 @@ export const getMarket = async (marketId, activeContract) => {
         totalShares: Number(totalShares),
         commissionDenominator: Number(commissionDenominator),
     });
+}
+*/
+
+export const getMarket = async (marketId, activeContract) => {
+    const m = marketCache[marketId] || await activeContract.markets(marketId).then(([marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, resolution]) => marketCache[marketId] = {
+        marketId,
+        created,
+        finished,
+        creation: Number(creation),
+        outcomeIndex,
+        kind,
+        lockout: Number(lockout),
+        deadline: Number(deadline),
+        owner,
+        commission: 5,
+        totalShares: Number(totalShares),
+        outcomes,
+        shares,
+        resolution,
+        commissionDenominator: 100,
+    });
+    console.log(m);
+    return m;
 }
