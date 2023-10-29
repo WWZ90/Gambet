@@ -35,6 +35,7 @@ export const browseMarkets = async (activeContract) => {
         .map(market => {
             const [{ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution }, name] = market;
             const mkt = {marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name};
+            mkt.prices = mkt.outcomes.map(o => calculatePrice(mkt, o));
             return mkt;
         });
 
