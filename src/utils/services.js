@@ -11,7 +11,7 @@ export function truncateText(str) {
 }
 
 export function formatDate(d) {
-    const dateString = Date(d * 1000);
+    const dateString = new Date(d * 1000);
 
     const date = new Date(dateString);
 
@@ -32,7 +32,13 @@ export const browseMarkets = async (activeContract) => {
     markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
         .map(e => [e.args[1], e.args[2]])
         .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
-        .map(([{ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution }, name]) => ({ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name }));
+        .map(market => {
+            console.log(market);
+            const [{ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution }, name] = market;
+            const mkt = {marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name};
+            console.log(mkt);
+            return mkt;
+        });
 
     console.log(markets);
 
@@ -44,17 +50,16 @@ const marketCache = {};
 export const getMarket = async (marketId, activeContract) => {
 
     const m = marketCache[marketId] || await activeContract.markets(marketId).then(market => {
-        console.log(market);
         const [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares] = market;
         return marketCache[marketId] = {
             marketId,
             created,
             finished,
-            creation: Number(creation),
+            creation: formatDate(Number(creation)),
             outcomeIndex,
             kind,
-            resolution: Number(lockout),
-            deadline: Number(deadline),
+            resolution: formatDate(Number(lockout)),
+            deadline: formatDate(Number(deadline)),
             owner,
             commission: 5,
             totalShares: Number(totalShares),

@@ -68,10 +68,6 @@ export const DetailMarket = () => {
 
         // Si se encuentra el elemento, copiarlo a activeMarket
         if (foundMarket) {
-            console.log(foundMarket.deadline);
-            foundMarket.deadline = formatDate(foundMarket.deadline);
-            foundMarket.resolution = formatDate(foundMarket.resolution);
-
             setActiveMarket(foundMarket);
         }
 
