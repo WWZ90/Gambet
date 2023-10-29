@@ -87,20 +87,20 @@ export const DetailMarket = () => {
             }
 
             getOw().then(async () => {
-                setActiveMarket({...activeMarket, average: await getPrices(foundMarket, activeMarket.owned, owner, activeContract)}, () => {
-                    const data = activeMarket.outcomes.map((outcome, index) => ({
-                        outcome,
-                        owned: activeMarket.owned[index],
-                        total: foundMarket.shares[index],
-                        marketPrice: '$0.514',
-                        averagePrice: activeMarket.average[index],
-                        sharePayout: '-',
-                    }));
+                setActiveMarket({...activeMarket, average: await getPrices(foundMarket, activeMarket.owned, owner, activeContract)});
 
-                    setOutcomeData(data);
+                const data = activeMarket.outcomes.map((outcome, index) => ({
+                    outcome,
+                    owned: activeMarket.owned[index],
+                    total: foundMarket.shares[index],
+                    marketPrice: '$0.514',
+                    averagePrice: activeMarket.average[index],
+                    sharePayout: '-',
+                }));
 
-                    setOutcomeOptionSelected(data[0].outcome);
-                });
+                setOutcomeData(data);
+
+                setOutcomeOptionSelected(data[0].outcome);
             });
         }
 
