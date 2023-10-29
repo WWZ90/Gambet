@@ -17,6 +17,7 @@ export const DetailMarket = () => {
     const { id } = useParams();
 
     const { activeMarket, setActiveMarket } = useStateContext();
+    const { marketsArray, setMarketsArray } = useStateContext();
 
     const [style, setStyle] = useState('collapse')
     const [showAboutCollapse, setShowAboutCollapse] = useState(false)
@@ -60,16 +61,27 @@ export const DetailMarket = () => {
     };
 
     useEffect(() => {
-      //TODO: Buscar los detalles del market según el marketID 
+        // Buscar el elemento en marketsArray con el ID deseado
+        const foundMarket = marketsArray.find((market) => market.marketId === id);
 
-      setActiveMarket(id); //Se debe de cambiar por el name del market cuando se obtengan de los datos reales
+        // Si se encuentra el elemento, copiarlo a activeMarket
+        if (foundMarket) {
+            setActiveMarket(foundMarket);
+        }
+
+        const date = Date(foundMarket.deadline * 1000);
+
+        console.log(date);
+
+        console.log(marketsArray);
+
     }, [])
-    
+
 
     return (
         <>
             <NavBarWeb3Onboard />
-            
+
             <section className='detail_market'>
                 <div className="content">
                     <div className="inside">
@@ -80,10 +92,10 @@ export const DetailMarket = () => {
                                 </div>
                                 <div>
                                     <div className='d-flex'>
-                                        <div className='title_gray first'>Deadline: 2023-12-30</div>
-                                        <div className='title_gray'>Lockout: 2023-10-21</div>
+                                        <div className='title_gray first'>Deadline: {activeMarket.deadline}</div>
+                                        <div className='title_gray'>Lockout: {activeMarket.lockout}</div>
                                     </div>
-                                    <div className='title'>Argentina 2023 Presidential Elections</div>
+                                    <div className='title'>{activeMarket.name}</div>
                                 </div>
                             </div>
                             <div className='details'>

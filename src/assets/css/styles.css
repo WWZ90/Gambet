@@ -248,13 +248,14 @@ section h1 {
 }
 
 .slick-list {
-    height: 340px !important;
+    height: 325px !important;
 }
 
 .slick-slide {
     text-align: center;
     font-size: 18px;
     width: 340px !important;
+    margin-bottom: 25px;
     overflow: hidden;
     cursor: pointer;
     /* Center slide text vertically */

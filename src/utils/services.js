@@ -19,7 +19,7 @@ export const browseMarkets = async (activeContract) => {
     markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
     .map(e => [e.args[1], e.args[2]])
     .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
-    .map(([{marketId, totalShares, shares, outcomes}, name]) => ({marketId, totalShares, shares, outcomes, name}));
+    .map(([{marketId, created, finished, creation, outcomeIndex, lockout, deadline, owner, commission,  totalShares, shares, outcomes, resolution}, name]) => ({marketId, created, finished, creation, outcomeIndex, lockout, deadline, owner, commission,  totalShares, shares, outcomes, resolution, name}));
 
     console.log(markets);
 
@@ -27,25 +27,6 @@ export const browseMarkets = async (activeContract) => {
 }
 
 const marketCache = {};
-
-/*
-export const getMarket = async (marketId, activeContract) => {
-    return marketCache[marketId] || await activeContract.markets(marketId).then(([marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, commission, totalShares, commissionDenominator]) => marketCache[marketId] = {
-        marketId,
-        created,
-        finished,
-        creation: Number(creation),
-        outcomeIndex,
-        kind,
-        lockout: Number(lockout),
-        deadline: Number(deadline),
-        owner,
-        commission: Number(commission),
-        totalShares: Number(totalShares),
-        commissionDenominator: Number(commissionDenominator),
-    });
-}
-*/
 
 export const getMarket = async (marketId, activeContract) => {
     const m = marketCache[marketId] || await activeContract.markets(marketId).then(([marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, resolution]) => marketCache[marketId] = {
@@ -65,6 +46,12 @@ export const getMarket = async (marketId, activeContract) => {
         resolution,
         commissionDenominator: 100,
     });
-    console.log(m);
+
+    const name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
+
+    m.name = name;
+
+    //console.log(m);
+
     return m;
 }
