@@ -42,22 +42,29 @@ export const browseMarkets = async (activeContract) => {
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
-    const m = marketCache[marketId] || await activeContract.markets(marketId).then(([marketId, created, finished, creation, outcomeIndex, kind, resolution, deadline, owner, totalShares, outcomes, shares]) => marketCache[marketId] = {
-        marketId,
-        created,
-        finished,
-        creation: Number(creation),
-        outcomeIndex,
-        kind,
-        resolution: Number(resolution),
-        deadline: Number(deadline),
-        owner,
-        commission: 5,
-        totalShares: Number(totalShares),
-        outcomes: outcomes.split(" || "),
-        shares: shares.split(" || ").map(n => Number(n)),
-        commissionDenominator: 100,
+
+    const m = marketCache[marketId] || await activeContract.markets(marketId).then(market => {
+        console.log(market);
+        const [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares] = market;
+        return marketCache[marketId] = {
+            marketId,
+            created,
+            finished,
+            creation: Number(creation),
+            outcomeIndex,
+            kind,
+            resolution: Number(lockout),
+            deadline: Number(deadline),
+            owner,
+            commission: 5,
+            totalShares: Number(totalShares),
+            outcomes,
+            shares,
+            commissionDenominator: 100,
+        }
     });
+
+    console.log(m);
 
     const name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
 
