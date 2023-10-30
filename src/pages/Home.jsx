@@ -53,52 +53,6 @@ export const Home = () => {
     useEffect(() => {
         AOS.init();
 
-
-
-        // Datos de outcome
-        const data = [
-            {
-                outcome: 'Sergio Massa',
-                owned: 40,
-                total: 354,
-                marketPrice: '$0.514',
-                averagePrice: '$0.491',
-                sharePayout: '$1.948',
-            },
-            {
-                outcome: 'Patricia Bullrich',
-                owned: 40,
-                total: 100,
-                marketPrice: '$0.514',
-                averagePrice: '-',
-                sharePayout: '$6.897',
-            },
-            {
-                outcome: 'Javier Milei',
-                owned: 0,
-                total: 300,
-                marketPrice: '$0.114',
-                averagePrice: '-',
-                sharePayout: '$2.948',
-            },
-            {
-                outcome: 'Tiebreaker',
-                owned: 0,
-                total: 500,
-                marketPrice: '$0.723',
-                averagePrice: '-',
-                sharePayout: '$1.948',
-            },
-            {
-                outcome: 'Other candidate',
-                owned: 0,
-                total: 1,
-                marketPrice: '$0.002',
-                averagePrice: '-',
-                sharePayout: '$689.432',
-            },
-        ];
-
         let data2 = [
             {
                 outcome: 'Sergio Massa',
@@ -126,10 +80,7 @@ export const Home = () => {
             },
         ];
 
-        setOutcomeData(data);
         setMyOutcomeByMarket(data2);
-
-        setOutcomeOptionSelected(data[0].outcome)
 
     }, [])
 

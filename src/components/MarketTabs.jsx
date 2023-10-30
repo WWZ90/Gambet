@@ -68,8 +68,8 @@ export const MarketTabs = ({ categories, myRef }) => {
                         ) : (
                             <div className="c-dhzjXW c-dhzjXW-iuYlq-css">
                                 <div className='c-bQzyIt c-cYEHai'>
-                                    {marketsArray?.map(function (item, i) {
-                                        return <Link key={i} className="" to='/market/test'>
+                                    {marketsArray?.map(function (market, i) {
+                                        return <Link key={i} className="" to={`/market/id/${market.marketId}`}>
                                             <div className="c-dhzjXW c-cZDZbz c-dhzjXW-iQMpow-css mt-3">
                                                 <div className='c-dhzjXW c-goxxzP'>
                                                     <div className="c-dhzjXW c-chvCSy">
@@ -79,11 +79,11 @@ export const MarketTabs = ({ categories, myRef }) => {
                                                         <div className="c-dhzjXW c-gURjzw">
                                                             <div className="c-dhzjXW c-jvuvAf">
                                                                 <div className="c-dhzjXW c-dhzjXW-igIRObP-css">
-                                                                    <p className='c-dqzIym c-dqzIym-fxyRaa-color-normal c-dqzIym-cTvRMP-spacing-normal c-dqzIym-jalaKP-weight-normal c-dqzIym-ickcwvy-css'>Deadline: 2023-12-30</p>
+                                                                    <p className='c-dqzIym c-dqzIym-fxyRaa-color-normal c-dqzIym-cTvRMP-spacing-normal c-dqzIym-jalaKP-weight-normal c-dqzIym-ickcwvy-css'>Deadline: {market.deadline.split(", ")[0]}, {new Date(market.deadline).getFullYear()}</p>
                                                                 </div>
                                                             </div>
                                                             <div className="c-dhzjXW c-fGHEql">
-                                                                <p className='c-dqzIym c-dqzIym-ojJRN-color-dark c-dqzIym-cTvRMP-spacing-normal c-dqzIym-eYAYgJ-weight-semi c-dqzIym-hzzdKO-size-md c-dqzIym-icCuRIN-css'>{item.name}</p>
+                                                                <p className='c-dqzIym c-dqzIym-ojJRN-color-dark c-dqzIym-cTvRMP-spacing-normal c-dqzIym-eYAYgJ-weight-semi c-dqzIym-hzzdKO-size-md c-dqzIym-icCuRIN-css'>{market.name}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -93,11 +93,11 @@ export const MarketTabs = ({ categories, myRef }) => {
 
                                                         <div className='d-flex flex-row flex-wrap'>
                                                             <Slider {...settings}>
-                                                                {outcomeData?.map((option, index) => (
-                                                                    <div key={index} className="market_option">
+                                                                {market.outcomes?.map((outcome, outcomeIndex) => (
+                                                                    <div key={outcomeIndex} className="market_option">
                                                                         <div className='d-flex justify-content-between'>
-                                                                            <p>{option.outcome}</p>
-                                                                            <p className='price'>{option.marketPrice}</p>
+                                                                            <p>{outcome}</p>
+                                                                            <p className='price'>${market.prices[outcomeIndex].toFixed(3)}</p>
                                                                         </div>
                                                                     </div>
                                                                 ))}
@@ -109,7 +109,7 @@ export const MarketTabs = ({ categories, myRef }) => {
                                                 <hr className='c-jKkUoB' />
                                                 <div className='c-dhzjXW c-jHpYkO'>
                                                     <span className='c-PJLV pt-2'>
-                                                        Shares: {item.totalShares}
+                                                        Shares: {market.totalShares}
                                                     </span>
                                                 </div>
                                             </div>

@@ -132,7 +132,7 @@ function AppWeb3Onboard() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/browsemarkets" element={<BrowseMarkets />} />
-              <Route path="/market/:id" element={<DetailMarket />} />
+              <Route path="/market/id/:id" element={<DetailMarket />} />
               <Route path="/createmarket" element={<CreateMarket />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/whatwedo" element={<WhatWeDo />} />

@@ -20,20 +20,30 @@ export const OutcomeTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {outcomeData.map((item, index) => (
-                        <tr key={index} onClick={()=>setOutcomeOptionSelected(item.outcome)}>
-                            <th scope="row">{item.outcome}</th>
-                            <td>{item.owned}</td>
-                            <td>{item.share}</td>
-                            {item.averagePrice != '-' ?(
-                                <td>${item.averagePrice}</td>
-                            ):(
-                                <td>{item.averagePrice}</td>
-                            )}
-                            
-                            <td>${item.sharePayout}</td>
-                        </tr>
-                    ))}
+                    {!outcomeData ? (
+                        <>
+                            <div className="container align-items-center text-center">
+                                <div className="lds-ripple"><div></div><div></div></div>
+                            </div>
+                        </>
+                    ) : (
+                        outcomeData.map((item, index) => (
+                            <tr key={index} onClick={() => setOutcomeOptionSelected(item.outcome)}>
+                                <th scope="row">{item.outcome}</th>
+                                <td>{item.owned}</td>
+                                <td>{item.share}</td>
+                                {item.averagePrice != '-' ? (
+                                    <td>${item.averagePrice}</td>
+                                ) : (
+                                    <td>{item.averagePrice}</td>
+                                )}
+
+                                <td>${item.sharePayout}</td>
+                            </tr>
+                        ))
+
+                    )}
+
 
                 </tbody>
             </table>

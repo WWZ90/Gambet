@@ -22,6 +22,19 @@ export function formatDate(d) {
     return formattedDate;
 }
 
+export function formatDateShort(d) {
+    const dateString = new Date(d * 1000);
+
+    const date = new Date(dateString);
+
+    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+
+    const formattedDate = date.toLocaleString('en-US', options);
+
+    return formattedDate;
+}
+
+
 
 export const browseMarkets = async (activeContract) => {
 
@@ -39,7 +52,7 @@ export const browseMarkets = async (activeContract) => {
             return mkt;
         });
 
-    //console.log(markets);
+    console.log(markets);
 
     return markets;
 }

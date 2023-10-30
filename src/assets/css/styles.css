@@ -370,7 +370,7 @@ section h1 {
 /* Home Page Custom Header
   ------------------------------*/
 .index-page .header {
-    --color-nav-background: rgba(255, 255, 255, 1);
+    --color-nav-background: rgba(255, 255, 255, 0);
     --color-nav: rgba(255, 255, 255, 0.515);
     --color-nav-hover: #ffffff;
 }

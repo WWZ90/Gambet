@@ -91,27 +91,25 @@ export const DetailMarket = () => {
             getOw().then(async () => {
                 ap = await getPrices(foundMarket, ow, owner, activeContract);
 
-                console.log(foundMarket);
-                console.log(ow);
-                console.log(ap);
-
                 foundMarket.owned = ow;
                 foundMarket.averagePrice = ap;
 
-                const data = foundMarket.outcomes.map((outcome, index) => ({
+                const outcomeD = foundMarket.outcomes.map((outcome, index) => ({
                     outcome,
                     owned: Number(ow[index]),
                     share: Number(foundMarket.shares[index]),
                     marketPrice: calculatePrice(foundMarket, outcome).toFixed(3),
-                    averagePrice: (Number.isNaN(ap[index]) || !Number.isFinite(ap[index])) ? "-" : ap[index] ,
+                    averagePrice: (Number.isNaN(ap[index]) || !Number.isFinite(ap[index])) ? "-" : ap[index],
                     sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
                 }));
 
-                console.log(foundMarket);
+                setOutcomeData(outcomeD);
 
-                setOutcomeData(data);
+                const myOutcomeD = outcomeD.filter((entry) => entry.owned !== 0);
 
-                setOutcomeOptionSelected(data[0].outcome);
+                setMyOutcomeByMarket(myOutcomeD);
+
+                setOutcomeOptionSelected(outcomeD[0].outcome);
             });
 
             setActiveMarket(foundMarket);

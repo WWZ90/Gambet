@@ -133,7 +133,7 @@ export const ActionOrders = () => {
         // Nuevo elemento que deseas agregar al carrito
         const newCartItem = {
             id: idCartCounter,
-            market: activeMarket,
+            market: activeMarket.name,
             outcome: outcomeOptionSelected,
             price: limitPrice,
             shares: shares,
@@ -197,7 +197,7 @@ export const ActionOrders = () => {
 
     useEffect(() => {
         console.log('Cantidad en el carrito: ' + cartCount);
-        console.log('Carrito: ' + JSON.stringify(cart));
+        console.log(cart);
     }, [cart])
 
 
@@ -253,15 +253,12 @@ export const ActionOrders = () => {
                                 <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                     <div className='d-flex justify-content-between'>
                                         <p>{option.outcome}</p>
-                                        <p className='price'>{option.marketPrice}</p>
+                                        <p className='price'>${option.marketPrice}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     )}
-
-
-
 
                     {type == 'limit' ? (
                         <>
