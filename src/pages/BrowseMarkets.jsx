@@ -54,10 +54,12 @@ export const BrowseMarkets = () => {
       return await browseMarkets(activeContract);
     }
 
-    if (activeContract)
+    if (activeContract) {
       getMarkets().then(result => {
         setMarketsArray(result);
       });
+    }
+
 
   }, [activeContract])
 

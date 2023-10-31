@@ -22,9 +22,11 @@ export const OutcomeTable = () => {
                 <tbody>
                     {!outcomeData ? (
                         <>
-                            <div className="container align-items-center text-center">
-                                <div className="lds-ripple"><div></div><div></div></div>
-                            </div>
+                            <tr>
+                                <td colspan="5" className="align-items-center align-middle text-center">
+                                    <div className="lds-ripple"><div></div><div></div></div>
+                                </td>
+                            </tr>
                         </>
                     ) : (
                         outcomeData.map((item, index) => (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { useStateContext } from '../contexts/ContextProvider';
 
@@ -13,10 +13,13 @@ import { ActionOrders } from '../components/ActionOrders';
 import { OutcomeTable } from '../components/OutcomeTable';
 import { Footer } from '../components/Footer';
 
-import { getOwned, getPrices, calculateCost, calculatePrice } from '../utils/services';
+import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice } from '../utils/services';
 
 export const DetailMarket = () => {
+    const navigate = useNavigate();
+
     const { id } = useParams();
+    const { previousRoute, setPreviousRoute } = useStateContext(false);
 
     const { activeContract } = useStateContext();
     const { owner } = useStateContext();
@@ -30,6 +33,9 @@ export const DetailMarket = () => {
     const { outcomeData, setOutcomeData } = useStateContext();
     const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
     const { setOutcomeOptionSelected } = useStateContext();
+
+    const [loading, setLoading] = useState(true);
+    const [marketExist, setMarketExist] = useState();
 
     const [option, setOption] = useState({
         // Otras opciones del gráfico
@@ -64,119 +70,182 @@ export const DetailMarket = () => {
     }
 
 
-
     useEffect(() => {
-        const foundMarket = marketsArray.find((market) => market.marketId === id);
 
-        if (foundMarket) {
+        setOutcomeData([]);
+        setMyOutcomeByMarket([]);
 
-            const seriesData = foundMarket.outcomes.map((name, index) => ({ value: foundMarket.shares[index], name }));
-
-            setOption((prevOption) => ({
-                ...prevOption,
-                series: prevOption.series.map((series) => ({
-                    ...series,
-                    data: seriesData,
-                })),
-            }));
-
-
-            let ow = [];
-            const getOw = async () => {
-                ow = await getOwned(foundMarket, owner, activeContract);
-                return ow;
-            }
-
-            let ap = [];
-            getOw().then(async () => {
-                ap = await getPrices(foundMarket, ow, owner, activeContract);
-
-                foundMarket.owned = ow;
-                foundMarket.averagePrice = ap;
-
-                const outcomeD = foundMarket.outcomes.map((outcome, index) => ({
-                    outcome,
-                    owned: Number(ow[index]),
-                    share: Number(foundMarket.shares[index]),
-                    marketPrice: calculatePrice(foundMarket, outcome).toFixed(3),
-                    averagePrice: (Number.isNaN(ap[index]) || !Number.isFinite(ap[index])) ? "-" : ap[index],
-                    sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
-                }));
-
-                setOutcomeData(outcomeD);
-
-                const myOutcomeD = outcomeD.filter((entry) => entry.owned !== 0);
-
-                setMyOutcomeByMarket(myOutcomeD);
-
-                setOutcomeOptionSelected(outcomeD[0].outcome);
-            });
-
-            setActiveMarket(foundMarket);
-        }
-
-        console.log(activeMarket);
+        setPreviousRoute(false);
+        
+        loadDetailMarket();
 
     }, [])
 
+    const loadDetailMarket = () => {
+
+        if (marketsArray) {
+            
+            const foundMarket = marketsArray.find((market) => market.marketId === id);
+
+            if (foundMarket) {
+
+                const seriesData = foundMarket.outcomes.map((name, index) => ({ value: foundMarket.shares[index], name }));
+
+                setOption((prevOption) => ({
+                    ...prevOption,
+                    series: prevOption.series.map((series) => ({
+                        ...series,
+                        data: seriesData,
+                    })),
+                }));
+
+
+                let ow = [];
+                const getOw = async () => {
+                    ow = await getOwned(foundMarket, owner, activeContract);
+                    return ow;
+                }
+
+                let ap = [];
+                getOw().then(async () => {
+                    ap = await getPrices(foundMarket, ow, owner, activeContract);
+
+                    foundMarket.owned = ow;
+                    foundMarket.averagePrice = ap;
+
+                    const outcomeD = foundMarket.outcomes.map((outcome, index) => ({
+                        outcome,
+                        owned: Number(ow[index]),
+                        share: Number(foundMarket.shares[index]),
+                        marketPrice: calculatePrice(foundMarket, outcome).toFixed(3),
+                        averagePrice: (Number.isNaN(ap[index]) || !Number.isFinite(ap[index])) ? "-" : ap[index],
+                        sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
+                    }));
+
+                    setOutcomeData(outcomeD);
+
+                    const myOutcomeD = outcomeD.filter((entry) => entry.owned !== 0);
+
+                    setMyOutcomeByMarket(myOutcomeD);
+
+                    setOutcomeOptionSelected(outcomeD[0].outcome);
+                });
+
+                setActiveMarket(foundMarket);
+
+                console.log(activeMarket);
+
+                setMarketExist(true);
+                setLoading(false);
+
+            } else {
+                setMarketExist(false);
+            }
+        } else {
+            setPreviousRoute(id);
+            setLoading(true);
+        }
+    }
+
+    useEffect(() => {
+        if (previousRoute) {
+
+            const getMarkets = async () => {
+                return await browseMarkets(activeContract);
+            }
+
+            getMarkets().then(result => {
+                setMarketsArray(result);
+            });
+        }
+    }, [activeContract])
+
+    useEffect(() => {
+        if (previousRoute) {
+            setLoading(false);
+            setPreviousRoute(false);
+            loadDetailMarket();
+        }
+    }, [marketsArray])
 
     return (
         <>
             <NavBarWeb3Onboard />
 
-            <section className='detail_market'>
-                <div className="content">
-                    <div className="inside">
-                        <div className="left_panel">
-                            <div className="top">
-                                <div className="image">
-                                    <img src={Image1} />
-                                </div>
-                                <div>
-                                    <div className='d-flex'>
-                                        <div className='title_gray first'>Deadline: {activeMarket.deadline}</div>
-                                        <div className='title_gray'>Resolution: {activeMarket.resolution}</div>
-                                    </div>
-                                    <div className='title'>{activeMarket.name}</div>
-                                </div>
-                            </div>
-                            <div className='details'>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="chart">
-                                            <ReactEcharts option={option} />
+            {loading ? (
+                <section className='detail_market'>
+                    <div className="container align-items-center text-center">
+                        <div className="lds-ripple"><div></div><div></div></div>
+                    </div>
+                </section>
+            ) : (
+                <>
+                    {marketExist ? (
+                        <section className='detail_market'>
+                            <div className="content">
+                                <div className="inside">
+                                    <div className="left_panel">
+                                        <div className="top">
+                                            <div className="image">
+                                                <img src={Image1} />
+                                            </div>
+                                            <div>
+                                                <div className='d-flex'>
+                                                    <div className='title_gray first'>Deadline: {activeMarket.deadline}</div>
+                                                    <div className='title_gray'>Resolution: {activeMarket.resolution}</div>
+                                                </div>
+                                                <div className='title'>{activeMarket.name}</div>
+                                            </div>
+                                        </div>
+                                        <div className='details'>
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <div className="chart">
+                                                        <ReactEcharts option={option} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <OutcomeTable />
+                                            <OrderBook />
+                                            <div className="module">
+                                                <div className='about'>
+                                                    <h3>About</h3>
+                                                    <p className={style} id="collapseAbout" aria-expanded="false">
+                                                        This market will resolve to the winner of Argentina's 2023 presidential elections. If a tiebreaker is required to decide the president, it will resolve to "Tiebreaker".
+                                                        If a different candidate than the ones available in this market wins, this market will resolve to "Other candidate".
+                                                    </p>
+                                                    <a role="button" onClick={updateCollapse} className="collapsed" data-toggle="collapse" href="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout">
+                                                        {!showAboutCollapse ? ('+ Show more') : ('- Show less')}
+                                                    </a>
+                                                </div>
+                                                <div className='resolution_outcome mt-4'>
+                                                    <h3>Resolution</h3>
+                                                    <p>No outcome has been proposed yet.</p>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <OutcomeTable />
-                                <OrderBook />
-                                <div className="module">
-                                    <div className='about'>
-                                        <h3>About</h3>
-                                        <p className={style} id="collapseAbout" aria-expanded="false">
-                                            This market will resolve to the winner of Argentina's 2023 presidential elections. If a tiebreaker is required to decide the president, it will resolve to "Tiebreaker".
-                                            If a different candidate than the ones available in this market wins, this market will resolve to "Other candidate".
-                                        </p>
-                                        <a role="button" onClick={updateCollapse} className="collapsed" data-toggle="collapse" href="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout">
-                                            {!showAboutCollapse ? ('+ Show more') : ('- Show less')}
-                                        </a>
-                                    </div>
-                                    <div className='resolution_outcome mt-4'>
-                                        <h3>Resolution</h3>
-                                        <p>No outcome has been proposed yet.</p>
-                                    </div>
 
+                                    <div className='stiky_block'>
+                                        <ActionOrders />
+                                    </div>
                                 </div>
+
                             </div>
-                        </div>
+                        </section>
+                    ) : (
+                        <section className='detail_market'>
+                            <div className="content">
+                                No existe
+                            </div>
+                        </section>
+                    )}
+                </>
+            )}
 
-                        <div className='stiky_block'>
-                            <ActionOrders />
-                        </div>
-                    </div>
 
-                </div>
-            </section>
+
 
             <Footer />
         </>

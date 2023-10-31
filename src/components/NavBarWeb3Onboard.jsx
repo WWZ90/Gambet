@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { motion } from "framer-motion";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 import { ethers } from "ethers";

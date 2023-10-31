@@ -46,6 +46,8 @@ export const ContextProvider = ({ children }) => {
     const [cartCount, setCartCount] = useState(0);
     const [idCartCounter, setIdCartCounter] = useState(1);
 
+    const [previousRoute, setPreviousRoute] = useState(); //Se guarda la referencia de si esta entrando directo por market/id/marketID para retornar a ella 
+
     return (
         <StateContext.Provider value={
             {
@@ -80,6 +82,7 @@ export const ContextProvider = ({ children }) => {
                 cart, setCart,
                 cartCount, setCartCount,
                 idCartCounter, setIdCartCounter,
+                previousRoute, setPreviousRoute,
             }}>
             {children}
         </StateContext.Provider>

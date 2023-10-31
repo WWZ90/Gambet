@@ -804,6 +804,7 @@ button.swithToChain:hover {
 .detail_market {
     display: flex;
     width: 100%;
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
 }
@@ -857,6 +858,15 @@ button.swithToChain:hover {
 .detail_market .title_gray.first {
     margin-right: 20px;
 }
+
+.detail_market .table {
+    min-height: 100px;
+}
+
+.detail_market .table .lds-ripple div {
+    margin-top: 0px;
+}
+
 
 /************ COLAPSE **************/
 

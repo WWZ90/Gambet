@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -26,6 +26,10 @@ import { MarketTabs } from '../components/MarketTabs';
 
 export const Home = () => {
 
+    const navigate = useNavigate();
+
+    const { previousRoute, setPreviousRoute } = useStateContext();
+
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
 
     const { activeContract, setActiveContract } = useStateContext();
@@ -44,43 +48,21 @@ export const Home = () => {
         }
 
         if (activeContract)
-            getMarkets().then(result => {
-                setMarketsArray(result);
-            });
+            if (!marketsArray) {
+                getMarkets().then(result => {
+                    setMarketsArray(result);
 
+                    if (previousRoute) {
+                        const goToDetailMarket = () => navigate(`/market/id/${previousRoute}`);
+
+                        goToDetailMarket();
+                    }
+                });
+            }
     }, [activeContract])
 
     useEffect(() => {
         AOS.init();
-
-        let data2 = [
-            {
-                outcome: 'Sergio Massa',
-                owned: 40,
-                total: 354,
-                marketPrice: '$0.514',
-                averagePrice: '$0.491',
-                sharePayout: '$1.948',
-            },
-            {
-                outcome: 'Patricia Bullrich',
-                owned: 40,
-                total: 100,
-                marketPrice: '$0.514',
-                averagePrice: '-',
-                sharePayout: '$6.897',
-            },
-            {
-                outcome: 'Other candidate',
-                owned: 0,
-                total: 1,
-                marketPrice: '$0.002',
-                averagePrice: '-',
-                sharePayout: '$689.432',
-            },
-        ];
-
-        setMyOutcomeByMarket(data2);
 
     }, [])
 
