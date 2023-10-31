@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import { useConnectWallet, useSetChain } from "@web3-onboard/react";
+
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { useStateContext } from '../contexts/ContextProvider';
@@ -16,6 +18,9 @@ import { Footer } from '../components/Footer';
 import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice } from '../utils/services';
 
 export const DetailMarket = () => {
+
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+
     const navigate = useNavigate();
 
     const { id } = useParams();
@@ -83,7 +88,7 @@ export const DetailMarket = () => {
 
     const loadDetailMarket = () => {
 
-        if (marketsArray) {
+        if (marketsArray) { //Si marketsArray esta vacio, significa que entro a esta ruta refrescando la pagina
             
             const foundMarket = marketsArray.find((market) => market.marketId === id);
 
@@ -142,8 +147,14 @@ export const DetailMarket = () => {
                 setMarketExist(false);
             }
         } else {
-            setPreviousRoute(id);
-            setLoading(true);
+            if(!localStorage.getItem('activeContract')){
+                connect();
+                setPreviousRoute(id);
+                setLoading(true);
+            }else{
+                setPreviousRoute(id);
+                setLoading(true);
+            }
         }
     }
 

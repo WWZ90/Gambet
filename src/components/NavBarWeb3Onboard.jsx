@@ -140,6 +140,8 @@ export const NavBarWeb3Onboard = () => {
                 setOwner(await temp_singer.getAddress());
             }
 
+            localStorage.setItem('activeContract', 'true');
+
         }
 
         if (provider) {
@@ -316,7 +318,7 @@ export const NavBarWeb3Onboard = () => {
 
                                         <NavDropdown.Divider />
 
-                                        <NavDropdown.Item onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setMarketsArray(null) }} className='wallet_disconnet'>
+                                        <NavDropdown.Item onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setMarketsArray(null); localStorage.removeItem('activeContract') }} className='wallet_disconnet'>
                                             Disconnet
                                         </NavDropdown.Item>
 
