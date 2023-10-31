@@ -113,3 +113,21 @@ export const calculateCost = (market) => {
 export const calculatePrice = (market, outcome) => {
      return market.shares[market.outcomes.indexOf(outcome)] / calculateCost(market)
 }
+
+const betOrders = {};
+export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
+    betOrders[activeMarketId] = refresh ? [] : (betOrders[activeMarketId] || []);
+    const contractOrders = await (activeContract || {getOrders: async () => []}).getOrders(activeMarketId || "", betOrders[activeMarketId].length, 100);
+    const newOrders = contractOrders.map((o, idx) => ({
+        orderPosition: o[0] ? "SELL" : "BUY",
+        pricePerShare: o[1],
+        outcome: o[2],
+        amount: o[3],
+        user: o[4],
+        idx: o[5]
+    }));
+    betOrders[activeMarketId] = betOrders[activeMarketId].concat(newOrders);
+    betOrders[activeMarketId].sort((a, b) => a.orderPosition < b.orderPosition ? 1 : (Number(a.pricePerShare) - Number(b.pricePerShare)));
+
+    console.log(betOrders);
+}

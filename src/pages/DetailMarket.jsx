@@ -15,7 +15,7 @@ import { ActionOrders } from '../components/ActionOrders';
 import { OutcomeTable } from '../components/OutcomeTable';
 import { Footer } from '../components/Footer';
 
-import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice } from '../utils/services';
+import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders } from '../utils/services';
 
 export const DetailMarket = () => {
 
@@ -30,6 +30,7 @@ export const DetailMarket = () => {
     const { owner } = useStateContext();
 
     const { activeMarket, setActiveMarket } = useStateContext();
+    const { marketId, setMarketId } = useStateContext();
     const { marketsArray, setMarketsArray } = useStateContext();
 
     const [style, setStyle] = useState('collapse');
@@ -136,7 +137,10 @@ export const DetailMarket = () => {
                     setOutcomeOptionSelected(outcomeD[0].outcome);
                 });
 
+                fetchOrders(false, activeContract, id);
+
                 setActiveMarket(foundMarket);
+                setMarketId(id);
 
                 console.log(activeMarket);
 
