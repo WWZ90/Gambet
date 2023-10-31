@@ -81,7 +81,7 @@ export const Home = () => {
                             <h2>A fully decentralized, blockchain-based web application in which anyone can participate on or create their own parimutuel betting pools.</h2>
                             <div className="d-flex justify-content-center justify-content-lg-start">
                                 {!wallet ? (
-                                    <a href="#" className="btn-get-started scrollto" onClick={async () => {
+                                    <a href="#" className="btn-get-started" onClick={async () => {
                                         const walletsConnected = await connect()
                                     }}>Connect your wallet</a>
                                 ) : (

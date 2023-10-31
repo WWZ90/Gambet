@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
-import { useParams, useNavigate } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 
 import { useStateContext } from '../contexts/ContextProvider';
 
@@ -81,7 +81,7 @@ export const DetailMarket = () => {
         setMyOutcomeByMarket([]);
 
         setPreviousRoute(false);
-        
+
         loadDetailMarket();
 
     }, [])
@@ -89,7 +89,7 @@ export const DetailMarket = () => {
     const loadDetailMarket = () => {
 
         if (marketsArray) { //Si marketsArray esta vacio, significa que entro a esta ruta refrescando la pagina
-            
+
             const foundMarket = marketsArray.find((market) => market.marketId === id);
 
             if (foundMarket) {
@@ -147,11 +147,11 @@ export const DetailMarket = () => {
                 setMarketExist(false);
             }
         } else {
-            if(!localStorage.getItem('activeContract')){
+            if (!localStorage.getItem('activeContract')) {
                 connect();
                 setPreviousRoute(id);
                 setLoading(true);
-            }else{
+            } else {
                 setPreviousRoute(id);
                 setLoading(true);
             }
@@ -247,8 +247,13 @@ export const DetailMarket = () => {
                         </section>
                     ) : (
                         <section className='detail_market'>
-                            <div className="content">
-                                No existe
+                            <div className="content no_market">
+                                <div>
+                                    The market you are requesting does not exist
+                                </div>
+                                <div>
+                                    <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse markets</NavLink>
+                                </div>
                             </div>
                         </section>
                     )}
