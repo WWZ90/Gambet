@@ -137,7 +137,7 @@ export const DetailMarket = () => {
                     setOutcomeOptionSelected(outcomeD[0].outcome);
                 });
 
-                fetchOrders(false, activeContract, id);
+                fetchOrders(true, activeContract, id);
 
                 setActiveMarket(foundMarket);
                 setMarketId(id);

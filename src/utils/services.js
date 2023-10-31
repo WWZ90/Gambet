@@ -118,7 +118,7 @@ const betOrders = {};
 export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
     betOrders[activeMarketId] = refresh ? [] : (betOrders[activeMarketId] || []);
     const contractOrders = await (activeContract || {getOrders: async () => []}).getOrders(activeMarketId || "", betOrders[activeMarketId].length, 100);
-    const newOrders = contractOrders.map((o, idx) => ({
+    const newOrders = contractOrders.map(o => ({
         orderPosition: o[0] ? "SELL" : "BUY",
         pricePerShare: o[1],
         outcome: o[2],
