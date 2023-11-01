@@ -79,20 +79,21 @@ export const DetailMarket = () => {
 
 
     useEffect(() => {
-        if (initialLoadingDetailMarketRef.current === loadingDetailMarket) {
-            console.log('primero');
-            setOutcomeData([]);
-            setMyOutcomeByMarket([]);
-
-            setPreviousRoute(false);
-
-            setLoadingDetailMarket(true);
-            initialLoadingDetailMarketRef.current = true;
-            loadDetailMarket().then(async () => {
-                setLoadingDetailMarket(false);
-                initialLoadingDetailMarketRef.current = false;
-            });
+        if (initialLoadingDetailMarketRef.current !== loadingDetailMarket) {
+            return;
         }
+        setOutcomeData([]);
+        setMyOutcomeByMarket([]);
+
+        setPreviousRoute(false);
+
+        setLoadingDetailMarket(true);
+        initialLoadingDetailMarketRef.current = true;
+        loadDetailMarket().then(async () => {
+            setLoadingDetailMarket(false);
+            initialLoadingDetailMarketRef.current = false;
+        });
+
 
     }, [])
 
@@ -163,25 +164,20 @@ export const DetailMarket = () => {
 
     useEffect(() => {
         console.log('activeContract');
-        if (previousRoute) {
-
-            const getMarkets = async () => {
-                return await browseMarkets(activeContract);
-            }
-
-            getMarkets().then(result => {
-                setMarketsArray(result);
-            });
+        if (!previousRoute) {
+            return;
         }
+        browseMarkets(activeContract).then(setMarketsArray);
     }, [activeContract])
 
     useEffect(() => {
         console.log('marketsArray');
-        if (previousRoute) {
-            setLoading(false);
-            setPreviousRoute(false);
-            loadDetailMarket().then();
+        if (!previousRoute) {
+            return;
         }
+        setLoading(false);
+        setPreviousRoute(false);
+        loadDetailMarket().then();
     }, [marketsArray])
 
     return (
