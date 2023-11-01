@@ -11,13 +11,13 @@
 /* Web3Onboard */
 :root {
     --account-center-z-index: 2222;
-    --onboard-font-family-regular: "Gilroy-Regular";
-    --onboard-font-family-light: "Gilroy-Light";
-    --onboard-font-family-ultralight: "Gilroy-UltraLight";
-    --onboard-font-family-medium: "Gilroy-Medium";
-    --onboard-font-family-semibold: "Gilroy-SemiBold";
-    --onboard-font-family-bold: "Gilroy-Bold";
-    --onboard-font-family-black: "Gilroy-Black";
+    --onboard-font-family-regular: "Roboto";
+    --onboard-font-family-light: "Roboto";
+    --onboard-font-family-ultralight: "Roboto";
+    --onboard-font-family-medium: "Roboto";
+    --onboard-font-family-semibold: "Roboto";
+    --onboard-font-family-bold: "Roboto";
+    --onboard-font-family-black: "Roboto";
     --account-center-position-top: -12px;
     --account-center-position-right: -12px;
     --swiper-navigation-size: 25px !important;
@@ -201,6 +201,7 @@ section h1 {
 
 #hero h1 {
     font-size: 80px;
+    font-weight: bold;
     text-align: left;
     background: -webkit-linear-gradient(56deg, #431600 0%, #e83d00 100%);
     background-clip: text;
@@ -296,6 +297,7 @@ section h1 {
 
 .slick-slide .market_desc {
     font-family: var(--onboard-font-family-bold);
+    font-weight: bold;
     font-size: 14px;
 
     padding-top: 5px;
