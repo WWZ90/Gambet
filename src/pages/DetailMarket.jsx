@@ -1,48 +1,48 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
-import { useConnectWallet, useSetChain } from "@web3-onboard/react";
+import {useConnectWallet, useSetChain} from "@web3-onboard/react";
 
-import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import {NavLink, useParams, useNavigate} from 'react-router-dom';
 
-import { useStateContext } from '../contexts/ContextProvider';
+import {useStateContext} from '../contexts/ContextProvider';
 
 import ReactEcharts from "echarts-for-react";
 
 import Image1 from '../assets/img/slider/1.jpg';
-import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
-import { OrderBook } from '../components/OrderBook';
-import { ActionOrders } from '../components/ActionOrders';
-import { OutcomeTable } from '../components/OutcomeTable';
-import { Footer } from '../components/Footer';
+import {NavBarWeb3Onboard} from '../components/NavBarWeb3Onboard';
+import {OrderBook} from '../components/OrderBook';
+import {ActionOrders} from '../components/ActionOrders';
+import {OutcomeTable} from '../components/OutcomeTable';
+import {Footer} from '../components/Footer';
 
-import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders } from '../utils/services';
+import {browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders} from '../utils/services';
 
 export const DetailMarket = () => {
 
-    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
 
     const navigate = useNavigate();
 
-    const { id } = useParams();
-    const { previousRoute, setPreviousRoute } = useStateContext(false);
+    const {id} = useParams();
+    const {previousRoute, setPreviousRoute} = useStateContext(false);
 
-    const { activeContract } = useStateContext();
-    const { owner } = useStateContext();
+    const {activeContract} = useStateContext();
+    const {owner} = useStateContext();
 
-    const { activeMarket, setActiveMarket } = useStateContext();
-    const { marketId, setMarketId } = useStateContext();
-    const { marketsArray, setMarketsArray } = useStateContext();
-    const { orders, setOrders } = useStateContext();
+    const {activeMarket, setActiveMarket} = useStateContext();
+    const {marketId, setMarketId} = useStateContext();
+    const {marketsArray, setMarketsArray} = useStateContext();
+    const {orders, setOrders} = useStateContext();
 
     const [style, setStyle] = useState('collapse');
     const [showAboutCollapse, setShowAboutCollapse] = useState(false);
 
-    const { outcomeData, setOutcomeData } = useStateContext();
-    const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
-    const { setOutcomeOptionSelected } = useStateContext();
+    const {outcomeData, setOutcomeData} = useStateContext();
+    const {myOutcomeByMarket, setMyOutcomeByMarket} = useStateContext();
+    const {setOutcomeOptionSelected} = useStateContext();
 
     const [loading, setLoading] = useState(true);
-    const [marketExist, setMarketExist] = useState();
+    const [marketExist, setMarketExist] = useState(false);
     const [loadingDetailMarket, setLoadingDetailMarket] = useState(false);
     const initialLoadingDetailMarketRef = useRef(loadingDetailMarket);
 
@@ -71,8 +71,7 @@ export const DetailMarket = () => {
         if (showAboutCollapse) {
             setStyle('collapse')
             setShowAboutCollapse(false)
-        }
-        else {
+        } else {
             setStyle('collapse show')
             setShowAboutCollapse(true)
         }
@@ -98,83 +97,68 @@ export const DetailMarket = () => {
     }, [])
 
     const loadDetailMarket = async () => {
-        if (marketsArray) { //Si marketsArray esta vacio, significa que entro a esta ruta refrescando la pagina
-
-            const foundMarket = marketsArray.find((market) => market.marketId === id);
-
-            if (foundMarket) {
-
-                const seriesData = foundMarket.outcomes.map((name, index) => ({ value: foundMarket.shares[index], name }));
-
-                setOption((prevOption) => ({
-                    ...prevOption,
-                    series: prevOption.series.map((series) => ({
-                        ...series,
-                        data: seriesData,
-                    })),
-                }));
-
-
-                let ow = [];
-                const getOw = async () => {
-                    ow = await getOwned(foundMarket, owner, activeContract);
-                    return ow;
-                }
-
-                let ap = [];
-                getOw().then(async () => {
-                    ap = await getPrices(foundMarket, ow, owner, activeContract);
-
-                    foundMarket.owned = ow;
-                    foundMarket.averagePrice = ap;
-
-                    const outcomeD = foundMarket.outcomes.map((outcome, index) => ({
-                        outcome,
-                        owned: Number(ow[index]),
-                        share: Number(foundMarket.shares[index]),
-                        marketPrice: calculatePrice(foundMarket, outcome).toFixed(3),
-                        averagePrice: (Number.isNaN(ap[index]) || !Number.isFinite(ap[index])) ? "-" : ap[index],
-                        sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
-                    }));
-
-                    setOutcomeData(outcomeD);
-
-                    const myOutcomeD = outcomeD.filter((entry) => entry.owned !== 0);
-
-                    setMyOutcomeByMarket(myOutcomeD);
-
-                    setOutcomeOptionSelected(outcomeD[0].outcome);
-                });
-
-                console.log('fetchOrders');
-
-                let fo = [];
-                const getFO = async () => {
-                    fo = await fetchOrders(true, activeContract, id);
-                    return fo;
-                }
-
-                getFO().then(async () => {
-                    setOrders(fo);
-                });
-
-                setActiveMarket(foundMarket);
-                setMarketId(id);
-
-                setMarketExist(true);
-                setLoading(false);
-
-            } else {
-                setMarketExist(false);
-            }
-        } else {
+        if (!marketsArray || !marketsArray.length) {
             setPreviousRoute(id);
             setLoading(true);
 
             if (!localStorage.getItem('activeContract')) {
-                connect();
+                await connect();
             }
+            return;
         }
+
+        const foundMarket = marketsArray.find(market => market.marketId === id);
+
+        if (!foundMarket) {
+            setMarketExist(false);
+            return;
+        }
+
+
+        const seriesData = foundMarket.outcomes.map((name, index) => ({
+            value: foundMarket.shares[index],
+            name
+        }));
+
+        setOption((prevOption) => ({
+            ...prevOption,
+            series: prevOption.series.map((series) => ({
+                ...series,
+                data: seriesData,
+            })),
+        }));
+
+        const owned = await getOwned(foundMarket, owner, activeContract)
+
+        const ap = await getPrices(foundMarket, owned, owner, activeContract);
+
+        foundMarket.owned = owned;
+        foundMarket.averagePrice = ap;
+
+        const outcomeD = foundMarket.outcomes.map((outcome, index) => ({
+            outcome,
+            owned: Number(owned[index]),
+            share: Number(foundMarket.shares[index]),
+            marketPrice: calculatePrice(foundMarket, outcome).toFixed(3),
+            averagePrice: (Number.isNaN(ap[index]) || !Number.isFinite(ap[index])) ? "-" : ap[index],
+            sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
+        }));
+
+        setOutcomeData(outcomeD);
+
+        const myOutcomeD = outcomeD.filter((entry) => entry.owned !== 0);
+
+        setMyOutcomeByMarket(myOutcomeD);
+
+        setOutcomeOptionSelected(outcomeD[0].outcome);
+        
+        fetchOrders(true, activeContract, id).then(setOrders);
+
+        setActiveMarket(foundMarket);
+        setMarketId(id);
+
+        setMarketExist(true);
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -196,18 +180,21 @@ export const DetailMarket = () => {
         if (previousRoute) {
             setLoading(false);
             setPreviousRoute(false);
-            loadDetailMarket();
+            loadDetailMarket().then();
         }
     }, [marketsArray])
 
     return (
         <>
-            <NavBarWeb3Onboard />
+            <NavBarWeb3Onboard/>
 
             {loading ? (
                 <section className='detail_market'>
                     <div className="container align-items-center text-center">
-                        <div className="lds-ripple"><div></div><div></div></div>
+                        <div className="lds-ripple">
+                            <div></div>
+                            <div></div>
+                        </div>
                     </div>
                 </section>
             ) : (
@@ -219,12 +206,14 @@ export const DetailMarket = () => {
                                     <div className="left_panel">
                                         <div className="top">
                                             <div className="image">
-                                                <img src={Image1} />
+                                                <img src={Image1}/>
                                             </div>
                                             <div>
                                                 <div className='d-flex'>
-                                                    <div className='title_gray first'>Deadline: {activeMarket.deadline}</div>
-                                                    <div className='title_gray'>Resolution: {activeMarket.resolution}</div>
+                                                    <div
+                                                        className='title_gray first'>Deadline: {activeMarket.deadline}</div>
+                                                    <div
+                                                        className='title_gray'>Resolution: {activeMarket.resolution}</div>
                                                 </div>
                                                 <div className='title'>{activeMarket.name}</div>
                                             </div>
@@ -233,20 +222,25 @@ export const DetailMarket = () => {
                                             <div className="row">
                                                 <div className="col-12">
                                                     <div className="chart">
-                                                        <ReactEcharts option={option} />
+                                                        <ReactEcharts option={option}/>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <OutcomeTable />
-                                            <OrderBook />
+                                            <OutcomeTable/>
+                                            <OrderBook/>
                                             <div className="module">
                                                 <div className='about'>
                                                     <h3>About</h3>
                                                     <p className={style} id="collapseAbout" aria-expanded="false">
-                                                        This market will resolve to the winner of Argentina's 2023 presidential elections. If a tiebreaker is required to decide the president, it will resolve to "Tiebreaker".
-                                                        If a different candidate than the ones available in this market wins, this market will resolve to "Other candidate".
+                                                        This market will resolve to the winner of Argentina's 2023
+                                                        presidential elections. If a tiebreaker is required to decide
+                                                        the president, it will resolve to "Tiebreaker".
+                                                        If a different candidate than the ones available in this market
+                                                        wins, this market will resolve to "Other candidate".
                                                     </p>
-                                                    <a role="button" onClick={updateCollapse} className="collapsed" data-toggle="collapse" href="#collapseAbout" aria-expanded="false" aria-controls="collapseAbout">
+                                                    <a role="button" onClick={updateCollapse} className="collapsed"
+                                                       data-toggle="collapse" href="#collapseAbout"
+                                                       aria-expanded="false" aria-controls="collapseAbout">
                                                         {!showAboutCollapse ? ('+ Show more') : ('- Show less')}
                                                     </a>
                                                 </div>
@@ -260,7 +254,7 @@ export const DetailMarket = () => {
                                     </div>
 
                                     <div className='stiky_block'>
-                                        <ActionOrders />
+                                        <ActionOrders/>
                                     </div>
                                 </div>
 
@@ -273,7 +267,8 @@ export const DetailMarket = () => {
                                     The market you are requesting does not exist
                                 </div>
                                 <div>
-                                    <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse markets</NavLink>
+                                    <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse
+                                        markets</NavLink>
                                 </div>
                             </div>
                         </section>
@@ -282,9 +277,7 @@ export const DetailMarket = () => {
             )}
 
 
-
-
-            <Footer />
+            <Footer/>
         </>
     )
 }
