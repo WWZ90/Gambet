@@ -392,9 +392,8 @@ async function fillOrder(activeContract, activeMarketId, cart, orders) {
     const newOrders = cart.filter(order => order.shares > 0n);
     // Sells should be filled before buys
     newOrders.sort((a, b) => a.action < b.action ? 1 : a.price - b.price);
-    const prices = newOrders.map(o => o.price);
+    const prices = newOrders.map(o => o.price * 1e6);
     const amounts = await Promise.all(newOrders.map(o => o.shares));
-
     const orderIndexes = cart.map(({action, outcome, price}) => orders
         .filter(o => o.amount)
         .filter(o => o.outcome === outcome)
