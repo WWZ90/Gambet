@@ -29,10 +29,21 @@ export const ActionOrders = () => {
     const { idCartCounter, setIdCartCounter } = useStateContext();
 
     const { activeMarket } = useStateContext();
+    const { marketId } = useStateContext();
 
+    const { activeContract } = useStateContext();
+
+    const { orders } = useStateContext();
 
     const [shown, setShown] = useState(false);
     const [type, setType] = useState('limit'); //Si es Limit o AMM
+
+    const [newOrder, setNewOrder] = useState({
+        outcome: '',
+        price: 0.0,
+        shares: 0,
+        action: '',
+    });
 
     const showMenu = {
         enter: {
@@ -118,14 +129,6 @@ export const ActionOrders = () => {
             setAmount(Number(newValue));
         }
     };
-
-
-    const [newOrder, setNewOrder] = useState({
-        outcome: '',
-        price: 0.0,
-        shares: 0,
-        action: '',
-    });
 
     const addToCart = () => {
 
@@ -358,9 +361,9 @@ export const ActionOrders = () => {
                     </div>
 
                     {activeOption === 'BUY' ? (
-                        <button className='button addButton'>Buy Now</button>
+                        <button className='button addButton' onClick={() => fillOrder(activeContract, marketId, cart, orders)}>Buy Now</button>
                     ) : (
-                        <button className='button sellButton'>Sell Now</button>
+                        <button className='button sellButton' onClick={() => fillOrder(activeContract, marketId, cart, orders)}>Sell Now</button>
                     )}
 
                     <button className='button addToCartButton' onClick={addToCart}>Add to Cart</button>
@@ -382,4 +385,22 @@ export const ActionOrders = () => {
             </div>
         </>
     )
+}
+
+async function fillOrder(activeContract, activeMarketId, cart, orders) {
+    const newOrders = cart.filter(order => order.shares > 0n);
+    // Sells should be filled before buys
+    newOrders.sort((a, b) => a.action < b.action ? 1 : a.price - b.price);
+    const prices = newOrders.map(o => o.price);
+    const amounts = await Promise.all(newOrders.map(o => o.shares));
+
+    const orderIndexes = cart.map(({action, outcome, price}) => orders
+        .filter(o => o.amount)
+        .filter(o => o.outcome === outcome)
+        .filter(o => o.orderPosition !== action)
+        .filter(o => price === 0 || (action === "BUY" ? (price >= o.pricePerShare) : (price <= o.pricePerShare)))
+        .map(o => o.idx));
+    console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
+    const filledOrder = await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
+    await filledOrder.wait();
 }
