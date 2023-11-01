@@ -1,45 +1,45 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-import {useConnectWallet, useSetChain} from "@web3-onboard/react";
+import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
-import {NavLink, useParams, useNavigate} from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 
-import {useStateContext} from '../contexts/ContextProvider';
+import { useStateContext } from '../contexts/ContextProvider';
 
 import ReactEcharts from "echarts-for-react";
 
 import Image1 from '../assets/img/slider/1.jpg';
-import {NavBarWeb3Onboard} from '../components/NavBarWeb3Onboard';
-import {OrderBook} from '../components/OrderBook';
-import {ActionOrders} from '../components/ActionOrders';
-import {OutcomeTable} from '../components/OutcomeTable';
-import {Footer} from '../components/Footer';
+import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
+import { OrderBook } from '../components/OrderBook';
+import { ActionOrders } from '../components/ActionOrders';
+import { OutcomeTable } from '../components/OutcomeTable';
+import { Footer } from '../components/Footer';
 
-import {browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders} from '../utils/services';
+import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders } from '../utils/services';
 
 export const DetailMarket = () => {
 
-    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
 
     const navigate = useNavigate();
 
-    const {id} = useParams();
-    const {previousRoute, setPreviousRoute} = useStateContext(false);
+    const { id } = useParams();
+    const { previousRoute, setPreviousRoute } = useStateContext(false);
 
-    const {activeContract} = useStateContext();
-    const {owner} = useStateContext();
+    const { activeContract } = useStateContext();
+    const { owner } = useStateContext();
 
-    const {activeMarket, setActiveMarket} = useStateContext();
-    const {marketId, setMarketId} = useStateContext();
-    const {marketsArray, setMarketsArray} = useStateContext();
-    const {orders, setOrders} = useStateContext();
+    const { activeMarket, setActiveMarket } = useStateContext();
+    const { marketId, setMarketId } = useStateContext();
+    const { marketsArray, setMarketsArray } = useStateContext();
+    const { orders, setOrders } = useStateContext();
 
     const [style, setStyle] = useState('collapse');
     const [showAboutCollapse, setShowAboutCollapse] = useState(false);
 
-    const {outcomeData, setOutcomeData} = useStateContext();
-    const {myOutcomeByMarket, setMyOutcomeByMarket} = useStateContext();
-    const {setOutcomeOptionSelected} = useStateContext();
+    const { outcomeData, setOutcomeData } = useStateContext();
+    const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
+    const { setOutcomeOptionSelected } = useStateContext();
 
     const [loading, setLoading] = useState(true);
     const [marketExist, setMarketExist] = useState(false);
@@ -157,9 +157,6 @@ export const DetailMarket = () => {
 
         setActiveMarket(foundMarket);
         setMarketId(id);
-
-        setMarketExist(true);
-        setLoading(false);
     }
 
     useEffect(() => {
@@ -171,18 +168,26 @@ export const DetailMarket = () => {
     }, [activeContract])
 
     useEffect(() => {
+        if(marketsArray){
+            setMarketExist(true);
+            setLoading(false);
+        }
+
         console.log('marketsArray');
         if (!previousRoute) {
             return;
         }
+
+        setMarketExist(true);
         setLoading(false);
         setPreviousRoute(false);
         loadDetailMarket().then();
+
     }, [marketsArray])
 
     return (
         <>
-            <NavBarWeb3Onboard/>
+            <NavBarWeb3Onboard />
 
             {loading ? (
                 <section className='detail_market'>
@@ -202,7 +207,7 @@ export const DetailMarket = () => {
                                     <div className="left_panel">
                                         <div className="top">
                                             <div className="image">
-                                                <img src={Image1}/>
+                                                <img src={Image1} />
                                             </div>
                                             <div>
                                                 <div className='d-flex'>
@@ -218,12 +223,12 @@ export const DetailMarket = () => {
                                             <div className="row">
                                                 <div className="col-12">
                                                     <div className="chart">
-                                                        <ReactEcharts option={option}/>
+                                                        <ReactEcharts option={option} />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <OutcomeTable/>
-                                            <OrderBook/>
+                                            <OutcomeTable />
+                                            <OrderBook />
                                             <div className="module">
                                                 <div className='about'>
                                                     <h3>About</h3>
@@ -235,8 +240,8 @@ export const DetailMarket = () => {
                                                         wins, this market will resolve to "Other candidate".
                                                     </p>
                                                     <a role="button" onClick={updateCollapse} className="collapsed"
-                                                       data-toggle="collapse" href="#collapseAbout"
-                                                       aria-expanded="false" aria-controls="collapseAbout">
+                                                        data-toggle="collapse" href="#collapseAbout"
+                                                        aria-expanded="false" aria-controls="collapseAbout">
                                                         {!showAboutCollapse ? ('+ Show more') : ('- Show less')}
                                                     </a>
                                                 </div>
@@ -250,7 +255,7 @@ export const DetailMarket = () => {
                                     </div>
 
                                     <div className='stiky_block'>
-                                        <ActionOrders/>
+                                        <ActionOrders />
                                     </div>
                                 </div>
 
@@ -273,7 +278,7 @@ export const DetailMarket = () => {
             )}
 
 
-            <Footer/>
+            <Footer />
         </>
     )
 }

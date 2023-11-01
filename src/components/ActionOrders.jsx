@@ -78,12 +78,12 @@ export const ActionOrders = () => {
     }
 
     const handleIncrementLimitPrice = () => {
-        setLimitPrice(limitPrice + 1);
+        setLimitPrice(limitPrice + 0.001);
     };
 
     const handleDecrementLimitPrice = () => {
         if (limitPrice > 0) {
-            setLimitPrice(limitPrice - 1);
+            setLimitPrice(limitPrice - 0.001);
         }
     };
 
