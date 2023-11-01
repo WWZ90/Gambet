@@ -49,7 +49,7 @@ export const OrderBook = React.memo(({ parameters }) => {
         const updateChartOptions = () => {
 
             const newDataAsks = orders.filter(o => o.orderPosition === 'SELL').map(o => o.amount);
-            const newDataAsksPrice = orders.filter(o => o.orderPosition === 'SELL').map(o => o.pricePerShare);
+            const newDataAsksPrice = orders.filter(o => o.orderPosition === 'SELL').map(o => "$" + o.pricePerShare);
 
             const newDataBids = orders.filter(o => o.orderPosition === 'BUY').map(o => o.amount);
             const newDataBidsPrice = orders.filter(o => o.orderPosition === 'BUY').map(o => "$" + o.pricePerShare);
