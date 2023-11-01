@@ -36,8 +36,12 @@ export const BrowseMarkets = () => {
 
   const [{ wallet }] = useConnectWallet();
 
+  const { previousRoute, setPreviousRoute } = useStateContext(false);
+
   const { activeContract, setActiveContract } = useStateContext();
   const { marketsArray, setMarketsArray } = useStateContext();
+
+  const [loading, setLoading] = useState(true);
 
   const [
     {
@@ -49,18 +53,33 @@ export const BrowseMarkets = () => {
   ] = useSetChain()
 
   useEffect(() => {
-
-    const getMarkets = async () => {
-      return await browseMarkets(activeContract);
+    if (!marketsArray) {
+      if (!localStorage.getItem('activeContract')) {
+        connect();
+        setPreviousRoute('browseMarkets');
+        setLoading(true);
+      } else {
+        setPreviousRoute('browseMarkets');
+        setLoading(true);
+      }
+    }else{
+      setLoading(false);
     }
+  }, [])
 
-    if (activeContract) {
+  useEffect(() => {
+    if (previousRoute) {
+
+      const getMarkets = async () => {
+        return await browseMarkets(activeContract);
+      }
+
       getMarkets().then(result => {
         setMarketsArray(result);
+        setLoading(false);
+        setPreviousRoute(false);
       });
     }
-
-
   }, [activeContract])
 
   const settings = {
@@ -92,7 +111,7 @@ export const BrowseMarkets = () => {
       <NavBarWeb3Onboard />
 
       <section className='browseMarket'>
-        {!marketsArray ? (
+        {loading ? (
           <>
             <div className="container align-items-center text-center">
               <div className="lds-ripple"><div></div><div></div></div>

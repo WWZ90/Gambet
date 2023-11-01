@@ -38,9 +38,9 @@ export function formatDateShort(d) {
 
 export const browseMarkets = async (activeContract) => {
 
-    let markets = null;
+    console.log('browseMarkets');
 
-    //alert(activeContract);
+    let markets = null;
 
     markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
         .map(e => [e.args[1], e.args[2]])
@@ -52,14 +52,14 @@ export const browseMarkets = async (activeContract) => {
             return mkt;
         });
 
-    console.log(markets);
-
     return markets;
 }
 
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
+
+    console.log('getMarket');
 
     const m = marketCache[marketId] || await activeContract.markets(marketId).then(market => {
         const [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares] = market;
@@ -114,10 +114,10 @@ export const calculatePrice = (market, outcome) => {
      return market.shares[market.outcomes.indexOf(outcome)] / calculateCost(market)
 }
 
-const betOrders = {};
+let betOrders = {};
 export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
-    betOrders[activeMarketId] = refresh ? [] : (betOrders[activeMarketId] || []);
-    const contractOrders = await (activeContract || {getOrders: async () => []}).getOrders(activeMarketId || "", betOrders[activeMarketId].length, 100);
+    betOrders = refresh ? [] : (betOrders || []);
+    const contractOrders = await (activeContract || {getOrders: async () => []}).getOrders(activeMarketId || "", betOrders.length, 100);
     const newOrders = contractOrders.map(o => ({
         orderPosition: o[0] ? "SELL" : "BUY",
         pricePerShare: o[1],
@@ -126,8 +126,10 @@ export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
         user: o[4],
         idx: o[5]
     }));
-    betOrders[activeMarketId] = betOrders[activeMarketId].concat(newOrders);
-    betOrders[activeMarketId].sort((a, b) => a.orderPosition < b.orderPosition ? 1 : (Number(a.pricePerShare) - Number(b.pricePerShare)));
+    betOrders = betOrders.concat(newOrders);
+    betOrders.sort((a, b) => a.orderPosition < b.orderPosition ? 1 : (Number(a.pricePerShare) - Number(b.pricePerShare)));
 
     console.log(betOrders);
+
+    return betOrders;
 }

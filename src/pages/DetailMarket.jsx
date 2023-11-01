@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
@@ -32,6 +32,7 @@ export const DetailMarket = () => {
     const { activeMarket, setActiveMarket } = useStateContext();
     const { marketId, setMarketId } = useStateContext();
     const { marketsArray, setMarketsArray } = useStateContext();
+    const { orders, setOrders } = useStateContext();
 
     const [style, setStyle] = useState('collapse');
     const [showAboutCollapse, setShowAboutCollapse] = useState(false);
@@ -42,6 +43,8 @@ export const DetailMarket = () => {
 
     const [loading, setLoading] = useState(true);
     const [marketExist, setMarketExist] = useState();
+    const [loadingDetailMarket, setLoadingDetailMarket] = useState(false);
+    const initialLoadingDetailMarketRef = useRef(loadingDetailMarket);
 
     const [option, setOption] = useState({
         // Otras opciones del gráfico
@@ -77,18 +80,24 @@ export const DetailMarket = () => {
 
 
     useEffect(() => {
+        if (initialLoadingDetailMarketRef.current === loadingDetailMarket) {
+            console.log('primero');
+            setOutcomeData([]);
+            setMyOutcomeByMarket([]);
 
-        setOutcomeData([]);
-        setMyOutcomeByMarket([]);
+            setPreviousRoute(false);
 
-        setPreviousRoute(false);
-
-        loadDetailMarket();
+            setLoadingDetailMarket(true);
+            initialLoadingDetailMarketRef.current = true;
+            loadDetailMarket().then(async () => {
+                setLoadingDetailMarket(false);
+                initialLoadingDetailMarketRef.current = false;
+            });
+        }
 
     }, [])
 
-    const loadDetailMarket = () => {
-
+    const loadDetailMarket = async () => {
         if (marketsArray) { //Si marketsArray esta vacio, significa que entro a esta ruta refrescando la pagina
 
             const foundMarket = marketsArray.find((market) => market.marketId === id);
@@ -137,12 +146,20 @@ export const DetailMarket = () => {
                     setOutcomeOptionSelected(outcomeD[0].outcome);
                 });
 
-                fetchOrders(true, activeContract, id);
+                console.log('fetchOrders');
+
+                let fo = [];
+                const getFO = async () => {
+                    fo = await fetchOrders(true, activeContract, id);
+                    return fo;
+                }
+
+                getFO().then(async () => {
+                    setOrders(fo);
+                });
 
                 setActiveMarket(foundMarket);
                 setMarketId(id);
-
-                console.log(activeMarket);
 
                 setMarketExist(true);
                 setLoading(false);
@@ -151,18 +168,17 @@ export const DetailMarket = () => {
                 setMarketExist(false);
             }
         } else {
+            setPreviousRoute(id);
+            setLoading(true);
+
             if (!localStorage.getItem('activeContract')) {
                 connect();
-                setPreviousRoute(id);
-                setLoading(true);
-            } else {
-                setPreviousRoute(id);
-                setLoading(true);
             }
         }
     }
 
     useEffect(() => {
+        console.log('activeContract');
         if (previousRoute) {
 
             const getMarkets = async () => {
@@ -176,6 +192,7 @@ export const DetailMarket = () => {
     }, [activeContract])
 
     useEffect(() => {
+        console.log('marketsArray');
         if (previousRoute) {
             setLoading(false);
             setPreviousRoute(false);

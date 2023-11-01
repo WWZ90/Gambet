@@ -43,26 +43,24 @@ export const Home = () => {
 
     useEffect(() => {
 
-        const getMarkets = async () => {
-            return await browseMarkets(activeContract);
-        }
+        if (!previousRoute) {
 
-        if (activeContract)
+            const getMarkets = async () => {
+                return await browseMarkets(activeContract);
+            }
+
             if (!marketsArray) {
+                console.log('Home activeContract');
+
                 getMarkets().then(result => {
                     setMarketsArray(result);
-
-                    if (previousRoute) {
-                        const goToDetailMarket = () => navigate(`/market/id/${previousRoute}`);
-
-                        goToDetailMarket();
-                    }
                 });
             }
+        }
     }, [activeContract])
 
     useEffect(() => {
-        AOS.init();
+        //AOS.init();
 
     }, [])
 

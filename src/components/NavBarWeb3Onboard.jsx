@@ -145,10 +145,16 @@ export const NavBarWeb3Onboard = () => {
         }
 
         if (provider) {
-            start().then(result => {
-                setSigner(temp_singer);
-                setActiveContract(temp_activeContract);
-            })
+            if (!marketsArray) {
+                
+                console.log('NavBar provider');
+
+                start().then(result => {
+                    setSigner(temp_singer);
+                    setActiveContract(temp_activeContract);
+                })
+            }
+
         }
 
     }, [provider])
