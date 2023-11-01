@@ -17,9 +17,7 @@ export function formatDate(d) {
 
     const options = { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
 
-    const formattedDate = date.toLocaleString('en-US', options);
-
-    return formattedDate;
+    return date.toLocaleString('en-US', options);
 }
 
 export function formatDateShort(d) {
@@ -29,20 +27,13 @@ export function formatDateShort(d) {
 
     const options = { year: 'numeric', month: 'short', day: '2-digit' };
 
-    const formattedDate = date.toLocaleString('en-US', options);
-
-    return formattedDate;
+    return date.toLocaleString('en-US', options);
 }
 
 
 
 export const browseMarkets = async (activeContract) => {
-
-    console.log('browseMarkets');
-
-    let markets = null;
-
-    markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
+    return (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
         .map(e => [e.args[1], e.args[2]])
         .map(async ([id, name]) => [await getMarket(id, activeContract), name])))
         .map(market => {
@@ -51,15 +42,11 @@ export const browseMarkets = async (activeContract) => {
             mkt.prices = mkt.outcomes.map(o => calculatePrice(mkt, o));
             return mkt;
         });
-
-    return markets;
 }
 
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
-
-    console.log('getMarket');
 
     const m = marketCache[marketId] || await activeContract.markets(marketId).then(market => {
         const [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares] = market;
@@ -81,29 +68,17 @@ export const getMarket = async (marketId, activeContract) => {
         }
     });
 
-    const name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
-
-    m.name = name;
-
-    //console.log(m);
+    m.name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
 
     return m;
 }
 
 export const getOwned = async (market, userAddress, activeContract) => {
-    const owned = await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
-
-    //console.log(owned);
-
-    return owned;
+    return await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
 } 
 
 export const getPrices = async (market, owned, userAddress, activeContract) => {
-    const avgPrices = await Promise.all(market.outcomes.map((outcome, idx) => activeContract.userTransfers(market.marketId, userAddress, outcome).then(async a => Math.round((Number(a) / 10 ** 6) / Number(owned[idx]) * 1000) / 1000)));
-
-    //console.log(avgPrices);
-
-    return avgPrices;
+    return await Promise.all(market.outcomes.map((outcome, idx) => activeContract.userTransfers(market.marketId, userAddress, outcome).then(async a => Math.round((Number(a) / 10 ** 6) / Number(owned[idx]) * 1000) / 1000)));
 }
 
 export const calculateCost = (market) => {
@@ -114,9 +89,8 @@ export const calculatePrice = (market, outcome) => {
      return market.shares[market.outcomes.indexOf(outcome)] / calculateCost(market)
 }
 
-let betOrders = {};
 export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
-    betOrders = refresh ? [] : (betOrders || []);
+    let betOrders = refresh ? [] : (betOrders || []);
     const contractOrders = await (activeContract || {getOrders: async () => []}).getOrders(activeMarketId || "", betOrders.length, 100);
     const newOrders = contractOrders.map(o => ({
         orderPosition: o[0] ? "SELL" : "BUY",
@@ -128,8 +102,5 @@ export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
     }));
     betOrders = betOrders.concat(newOrders);
     betOrders.sort((a, b) => a.orderPosition < b.orderPosition ? 1 : (Number(a.pricePerShare) - Number(b.pricePerShare)));
-
-    console.log(betOrders);
-
     return betOrders;
 }

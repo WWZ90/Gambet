@@ -11,6 +11,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import {fetchOrders} from "../utils/services.js";
 
 export const ActionOrders = () => {
 
@@ -33,7 +34,7 @@ export const ActionOrders = () => {
 
     const { activeContract } = useStateContext();
 
-    const { orders } = useStateContext();
+    const { orders, setOrders } = useStateContext();
 
     const [shown, setShown] = useState(false);
     const [type, setType] = useState('limit'); //Si es Limit o AMM
@@ -361,9 +362,9 @@ export const ActionOrders = () => {
                     </div>
 
                     {activeOption === 'BUY' ? (
-                        <button className='button addButton' onClick={() => fillOrder(activeContract, marketId, cart, orders)}>Buy Now</button>
+                        <button className='button addButton' onClick={() => fillOrder(activeContract, marketId, cart, orders).then(() => fetchOrders(true, activeContract, marketId).then(setOrders))}>Buy Now</button>
                     ) : (
-                        <button className='button sellButton' onClick={() => fillOrder(activeContract, marketId, cart, orders)}>Sell Now</button>
+                        <button className='button sellButton' onClick={() => fillOrder(activeContract, marketId, cart, orders).then(() => fetchOrders(true, activeContract, marketId).then(setOrders))}>Sell Now</button>
                     )}
 
                     <button className='button addToCartButton' onClick={addToCart}>Add to Cart</button>
@@ -402,5 +403,5 @@ async function fillOrder(activeContract, activeMarketId, cart, orders) {
         .map(o => o.idx));
     console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
     const filledOrder = await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
-    await filledOrder.wait();
+    return await filledOrder.wait();
 }
