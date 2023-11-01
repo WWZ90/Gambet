@@ -22,7 +22,7 @@ export const ContextProvider = ({ children }) => {
     const [betType, setBetType] = useState("oo");
     
     const [marketsArray, setMarketsArray] = useState(null);
-    const [orders, setOrders] = useState(null);
+    const [orders, setOrders] = useState([]);
     const [outcomeOptionSelected, setOutcomeOptionSelected] = useState(null);
     const [showModalMarket, setShowModalMarket] = useState(null);  
     const [showModalMyMarket, setShowModalMyMarket] = useState(null); 

@@ -22,6 +22,7 @@ export const OrderBook = React.memo(({ parameters }) => {
     const { dataAsksPrice, setDataAsksPrice } = useStateContext([]); //Datos de Precio
     const { dataBidsPrice, setDataBidsPrice } = useStateContext([]); //Datos de Precio
 
+    const { orders, setOrders } = useStateContext();
 
 
     const [yAxisHeightAsks, setYAxisHeightAsks] = useState(10);
@@ -47,12 +48,11 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         const updateChartOptions = () => {
 
-            const newDataAsks = ['135', '200', '256', '356', '400', '452'];
-            const newDataAsksPrice = ['$0.54', '$0.6', '$0.7', '$0.8', '$0.9', '$0.95'];
+            const newDataAsks = orders.filter(o => o.orderPosition === 'SELL').map(o => o.amount);
+            const newDataAsksPrice = orders.filter(o => o.orderPosition === 'SELL').map(o => o.pricePerShare);
 
-            const newDataBids = ['56', '150', '280', '289', '350', '402']
-            const newDataBidsPrice = ['$0.44', '$0.35', '$0.32', '$0.25', '$0.20', '$0.15'];
-
+            const newDataBids = orders.filter(o => o.orderPosition === 'BUY').map(o => o.amount);
+            const newDataBidsPrice = orders.filter(o => o.orderPosition === 'BUY').map(o => o.pricePerShare);
 
             setDataAsks(newDataAsks);
             setDataBids(newDataBids);
@@ -67,7 +67,7 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         updateChartOptions();
 
-    }, [])
+    }, [orders])
 
     const handleTabChange = (eventKey) => {
         setOptionActive(eventKey);
