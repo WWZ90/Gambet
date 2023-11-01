@@ -11,13 +11,13 @@
 /* Web3Onboard */
 :root {
     --account-center-z-index: 2222;
-    --onboard-font-family-regular: "Roboto";
-    --onboard-font-family-light: "Roboto";
-    --onboard-font-family-ultralight: "Roboto";
-    --onboard-font-family-medium: "Roboto";
-    --onboard-font-family-semibold: "Roboto";
-    --onboard-font-family-bold: "Roboto";
-    --onboard-font-family-black: "Roboto";
+    --onboard-font-family-regular: "Ubuntu";
+    --onboard-font-family-light: "Ubuntu";
+    --onboard-font-family-ultralight: "Ubuntu";
+    --onboard-font-family-medium: "Ubuntu";
+    --onboard-font-family-semibold: "Ubuntu";
+    --onboard-font-family-bold: "Ubuntu";
+    --onboard-font-family-black: "Ubuntu";
     --account-center-position-top: -12px;
     --account-center-position-right: -12px;
     --swiper-navigation-size: 25px !important;
