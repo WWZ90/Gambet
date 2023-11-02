@@ -10,6 +10,7 @@ import { CenterModal } from './CenterModal';
 
 import { useStateContext } from '../contexts/ContextProvider';
 import { Echart } from './Echart';
+import {groupOrders} from "../utils/services.js";
 
 export const OrderBook = React.memo(({ parameters }) => {
     const { showModalMarket, setShowModalMarket } = useStateContext();
@@ -30,6 +31,8 @@ export const OrderBook = React.memo(({ parameters }) => {
 
     const [barWidth, setBarWidth] = useState(35);
 
+    const { outcomeOptionSelected } = useStateContext();
+
     const handleClose = (type) => {
         setShowModalMyMarket(false);
     }
@@ -48,11 +51,13 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         const updateChartOptions = () => {
 
-            const newDataAsks = orders.filter(o => o.orderPosition === 'SELL').map(o => o.amount);
-            const newDataAsksPrice = orders.filter(o => o.orderPosition === 'SELL').map(o => "$" + o.pricePerShare);
+            const groupedOrders = groupOrders(orders).filter(o => o.outcome === outcomeOptionSelected);
 
-            const newDataBids = orders.filter(o => o.orderPosition === 'BUY').map(o => o.amount);
-            const newDataBidsPrice = orders.filter(o => o.orderPosition === 'BUY').map(o => "$" + o.pricePerShare);
+            const newDataAsks = groupedOrders.filter(o => o.orderPosition === 'SELL').map(o => o.amount);
+            const newDataAsksPrice = groupedOrders.filter(o => o.orderPosition === 'SELL').map(o => "$" + o.pricePerShare);
+
+            const newDataBids = groupedOrders.filter(o => o.orderPosition === 'BUY').map(o => o.amount);
+            const newDataBidsPrice = groupedOrders.filter(o => o.orderPosition === 'BUY').map(o => "$" + o.pricePerShare);
 
             setDataAsks(newDataAsks);
             setDataBids(newDataBids);
@@ -67,7 +72,7 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         updateChartOptions();
 
-    }, [orders])
+    }, [orders, outcomeOptionSelected])
 
     const handleTabChange = (eventKey) => {
         setOptionActive(eventKey);

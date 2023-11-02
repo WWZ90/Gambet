@@ -108,6 +108,20 @@ export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
     return betOrders;
 }
 
+export const groupOrders = (orders) => {
+    const grouped = [];
+    orders.forEach(o => {
+        const {outcome, orderPosition, amount, pricePerShare} = o;
+        const update = grouped.filter(g => g.orderPosition === orderPosition && g.pricePerShare === pricePerShare && g.outcome === outcome)[0];
+        if (update) {
+            update.amount += amount;
+        } else {
+            grouped.push(o);
+        }
+    });
+    return grouped;
+}
+
 export const fillOrder = async (activeContract, activeMarketId, cart, orders) => {
     const newOrders = cart.filter(order => order.shares > 0n);
     // Sells should be filled before buys
