@@ -11,9 +11,9 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-import {fetchOrders} from "../utils/services.js";
+import { getMarket, fetchOrders, fillOrder } from "../utils/services.js";
 
-export const ActionOrders = () => {
+export const ActionOrders = ({ loadDetailMarket }) => {
 
     const { activeOption, setActiveOption } = useStateContext(); //BUY or SELL
     const { limitPrice, setLimitPrice } = useStateContext();
@@ -37,7 +37,7 @@ export const ActionOrders = () => {
     const { orders, setOrders } = useStateContext();
 
     const [shown, setShown] = useState(false);
-    const [type, setType] = useState('limit'); //Si es Limit o AMM
+    const [type, setType] = useState('Limit'); //Si es Limit o AMM
 
     const [newOrder, setNewOrder] = useState({
         outcome: '',
@@ -108,10 +108,24 @@ export const ActionOrders = () => {
     };
 
     const handleInputChangeLimitPrice = (e) => {
+        /*
         const newValue = e.target.value;
         // Asegúrate de que solo se almacenen valores numéricos
         if (!isNaN(newValue)) {
             setLimitPrice(Number(newValue));
+        }
+        */
+
+        const inputValue = e.target.value;
+
+        // Verifica que solo se ingresen números y no más de tres decimales
+        if (/^\d*(\.\d{0,3})?$/.test(inputValue)) {
+            // Si no hay un punto decimal, agrega uno automáticamente
+            if (inputValue === '') {
+                setLimitPrice('0.');
+            } else if (parseFloat(inputValue) <= 0.999) {
+                setLimitPrice(Number(inputValue));
+            }
         }
     };
 
@@ -204,6 +218,29 @@ export const ActionOrders = () => {
         console.log(cart);
     }, [cart])
 
+    const handleOrderExecution = () => {
+        //fillOrder(activeContract, marketId, cart, orders).then(() => fetchOrders(true, activeContract, marketId).then(setOrders))
+
+        const temp = {
+            id: 0,
+            market: activeMarket.name,
+            outcome: outcomeOptionSelected,
+            price: limitPrice,
+            shares: shares,
+            action: activeOption, //BUY or SELL
+        };
+
+        let orderToExecute = [];
+        orderToExecute.push(temp);
+
+
+        fillOrder(activeContract, marketId, orderToExecute, orders).then(() => {
+            getMarket(marketId, activeContract).then(market => {
+                loadDetailMarket(market);
+            })
+        })
+    }
+
 
     return (
         <>
@@ -220,7 +257,7 @@ export const ActionOrders = () => {
                             onHoverStart={() => setShown(true)}
                             onHoverEnd={() => setShown(false)}
                         >
-                            Limit
+                            {type}
                             <motion.ul
                                 variants={showMenu}
                                 initial="exit"
@@ -228,10 +265,10 @@ export const ActionOrders = () => {
                                 className="dropdown-menu absolute"
                             >
                                 <motion.li className="cursor-pointer my-auto">
-                                    <a onClick={() => { setType('limit') }}>Limit</a>
+                                    <a onClick={() => { setType('Limit') }}>Limit</a>
                                 </motion.li>
                                 <motion.li className="cursor-pointer my-auto">
-                                    <a onClick={() => { setType('amm') }}>AMM</a>
+                                    <a onClick={() => { setType('AMM') }}>AMM</a>
                                 </motion.li>
                             </motion.ul>
 
@@ -264,10 +301,19 @@ export const ActionOrders = () => {
                         </div>
                     )}
 
-                    {type == 'limit' ? (
+                    {type == 'Limit' ? (
                         <>
                             <div className='inputData'>
-                                <div className='inputDataTitle'>Limit Price</div>
+                                <div className='d-flex'>
+                                    <div className='inputDataTitle'>Limit Price</div>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        overlay={<Tooltip id="button-tooltip-2">Just numbers between 0 and 0.999. Use 0 for AMM</Tooltip>}
+                                    >
+                                        <i class="bi bi-info-circle pt-2 pl-2"></i>
+                                    </OverlayTrigger>
+                                </div>
+
                                 <div className='inputStyle'>
                                     <OverlayTrigger
                                         overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
@@ -362,9 +408,9 @@ export const ActionOrders = () => {
                     </div>
 
                     {activeOption === 'BUY' ? (
-                        <button className='button addButton' onClick={() => fillOrder(activeContract, marketId, cart, orders).then(() => fetchOrders(true, activeContract, marketId).then(setOrders))}>Buy Now</button>
+                        <button className='button addButton' onClick={handleOrderExecution}>Buy Now</button>
                     ) : (
-                        <button className='button sellButton' onClick={() => fillOrder(activeContract, marketId, cart, orders).then(() => fetchOrders(true, activeContract, marketId).then(setOrders))}>Sell Now</button>
+                        <button className='button sellButton' onClick={handleOrderExecution}>Sell Now</button>
                     )}
 
                     <button className='button addToCartButton' onClick={addToCart}>Add to Cart</button>
@@ -388,19 +434,4 @@ export const ActionOrders = () => {
     )
 }
 
-async function fillOrder(activeContract, activeMarketId, cart, orders) {
-    const newOrders = cart.filter(order => order.shares > 0n);
-    // Sells should be filled before buys
-    newOrders.sort((a, b) => a.action < b.action ? 1 : a.price - b.price);
-    const prices = newOrders.map(o => o.price * 1e6);
-    const amounts = await Promise.all(newOrders.map(o => o.shares));
-    const orderIndexes = cart.map(({action, outcome, price}) => orders
-        .filter(o => o.amount)
-        .filter(o => o.outcome === outcome)
-        .filter(o => o.orderPosition !== action)
-        .filter(o => price === 0 || (action === "BUY" ? (price >= o.pricePerShare) : (price <= o.pricePerShare)))
-        .map(o => o.idx));
-    console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
-    const filledOrder = await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
-    return await filledOrder.wait();
-}
+

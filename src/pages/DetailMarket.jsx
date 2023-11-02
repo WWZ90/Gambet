@@ -97,7 +97,7 @@ export const DetailMarket = () => {
 
     }, [])
 
-    const loadDetailMarket = async () => {
+    const loadDetailMarket = async (marketReload) => {
         if (!marketsArray || !marketsArray.length) {
             setPreviousRoute(id);
             setLoading(true);
@@ -108,7 +108,12 @@ export const DetailMarket = () => {
             return;
         }
 
-        const foundMarket = marketsArray.find(market => market.marketId === id);
+        let foundMarket = null;
+
+        if(marketReload)
+            foundMarket = marketReload;
+        else
+            foundMarket = marketsArray.find(market => market.marketId === id);
 
         if (!foundMarket) {
             setMarketExist(false);
@@ -227,8 +232,11 @@ export const DetailMarket = () => {
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <OutcomeTable />
+
                                             <OrderBook />
+
                                             <div className="module">
                                                 <div className='about'>
                                                     <h3>About</h3>
@@ -255,8 +263,9 @@ export const DetailMarket = () => {
                                     </div>
 
                                     <div className='stiky_block'>
-                                        <ActionOrders />
+                                        <ActionOrders loadDetailMarket={loadDetailMarket}/>
                                     </div>
+
                                 </div>
 
                             </div>

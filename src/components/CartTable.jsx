@@ -1,6 +1,7 @@
 import React from 'react'
 
 export const CartTable = ({ cart, action, removeFromCart }) => {
+    
     const filteredCart = cart.filter((item) => item.action === action);
 
     return (
@@ -36,8 +37,8 @@ export const CartTable = ({ cart, action, removeFromCart }) => {
                         <tr key={index}>
                             <td>{item.market}</td>
                             <td>{item.outcome}</td>
-                            <td>{item.shares}</td>
                             <td>{item.price}</td>
+                            <td>{item.shares}</td>
                             {action === 'BUY' && <td>0</td>}
                             <td className='text-end'>
                                 <i className="bi bi-trash3-fill" onClick={() => removeFromCart(item.id)}></i>

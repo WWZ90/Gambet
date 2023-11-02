@@ -1211,6 +1211,7 @@ button.swithToChain:hover {
 
 .box .inputData .inputDataTitle {
     margin: 10px 0px;
+    margin-right: 5px;
     font-family: var(--onboard-font-family-semibold);
 }
 

@@ -47,8 +47,9 @@ export const browseMarkets = async (activeContract) => {
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
+    console.log('getMarket');
 
-    const m = marketCache[marketId] || await activeContract.markets(marketId).then(market => {
+    const m =  await activeContract.markets(marketId).then(market => {
         const [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares] = market;
         return marketCache[marketId] = {
             marketId,
@@ -69,6 +70,8 @@ export const getMarket = async (marketId, activeContract) => {
     });
 
     m.name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
+
+    console.log(m);
 
     return m;
 }
@@ -104,3 +107,21 @@ export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
     betOrders.sort((a, b) => a.orderPosition < b.orderPosition ? 1 : (Number(a.pricePerShare) - Number(b.pricePerShare)));
     return betOrders;
 }
+
+export const fillOrder = async (activeContract, activeMarketId, cart, orders) => {
+    const newOrders = cart.filter(order => order.shares > 0n);
+    // Sells should be filled before buys
+    newOrders.sort((a, b) => a.action < b.action ? 1 : a.price - b.price);
+    const prices = newOrders.map(o => o.price * 1e6);
+    const amounts = await Promise.all(newOrders.map(o => o.shares));
+    const orderIndexes = cart.map(({action, outcome, price}) => orders
+        .filter(o => o.amount)
+        .filter(o => o.outcome === outcome)
+        .filter(o => o.orderPosition !== action)
+        .filter(o => price === 0 || (action === "BUY" ? (price >= o.pricePerShare) : (price <= o.pricePerShare)))
+        .map(o => o.idx));
+    console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
+    const filledOrder = await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
+    return await filledOrder.wait();
+}
+
