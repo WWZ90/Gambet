@@ -108,16 +108,9 @@ export const ActionOrders = ({ loadDetailMarket }) => {
     };
 
     const handleInputChangeLimitPrice = (e) => {
-        /*
-        const newValue = e.target.value;
-        // Asegúrate de que solo se almacenen valores numéricos
-        if (!isNaN(newValue)) {
-            setLimitPrice(Number(newValue));
-        }
-        */
 
         const inputValue = e.target.value;
-        if (!Number.isNaN(Number(inputValue)) && Number(inputValue) >= 0 && Number(inputValue) < 1) {
+        if (inputValue.startsWith("0.") && !Number.isNaN(Number(inputValue)) && Number(inputValue) >= 0 && Number(inputValue) < 1) {
             setLimitPrice(inputValue);
         }
     };

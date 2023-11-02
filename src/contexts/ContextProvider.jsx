@@ -39,7 +39,7 @@ export const ContextProvider = ({ children }) => {
 
     //BOX de buy y sell
     const [activeOption, setActiveOption] = useState('BUY'); //Para controlar si esta en Buy o en Sell
-    const [limitPrice, setLimitPrice] = useState(0); 
+    const [limitPrice, setLimitPrice] = useState("0.");
     const [shares, setShares] = useState(0); 
     const [amount, setAmount] = useState(0); 
 
