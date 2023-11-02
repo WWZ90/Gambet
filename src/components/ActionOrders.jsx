@@ -78,12 +78,12 @@ export const ActionOrders = ({ loadDetailMarket }) => {
     }
 
     const handleIncrementLimitPrice = () => {
-        setLimitPrice(limitPrice + 0.01);
+        setLimitPrice(Number(limitPrice) + 0.01);
     };
 
     const handleDecrementLimitPrice = () => {
         if (limitPrice > 0) {
-            setLimitPrice(limitPrice - 0.01);
+            setLimitPrice(Number(limitPrice) - 0.01);
         }
     };
 
@@ -296,7 +296,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         placement="top"
                                         overlay={<Tooltip id="button-tooltip-2">Just numbers between 0 and 0.999. Use 0 for AMM</Tooltip>}
                                     >
-                                        <i class="bi bi-info-circle pt-2 pl-2"></i>
+                                        <i className="bi bi-info-circle pt-2 pl-2"></i>
                                     </OverlayTrigger>
                                 </div>
 
