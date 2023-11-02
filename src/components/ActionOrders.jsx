@@ -111,7 +111,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
         const inputValue = e.target.value;
         if (inputValue.startsWith("0.") && !Number.isNaN(Number(inputValue))) {
-            setLimitPrice(inputValue);
+            setLimitPrice(Number(inputValue).toFixed(3));
         }
     };
 
