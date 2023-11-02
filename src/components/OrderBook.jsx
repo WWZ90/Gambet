@@ -16,7 +16,7 @@ export const OrderBook = React.memo(({ parameters }) => {
     const { showModalMarket, setShowModalMarket } = useStateContext();
     const { showModalMyMarket, setShowModalMyMarket } = useStateContext();
 
-    const { setOptionActive } = useStateContext(); //Control de si tiene seleccionado en Orders o My Orders
+    const { optionActive, setOptionActive } = useStateContext(); //Control de si tiene seleccionado en Orders o My Orders
     const { dataAsks, setDataAsks } = useStateContext([]); //Datos de Shares
     const { dataBids, setDataBids } = useStateContext([]); //Datos de Shares
 
@@ -25,6 +25,7 @@ export const OrderBook = React.memo(({ parameters }) => {
 
     const { orders, setOrders } = useStateContext();
 
+    const { owner, setOwner } = useStateContext();
 
     const [yAxisHeightAsks, setYAxisHeightAsks] = useState(10);
     const [yAxisHeightBids, setYAxisHeightBids] = useState(0);
@@ -51,8 +52,16 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         const updateChartOptions = () => {
 
-            let groupedOrders = groupOrders(orders).filter(o => o.outcome === outcomeOptionSelected);
-            const [asks, bids] = [groupedOrders.filter(o => o.orderPosition === 'SELL'), groupedOrders.filter(o => o.orderPosition === 'BUY')];
+            const renderOrders = groupOrders(
+                orders
+                    .filter(o => optionActive === "my-orders" ? o.user === owner : o.user !== owner)
+                    .filter(o => o.outcome === outcomeOptionSelected)
+            );
+
+            const [asks, bids] = [
+                renderOrders.filter(o => o.orderPosition === 'SELL'),
+                renderOrders.filter(o => o.orderPosition === 'BUY')
+            ];
 
             [asks, bids].forEach(orders => orders.forEach((order, index) => {
                for (let i = 0; i < index; i++) {
@@ -79,7 +88,7 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         updateChartOptions();
 
-    }, [orders, outcomeOptionSelected])
+    }, [barWidth, optionActive, orders, outcomeOptionSelected, owner, setDataAsks, setDataAsksPrice, setDataBids, setDataBidsPrice])
 
     const handleTabChange = (eventKey) => {
         setOptionActive(eventKey);
