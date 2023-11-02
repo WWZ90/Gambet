@@ -51,7 +51,13 @@ export const OrderBook = React.memo(({ parameters }) => {
 
         const updateChartOptions = () => {
 
-            const groupedOrders = groupOrders(orders).filter(o => o.outcome === outcomeOptionSelected);
+            let groupedOrders = groupOrders(orders).filter(o => o.outcome === outcomeOptionSelected);
+
+            groupedOrders.forEach((order, index) => {
+               for (let i = 0; i < index; i++) {
+                   order.amount += groupedOrders[i].amount;
+               }
+            });
 
             const newDataAsks = groupedOrders.filter(o => o.orderPosition === 'SELL').map(o => o.amount);
             const newDataAsksPrice = groupedOrders.filter(o => o.orderPosition === 'SELL').map(o => "$" + o.pricePerShare);
