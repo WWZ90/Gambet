@@ -78,12 +78,12 @@ export const ActionOrders = ({ loadDetailMarket }) => {
     }
 
     const handleIncrementLimitPrice = () => {
-        setLimitPrice(Number(limitPrice) + 0.01);
+        setLimitPrice((Number(limitPrice) + 0.01).toFixed(3));
     };
 
     const handleDecrementLimitPrice = () => {
         if (limitPrice > 0) {
-            setLimitPrice(Number(limitPrice) - 0.01);
+            setLimitPrice((Number(limitPrice) - 0.01).toFixed(3));
         }
     };
 
