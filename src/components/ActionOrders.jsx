@@ -117,15 +117,8 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         */
 
         const inputValue = e.target.value;
-
-        // Verifica que solo se ingresen números y no más de tres decimales
-        if (/^\d*(\.\d{0,3})?$/.test(inputValue)) {
-            // Si no hay un punto decimal, agrega uno automáticamente
-            if (inputValue === '') {
-                setLimitPrice('0.');
-            } else if (parseFloat(inputValue) <= 0.999) {
-                setLimitPrice(Number(inputValue));
-            }
+        if (!Number.isNaN(Number(inputValue)) && Number(inputValue) >= 0 && Number(inputValue) < 1) {
+            setLimitPrice(inputValue);
         }
     };
 
