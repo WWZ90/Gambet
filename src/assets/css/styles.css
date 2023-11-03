@@ -11,8 +11,8 @@
 /* Web3Onboard */
 :root {
     --account-center-z-index: 2222;
-    --onboard-font-family-regular: "Ubuntu";
-    --onboard-font-family-light: "Ubuntu";
+    --onboard-font-family-regular: "Ubuntu", regular;
+    --onboard-font-family-light: "Ubuntu", light;
     --onboard-font-family-ultralight: "Ubuntu";
     --onboard-font-family-medium: "Ubuntu";
     --onboard-font-family-semibold: "Ubuntu";
@@ -403,6 +403,10 @@ section h1 {
 .header .navmenu a:hover {
     color: var(--color-link-nav-hover) !important;
     transition: all 0.5s !important;
+}
+
+.header .navmenu a.active {
+    color: var(--color-link-nav-hover) !important;
 }
 
 .header img.logo {

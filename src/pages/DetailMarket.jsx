@@ -176,6 +176,7 @@ export const DetailMarket = () => {
         if(marketsArray){
             setMarketExist(true);
             setLoading(false);
+            console.log(marketsArray);
         }
 
         console.log('marketsArray');
@@ -241,11 +242,7 @@ export const DetailMarket = () => {
                                                 <div className='about'>
                                                     <h3>About</h3>
                                                     <p className={style} id="collapseAbout" aria-expanded="false">
-                                                        This market will resolve to the winner of Argentina's 2023
-                                                        presidential elections. If a tiebreaker is required to decide
-                                                        the president, it will resolve to "Tiebreaker".
-                                                        If a different candidate than the ones available in this market
-                                                        wins, this market will resolve to "Other candidate".
+                                                        {activeMarket.terms}
                                                     </p>
                                                     <a role="button" onClick={updateCollapse} className="collapsed"
                                                         data-toggle="collapse" href="#collapseAbout"
