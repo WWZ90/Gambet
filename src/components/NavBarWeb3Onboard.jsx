@@ -236,7 +236,7 @@ export const NavBarWeb3Onboard = () => {
                             <>
                                 <motion.div
                                     onHoverStart={() => setShown(true)}
-                                    onHoverEnd={() => setShown(false)}
+                                    onHoverEnd={() => setShown(true)}
                                 >
 
                                     <div className="wallet_address">

@@ -372,6 +372,7 @@ section h1 {
   ------------------------------*/
 .index-page .header {
     --color-nav-background: rgba(255, 255, 255, 0);
+    --color-nav-background-dropmenu: rgba(255, 255, 255, 1);
     --color-nav: rgba(255, 255, 255, 0.515);
     --color-nav-hover: #ffffff;
 }
@@ -380,6 +381,7 @@ section h1 {
   ------------------------------*/
 .index-page.scrolled .header {
     --color-nav-background: #011425f0;
+    --color-nav-background-dropmenu: #011425f0;
     --color-nav: #969696;
     --color-nav-hover: #fff;
     box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.3);
@@ -563,7 +565,7 @@ section h1 {
 }
 
 .header .dropdown-menu {
-    background-color: var(--color-nav-background);
+    background-color: var(--color-nav-background-dropmenu);
     padding-left: 10px;
     top: 52 !important;
     z-index: 1;
