@@ -90,7 +90,7 @@ export const calculateCost = (market) => {
 }
 
 export const calculatePrice = (market, outcome) => {
-     return market.shares[market.outcomes.indexOf(outcome)] / calculateCost(market)
+     return Math.max(1, market.shares[market.outcomes.indexOf(outcome)]) / calculateCost(market)
 }
 
 export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
