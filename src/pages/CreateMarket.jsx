@@ -6,8 +6,12 @@ import Alert from 'react-bootstrap/Alert';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+import ImageUploading from "react-images-uploading";
+
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+
+import upload from '../assets/img/upload.png';
 
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
 import { Footer } from '../components/Footer'
@@ -30,6 +34,8 @@ export const CreateMarket = () => {
   const [scheduleDate, setScheduleDate] = useState(new Date());
 
   const [percentageError, setPercentageError] = useState('');
+
+  const [marketImage, setMarketImage] = useState([]);
 
   const handleChangeBetID = (event) => {
     setBetID(event.target.value)
@@ -64,6 +70,7 @@ export const CreateMarket = () => {
       setIdBetChoice(idBetChoice + 1);
       setBetChoice('');
       outcomeInputRef.current.focus();
+      checkPercentageSum(betChoiceList);
     }
   }
 
@@ -88,16 +95,11 @@ export const CreateMarket = () => {
     checkPercentageSum(newBetChoiceList);
   }
 
-  const checkPercentageSum = (newBetChoiceList) => {
+  const checkPercentageSum = (list) => {
 
-    if (allPercentagesZero(newBetChoiceList)) { //Esto verifica si todos los outcomes estan con 0%, entonces no muestra error (o si deberia porque es obligatorio?)
-      setPercentageError('');
-      return;
-    }
+    const sum = list.reduce((total, item) => total + parseFloat(item.percentage), 0);
 
-    const sum = newBetChoiceList.reduce((total, item) => total + parseFloat(item.percentage), 0);
-
-    if (newBetChoiceList.length > 0) {
+    if (list.length >= 0) {
       if (sum !== 100) {
         setPercentageError('The sum of all the % has to be 100');
       } else {
@@ -129,10 +131,16 @@ export const CreateMarket = () => {
     setScheduleDate(date);
   }
 
+  const handleOnChangeMarketImage = (image, addUpdateIndex) => {
+    // data for submit
+    console.log(image, addUpdateIndex);
+    setMarketImage(image);
+  };
+
   const handleCreateMarket = () => {
     //TODO
   }
-  
+
   return (
     <>
       <NavBarWeb3Onboard />
@@ -184,6 +192,53 @@ export const CreateMarket = () => {
             onChange={handleChangeBetOO}
           />
 
+          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-oo">Market Image</Form.Label>
+
+          <ImageUploading
+            multiple
+            value={marketImage}
+            onChange={handleOnChangeMarketImage}
+            maxNumber='1'
+            dataURLKey="data_url"
+            acceptType={["jpg"]}
+          >
+            {({
+              image,
+              onImageUpload,
+              onImageRemoveAll,
+              onImageUpdate,
+              onImageRemove,
+              isDragging,
+              dragProps
+            }) => (
+              // write your building UI
+              <div className="upload__image-wrapper">
+                {!marketImage.length ? (
+                  <>
+
+                    <img alt="" width="100" src={upload} style={isDragging ? { color: "red" } : null}
+                      onClick={onImageUpload}
+                      {...dragProps}>
+                    </img>
+                  </>
+                ) : (
+
+                  marketImage.map((image, index) => (
+                    <div key={index} className="image-item upload_image">
+                      <img src={image.data_url} alt="" width="100" />
+                      <div className="overlay">
+                        <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(index)} ></i>
+                        <i className="bi bi-trash" onClick={() => onImageRemove(index)}></i>
+                      </div>
+                    </div>
+                  ))
+
+                )}
+
+              </div>
+            )}
+          </ImageUploading >
+
           <Form.Label className='fw-bold mt-4' htmlFor="create-bet-choice">Outcomes</Form.Label>
 
           <div className='d-flex'>
@@ -230,11 +285,13 @@ export const CreateMarket = () => {
               ))}
             </tbody>
           </table>
-          {percentageError && (
-            <Alert variant="danger">
-              {percentageError}
-            </Alert>
-          )}
+          {
+            percentageError && (
+              <Alert variant="danger">
+                {percentageError}
+              </Alert>
+            )
+          }
 
           <Form.Label className='fw-bold mt-4' htmlFor="create-bet-initial-pool">Initial pool</Form.Label>
           <Form.Control
@@ -310,7 +367,7 @@ export const CreateMarket = () => {
 
           <button className='button mt-4' onClick={handleCreateMarket}>Create market</button>
         </div >
-      </section>
+      </section >
 
       <Footer />
     </>
