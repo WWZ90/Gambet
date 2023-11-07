@@ -1616,6 +1616,14 @@ hr {
     display: inline-block;
 }
 
+.upload__image-wrapper{
+    cursor: pointer;
+}
+
+.upload__image-wrapper img{
+    width: 80px;
+}
+
 .overlay {
     background-color: rgba(0, 0, 0, 0.5);
     position: absolute;
@@ -1637,7 +1645,7 @@ hr {
 .overlay i {
     font-size: 24px;
     color: white;
-    margin: 0 10px;
+    margin: 0 3px;
     cursor: pointer;
 }
 

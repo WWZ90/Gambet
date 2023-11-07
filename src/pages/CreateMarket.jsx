@@ -64,15 +64,34 @@ export const CreateMarket = () => {
   }
 
 
-  const handleAddBetChoice = () => {
+  const handleAddBetChoice = (image) => {
     if (betChoice.trim() !== '') {
-      setBetChoiceList([...betChoiceList, { id: idBetChoice, betChoice, percentage: 0 }]);
+      setBetChoiceList([...betChoiceList, { id: idBetChoice, image: image, betChoice, percentage: 0 }]);
       setIdBetChoice(idBetChoice + 1);
       setBetChoice('');
       outcomeInputRef.current.focus();
       checkPercentageSum(betChoiceList);
     }
   }
+
+  const handleImageUpload = (image, id) => {
+    console.log(id);
+    const updatedList = betChoiceList.map((betChoice) =>
+      betChoice.id === id ? { ...betChoice, image } : betChoice
+    );
+    console.log(updatedList);
+    setBetChoiceList(updatedList);
+  };
+
+  const handleImageRemove = (id) => {
+    const updatedList = betChoiceList.map((item) => {
+      if (item.id === id) {
+        return { ...item, image: null };
+      }
+      return item;
+    });
+    setBetChoiceList(updatedList);
+  };
 
   const handleDeleteBetChoice = (id) => {
 
@@ -131,11 +150,10 @@ export const CreateMarket = () => {
     setScheduleDate(date);
   }
 
-  const handleOnChangeMarketImage = (image, addUpdateIndex) => {
-    // data for submit
-    console.log(image, addUpdateIndex);
+  const handleOnChangeMarketImage = (image) => {
     setMarketImage(image);
   };
+
 
   const handleCreateMarket = () => {
     //TODO
@@ -215,14 +233,12 @@ export const CreateMarket = () => {
               <div className="upload__image-wrapper">
                 {!marketImage.length ? (
                   <>
-
                     <img alt="" width="100" src={upload} style={isDragging ? { color: "red" } : null}
                       onClick={onImageUpload}
                       {...dragProps}>
                     </img>
                   </>
                 ) : (
-
                   marketImage.map((image, index) => (
                     <div key={index} className="image-item upload_image">
                       <img src={image.data_url} alt="" width="100" />
@@ -232,9 +248,7 @@ export const CreateMarket = () => {
                       </div>
                     </div>
                   ))
-
                 )}
-
               </div>
             )}
           </ImageUploading >
@@ -261,14 +275,59 @@ export const CreateMarket = () => {
           <table className="table table-hover mt-2">
             <thead>
               <tr>
-                <th className='col-10'>Outcome</th>
+                <th className='col-2'>Image</th>
+                <th className='col-8'>Outcome</th>
                 <th className='col-1 text-center'>%</th>
                 <th className='col-1 text-center'>Actions</th>
               </tr>
             </thead>
             <tbody>
               {betChoiceList.map((item) => (
-                <tr key={item.id}>
+                <tr key={item.id} className='align-middle'>
+                  <td>
+
+                    <ImageUploading
+                      multiple
+                      value={marketImage}
+                      onChange={(image) => handleImageUpload(image, item.id)}
+                      maxNumber='1'
+                      dataURLKey="data_url"
+                      acceptType={["jpg"]}
+                    >
+                      {({
+                        image,
+                        onImageUpload,
+                        onImageRemoveAll,
+                        onImageUpdate,
+                        onImageRemove,
+                        isDragging,
+                        dragProps
+                      }) => (
+                        // write your building UI
+                        <div className="upload__image-wrapper">
+                          {!item.image ? (
+                            <>
+                              <img alt="" width="80" src={upload} style={isDragging ? { color: "red" } : null}
+                                onClick={() => onImageUpload(item.id)}
+                                {...dragProps}>
+                              </img>
+                            </>
+                          ) : (
+
+                            <div className="image-item upload_image">
+                              <img src={item.image[0].data_url} alt="" width="80" />
+                              <div className="overlay">
+                                <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpload(item.id)} ></i>
+                                <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
+                              </div>
+                            </div>
+
+                          )}
+                        </div>
+                      )}
+                    </ImageUploading >
+
+                  </td>
                   <td >{item.betChoice}</td>
                   <td className='text-center'>
                     <Form.Control
