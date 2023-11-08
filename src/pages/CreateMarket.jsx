@@ -76,8 +76,12 @@ export const CreateMarket = () => {
 
   const handleImageUpload = (image, id) => {
     console.log(id);
+    // Filtra las imágenes para mantener solo la última (la más reciente)
+    // De no hacerse de esta forma, cuando se ponian mas outcomes, el array de image crecia, imagen en 0 siempre la primera q se puso, y en la ultima pos la actualizada
+    const updatedImage = image.slice(-1);
+
     const updatedList = betChoiceList.map((betChoice) =>
-      betChoice.id === id ? { ...betChoice, image } : betChoice
+      betChoice.id === id ? { ...betChoice, image: updatedImage } : betChoice
     );
     console.log(updatedList);
     setBetChoiceList(updatedList);
@@ -151,6 +155,9 @@ export const CreateMarket = () => {
   }
 
   const handleOnChangeMarketImage = (image) => {
+    console.log('handleOnChangeMarketImage');
+    console.log(image);
+
     setMarketImage(image);
   };
 
@@ -287,17 +294,14 @@ export const CreateMarket = () => {
                   <td>
 
                     <ImageUploading
-                      multiple
-                      value={marketImage}
+                      value={item.image}
                       onChange={(image) => handleImageUpload(image, item.id)}
-                      maxNumber='1'
                       dataURLKey="data_url"
                       acceptType={["jpg"]}
                     >
                       {({
                         image,
                         onImageUpload,
-                        onImageRemoveAll,
                         onImageUpdate,
                         onImageRemove,
                         isDragging,
@@ -308,7 +312,7 @@ export const CreateMarket = () => {
                           {!item.image ? (
                             <>
                               <img alt="" width="80" src={upload} style={isDragging ? { color: "red" } : null}
-                                onClick={() => onImageUpload(item.id)}
+                                onClick={onImageUpload}
                                 {...dragProps}>
                               </img>
                             </>
@@ -317,7 +321,7 @@ export const CreateMarket = () => {
                             <div className="image-item upload_image">
                               <img src={item.image[0].data_url} alt="" width="80" />
                               <div className="overlay">
-                                <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpload(item.id)} ></i>
+                                <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
                                 <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
                               </div>
                             </div>
