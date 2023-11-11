@@ -161,9 +161,32 @@ export const CreateMarket = () => {
     setMarketImage(image);
   };
 
+  const handleSubmission = () => {
+    const formData = new FormData();
+
+    formData.append('image', marketImage[0].file);
+
+    fetch(
+      `https://cors-anywhere.herokuapp.com/https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOST}`,
+      {
+        method: 'POST',
+        body: formData,        
+      }
+    ).then((response) => response.json())
+      .then((result) => {
+        console.log('Success:', result);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
+
 
   const handleCreateMarket = () => {
     //TODO
+
+    handleSubmission();
   }
 
   return (

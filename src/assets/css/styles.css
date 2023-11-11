@@ -1643,10 +1643,15 @@ hr {
 }
 
 .overlay i {
-    font-size: 24px;
-    color: white;
+    font-size: 17px;
+    color: rgb(190, 190, 190);
     margin: 0 3px;
     cursor: pointer;
+    transition: 0.2s all;
+}
+
+.overlay i:hover {
+    color: rgb(255, 255, 255);
 }
 
 /*--------------------------------------------------------------
