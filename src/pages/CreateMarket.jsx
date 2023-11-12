@@ -11,7 +11,7 @@ import ImageUploading from "react-images-uploading";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-import upload from '../assets/img/upload.png';
+import upload from '../assets/img/image_upload.png';
 
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
 import { Footer } from '../components/Footer'
@@ -161,32 +161,31 @@ export const CreateMarket = () => {
     setMarketImage(image);
   };
 
-  const handleSubmission = () => {
+  const handleImageSubmission = (image) => {
     const formData = new FormData();
 
-    formData.append('image', marketImage[0].file);
+    formData.append('image', image);
 
-    fetch(
+    return fetch(
       `https://cors-anywhere.herokuapp.com/https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMAGE_HOST}`,
       {
         method: 'POST',
-        body: formData,        
+        body: formData,
       }
-    ).then((response) => response.json())
+    )
+  };
+
+  const handleCreateMarket = () => {
+    //TODO
+
+    handleImageSubmission(marketImage[0].file)
+      .then((response) => response.json())
       .then((result) => {
         console.log('Success:', result);
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-  };
-
-
-
-  const handleCreateMarket = () => {
-    //TODO
-
-    handleSubmission();
   }
 
   return (
@@ -263,10 +262,14 @@ export const CreateMarket = () => {
               <div className="upload__image-wrapper">
                 {!marketImage.length ? (
                   <>
-                    <img alt="" width="100" src={upload} style={isDragging ? { color: "red" } : null}
-                      onClick={onImageUpload}
-                      {...dragProps}>
-                    </img>
+                    <div className="upload_image">
+                      <img alt="" width="100" src={upload} style={isDragging ? { color: "red" } : null}
+                        {...dragProps}>
+                      </img>
+                      <div className="overlay">
+                        <i className="bi bi-cloud-arrow-up" onClick={onImageUpdate} ></i>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   marketImage.map((image, index) => (
@@ -285,7 +288,7 @@ export const CreateMarket = () => {
 
           <Form.Label className='fw-bold mt-4' htmlFor="create-bet-choice">Outcomes</Form.Label>
 
-          <div className='d-flex'>
+          <div className='d-flex align-middle gap-2'>
             <Form.Control
               type="text"
               id="create-bet-choice"
@@ -296,7 +299,7 @@ export const CreateMarket = () => {
               ref={outcomeInputRef}
             />
 
-            <i className="bi bi-plus-circle-fill" onClick={handleAddBetChoice}></i>
+            <i className="bi bi-plus-circle-fill mt-2" onClick={handleAddBetChoice}></i>
           </div>
 
           <Form.Text id="create-bet-id-HelpBlock" muted>
@@ -331,18 +334,22 @@ export const CreateMarket = () => {
                         dragProps
                       }) => (
                         // write your building UI
-                        <div className="upload__image-wrapper">
+                        <div className="upload__image-wrapper table_outcomes">
                           {!item.image ? (
                             <>
-                              <img alt="" width="80" src={upload} style={isDragging ? { color: "red" } : null}
-                                onClick={onImageUpload}
-                                {...dragProps}>
-                              </img>
+                              <div className="upload_image">
+                                <img alt="" src={upload} style={isDragging ? { color: "red" } : null}
+                                  {...dragProps}>
+                                </img>
+                                <div className="overlay">
+                                  <i className="bi bi-cloud-arrow-up" onClick={onImageUpdate} ></i>
+                                </div>
+                              </div>
                             </>
                           ) : (
 
                             <div className="image-item upload_image">
-                              <img src={item.image[0].data_url} alt="" width="80" />
+                              <img src={item.image[0].data_url} alt="" width="70" />
                               <div className="overlay">
                                 <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
                                 <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
@@ -392,7 +399,7 @@ export const CreateMarket = () => {
           </Form.Text>
 
           <div className='d-flex mt-3'>
-            <div className='fw-bold'>Total cost: $10 USDC</div>
+            <div className='fw-bold'>Total cost: <span className='total_cost'>$10 USDC</span></div>
           </div>
 
           <Form.Label className='fw-bold mt-4' htmlFor="create-bet-commission">Commission (%)</Form.Label>
@@ -413,6 +420,7 @@ export const CreateMarket = () => {
             </div>
             <div>
               <DatePicker
+                className='form-control'
                 selected={deadlineDate}
                 id="deadline-date"
                 onChange={handleDeadLineDateChange}
@@ -434,6 +442,7 @@ export const CreateMarket = () => {
             </div>
             <div>
               <DatePicker
+                className='form-control'
                 selected={scheduleDate}
                 id="schedule-date"
                 onChange={handleScheduleDateChange}
@@ -451,7 +460,7 @@ export const CreateMarket = () => {
             </div>
           </div>
 
-          <button className='button mt-4' onClick={handleCreateMarket}>Create market</button>
+          <button className='button standard mt-4' onClick={handleCreateMarket}>Create market</button>
         </div >
       </section >
 

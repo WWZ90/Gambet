@@ -110,7 +110,7 @@ export const DetailMarket = () => {
 
         let foundMarket = null;
 
-        if(marketReload)
+        if (marketReload)
             foundMarket = marketReload;
         else
             foundMarket = marketsArray.find(market => market.marketId === id);
@@ -173,7 +173,7 @@ export const DetailMarket = () => {
     }, [activeContract])
 
     useEffect(() => {
-        if(marketsArray){
+        if (marketsArray) {
             setMarketExist(true);
             setLoading(false);
             console.log(marketsArray);
@@ -241,14 +241,17 @@ export const DetailMarket = () => {
                                             <div className="module">
                                                 <div className='about'>
                                                     <h3>About</h3>
-                                                    <p className={style} id="collapseAbout" aria-expanded="false">
+                                                    <p className={style} id="collapseAbout" aria-expanded="true">
                                                         {activeMarket.terms}
                                                     </p>
-                                                    <a role="button" onClick={updateCollapse} className="collapsed"
-                                                        data-toggle="collapse" href="#collapseAbout"
-                                                        aria-expanded="false" aria-controls="collapseAbout">
-                                                        {!showAboutCollapse ? ('+ Show more') : ('- Show less')}
-                                                    </a>
+                                                    {/*
+                                                        <a role="button" onClick={updateCollapse} className="collapsed"
+                                                            data-toggle="collapse" href="#collapseAbout"
+                                                            aria-expanded="false" aria-controls="collapseAbout">
+                                                            {!showAboutCollapse ? ('+ Show more') : ('- Show less')}
+                                                        </a>
+                                                    */}
+
                                                 </div>
                                                 <div className='resolution_outcome mt-4'>
                                                     <h3>Resolution</h3>
@@ -260,7 +263,7 @@ export const DetailMarket = () => {
                                     </div>
 
                                     <div className='stiky_block'>
-                                        <ActionOrders loadDetailMarket={loadDetailMarket}/>
+                                        <ActionOrders loadDetailMarket={loadDetailMarket} />
                                     </div>
 
                                 </div>

@@ -42,7 +42,7 @@ export const Cart = () => {
                     <div className="cart_table asks">
                         <CartTable cart={cart} action="SELL" removeFromCart={removeFromCart} />
                     </div>
-                    <button className='button' onClick={handleCartExecution}>Complete orders</button>
+                    <button className='button standard' onClick={handleCartExecution}>Complete orders</button>
                 </div>
             </section>
 

@@ -87,7 +87,7 @@ export const Footer = () => {
             lastScrollTop = scrollTop;
         });
 
-        
+
 
         /**
          * Back to top button
@@ -134,18 +134,18 @@ export const Footer = () => {
                             </div>
 
                             <div className="col-lg-2 col-md-3 footer-links">
-                                <h4>Useful Links</h4>
+                                <h4>Our Services</h4>
                                 <ul>
                                     <li><a href="#">Home</a></li>
-                                    <li><a href="#">About us</a></li>
-                                    <li><a href="#">Services</a></li>
-                                    <li><a href="#">Terms of service</a></li>
+                                    <li><a href="#">Browse markets</a></li>
+                                    <li><a href="#">Create market</a></li>
+                                    <li><a href="#">What we do?</a></li>
                                     <li><a href="#">Privacy policy</a></li>
                                 </ul>
                             </div>
 
                             <div className="col-lg-2 col-md-3 footer-links">
-                                <h4>Our Services</h4>
+                                <h4>Useful Links</h4>
                                 <ul>
                                     <li><a href="#">Web Design</a></li>
                                     <li><a href="#">Web Development</a></li>
@@ -154,10 +154,13 @@ export const Footer = () => {
                                     <li><a href="#">Graphic Design</a></li>
                                 </ul>
                             </div>
-                            
+
                             <div className="col-lg-4 col-md-4 footer-links text-end justify-content-end">
-                                <img src={UMA}></img>
+                                <a href='https://uma.xyz/' target='_blank'>
+                                    <img src={UMA}></img>
+                                </a>
                             </div>
+
                         </div>
                     </div>
                 </div>

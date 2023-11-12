@@ -59,14 +59,14 @@ export const NavBarWeb3Onboard = () => {
         enter: {
             opacity: 1,
             top: 55,
-            x: -10,
+            x: -5,
             display: "block",
             position: "absolute",
             cursor: "pointer"
         },
         exit: {
             top: 55,
-            x: 10,
+            x: 5,
             opacity: 0,
             transition: {
                 duration: 0.1,
@@ -263,7 +263,7 @@ export const NavBarWeb3Onboard = () => {
                                     >
                                         {wallet?.accounts[0]?.balance && (
 
-                                            <NavLink to="" className='animated-line pt-5'>
+                                            <a className='animated-line balance'>
                                                 <motion.li
                                                     whileHover={{
                                                         x: 1,
@@ -273,7 +273,7 @@ export const NavBarWeb3Onboard = () => {
                                                     {formatBalance(Object.values(wallet?.accounts[0]?.balance))} ETH
                                                 </motion.li>
 
-                                            </NavLink>
+                                            </a>
 
                                         )}
                                         {/*

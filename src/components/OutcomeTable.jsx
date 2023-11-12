@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 
 import { useStateContext } from '../contexts/ContextProvider';
 
+import upload from '../assets/img/upload.png';
+import { ImageDisplay } from './ImageDisplay';
+
 export const OutcomeTable = () => {
 
     const { outcomeData, setOutcomeData } = useStateContext();
@@ -12,11 +15,12 @@ export const OutcomeTable = () => {
             <table className="table table-hover text-center">
                 <thead className="table-light">
                     <tr>
-                        <th scope="col-4">Outcome</th>
-                        <th scope="col-2">Owned</th>
-                        <th scope="col-2">Share</th>
-                        <th scope="col-2">Average price</th>
-                        <th scope="col-2">Share payout</th>
+                        <th className="col-1">Image</th>
+                        <th className="col-5">Outcome</th>
+                        <th className="col-1">Owned</th>
+                        <th className="col-1">Share</th>
+                        <th className="col-2">Average price</th>
+                        <th className="col-2">Share payout</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +34,9 @@ export const OutcomeTable = () => {
                         </>
                     ) : (
                         outcomeData.map((item, index) => (
-                            <tr key={index} onClick={() => setOutcomeOptionSelected(item.outcome)}>
+                            <tr key={index} onClick={() => setOutcomeOptionSelected(item.outcome)} className='align-middle'>
+                                {/*  TODO: preguntar si existe item.thumbnail y item.fullSize */}
+                                <th><ImageDisplay thumbnailUrl={upload}/></th>
                                 <th scope="row">{item.outcome}</th>
                                 <td>{item.owned}</td>
                                 <td>{item.share}</td>

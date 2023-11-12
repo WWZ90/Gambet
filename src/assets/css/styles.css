@@ -129,6 +129,19 @@ h6 {
     background: #8b310b;
 }
 
+.button {
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 7px;
+    border: 1px solid #dfdfdf;
+    padding: 10px 0px;
+    transition: 0.3s all;
+}
+
+.button.standard:hover {
+    background: #c5c5c5;
+}
+
 .btn-get-started.connected {
     background: #6e2505;
 }
@@ -138,12 +151,25 @@ h6 {
     color: #fff !important;
 }
 
+.bi-trash3-fill,
+.bi-plus-circle-fill {
+    transition: 0.3s all;
+    color: #bbbbbb;
+}
+
+.bi-trash3-fill:hover {
+    color: red;
+}
+
+.bi-plus-circle-fill:hover {
+    color: green;
+}
 
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/
 section {
-    padding: 80px 0;
+    padding: 160px 0;
 }
 
 section h1 {
@@ -400,6 +426,7 @@ section h1 {
     color: var(--color-link-nav) !important;
     padding: 6px;
     transition: all 0.5s !important;
+    position: relative;
 }
 
 .header .navmenu a:hover {
@@ -409,6 +436,17 @@ section h1 {
 
 .header .navmenu a.active {
     color: var(--color-link-nav-hover) !important;
+}
+
+.header .navmenu a.active:after {
+    content: "•";
+    display: block;
+    font-size: 1.2em;
+    color: var(--color-3);
+    position: absolute;
+    bottom: -0.55em;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .header img.logo {
@@ -561,6 +599,8 @@ section h1 {
     align-items: center;
     color: white;
     padding: 2px;
+    font-style: normal;
+    font-weight: 100;
     font-family: var(--onboard-font-family-light);
 }
 
@@ -575,7 +615,6 @@ section h1 {
 
 .header .dropdown-menu a:hover {
     color: var(--color-link-nav-hover);
-    background-color: var(--color-nav-background);
     top: 120%;
 }
 
@@ -622,13 +661,16 @@ button.swithToChain:hover {
     font-family: var(--onboard-font-family-light);
 }
 
-.cart_table .bi-trash3-fill {
-    transition: 0.3s all;
-    color: #bbbbbb;
+.bids-text {
+    color: #28a745;
+    /* Estilo de color para Bids */
+    /* Otros estilos específicos para Bids */
 }
 
-.cart_table .bi-trash3-fill:hover {
-    color: red;
+.asks-text {
+    color: #dc3545;
+    /* Estilo de color para Asks */
+    /* Otros estilos específicos para Asks */
 }
 
 /************* MENU FRAME MOTION ****************/
@@ -656,6 +698,11 @@ button.swithToChain:hover {
 
 .header .dropdown-menu .animated-line:hover li {
     color: var(--color-link-nav-hover) !important;
+}
+
+.header .dropdown-menu .animated-line.balance {
+    font-weight: 500;
+    padding-bottom: 0px !important;
 }
 
 .dropdown-divider {
@@ -717,7 +764,6 @@ button.swithToChain:hover {
 
 .browseMarket {
     min-height: 80vh;
-    padding-top: 120px;
 }
 
 /*--------------------------------------------------------------
@@ -965,12 +1011,10 @@ button.swithToChain:hover {
 
 .accordion .order_block_asks .price_shares .option.price {
     color: var(--color-3);
-    font-weight: bold;
     font-family: var(--onboard-font-family-semibold);
 }
 
 .accordion .order_block_asks .price_shares .option.share {
-    font-weight: bold;
     font-family: var(--onboard-font-family-medium);
 }
 
@@ -1221,14 +1265,6 @@ button.swithToChain:hover {
     font-family: var(--onboard-font-family-semibold);
 }
 
-.button {
-    margin-top: 20px;
-    width: 100%;
-    border-radius: 7px;
-    border: 1px solid #dfdfdf;
-    padding: 10px 0px;
-    transition: 0.3s all;
-}
 
 .box .addButton {
     background: #009b0d;
@@ -1403,7 +1439,7 @@ table th {
 .c-chvCSy img {
     flex-basis: 104px;
     width: 72px;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .c-hwskUZ {
@@ -1611,17 +1647,35 @@ hr {
     color: var(--color-from-control-search-text) !important;
 }
 
+.create_market span.total_cost {
+    font-size: 19px;
+    color: #00750a;
+}
+
+.create_market .react-datepicker__input-container .form-control {
+    width: 180px;
+}
+
+
+.create_market i {
+    cursor: pointer;
+}
+
 .upload_image {
     position: relative;
     display: inline-block;
 }
 
-.upload__image-wrapper{
+.upload__image-wrapper {
     cursor: pointer;
 }
 
-.upload__image-wrapper img{
+.upload__image-wrapper img {
     width: 80px;
+}
+
+.upload__image-wrapper.table_outcomes img {
+    width: 50px !important;
 }
 
 .overlay {
