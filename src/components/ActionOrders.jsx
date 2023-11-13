@@ -234,10 +234,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                 <div className='box_header'>
                     <div className="row">
                         <div className="col-2 text-center">
-                            <a className={`${activeOption == 'BUY' ? 'active buy' : ''}`} onClick={() => { setActiveOption('BUY') }}>Buy</a>
+                            <a className={`${activeOption == 'BUY' ? 'active buy' : 'buy'}`} onClick={() => { setActiveOption('BUY') }}>Buy</a>
                         </div>
                         <div className="col-2 text-start p-0">
-                            <a className={`${activeOption == 'SELL' ? 'active sell' : ''}`} onClick={() => { setActiveOption('SELL') }}>Sell</a>
+                            <a className={`${activeOption == 'SELL' ? 'active sell' : 'sell'}`} onClick={() => { setActiveOption('SELL') }}>Sell</a>
                         </div>
                         <motion.div className="col-7 text-end dropdown"
                             onHoverStart={() => setShown(true)}
@@ -267,7 +267,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         <div className='d-flex flex-row flex-wrap'>
                             {outcomeData.map((option, index) => (
                                 <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
-                                    <div className='d-flex justify-content-between'>
+                                    <div className='d-flex justify-content-between align-items-center'>
                                         <p>{option.outcome}</p>
                                         <p className='price'>${option.marketPrice}</p>
                                     </div>
@@ -278,7 +278,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         <div className='d-flex flex-row flex-wrap'>
                             {myOutcomeByMarket.map((option, index) => (
                                 <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
-                                    <div className='d-flex justify-content-between'>
+                                    <div className='d-flex justify-content-between align-items-center'>
                                         <p>{option.outcome}</p>
                                         <p className='price'>${option.marketPrice}</p>
                                     </div>

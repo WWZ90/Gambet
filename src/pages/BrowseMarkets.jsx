@@ -28,7 +28,7 @@ import heroLogo from '../assets/img/hero-img.png';
 
 import { CardSwiperSlide } from '../components/CardSwiperSlide';
 
-import { browseMarkets, truncateText } from '../utils/services';
+import { browseMarkets, truncateTextSize } from '../utils/services';
 import { delay } from 'framer-motion';
 import { Footer } from '../components/Footer';
 
@@ -121,14 +121,14 @@ export const BrowseMarkets = () => {
           <>
             <h1>Bet on your beliefs</h1>
             <Slider {...settings}>
-              {marketsArray.map(function (item, i) {
-                return <Link key={item.name} className="box_market" to={`/market/id/${item.marketId}`}>
+              {marketsArray.map(function (market, i) {
+                return <Link key={market.name} className="box_market" to={`/market/id/${market.marketId}`}>
                   <div className='market_img'>
                     <img src={Image1}></img>
                   </div>
                   <div className="market_info">
-                    <div className='market_title'>{item.name}</div>
-                    <div className='market_desc'>Shares: {item.totalShares}</div>
+                    <div className='market_title'>{truncateTextSize(market.name, 75)}</div>
+                    <div className='market_desc'>Shares: {market.totalShares}</div>
                   </div>
                 </Link>
 

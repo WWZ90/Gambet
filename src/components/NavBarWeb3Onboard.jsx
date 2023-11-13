@@ -245,7 +245,7 @@ export const NavBarWeb3Onboard = () => {
                                             <i className="bi bi-person"></i>
                                         </div>
                                         <div className='cart'>
-                                            <i className="bi bi-basket-fill">
+                                            <i className="bi bi-cart3">
                                                 {cartCount > 0 && (
                                                     <span id="cart_menu_num" data-action="cart-can" className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
                                                 )}

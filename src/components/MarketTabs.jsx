@@ -10,6 +10,8 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import { useStateContext } from '../contexts/ContextProvider';
 
+import { truncateTextSize } from '../utils/services';
+
 import Image1 from '../assets/img/slider/1.jpg';
 
 export const MarketTabs = ({ categories, myRef }) => {
@@ -83,7 +85,7 @@ export const MarketTabs = ({ categories, myRef }) => {
                                                                 </div>
                                                             </div>
                                                             <div className="c-dhzjXW c-fGHEql">
-                                                                <p className='c-dqzIym c-dqzIym-ojJRN-color-dark c-dqzIym-cTvRMP-spacing-normal c-dqzIym-eYAYgJ-weight-semi c-dqzIym-hzzdKO-size-md c-dqzIym-icCuRIN-css'>{market.name}</p>
+                                                                <p className='c-dqzIym c-dqzIym-ojJRN-color-dark c-dqzIym-cTvRMP-spacing-normal c-dqzIym-eYAYgJ-weight-semi c-dqzIym-hzzdKO-size-md c-dqzIym-icCuRIN-css'>{truncateTextSize(market.name, 40)}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -96,7 +98,7 @@ export const MarketTabs = ({ categories, myRef }) => {
                                                                 {market.outcomes?.map((outcome, outcomeIndex) => (
                                                                     <div key={outcomeIndex} className="market_option">
                                                                         <div className='d-flex justify-content-between'>
-                                                                            <p>{outcome}</p>
+                                                                            <p>{truncateTextSize(outcome, 27)}</p>
                                                                             <p className='price'>${market.prices[outcomeIndex].toFixed(3)}</p>
                                                                         </div>
                                                                     </div>

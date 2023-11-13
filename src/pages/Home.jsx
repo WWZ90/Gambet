@@ -43,7 +43,7 @@ export const Home = () => {
 
     useEffect(() => {
 
-        if (!previousRoute) {
+        if (!previousRoute && activeContract) {
 
             const getMarkets = async () => {
                 return await browseMarkets(activeContract);

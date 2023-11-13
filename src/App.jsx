@@ -16,7 +16,7 @@ import { arbitrum, mainnet, goerli } from 'wagmi/chains'
 import { BrowseMarkets } from './pages/BrowseMarkets';
 import { CreateMarket } from './pages/CreateMarket';
 import { Cart } from './pages/Cart';
-import { WhatWeDo } from './pages/whatwedo';
+import { WhatWeDo } from './pages/WhatWeDo';
 import { NotFound } from './pages/NotFound';
 
 // 1. Get projectId

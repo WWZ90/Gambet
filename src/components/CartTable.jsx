@@ -45,7 +45,7 @@ export const CartTable = ({ cart, action, removeFromCart }) => {
                 </thead>
                 <tbody>
                     {filteredCart.map((item, index) => (
-                        <tr key={index}>
+                        <tr key={index} className='align-middle'>
                             <td>{item.market}</td>
                             <td>{item.outcome}</td>
                             <td className='text-center'>{item.price}</td>

@@ -10,6 +10,10 @@ export function truncateText(str) {
     return str.length > 35 ? str.substring(0, 35) + "..." : str;
 }
 
+export function truncateTextSize(str, size) {
+    return str.length > size ? str.substring(0, size) + "..." : str;
+}
+
 export function formatDate(d) {
     const dateString = new Date(d * 1000);
 

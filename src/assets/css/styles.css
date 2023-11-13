@@ -69,6 +69,7 @@
 body {
     font-family: var(--onboard-font-family-regular);
 
+
     color: var(--color-default);
     background-color: var(--color-body-background) !important;
 
@@ -326,7 +327,7 @@ section h1 {
     font-weight: bold;
     font-size: 14px;
 
-    padding-top: 5px;
+    padding-top: 14px;
     padding-bottom: 15px;
     padding-left: 10px;
     text-align: left;
@@ -375,12 +376,11 @@ section h1 {
     height: 40px;
     border-radius: 30px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 1px 2px rgba(0, 0, 0, 0.05);
-    ;
     z-index: 999;
     transition: all 0.2s ease 0s;
     cursor: pointer;
     display: flex !important;
-    background-color: var(--color-4) !important;
+    background-color: #fff !important;
     opacity: 1;
 }
 
@@ -425,28 +425,35 @@ section h1 {
 .header .navmenu a {
     color: var(--color-link-nav) !important;
     padding: 6px;
-    transition: all 0.5s !important;
+    transition: 0.5s all !important;
     position: relative;
 }
 
-.header .navmenu a:hover {
-    color: var(--color-link-nav-hover) !important;
-    transition: all 0.5s !important;
-}
-
+.header .navmenu a:hover,
 .header .navmenu a.active {
     color: var(--color-link-nav-hover) !important;
 }
 
-.header .navmenu a.active:after {
+.header .navmenu a:after{
     content: "•";
     display: block;
-    font-size: 1.2em;
+    font-size: 1.5em;
     color: var(--color-3);
     position: absolute;
     bottom: -0.55em;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
+    opacity: 0; 
+    transition: opacity 0.3s ease, left 0.3s ease; 
+}
+
+.header .navmenu a.active:after,
+.header .navmenu a:hover:after {
+    opacity: 1;
+    left: 50%; 
+}
+
+.header .navmenu span.navbar-brand a:after{
+    opacity: 0;
 }
 
 .header img.logo {
@@ -764,6 +771,8 @@ button.swithToChain:hover {
 
 .browseMarket {
     min-height: 80vh;
+    background-image: radial-gradient(circle, rgb(195, 243, 255) 0%, rgb(255, 255, 255) 30%, rgb(255, 255, 255) 10%);
+    z-index: -10;
 }
 
 /*--------------------------------------------------------------
@@ -897,8 +906,9 @@ button.swithToChain:hover {
 
 .detail_market .title {
     font-family: var(--onboard-font-family-medium);
-    font-size: 30px;
+    font-size: 25px;
     padding-top: 20px;
+    line-height: 25px;
 }
 
 .detail_market .title_gray {
@@ -1198,20 +1208,36 @@ button.swithToChain:hover {
     font-family: var(--onboard-font-family-semibold);
 }
 
-.box a.active.buy {
-    color: rgb(0, 114, 15) !important;
+.box a.buy {
+    color: green !important;
     padding-bottom: 10px;
-    border-bottom: 2px solid rgb(0, 114, 15);
+    border-bottom: none;
+    font-weight: bold;
+    transition: none !important;
+}
+
+.box a.sell {
+    color: red !important;
+    padding-bottom: 10px;
+    border-bottom: none;
+    font-weight: bold;
+    transition: none !important;
+}
+
+.box a.active.buy {
+    border-bottom: 2px solid green;
 }
 
 .box a.active.sell {
-    color: rgb(114, 27, 0) !important;
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgb(114, 27, 0);
+    border-bottom: 2px solid red;
 }
 
 .box .box_content {
     padding: 20px 13px;
+}
+
+.box .box_content .bi-info-circle {
+    padding-top: 10px !important;
 }
 
 .box .inputStyle {
@@ -1255,14 +1281,15 @@ button.swithToChain:hover {
 }
 
 .box .inputData {
-    margin-top: 20px;
-
+    /*margin-top: 20px;*/
 }
 
 .box .inputData .inputDataTitle {
     margin: 10px 0px;
     margin-right: 5px;
     font-family: var(--onboard-font-family-semibold);
+    font-weight: normal;
+    font-size: 16px;
 }
 
 

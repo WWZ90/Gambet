@@ -36,8 +36,8 @@ export const OutcomeTable = () => {
                         outcomeData.map((item, index) => (
                             <tr key={index} onClick={() => setOutcomeOptionSelected(item.outcome)} className='align-middle'>
                                 {/*  TODO: preguntar si existe item.thumbnail y item.fullSize */}
-                                <th><ImageDisplay thumbnailUrl={upload}/></th>
-                                <th scope="row">{item.outcome}</th>
+                                <td><ImageDisplay thumbnailUrl={upload}/></td>
+                                <td scope="row" className='text-start'>{item.outcome}</td>
                                 <td>{item.owned}</td>
                                 <td>{item.share}</td>
                                 {item.averagePrice != '-' ? (
