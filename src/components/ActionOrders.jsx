@@ -412,7 +412,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         <button disabled={shares <= 0 || myOutcomeByMarket.length === 0} className={`button ${shares > 0 && myOutcomeByMarket.length > 0 ? 'red' : ''}`} onClick={handleOrderExecution}>Sell Now</button>
                     )}
 
-                    <button disabled={shares <= 0 || myOutcomeByMarket.length === 0} className={`button ${(activeOption === 'BUY' && shares > 0) || (activeOption === 'SELL' && myOutcomeByMarket.length > 0 && shares > 0) ? 'blue' : ''}`} onClick={addToCart}>Add to Cart</button>
+                    <button disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} className={`button ${(activeOption === 'BUY' && shares > 0) || (activeOption === 'SELL' && myOutcomeByMarket.length > 0 && shares > 0) ? 'blue' : ''}`} onClick={addToCart}>Add to Cart</button>
 
                     <ToastContainer
                         position="top-right"
