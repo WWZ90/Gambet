@@ -139,10 +139,6 @@ h6 {
     transition: 0.3s all;
 }
 
-.button.standard:hover {
-    background: #c5c5c5;
-}
-
 .btn-get-started.connected {
     background: #6e2505;
 }
@@ -150,6 +146,33 @@ h6 {
 .btn-get-started:hover {
     background: #c2420b;
     color: #fff !important;
+}
+
+.button.green {
+    background: #009b0d;
+    color: #ffffff;
+}
+
+.button.green:hover {
+    background-color: #008d0c;
+}
+
+.button.red {
+    background: #e50101;
+    color: #ffffff;
+}
+
+.button.red:hover {
+    background-color: #d10000;
+}
+
+.button.blue {
+    background-color: rgb(54 107 255);
+    color: #fff;
+}
+
+.button.blue:hover {
+    background-color: rgb(31 90 255);
 }
 
 .bi-trash3-fill,
@@ -293,7 +316,7 @@ section h1 {
     margin-right: 10px;
     border-top-left-radius: 8px !important;
     border-top-right-radius: 8px !important;
-    box-shadow: rgb(191 191 191 / 81%) 0px 0px 0px 0px, rgb(1 18 66 / 22%) 0px 6px 12px 0px;
+    box-shadow: rgb(209 0 0 / 0%) 0px 0px 0px 0px, rgb(0 115 135 / 14%) 1px 6px 9px 0px
 
 }
 
@@ -326,9 +349,8 @@ section h1 {
     font-family: var(--onboard-font-family-bold);
     font-weight: bold;
     font-size: 14px;
-
     padding-top: 14px;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     padding-left: 10px;
     text-align: left;
     color: var(--color-3);
@@ -1292,34 +1314,6 @@ button.swithToChain:hover {
     font-size: 16px;
 }
 
-
-.box .addButton {
-    background: #009b0d;
-    color: #ffffff;
-}
-
-.box .addButton:hover {
-    background-color: #00bb10;
-}
-
-.box .sellButton {
-    background: #c70000;
-    color: #ffffff;
-}
-
-.box .sellButton:hover {
-    background-color: #e50101;
-}
-
-.box .addToCartButton {
-    background-color: #e0e0e0;
-}
-
-.box .addToCartButton:hover {
-    background-color: #c5c5c5;
-}
-
-
 .box .dropdown-menu {
     opacity: 1;
     display: block;
@@ -1428,7 +1422,7 @@ table th {
     background-color: #fff;
     border-radius: 10px;
     border: 1px solid #e4e4e455;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.02), 0px 6px 12px rgba(0, 0, 0, 0.02);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.02), 0px 6px 12px rgb(0 137 157 / 10%);
     cursor: pointer;
     color: black;
     transition: all 0.2s ease 0s;
@@ -1481,7 +1475,7 @@ table th {
     width: 100%;
     flex-direction: column;
     gap: 0.25rem;
-    padding-left: 8px;
+    padding-left: 0px;
 }
 
 .c-jvuvAf {
