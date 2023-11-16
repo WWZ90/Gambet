@@ -110,6 +110,15 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         calculateMarketMaxCost('myMaxCost');
     }, [shares])
 
+    useEffect(() => {
+        if (outcomeData.length > 0) {
+
+            console.log('outcomeData');
+            console.log(outcomeData);
+
+            calculateMarketMaxCost('maxCost');
+        }
+    }, [outcomeData])
 
     const calculateMarketMaxCost = (status) => {
         // Calcular maxCost del mercado
@@ -213,15 +222,6 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         console.log(cart);
     }, [cart])
 
-    useEffect(() => {
-        if (outcomeData.length > 0) {
-            console.log('outcomeData');
-            console.log(outcomeData);
-
-            calculateMarketMaxCost('maxCost');
-        }
-    }, [outcomeData])
-
     const handleOrderExecution = () => {
         //fillOrder(activeContract, marketId, cart, orders).then(() => fetchOrders(true, activeContract, marketId).then(setOrders))
 
@@ -237,14 +237,12 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         let orderToExecute = [];
         orderToExecute.push(temp);
 
-
         fillOrder(activeContract, marketId, orderToExecute, orders).then(() => {
             getMarket(marketId, activeContract).then(market => {
                 loadDetailMarket(market);
             })
         })
     }
-
 
     return (
         <>
