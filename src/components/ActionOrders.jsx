@@ -18,8 +18,6 @@ export const ActionOrders = ({ loadDetailMarket }) => {
     const { activeOption, setActiveOption } = useStateContext(); //BUY or SELL
     const { limitPrice, setLimitPrice } = useStateContext();
     const { shares, setShares } = useStateContext();
-    const { amount, setAmount } = useStateContext();
-    const { showModalMarket, setShowModalMarket } = useStateContext();
 
     const { outcomeData, setOutcomeData } = useStateContext();
     const { outcomeOptionSelected, setOutcomeOptionSelected } = useStateContext();
@@ -37,7 +35,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
     const { orders, setOrders } = useStateContext();
 
     const [shown, setShown] = useState(false);
-    const [type, setType] = useState('Limit'); //Si es Limit o AMM
+    const [type, setType] = useState('Limit');      //Si es Limit o AMM
+
+    const [maxCost, setMaxCost] = useState(0);      //Costo total del mercado
+    const [myMaxCost, setMyMaxCost] = useState(0);  //Este es el costo de mi operacion
 
     const [newOrder, setNewOrder] = useState({
         outcome: '',
@@ -69,14 +70,6 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         },
     };
 
-    const handleClose = (type) => {
-        setShowModalMarket(false);
-    }
-
-    const handleShow = (type) => {
-        setShowModalMarket(true);
-    }
-
     const handleIncrementLimitPrice = () => {
         setLimitPrice((Number(limitPrice) + 0.01).toFixed(3));
     };
@@ -84,26 +77,6 @@ export const ActionOrders = ({ loadDetailMarket }) => {
     const handleDecrementLimitPrice = () => {
         if (limitPrice > 0) {
             setLimitPrice((Number(limitPrice) - 0.01).toFixed(3));
-        }
-    };
-
-    const handleIncrementShares = () => {
-        setShares(shares + 100);
-    };
-
-    const handleDecrementShares = () => {
-        if (shares >= 100) {
-            setShares(shares - 100);
-        }
-    };
-
-    const handleIncrementAmount = () => {
-        setAmount(amount + 1);
-    };
-
-    const handleDecrementAmount = () => {
-        if (amount > 0) {
-            setAmount(amount - 1);
         }
     };
 
@@ -123,13 +96,49 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         }
     };
 
-    const handleInputChangeAmount = (e) => {
-        const newValue = e.target.value;
-        // Asegúrate de que solo se almacenen valores numéricos
-        if (!isNaN(newValue)) {
-            setAmount(Number(newValue));
+    const handleIncrementShares = () => {
+        setShares(shares + 100);
+    };
+
+    const handleDecrementShares = () => {
+        if (shares >= 100) {
+            setShares(shares - 100);
         }
     };
+
+    useEffect(() => {
+        calculateMarketMaxCost('myMaxCost');
+    }, [shares])
+
+
+    const calculateMarketMaxCost = (status) => {
+        // Calcular maxCost del mercado
+        const sumatoria = outcomeData.reduce((accumulator, currentValue) => {
+            let shareValue;
+            if (status === 'myMaxCost') {
+                if (currentValue.outcome === outcomeOptionSelected)
+                    shareValue = currentValue.share + shares;
+                else
+                    shareValue = currentValue.share;
+            } else {
+                shareValue = currentValue.share;
+            }
+            const squaredShareValue = Math.pow(shareValue, 2);
+            return accumulator + squaredShareValue;
+        }, 0);
+
+        let result;
+        if (status === 'myMaxCost') {
+            result = Math.sqrt(sumatoria) - maxCost;
+            setMyMaxCost(result);
+        } else {
+            result = Math.sqrt(sumatoria);
+            setMaxCost(result);
+        }
+
+        console.log('MyMaxCost');
+        console.log(result);
+    }
 
     const addToCart = () => {
 
@@ -205,9 +214,13 @@ export const ActionOrders = ({ loadDetailMarket }) => {
     }, [cart])
 
     useEffect(() => {
+        if (outcomeData.length > 0) {
+            console.log('outcomeData');
+            console.log(outcomeData);
 
-        console.log(myOutcomeByMarket);
-    }, [])
+            calculateMarketMaxCost('maxCost');
+        }
+    }, [outcomeData])
 
     const handleOrderExecution = () => {
         //fillOrder(activeContract, marketId, cart, orders).then(() => fetchOrders(true, activeContract, marketId).then(setOrders))
@@ -389,8 +402,8 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
                     <div className='action_info'>
                         <div className='d-flex justify-content-between mt-3 mb-2'>
-                            <div className=''>Average price:</div>
-                            <div className=''>$0.00</div>
+                            <div className=''>Max cost:</div>
+                            <div className=''>{myMaxCost}</div>
                         </div>
                         <div className='d-flex justify-content-between mt-2 mb-2'>
                             <div className=''>Estimated shares:</div>
