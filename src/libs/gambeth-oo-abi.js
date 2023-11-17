@@ -1169,3 +1169,5 @@ const ooAbi = [
         "type": "function"
     }
 ];
+
+export default ooAbi;
