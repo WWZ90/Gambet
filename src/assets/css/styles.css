@@ -32,7 +32,7 @@
     --color-buttom: #00aeef;
     --color-bg-error: #7b5448;
 
-    --color_title_gray: #969696;
+    --color_gray: #b4b4b4;
 }
 
 /* Nav Menu Colors */
@@ -114,6 +114,10 @@ h6 {
     font-family: var(--onboard-font-family-medium);
 }
 
+.text_gray {
+    color: var(--color_gray) !important;
+    font-weight: lighter !important;
+}
 
 .btn-get-started {
     font-family: var(--onboard-font-family-medium);
@@ -137,6 +141,10 @@ h6 {
     border: 1px solid #dfdfdf;
     padding: 10px 0px;
     transition: 0.3s all;
+}
+
+button:disabled {
+    background: #f5f5f5;
 }
 
 .btn-get-started.connected {
@@ -187,6 +195,23 @@ h6 {
 
 .bi-plus-circle-fill:hover {
     color: green;
+}
+
+table {
+    font-family: var(--onboard-font-family-regular);
+    font-size: 13px !important;
+    cursor: pointer;
+}
+
+table th {
+    font-family: var(--onboard-font-family-semibold);
+    font-weight: 500;
+    background-color: #102232 !important;
+    color: #fff !important;
+}
+
+table.table-hover tbody tr td:hover {
+    background-color: #ffffff; 
 }
 
 /*--------------------------------------------------------------
@@ -317,7 +342,6 @@ section h1 {
     border-top-left-radius: 8px !important;
     border-top-right-radius: 8px !important;
     box-shadow: rgb(209 0 0 / 0%) 0px 0px 0px 0px, rgb(0 115 135 / 14%) 1px 6px 9px 0px
-
 }
 
 .slick-slide img {
@@ -456,7 +480,7 @@ section h1 {
     color: var(--color-link-nav-hover) !important;
 }
 
-.header .navmenu a:after{
+.header .navmenu a:after {
     content: "•";
     display: block;
     font-size: 1.5em;
@@ -464,17 +488,17 @@ section h1 {
     position: absolute;
     bottom: -0.55em;
     left: 0;
-    opacity: 0; 
-    transition: opacity 0.3s ease, left 0.3s ease; 
+    opacity: 0;
+    transition: opacity 0.3s ease, left 0.3s ease;
 }
 
 .header .navmenu a.active:after,
 .header .navmenu a:hover:after {
     opacity: 1;
-    left: 50%; 
+    left: 50%;
 }
 
-.header .navmenu span.navbar-brand a:after{
+.header .navmenu span.navbar-brand a:after {
     opacity: 0;
 }
 
@@ -937,7 +961,7 @@ button.swithToChain:hover {
     font-family: var(--onboard-font-family-regular);
     font-size: 14px;
     padding-top: 5px;
-    color: var(--color_title_gray);
+    color: var(--color_gray);
 }
 
 .detail_market .title_gray.first {
@@ -1168,16 +1192,17 @@ button.swithToChain:hover {
     cursor: pointer;
     border: 1px solid #e9e9e9;
     font-family: var(--onboard-font-family-regular);
-    transition: 0.3s all;
+
     font-size: 14px;
 }
 
 .market_option:hover {
-    background-color: #e9e9e9;
+    background-color: #f1f1f1;
 }
 
 .market_option.active {
-    background-color: #e9e9e9;
+    background-color: #102232;
+    color: #fff;
 }
 
 .market_option p {
@@ -1262,12 +1287,16 @@ button.swithToChain:hover {
     padding-top: 10px !important;
 }
 
-.box .inputStyle {
+.inputStyle {
     display: flex;
     align-items: center;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
     overflow: hidden;
+}
+
+.inputStyle:hover {
+    border: 1px solid #e4e4e4;
 }
 
 .box .buttonStyle {
@@ -1300,10 +1329,6 @@ button.swithToChain:hover {
     border: none;
     box-shadow: none;
     outline: none;
-}
-
-.box .inputData {
-    /*margin-top: 20px;*/
 }
 
 .box .inputData .inputDataTitle {
@@ -1343,18 +1368,9 @@ button.swithToChain:hover {
     color: var(--color-3) !important;
 }
 
-.box .action_info {
-    color: rgb(155, 155, 155);
-}
-
-table {
-    font-family: var(--onboard-font-family-regular);
-    font-size: 13px !important;
-    cursor: pointer;
-}
-
-table th {
-    font-family: var(--onboard-font-family-semibold);
+.text_max_c{
+    color: green;
+    font-weight: bolder;
 }
 
 /*--------------------------------------------------------------
@@ -1661,7 +1677,7 @@ hr {
 
 .create_market .form-control:focus {
     border-color: #dbdbdb;
-    box-shadow: inset 0 1px 1px rgba(122, 122, 122, 0.075), 0 0 5px rgba(126, 126, 126, 0.4);
+    box-shadow: inset 0 1px 1px rgba(168, 168, 168, 0.075), 0 0 5px rgba(177, 177, 177, 0.4);
 }
 
 .create_market .form-control::placeholder {
@@ -1681,6 +1697,9 @@ hr {
 .create_market i {
     cursor: pointer;
 }
+
+.create_market .bi-info-circle
+{margin-left: 5px;}
 
 .upload_image {
     position: relative;

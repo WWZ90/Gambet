@@ -18,7 +18,7 @@ export const OutcomeTable = () => {
                 <thead className="table-light">
                     <tr>
                         <th className="col-1">Image</th>
-                        <th className="col-5">Outcome</th>
+                        <th className="col-5 text-start">Outcome</th>
                         <th className="col-1">Owned</th>
                         <th className="col-1">Share</th>
                         <th className="col-2">Average price</th>
@@ -35,7 +35,7 @@ export const OutcomeTable = () => {
                                         width="100%"
                                         height="100%"
                                         viewBox="0 0 435 63"
-                                        backgroundColor="#e5f1ff"
+                                        backgroundColor="#E0E0E0    "
                                         foregroundColor="#ecebeb"
                                     >
                                         <rect x="518" y="191" rx="3" ry="3" width="88" height="6" />
@@ -44,21 +44,22 @@ export const OutcomeTable = () => {
                                         <rect x="195" y="-55" rx="3" ry="3" width="380" height="6" />
                                         <rect x="148" y="-105" rx="3" ry="3" width="178" height="6" />
                                         <circle cx="583" cy="191" r="20" />
-                                        <rect x="4" y="4" rx="4" ry="4" width="25" height="25" />
-                                        <rect x="221" y="10" rx="2" ry="2" width="33" height="10" />
-                                        <rect x="35" y="10" rx="2" ry="2" width="180" height="10" />
-                                        <rect x="260" y="10" rx="2" ry="2" width="33" height="10" />
-                                        <rect x="261" y="56" rx="0" ry="0" width="1" height="2" />
+                                        <rect x="258" y="21" rx="0" ry="0" width="1" height="2" />
                                         <rect x="298" y="-95" rx="0" ry="0" width="21" height="6" />
-                                        <rect x="369" y="9" rx="2" ry="2" width="60" height="10" />
-                                        <rect x="301" y="10" rx="2" ry="2" width="60" height="10" />
-                                        <rect x="4" y="36" rx="4" ry="4" width="25" height="25" />
-                                        <rect x="221" y="42" rx="2" ry="2" width="33" height="10" />
-                                        <rect x="35" y="42" rx="2" ry="2" width="180" height="10" />
-                                        <rect x="260" y="42" rx="2" ry="2" width="33" height="10" />
+                                        <rect x="1" y="1" rx="4" ry="4" width="25" height="25" />
+                                        <rect x="220" y="11" rx="2" ry="2" width="30" height="5" />
                                         <rect x="257" y="88" rx="0" ry="0" width="1" height="2" />
-                                        <rect x="369" y="41" rx="2" ry="2" width="60" height="10" />
-                                        <rect x="301" y="42" rx="2" ry="2" width="60" height="10" />
+                                        <rect x="371" y="11" rx="2" ry="2" width="63" height="5" />
+                                        <rect x="297" y="11" rx="2" ry="2" width="63" height="5" />
+                                        <rect x="32" y="11" rx="2" ry="2" width="180" height="5" />
+                                        <rect x="257" y="11" rx="2" ry="2" width="30" height="5" />
+                                        <rect x="258" y="54" rx="0" ry="0" width="1" height="2" />
+                                        <rect x="1" y="34" rx="4" ry="4" width="25" height="25" />
+                                        <rect x="220" y="44" rx="2" ry="2" width="30" height="5" />
+                                        <rect x="371" y="44" rx="2" ry="2" width="63" height="5" />
+                                        <rect x="297" y="44" rx="2" ry="2" width="63" height="5" />
+                                        <rect x="32" y="44" rx="2" ry="2" width="180" height="5" />
+                                        <rect x="257" y="44" rx="2" ry="2" width="30" height="5" />
                                     </ContentLoader>
                                 </td>
                             </tr>

@@ -9,6 +9,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 import { ToastContainer, toast } from 'react-toastify';
+import ContentLoader from "react-content-loader"
 
 import 'react-toastify/dist/ReactToastify.css';
 import { getMarket, fetchOrders, fillOrder } from "../utils/services.js";
@@ -138,7 +139,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
         let result;
         if (status === 'myMaxCost') {
-            result = Math.sqrt(sumatoria) - maxCost;
+            result = (Math.sqrt(sumatoria) - maxCost).toFixed(2);
             setMyMaxCost(result);
         } else {
             result = Math.sqrt(sumatoria);
@@ -279,34 +280,58 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                 </div>
                 <div className='box_content'>
 
-                    {activeOption === 'BUY' ? (
-                        <div className='d-flex flex-row flex-wrap'>
-                            {outcomeData.map((option, index) => (
-                                <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
-                                    <div className='d-flex justify-content-between align-items-center'>
-                                        <p>{option.outcome}</p>
-                                        <p className='price'>${option.marketPrice}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                    {outcomeData.length === 0 ? (
+                        <ContentLoader
+                            speed={2}
+                            width="100%"
+                            height="100%"
+                            viewBox="0 0 154 25"
+                            backgroundColor="#E0E0E0    "
+                            foregroundColor="#ecebeb"
+                        >
+                            <rect x="518" y="191" rx="3" ry="3" width="88" height="6" />
+                            <rect x="552" y="193" rx="3" ry="3" width="52" height="6" />
+                            <rect x="436" y="294" rx="3" ry="3" width="410" height="6" />
+                            <rect x="195" y="-55" rx="3" ry="3" width="380" height="6" />
+                            <rect x="148" y="-105" rx="3" ry="3" width="178" height="6" />
+                            <circle cx="583" cy="191" r="20" />
+                            <rect x="258" y="21" rx="0" ry="0" width="1" height="2" />
+                            <rect x="298" y="-95" rx="0" ry="0" width="21" height="6" />
+                            <rect x="257" y="88" rx="0" ry="0" width="1" height="2" />
+                            <rect x="1" y="2" rx="2" ry="2" width="150" height="5" />
+                            <rect x="1" y="15" rx="2" ry="2" width="150" height="5" />
+                        </ContentLoader>
                     ) : (
-                        <div className='d-flex flex-row flex-wrap'>
-                            {myOutcomeByMarket.length > 0 ? (
-                                myOutcomeByMarket.map((option, index) => (
+                        activeOption === 'BUY' ? (
+                            <div className='d-flex flex-row flex-wrap'>
+                                {outcomeData.map((option, index) => (
                                     <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <p>{option.outcome}</p>
                                             <p className='price'>${option.marketPrice}</p>
                                         </div>
                                     </div>
-                                ))
-                            ) : (
-                                <p>You don't currently own any shares for this market</p>
-                            )}
+                                ))}
+                            </div>
+                        ) : (
+                            <div className='d-flex flex-row flex-wrap'>
+                                {myOutcomeByMarket.length > 0 ? (
+                                    myOutcomeByMarket.map((option, index) => (
+                                        <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
+                                            <div className='d-flex justify-content-between align-items-center'>
+                                                <p>{option.outcome}</p>
+                                                <p className='price'>${option.marketPrice}</p>
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <span className='text_gray'>You don't currently own any shares for this market</span>
+                                )}
 
-                        </div>
+                            </div>
+                        )
                     )}
+
 
                     {type == 'Limit' ? (
                         <>
@@ -330,7 +355,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                     </OverlayTrigger>
                                     <input
                                         type="text"
-                                        className="form-control text-center"
+                                        className="form-control text-center text_gray"
                                         disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0}
                                         value={activeOption === 'SELL' && myOutcomeByMarket.length === 0 ? '0.' : limitPrice}
                                         style={{ flex: 1, border: 'none' }}
@@ -355,7 +380,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                     </OverlayTrigger>
                                     <input
                                         type="text"
-                                        className="form-control text-center"
+                                        className="form-control text-center text_gray"
                                         disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0}
                                         value={activeOption === 'SELL' && myOutcomeByMarket.length === 0 ? 0 : shares}
                                         style={{ flex: 1, border: 'none' }}
@@ -398,10 +423,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         </div>
                     )}
 
-                    <div className='action_info'>
+                    <div className='action_info text_gray'>
                         <div className='d-flex justify-content-between mt-3 mb-2'>
-                            <div className=''>Max cost:</div>
-                            <div className=''>{myMaxCost}</div>
+                            <div className='fw-normal'>Max cost:</div>
+                            <div className='text_max_c'>{myMaxCost}</div>
                         </div>
                         <div className='d-flex justify-content-between mt-2 mb-2'>
                             <div className=''>Estimated shares:</div>

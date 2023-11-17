@@ -197,7 +197,18 @@ export const CreateMarket = () => {
 
           <h1>Create a market</h1>
 
-          <Form.Label className='fw-bold' htmlFor="create-bet-id">Market ID</Form.Label>
+          <Form.Label className='fw-bold' htmlFor="create-bet-id">
+            <div className="d-flex">
+              <div>Market ID</div>
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id="button-tooltip-2">Your market's ID is a unique identifier which allows other users to search for it. https://gambeth.com/?id={betID}</Tooltip>}
+              >
+                <i className="bi bi-info-circle pl-2"></i>
+              </OverlayTrigger>
+            </div>
+          </Form.Label>
+
           <Form.Control
             type="text"
             id="create-bet-id"
@@ -206,9 +217,6 @@ export const CreateMarket = () => {
             aria-describedby="create-bet-id-HelpBlock"
             onChange={handleChangeBetID}
           />
-          <Form.Text id="create-bet-id-HelpBlock" muted>
-            Your market's ID is a unique identifier which allows other users to search for it. https://gambeth.com/?id={betID}
-          </Form.Text>
 
           <div className='fw-bold mt-4'>How should the contract determine the outcome of your bet?</div>
           <Form.Select aria-label="Default select example" name='create-bet-schema' id='create-bet-schema' onChange={handleChangeBetSchema}>
@@ -286,7 +294,17 @@ export const CreateMarket = () => {
             )}
           </ImageUploading >
 
-          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-choice">Outcomes</Form.Label>
+          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-choice">
+            <div className="d-flex">
+              <div>Outcomes</div>
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id="button-tooltip-2">The initial share distribution determines the final cost of creating your market and the starting probabilities/payoff per outcome.</Tooltip>}
+              >
+                <i className="bi bi-info-circle pl-2"></i>
+              </OverlayTrigger>
+            </div>
+          </Form.Label>
 
           <div className='d-flex align-middle gap-2'>
             <Form.Control
@@ -302,9 +320,6 @@ export const CreateMarket = () => {
             <i className="bi bi-plus-circle-fill mt-2" onClick={handleAddBetChoice}></i>
           </div>
 
-          <Form.Text id="create-bet-id-HelpBlock" muted>
-            The initial share distribution determines the final cost of creating your market and the starting probabilities/payoff per outcome.
-          </Form.Text>
           <table className="table table-hover mt-2">
             <thead>
               <tr>
@@ -386,7 +401,17 @@ export const CreateMarket = () => {
             )
           }
 
-          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-initial-pool">Initial pool</Form.Label>
+          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-initial-pool">
+            <div className="d-flex">
+              <div>Initial pool</div>
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id="button-tooltip-2">The market must be bootstrapped with at least 0 initial shares</Tooltip>}
+              >
+                <i className="bi bi-info-circle pl-2"></i>
+              </OverlayTrigger>
+            </div>
+          </Form.Label>
           <Form.Control
             type="number"
             id="create-bet-initial-pool"
@@ -394,15 +419,23 @@ export const CreateMarket = () => {
             value={betInitialPool}
             onChange={handleChangeInitialPool}
           />
-          <Form.Text id="create-bet-id-HelpBlock" muted>
-            The market must be bootstrapped with at least 0 initial shares
-          </Form.Text>
 
           <div className='d-flex mt-3'>
             <div className='fw-bold'>Total cost: <span className='total_cost'>$10 USDC</span></div>
           </div>
 
-          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-commission">Commission (%)</Form.Label>
+          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-commission">
+            <div className="d-flex">
+              <div>Commission (%)</div>
+              <OverlayTrigger
+                placement="top"
+                overlay={<Tooltip id="button-tooltip-2">Split 50/50 between you and the platform. Taken when winners collect their earnings or on any AMM sells.</Tooltip>}
+              >
+                <i className="bi bi-info-circle pl-2"></i>
+              </OverlayTrigger>
+            </div>
+
+          </Form.Label>
           <Form.Control
             type="number"
             id="create-bet-commission"
@@ -410,13 +443,19 @@ export const CreateMarket = () => {
             value={betCommission}
             onChange={handleChangeCommission}
           />
-          <Form.Text id="create-bet-id-HelpBlock" muted>
-            Split 50/50 between you and the platform. Taken when winners collect their earnings or on any AMM sells.
-          </Form.Text>
-
           <div>
             <div>
-              <Form.Label className='fw-bold mt-4' htmlFor="deadline-date">When will the pool be locked?</Form.Label>
+              <Form.Label className='fw-bold mt-4' htmlFor="deadline-date">
+                <div className="d-flex">
+                  <div>When will the pool be locked?</div>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="button-tooltip-2">After this date the AMM is disabled so users can only trade between each other without adding/removing liquidity.</Tooltip>}
+                  >
+                    <i className="bi bi-info-circle pl-2"></i>
+                  </OverlayTrigger>
+                </div>
+              </Form.Label>
             </div>
             <div>
               <DatePicker
@@ -432,13 +471,20 @@ export const CreateMarket = () => {
               />
             </div>
             <div>
-              <Form.Text id="deadline-date" muted>
-                After this date the AMM is disabled so users can only trade between each other without adding/removing liquidity.
-              </Form.Text>
             </div>
 
             <div>
-              <Form.Label className='fw-bold mt-4' htmlFor="deadline-date">What's the deadline for the market? </Form.Label>
+              <Form.Label className='fw-bold mt-4' htmlFor="deadline-date">
+                <div className="d-flex">
+                  <div>What's the deadline for the market?</div>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="button-tooltip-2">If unresolved after this date, users will be able to reclaim their funds.</Tooltip>}
+                  >
+                    <i className="bi bi-info-circle pl-2"></i>
+                  </OverlayTrigger>
+                </div>
+              </Form.Label>
             </div>
             <div>
               <DatePicker
@@ -454,9 +500,6 @@ export const CreateMarket = () => {
               />
             </div>
             <div>
-              <Form.Text id="schedule-date" muted>
-                If unresolved after this date, users will be able to reclaim their funds.
-              </Form.Text>
             </div>
           </div>
 
