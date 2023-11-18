@@ -13,12 +13,19 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 import upload from '../assets/img/image_upload.png';
 
+import { useStateContext } from '../contexts/ContextProvider';
+
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
 import { Footer } from '../components/Footer'
+
+import { createBet } from '../utils/services';
 
 export const CreateMarket = () => {
 
   const outcomeInputRef = useRef(null);
+
+  const { activeContract, setActiveContract } = useStateContext();
+  const { betType, setBetType } = useStateContext();
 
   const [betID, setBetID] = useState()
   const [betSchema, setBetSchema] = useState()
@@ -114,6 +121,8 @@ export const CreateMarket = () => {
       return item;
     });
 
+    console.log(newBetChoiceList);
+
     setBetChoiceList(newBetChoiceList);
     checkPercentageSum(newBetChoiceList);
   }
@@ -175,17 +184,30 @@ export const CreateMarket = () => {
     )
   };
 
-  const handleCreateMarket = () => {
-    //TODO
-
+  const handleCreateMarket = async () => {
     handleImageSubmission(marketImage[0].file)
       .then((response) => response.json())
-      .then((result) => {
+      .then(async (result) => {
         console.log('Success:', result);
+
+        const marketImage = result.data.thumb.url;
+
+        //TODO: Subir las imagenes de los outcomes.
+
+        const outcomesArray = betChoiceList.map(item => item.betChoice);
+        const percentageArray = betChoiceList.map(item => item.percentage);
+        const outcomesImagesArray = betChoiceList.map(item => item.image === null || item.image === undefined ? "" : item.image);
+
+        await createBet(activeContract, betType, import.meta.env.VITE_USDC_ADDRESS, betID, deadlineDate, scheduleDate, betInitialPool, outcomesArray, percentageArray, betOOTitle, betOO, marketImage, outcomesImagesArray).then((r)=>{
+          console.log(r);
+        });
+
       })
       .catch((error) => {
         console.error('Error:', error);
       });
+
+
   }
 
   return (
@@ -320,86 +342,86 @@ export const CreateMarket = () => {
             <i className="bi bi-plus-circle-fill mt-2" onClick={handleAddBetChoice}></i>
           </div>
 
-          <table className="table table-hover mt-2">
-            <thead>
-              <tr>
-                <th className='col-2'>Image</th>
-                <th className='col-8'>Outcome</th>
-                <th className='col-1 text-center'>%</th>
-                <th className='col-1 text-center'>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {betChoiceList.map((item) => (
-                <tr key={item.id} className='align-middle'>
-                  <td>
+          {betChoiceList.length > 0 && (
+            <table className="table table-hover mt-2">
+              <thead>
+                <tr>
+                  <th className='col-1 text-center'>Image</th>
+                  <th className='col-8'>Outcome</th>
+                  <th className='col-1 text-center'>%</th>
+                  <th className='col-1 text-center'>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {betChoiceList.map((item) => (
+                  <tr key={item.id} className='align-middle'>
+                    <td>
 
-                    <ImageUploading
-                      value={item.image}
-                      onChange={(image) => handleImageUpload(image, item.id)}
-                      dataURLKey="data_url"
-                      acceptType={["jpg"]}
-                    >
-                      {({
-                        image,
-                        onImageUpload,
-                        onImageUpdate,
-                        onImageRemove,
-                        isDragging,
-                        dragProps
-                      }) => (
-                        // write your building UI
-                        <div className="upload__image-wrapper table_outcomes">
-                          {!item.image ? (
-                            <>
-                              <div className="upload_image">
-                                <img alt="" src={upload} style={isDragging ? { color: "red" } : null}
-                                  {...dragProps}>
-                                </img>
+                      <ImageUploading
+                        value={item.image}
+                        onChange={(image) => handleImageUpload(image, item.id)}
+                        dataURLKey="data_url"
+                        acceptType={["jpg"]}
+                      >
+                        {({
+                          image,
+                          onImageUpload,
+                          onImageUpdate,
+                          onImageRemove,
+                          isDragging,
+                          dragProps
+                        }) => (
+                          // write your building UI
+                          <div className="upload__image-wrapper table_outcomes">
+                            {!item.image ? (
+                              <>
+                                <div className="upload_image">
+                                  <img alt="" src={upload} style={isDragging ? { color: "red" } : null}
+                                    {...dragProps}>
+                                  </img>
+                                  <div className="overlay">
+                                    <i className="bi bi-cloud-arrow-up" onClick={onImageUpdate} ></i>
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+
+                              <div className="image-item upload_image">
+                                <img src={item.image[0].data_url} alt="" width="70" />
                                 <div className="overlay">
-                                  <i className="bi bi-cloud-arrow-up" onClick={onImageUpdate} ></i>
+                                  <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
+                                  <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
                                 </div>
                               </div>
-                            </>
-                          ) : (
 
-                            <div className="image-item upload_image">
-                              <img src={item.image[0].data_url} alt="" width="70" />
-                              <div className="overlay">
-                                <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
-                                <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
-                              </div>
-                            </div>
+                            )}
+                          </div>
+                        )}
+                      </ImageUploading >
 
-                          )}
-                        </div>
-                      )}
-                    </ImageUploading >
-
-                  </td>
-                  <td >{item.betChoice}</td>
-                  <td className='text-center'>
-                    <Form.Control
-                      type="number"
-                      style={{ width: '75px' }}
-                      value={item.percentage}
-                      onChange={(e) => handlePercentageChange(item.id, e.target.value)}
-                    />
-                  </td>
-                  <td className='text-center'>
-                    <i className="bi bi-trash3-fill" onClick={() => handleDeleteBetChoice(item.id)}></i>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {
-            percentageError && (
-              <Alert variant="danger">
-                {percentageError}
-              </Alert>
-            )
-          }
+                    </td>
+                    <td >{item.betChoice}</td>
+                    <td className='text-center'>
+                      <Form.Control
+                        type="number"
+                        style={{ width: '75px' }}
+                        value={item.percentage}
+                        onChange={(e) => handlePercentageChange(item.id, e.target.value)}
+                      />
+                    </td>
+                    <td className='text-center'>
+                      <i className="bi bi-trash3-fill" onClick={() => handleDeleteBetChoice(item.id)}></i>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+          {percentageError && (
+            <Alert variant="danger">
+              {percentageError}
+            </Alert>
+          )}
 
           <Form.Label className='fw-bold mt-4' htmlFor="create-bet-initial-pool">
             <div className="d-flex">
@@ -424,7 +446,10 @@ export const CreateMarket = () => {
             <div className='fw-bold'>Total cost: <span className='total_cost'>$10 USDC</span></div>
           </div>
 
-          <Form.Label className='fw-bold mt-4' htmlFor="create-bet-commission">
+          <p>Internal commission 2%</p>
+
+          {/*
+            <Form.Label className='fw-bold mt-4' htmlFor="create-bet-commission">
             <div className="d-flex">
               <div>Commission (%)</div>
               <OverlayTrigger
@@ -443,6 +468,8 @@ export const CreateMarket = () => {
             value={betCommission}
             onChange={handleChangeCommission}
           />
+            */}
+
           <div>
             <div>
               <Form.Label className='fw-bold mt-4' htmlFor="deadline-date">

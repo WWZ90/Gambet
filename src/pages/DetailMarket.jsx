@@ -211,18 +211,19 @@ export const DetailMarket = () => {
                             <div className="content">
                                 <div className="inside">
                                     <div className="left_panel">
-                                        <div className="top">
-                                            <div className="image">
+                                        <div className="row top">
+                                            <div className="col-2 image">
                                                 <img src={Image1} />
                                             </div>
-                                            <div>
-                                                <div className='d-flex'>
-                                                    <div
-                                                        className='title_gray first'>Deadline: {activeMarket.deadline}</div>
-                                                    <div
-                                                        className='title_gray'>Resolution: {activeMarket.resolution}</div>
+                                            <div className='col-10 p-0'>
+                                                <div className='row'> 
+                                                    <div className='col-6 text_gray first' style={{fontSize: '13px'}}>Deadline: {activeMarket.deadline}</div>
+                                                    <div className='col-6 text_gray' style={{fontSize: '13px'}}>Resolution: {activeMarket.resolution}</div>
                                                 </div>
-                                                <div className='title'>{activeMarket.name}</div>
+                                                <div className='row d-flex aling-align-items-center title'>
+                                                    <div className=''>{activeMarket.name}</div>
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div className='details'>

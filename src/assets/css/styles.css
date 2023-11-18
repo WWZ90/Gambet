@@ -118,7 +118,7 @@ h6 {
     color: var(--color_gray) !important;
     font-weight: lighter !important;
 }
-
+/*
 .btn-get-started {
     font-family: var(--onboard-font-family-medium);
     font-weight: 500;
@@ -133,6 +133,7 @@ h6 {
     color: #fff !important;
     background: #8b310b;
 }
+*/
 
 .button {
     margin-top: 20px;
@@ -147,6 +148,29 @@ button:disabled {
     background: #f5f5f5;
 }
 
+
+.btn-get-started {
+    font-family: var(--onboard-font-family-medium);
+    background-image: linear-gradient(to right, #a73737 0%, #792929 51%, #a73737 100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: #e2e2e2 !important;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 60px;
+    display: block;
+}
+
+.btn-get-started:hover {
+    background-position: right center;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+/*
 .btn-get-started.connected {
     background: #6e2505;
 }
@@ -156,7 +180,7 @@ button:disabled {
     color: #fff !important;
 }
 
-.button.green {
+*/ .button.green {
     background: #009b0d;
     color: #ffffff;
 }
@@ -211,7 +235,7 @@ table th {
 }
 
 table.table-hover tbody tr td:hover {
-    background-color: #ffffff; 
+    background-color: #ffffff;
 }
 
 /*--------------------------------------------------------------
@@ -1368,7 +1392,7 @@ button.swithToChain:hover {
     color: var(--color-3) !important;
 }
 
-.text_max_c{
+.text_max_c {
     color: green;
     font-weight: bolder;
 }
@@ -1698,8 +1722,9 @@ hr {
     cursor: pointer;
 }
 
-.create_market .bi-info-circle
-{margin-left: 5px;}
+.create_market .bi-info-circle {
+    margin-left: 5px;
+}
 
 .upload_image {
     position: relative;

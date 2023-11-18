@@ -146,3 +146,37 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
     return await filledOrder.wait();
 }
 
+export const createBet = async (activeContract, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
+    try {
+        debugger;
+        schedule = Date.parse(schedule) / 1000;
+        deadline = Date.parse(deadline) / 1000;
+        marketId = marketId.toLowerCase().trim();
+
+        /*
+        if (await usdc.allowance(owner, ooContractAddress) === 0n) {
+            triggerError(`Please approve a minimum of ${createBetTotalCost.innerHTML || "0 USDC"}  to create your market.`, undefined, async () => await usdc.approve(ooContractAddress, Number(createBetTotalCost.innerHTML.split(" USDC")[0] * 1e6) || await usdc.balanceOf(owner)));
+            return;
+        } else
+        */ 
+        /*
+        if ((await getMarket(marketId, activeContract)).created) {
+            return "Bet ID already exists";
+        }
+        */
+        switch (schema) {
+            /*
+            case "bc":
+                await activeContract.createHumanBet("0x07865c6E87B9F70255377e024ace6630C1Eaa37F", marketId, deadline, schedule, commissionDenominator, commission, initialPool, query).then(tx => tx.wait());
+                break;
+            */
+            case "oo":
+                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
+                break;
+        }
+    } catch (error) {
+        console.error(error);
+        //triggerError(providerErrorMsg(error), createBetQuery);
+    }
+}
+
