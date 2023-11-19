@@ -28,7 +28,8 @@ export const CreateMarket = () => {
 
   const { activeContract } = useStateContext();
   const { usdc } = useStateContext();
-  const { usdcBalance } = useStateContext();
+  const { usdcBalance, setUSDCBalance } = useStateContext();
+  const { awaitingApproval, setAwaitingApproval } = useStateContext();
   const { owner } = useStateContext();
   const { betType } = useStateContext();
 
@@ -192,9 +193,31 @@ export const CreateMarket = () => {
   };
 
   const handleConnectWallet = async () => {
-     await connect().then((result) =>{
-      
-     })
+    await connect().then(async (result) => {
+      await handleDepositUSDC();
+    })
+  }
+
+  const handleDepositUSDC = async () => {
+    setAwaitingApproval(true);
+    try {
+      await usdc.balanceOf(owner).then(async (balance) => {
+        await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).then(async tx => {
+          tx.wait();
+          await usdc.balanceOf(owner).then(async (balance) => {
+            await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
+              //debugger;
+              const wallet_balance = balance > allowance ? allowance : balance;
+              let b = (Number(wallet_balance) / 1e6).toFixed(3);
+              setUSDCBalance(b);
+              setAwaitingApproval(false);
+            });
+          });
+        });
+      });
+    } catch {
+      setAwaitingApproval(false);
+    }
   }
 
   const handleCreateMarket = async () => {
@@ -219,8 +242,6 @@ export const CreateMarket = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
-
-
   }
 
   return (
@@ -543,12 +564,16 @@ export const CreateMarket = () => {
 
           {activeContract ? (
             (usdcBalance ? (
-              <button className='button standard mt-4' onClick={handleCreateMarket}>Create market</button>
+              <button className='button green standard mt-4' onClick={handleCreateMarket}>Create market</button>
             ) : (
-              <button className='button standard mt-4'>Aprove USDC</button>
+              (awaitingApproval ? (
+                <button className='button standard mt-4'>Aproving...</button>
+              ) : (
+                <button className='button standard mt-4' onClick={handleDepositUSDC}>Aprove USDC</button>
+              ))
             ))
           ) : (
-            <button className='button standard mt-4' onClick={handleConnectWallet}>Connect your wallet</button>
+            <button className='button red standard mt-4' onClick={handleConnectWallet}>Connect your wallet</button>
           )}
 
 

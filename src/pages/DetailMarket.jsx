@@ -80,6 +80,7 @@ export const DetailMarket = () => {
 
 
     useEffect(() => {
+        //debugger;
         if (initialLoadingDetailMarketRef.current !== loadingDetailMarket) {
             return;
         }

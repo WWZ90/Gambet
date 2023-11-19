@@ -15,6 +15,7 @@ export const ContextProvider = ({ children }) => {
     const [activeContract, setActiveContract] = useState(null);
     const [usdc, setUSDC] = useState(null);
     const [usdcBalance, setUSDCBalance] = useState(null);
+    const [awaitingApproval, setAwaitingApproval] = useState(false);
     const [owner, setOwner] = useState(null);
     const [marketId, setMarketId] = useState(null);
     const [activeMarketId, setActiveMarketId] = useState(null);
@@ -62,6 +63,7 @@ export const ContextProvider = ({ children }) => {
                 activeContract, setActiveContract,
                 usdc, setUSDC,
                 usdcBalance, setUSDCBalance,
+                awaitingApproval, setAwaitingApproval,
                 owner, setOwner,
                 marketId, setMarketId, //ID del market
                 activeMarketId, setActiveMarketId, //ID del market activo

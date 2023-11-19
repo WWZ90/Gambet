@@ -118,6 +118,7 @@ h6 {
     color: var(--color_gray) !important;
     font-weight: lighter !important;
 }
+
 /*
 .btn-get-started {
     font-family: var(--onboard-font-family-medium);
@@ -151,7 +152,7 @@ button:disabled {
 
 .btn-get-started {
     font-family: var(--onboard-font-family-medium);
-    background-image: linear-gradient(to right, #a73737 0%, #792929 51%, #a73737 100%);
+    background-image: linear-gradient(to left, #dd5a0d 0%, #b13000 51%, #dd5a0d 100%);
     margin: 10px;
     padding: 15px 45px;
     text-align: center;
@@ -180,7 +181,8 @@ button:disabled {
     color: #fff !important;
 }
 
-*/ .button.green {
+*/
+.button.green {
     background: #009b0d;
     color: #ffffff;
 }
@@ -219,6 +221,17 @@ button:disabled {
 
 .bi-plus-circle-fill:hover {
     color: green;
+}
+
+#button-tooltip-2 > .tooltip-inner {
+    width: 300px !important;
+    background-color: #011425;
+    color: #ffffff;
+    border: 1px solid #062e56;
+}
+
+#button-tooltip-2 > .tooltip-arrow {
+    border-top: 1px solid #062e56;
 }
 
 table {
@@ -302,7 +315,7 @@ section h1 {
     font-size: 80px;
     font-weight: bold;
     text-align: left;
-    background: -webkit-linear-gradient(56deg, #431600 0%, #e83d00 100%);
+    background: -webkit-linear-gradient(56deg, #dc590d 0%, #5f1900 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -790,21 +803,34 @@ button.swithToChain:hover {
     opacity: 1;
 }
 
-.header .wallet_deposit, .wallet_disconnet {
+.header .wallet_deposit,
+.wallet_disconnet {
     font-size: 16px;
-    border-radius: 10px;
+    border-radius: 30px;
     border: 1px solid #d5b0b0;
     background-color: #f1f1f1;
     color: var(--color-link-nav);
     width: 140px;
-    border-bottom-left-radius: 10px;
     padding-left: 5px !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
     transition: 0.2s all;
 }
 
-.header .wallet_deposit:hover, .wallet_disconnet:hover{
+.header .wallet_disconnet {
+    background-color: #000 !important;
+    /* color: #fff; */
+    border: none;
+}
+
+.header .wallet_disconnet:hover {
+    background-color: #0f0f0f !important;
+    /* color: #fff; */
+    border: none;
+    color: var(--color-3);
+}
+
+.header .wallet_deposit:hover {
     background-color: #ffffff;
     color: var(--color-3);
 }

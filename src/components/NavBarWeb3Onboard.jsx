@@ -36,6 +36,7 @@ export const NavBarWeb3Onboard = () => {
     const { activeMarketId, setActiveMarketId } = useStateContext();
     const { activeContract, setActiveContract } = useStateContext();
     const { usdc, setUSDC } = useStateContext();
+    const { awaitingApproval, setAwaitingApproval } = useStateContext();
     const { usdcBalance, setUSDCBalance } = useStateContext();
     const { signer, setSigner } = useStateContext();
     const { owner, setOwner } = useStateContext();
@@ -45,8 +46,6 @@ export const NavBarWeb3Onboard = () => {
 
     const { cartCount, setCartCount } = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
-
-    const [awaitingApproval, setAwaitingApproval] = useState(false);
 
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [
@@ -159,7 +158,7 @@ export const NavBarWeb3Onboard = () => {
                     setActiveContract(temp_activeContract);
 
                     const temp_usdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(await provider.getSigner())
-                    setUSDC(temp_usdc);
+                    setUSDC(temp_usdc).then();
                 })
             }
 
@@ -167,22 +166,32 @@ export const NavBarWeb3Onboard = () => {
 
     }, [provider])
 
+    const handleConnectWallet = async () => {
+        await connect().then(async (result) => {
+            await handleDepositUSDC();
+        })
+    }
+
     const handleDepositUSDC = async () => {
         setAwaitingApproval(true);
-        await usdc.balanceOf(owner).then(async (balance) => {
-            await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).then(tx => tx.wait());
-        });
-
-        setAwaitingApproval(false);
-
-        await usdc.balanceOf(owner).then(async (balance) => {
-            await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
-                //debugger;
-                const wallet_balance = balance > allowance ? allowance : balance;
-                let b = (Number(wallet_balance) / 1e6).toFixed(3);
-                setUSDCBalance(b);
+        try {
+            await usdc.balanceOf(owner).then(async (balance) => {
+                await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).then(async tx => {
+                    tx.wait();
+                    await usdc.balanceOf(owner).then(async (balance) => {
+                        await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
+                            //debugger;
+                            const wallet_balance = balance > allowance ? allowance : balance;
+                            let b = (Number(wallet_balance) / 1e6).toFixed(3);
+                            setUSDCBalance(b);
+                            setAwaitingApproval(false);
+                        });
+                    });
+                });
             });
-        });
+        } catch {
+            setAwaitingApproval(false);
+        }
     }
 
     useEffect(() => {
@@ -237,12 +246,7 @@ export const NavBarWeb3Onboard = () => {
                         </Navbar.Collapse>
                         {!wallet ? (
                             <>
-                                <button
-                                    className="wallet_connect_button"
-                                    onClick={async () => {
-                                        const walletsConnected = await connect()
-                                    }}
-                                >
+                                <button className="wallet_connect_button" onClick={handleConnectWallet}>
                                     Connect
                                 </button>
                             </>
@@ -335,7 +339,7 @@ export const NavBarWeb3Onboard = () => {
 
                                         <NavDropdown.Divider />
 
-                                        <button onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setActiveContract(null); localStorage.removeItem('activeContract') }} className='wallet_disconnet'>
+                                        <button onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setActiveContract(null); setUSDCBalance(null); localStorage.removeItem('activeContract') }} className='wallet_disconnet'>
                                             Disconnet
                                         </button>
 

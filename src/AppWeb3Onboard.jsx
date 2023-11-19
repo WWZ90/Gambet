@@ -11,7 +11,7 @@ import { CreateMarket } from './pages/CreateMarket';
 import { WhatWeDo } from './pages/whatwedo';
 import { NotFound } from './pages/NotFound';
 
-import Favicon from "./assets/img/favicon.ico";
+import Favicon from "./assets/img/gambeth-favicon.png";
 
 import blocknativeIcon from './assets/icons/logo.svg'
 
