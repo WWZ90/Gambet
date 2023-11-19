@@ -89,7 +89,7 @@ export const getMarket = async (marketId, activeContract) => {
     console.log('getMarket');
 
     const m = await activeContract.markets(marketId).then(market => {
-        let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, marketImage, outcomeImages] = market;
+        let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, noClue, marketImage, outcomeImages] = market;
 
         shares = shares.split(" || ").map(n => Number(n));
         shares = shares.slice(0, shares.length - 1);
