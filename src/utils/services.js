@@ -60,7 +60,9 @@ export const browseMarkets = async (activeContract) => {
                 totalShares,
                 shares,
                 outcomes,
-                resolution
+                resolution,
+                marketImage,
+                outcomeImages
             }, name, terms] = market;
             const mkt = {
                 marketId,
@@ -76,6 +78,8 @@ export const browseMarkets = async (activeContract) => {
                 outcomes,
                 resolution,
                 name,
+                marketImage,
+                outcomeImages,
                 terms
             };
             mkt.prices = mkt.outcomes.map(o => calculatePrice(mkt, o));
@@ -89,7 +93,7 @@ export const getMarket = async (marketId, activeContract) => {
     console.log('getMarket');
 
     const m = await activeContract.markets(marketId).then(market => {
-        let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, noClue, marketImage, outcomeImages] = market;
+        let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, resolution, marketImage, outcomeImages] = market;
 
         shares = shares.split(" || ").map(n => Number(n));
         shares = shares.slice(0, shares.length - 1);
