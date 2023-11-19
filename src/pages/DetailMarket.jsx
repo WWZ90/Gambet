@@ -213,13 +213,22 @@ export const DetailMarket = () => {
                                 <div className="inside">
                                     <div className="left_panel">
                                         <div className="row top">
-                                            <div className="col-2 image">
-                                                <img src={Image1} />
-                                            </div>
+
+                                            {activeMarket.marketImage && activeMarket.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ? (
+                                                <div className='col-2 image'>
+                                                    <img src={activeMarket.marketImage}></img>
+                                                </div>
+                                            ) : (
+                                                <div className='col-2 image'>
+                                                    <img src={Image1}></img>
+                                                </div>
+                                            )}
+
+
                                             <div className='col-9 p-0'>
-                                                <div className='row'> 
-                                                    <div className='col-6 text_gray first' style={{fontSize: '13px'}}>Deadline: {activeMarket.deadline}</div>
-                                                    <div className='col-6 text_gray' style={{fontSize: '13px'}}>Resolution: {activeMarket.resolution}</div>
+                                                <div className='row'>
+                                                    <div className='col-6 text_gray first' style={{ fontSize: '13px' }}>Deadline: {activeMarket.deadline}</div>
+                                                    <div className='col-6 text_gray' style={{ fontSize: '13px' }}>Resolution: {activeMarket.resolution}</div>
                                                 </div>
                                                 <div className='row d-flex aling-align-items-center title'>
                                                     <div className=''>{activeMarket.name}</div>

@@ -123,7 +123,7 @@ export const BrowseMarkets = () => {
             <Slider {...settings}>
               {marketsArray.map(function (market, i) {
                 return <Link key={market.name} className="box_market" to={`/market/id/${market.marketId}`}>
-                  {market.marketImage ? (
+                  {market.marketImage && market.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ?  (
                     <div className='market_img'>
                       <img src={market.marketImage}></img>
                     </div>  
