@@ -123,9 +123,16 @@ export const BrowseMarkets = () => {
             <Slider {...settings}>
               {marketsArray.map(function (market, i) {
                 return <Link key={market.name} className="box_market" to={`/market/id/${market.marketId}`}>
-                  <div className='market_img'>
-                    <img src={Image1}></img>
-                  </div>
+                  {market.marketImage ? (
+                    <div className='market_img'>
+                      <img src={market.marketImage}></img>
+                    </div>  
+                  ):(
+                      <div className='market_img'>
+                        <img src={Image1}></img>
+                      </div>    
+                  )}
+                  
                   <div className="market_info">
                     <div className='market_title'>{truncateTextSize(market.name, 75)}</div>
                     <div className='market_desc'>Shares: {market.totalShares}</div>

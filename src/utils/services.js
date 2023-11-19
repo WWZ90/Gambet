@@ -195,7 +195,7 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
 
 export const createBet = async (activeContract, usdc, owner, ooContractAddress, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
     try {
-        //debugger;
+        debugger;
         schedule = Date.parse(schedule) / 1000;
         deadline = Date.parse(deadline) / 1000;
         marketId = marketId.toLowerCase().trim();
