@@ -36,18 +36,6 @@ const ooAbi = [
                 "internalType": "string",
                 "name": "request",
                 "type": "string"
-            },
-            {
-                "indexed": false,
-                "internalType": "string",
-                "name": "marketImage",
-                "type": "string"
-            },
-            {
-                "indexed": false,
-                "internalType": "string[]",
-                "name": "outcomeImages",
-                "type": "string[]"
             }
         ],
         "name": "CreatedOptimisticBet",
