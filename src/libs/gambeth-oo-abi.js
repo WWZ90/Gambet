@@ -744,6 +744,16 @@ const ooAbi = [
                 "internalType": "uint64",
                 "name": "resolution",
                 "type": "uint64"
+            },
+            {
+                "internalType": "string",
+                "name": "marketImage",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "outcomeImages",
+                "type": "string"
             }
         ],
         "stateMutability": "view",
