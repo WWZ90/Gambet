@@ -42,7 +42,7 @@ export const browseMarkets = async (activeContract) => {
         .map(async ([id, name, terms]) => [await getMarket(id, activeContract), name, terms])))
         .map(market => {
             const [{ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution }, name, terms] = market;
-            const mkt = {marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name, terms};
+            const mkt = { marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name, terms };
             mkt.prices = mkt.outcomes.map(o => calculatePrice(mkt, o));
             return mkt;
         });
@@ -53,7 +53,7 @@ const marketCache = {};
 export const getMarket = async (marketId, activeContract) => {
     console.log('getMarket');
 
-    const m =  await activeContract.markets(marketId).then(market => {
+    const m = await activeContract.markets(marketId).then(market => {
         const [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, marketImage, outcomeImages] = market;
         return marketCache[marketId] = {
             marketId,
@@ -85,7 +85,7 @@ export const getMarket = async (marketId, activeContract) => {
 
 export const getOwned = async (market, userAddress, activeContract) => {
     return await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
-} 
+}
 
 export const getPrices = async (market, owned, userAddress, activeContract) => {
     return await Promise.all(market.outcomes.map((outcome, idx) => activeContract.userTransfers(market.marketId, userAddress, outcome).then(async a => Math.round((Number(a) / 10 ** 6) / Number(owned[idx]) * 1000) / 1000)));
@@ -96,12 +96,12 @@ export const calculateCost = (market) => {
 }
 
 export const calculatePrice = (market, outcome) => {
-     return Math.max(1, market.shares[market.outcomes.indexOf(outcome)]) / calculateCost(market)
+    return Math.max(1, market.shares[market.outcomes.indexOf(outcome)]) / calculateCost(market)
 }
 
 export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
     let betOrders = refresh ? [] : (betOrders || []);
-    const contractOrders = await (activeContract || {getOrders: async () => []}).getOrders(activeMarketId || "", betOrders.length, 100);
+    const contractOrders = await (activeContract || { getOrders: async () => [] }).getOrders(activeMarketId || "", betOrders.length, 100);
     const newOrders = contractOrders.map(o => ({
         orderPosition: o[0] ? "SELL" : "BUY",
         pricePerShare: Number(o[1]) / 1e6,
@@ -118,7 +118,7 @@ export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
 export const groupOrders = (orders) => {
     const grouped = [];
     orders.forEach(o => {
-        const {outcome, orderPosition, amount, pricePerShare} = o;
+        const { outcome, orderPosition, amount, pricePerShare } = o;
         const update = grouped.filter(g => g.orderPosition === orderPosition && g.pricePerShare === pricePerShare && g.outcome === outcome)[0];
         if (update) {
             update.amount += amount;
@@ -135,7 +135,7 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
     newOrders.sort((a, b) => a.action < b.action ? 1 : a.price - b.price);
     const prices = newOrders.map(o => o.price * 1e6);
     const amounts = await Promise.all(newOrders.map(o => o.shares));
-    const orderIndexes = cart.map(({action, outcome, price}) => orders
+    const orderIndexes = cart.map(({ action, outcome, price }) => orders
         .filter(o => o.amount)
         .filter(o => o.outcome === outcome)
         .filter(o => o.orderPosition !== action)
@@ -146,24 +146,25 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
     return await filledOrder.wait();
 }
 
-export const createBet = async (activeContract, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
+export const createBet = async (activeContract, usdc, owner, ooContractAddress, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
     try {
-        debugger;
+        //debugger;
         schedule = Date.parse(schedule) / 1000;
         deadline = Date.parse(deadline) / 1000;
         marketId = marketId.toLowerCase().trim();
 
-        /*
+
         if (await usdc.allowance(owner, ooContractAddress) === 0n) {
-            triggerError(`Please approve a minimum of ${createBetTotalCost.innerHTML || "0 USDC"}  to create your market.`, undefined, async () => await usdc.approve(ooContractAddress, Number(createBetTotalCost.innerHTML.split(" USDC")[0] * 1e6) || await usdc.balanceOf(owner)));
+            //triggerError(`Please approve a minimum of ${createBetTotalCost.innerHTML || "0 USDC"}  to create your market.`, undefined, async () => await usdc.approve(ooContractAddress, Number(createBetTotalCost.innerHTML.split(" USDC")[0] * 1e6) || await usdc.balanceOf(owner)));
             return;
-        } else
-        */ 
+        } 
+
         /*
         if ((await getMarket(marketId, activeContract)).created) {
             return "Bet ID already exists";
         }
         */
+
         switch (schema) {
             /*
             case "bc":
@@ -171,7 +172,7 @@ export const createBet = async (activeContract, schema, address, marketId, deadl
                 break;
             */
             case "oo":
-                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
+                await activeContract.createOptimisticBet(address, marketId, schedule, deadline, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
                 break;
         }
     } catch (error) {

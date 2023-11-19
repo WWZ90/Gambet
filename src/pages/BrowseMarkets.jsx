@@ -34,7 +34,7 @@ import { Footer } from '../components/Footer';
 
 export const BrowseMarkets = () => {
 
-  const [{ wallet }] = useConnectWallet();
+  const [{ wallet }, connect] = useConnectWallet();
 
   const { previousRoute, setPreviousRoute } = useStateContext(false);
 

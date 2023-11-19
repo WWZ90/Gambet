@@ -13,6 +13,8 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 import upload from '../assets/img/image_upload.png';
 
+import { useConnectWallet, useSetChain } from "@web3-onboard/react";
+
 import { useStateContext } from '../contexts/ContextProvider';
 
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
@@ -24,8 +26,11 @@ export const CreateMarket = () => {
 
   const outcomeInputRef = useRef(null);
 
-  const { activeContract, setActiveContract } = useStateContext();
-  const { betType, setBetType } = useStateContext();
+  const { activeContract } = useStateContext();
+  const { usdc } = useStateContext();
+  const { usdcBalance } = useStateContext();
+  const { owner } = useStateContext();
+  const { betType } = useStateContext();
 
   const [betID, setBetID] = useState()
   const [betSchema, setBetSchema] = useState()
@@ -43,6 +48,8 @@ export const CreateMarket = () => {
   const [percentageError, setPercentageError] = useState('');
 
   const [marketImage, setMarketImage] = useState([]);
+
+  const [{ connecting }, connect] = useConnectWallet();
 
   const handleChangeBetID = (event) => {
     setBetID(event.target.value)
@@ -184,6 +191,12 @@ export const CreateMarket = () => {
     )
   };
 
+  const handleConnectWallet = async () => {
+     await connect().then((result) =>{
+      
+     })
+  }
+
   const handleCreateMarket = async () => {
     handleImageSubmission(marketImage[0].file)
       .then((response) => response.json())
@@ -195,10 +208,10 @@ export const CreateMarket = () => {
         //TODO: Subir las imagenes de los outcomes.
 
         const outcomesArray = betChoiceList.map(item => item.betChoice);
-        const percentageArray = betChoiceList.map(item => item.percentage);
+        const percentageArray = betChoiceList.map(item => Number(item.percentage));
         const outcomesImagesArray = betChoiceList.map(item => item.image === null || item.image === undefined ? "" : item.image);
 
-        await createBet(activeContract, betType, import.meta.env.VITE_USDC_ADDRESS, betID, deadlineDate, scheduleDate, betInitialPool, outcomesArray, percentageArray, betOOTitle, betOO, marketImage, outcomesImagesArray).then((r)=>{
+        await createBet(activeContract, usdc, owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS, betType, import.meta.env.VITE_USDC_ADDRESS, betID, deadlineDate, scheduleDate, Number(betInitialPool), outcomesArray, percentageArray, betOOTitle, betOO, marketImage, outcomesImagesArray).then((r) => {
           console.log(r);
         });
 
@@ -281,8 +294,6 @@ export const CreateMarket = () => {
           >
             {({
               image,
-              onImageUpload,
-              onImageRemoveAll,
               onImageUpdate,
               onImageRemove,
               isDragging,
@@ -296,8 +307,8 @@ export const CreateMarket = () => {
                       <img alt="" width="100" src={upload} style={isDragging ? { color: "red" } : null}
                         {...dragProps}>
                       </img>
-                      <div className="overlay">
-                        <i className="bi bi-cloud-arrow-up" onClick={onImageUpdate} ></i>
+                      <div className="overlay" onClick={onImageUpdate}>
+                        <i className="bi bi-cloud-arrow-up"></i>
                       </div>
                     </div>
                   </>
@@ -530,7 +541,17 @@ export const CreateMarket = () => {
             </div>
           </div>
 
-          <button className='button standard mt-4' onClick={handleCreateMarket}>Create market</button>
+          {activeContract ? (
+            (usdcBalance ? (
+              <button className='button standard mt-4' onClick={handleCreateMarket}>Create market</button>
+            ) : (
+              <button className='button standard mt-4'>Aprove USDC</button>
+            ))
+          ) : (
+            <button className='button standard mt-4' onClick={handleConnectWallet}>Connect your wallet</button>
+          )}
+
+
         </div >
       </section >
 

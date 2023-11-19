@@ -9,6 +9,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 import ReactEcharts from "echarts-for-react";
 
 import Image1 from '../assets/img/slider/1.jpg';
+
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
 import { OrderBook } from '../components/OrderBook';
 import { ActionOrders } from '../components/ActionOrders';
@@ -215,7 +216,7 @@ export const DetailMarket = () => {
                                             <div className="col-2 image">
                                                 <img src={Image1} />
                                             </div>
-                                            <div className='col-10 p-0'>
+                                            <div className='col-9 p-0'>
                                                 <div className='row'> 
                                                     <div className='col-6 text_gray first' style={{fontSize: '13px'}}>Deadline: {activeMarket.deadline}</div>
                                                     <div className='col-6 text_gray' style={{fontSize: '13px'}}>Resolution: {activeMarket.resolution}</div>

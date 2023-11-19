@@ -346,6 +346,10 @@ section h1 {
     padding: 10px 0px;
 }
 
+.slick-slider .slick-track{
+    width: 340px !important;
+}
+
 .slick-list {
     height: 325px !important;
 }
@@ -504,7 +508,7 @@ section h1 {
     color: var(--color-link-nav-hover) !important;
 }
 
-.header .navmenu a:after {
+.header .navmenu .navbar-collapse a:after {
     content: "•";
     display: block;
     font-size: 1.5em;
@@ -790,12 +794,25 @@ button.swithToChain:hover {
     opacity: 1;
 }
 
-.header .dropdown-menu .wallet_disconnet {
+.header .wallet_deposit, .wallet_disconnet {
     font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #d5b0b0;
+    background-color: #f1f1f1;
+    color: var(--color-link-nav);
+    width: 140px;
+    border-bottom-left-radius: 10px;
     padding-left: 5px !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
+    transition: 0.2s all;
 }
+
+.header .wallet_deposit:hover, .wallet_disconnet:hover{
+    background-color: #ffffff;
+    color: var(--color-3);
+}
+
 
 /************* END MENU FRAME MOTION ************/
 
@@ -962,10 +979,6 @@ button.swithToChain:hover {
 
 .detail_market .left_panel .top {
     display: flex;
-}
-
-.detail_market .left_panel .top .image {
-    margin-right: 10px;
 }
 
 .detail_market .left_panel .top .image img {

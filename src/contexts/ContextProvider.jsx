@@ -13,6 +13,8 @@ export const ContextProvider = ({ children }) => {
     const [providerLoaded, setProviderLoaded] = useState(false);
     const [signer, setSigner] = useState(null);
     const [activeContract, setActiveContract] = useState(null);
+    const [usdc, setUSDC] = useState(null);
+    const [usdcBalance, setUSDCBalance] = useState(null);
     const [owner, setOwner] = useState(null);
     const [marketId, setMarketId] = useState(null);
     const [activeMarketId, setActiveMarketId] = useState(null);
@@ -58,6 +60,8 @@ export const ContextProvider = ({ children }) => {
                 providerLoaded, setProviderLoaded,
                 signer, setSigner,
                 activeContract, setActiveContract,
+                usdc, setUSDC,
+                usdcBalance, setUSDCBalance,
                 owner, setOwner,
                 marketId, setMarketId, //ID del market
                 activeMarketId, setActiveMarketId, //ID del market activo
