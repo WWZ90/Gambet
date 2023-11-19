@@ -97,7 +97,10 @@ export const getMarket = async (marketId, activeContract) => {
         outcomeImages = outcomeImages.split(" || ");
         outcomeImages = outcomeImages.slice(0, outcomeImages.length - 1);
 
-        console.log("SHARES | IMAGES", shares, outcomeImages);
+        outcomes = outcomes.split(" || ");
+        outcomes = outcomes.slice(0, outcomes.length - 1);
+
+        console.log("SHARES | IMAGE | IMAGES", shares, marketImage, outcomeImages);
 
         return marketCache[marketId] = {
             marketId,
@@ -111,7 +114,7 @@ export const getMarket = async (marketId, activeContract) => {
             owner,
             commission: 5,
             totalShares: Number(totalShares),
-            outcomes: outcomes.split(" || "),
+            outcomes,
             shares,
             commissionDenominator: 100,
             marketImage,
