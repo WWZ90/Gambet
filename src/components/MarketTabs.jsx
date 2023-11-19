@@ -74,9 +74,18 @@ export const MarketTabs = ({ categories, myRef }) => {
                                         return <Link key={i} className="" to={`/market/id/${market.marketId}`}>
                                             <div className="c-dhzjXW c-cZDZbz c-dhzjXW-iQMpow-css mt-3">
                                                 <div className='c-dhzjXW c-goxxzP'>
-                                                    <div className="c-dhzjXW c-chvCSy">
-                                                        <img src={Image1}></img>
-                                                    </div>
+
+                                                    {market.marketImage && market.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ? (
+                                                        <div className='c-dhzjXW c-chvCSy'>
+                                                            <img src={market.marketImage}></img>
+                                                        </div>
+                                                    ) : (
+                                                        <div className='c-dhzjXW c-chvCSy'>
+                                                            <img src={Image1}></img>
+                                                        </div>
+                                                    )}
+
+
                                                     <div className='c-dhzjXW c-hwskUZ'>
                                                         <div className="c-dhzjXW c-gURjzw">
                                                             <div className="c-dhzjXW c-jvuvAf">
