@@ -13,6 +13,7 @@ import {
 } from '../utils/services'
 
 import ooAbi from '../libs/gambeth-oo-abi';
+import tokenAbi from '../libs/gambeth-oo-token-abi';
 
 import { browseMarkets, getMarket } from '../utils/services';
 
@@ -34,6 +35,8 @@ export const NavBarWeb3Onboard = () => {
     const { marketId, setMarketId } = useStateContext();
     const { activeMarketId, setActiveMarketId } = useStateContext();
     const { activeContract, setActiveContract } = useStateContext();
+    const { usdc, setUSDC } = useStateContext();
+    const { usdcBalance, setUSDCBalance } = useStateContext();
     const { signer, setSigner } = useStateContext();
     const { owner, setOwner } = useStateContext();
     const { betType, setBetType } = useStateContext();
@@ -42,6 +45,8 @@ export const NavBarWeb3Onboard = () => {
 
     const { cartCount, setCartCount } = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
+
+    const [awaitingApproval, setAwaitingApproval] = useState(false);
 
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [
@@ -146,12 +151,15 @@ export const NavBarWeb3Onboard = () => {
 
         if (provider) {
             if (!marketsArray) {
-                
+
                 console.log('NavBar provider');
 
-                start().then(result => {
+                start().then(async result => {
                     setSigner(temp_singer);
                     setActiveContract(temp_activeContract);
+
+                    const temp_usdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(await provider.getSigner())
+                    setUSDC(temp_usdc);
                 })
             }
 
@@ -159,8 +167,26 @@ export const NavBarWeb3Onboard = () => {
 
     }, [provider])
 
+    const handleDepositUSDC = async () => {
+        setAwaitingApproval(true);
+        await usdc.balanceOf(owner).then(async (balance) => {
+            await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).then(tx => tx.wait());
+        });
+
+        setAwaitingApproval(false);
+
+        await usdc.balanceOf(owner).then(async (balance) => {
+            await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
+                //debugger;
+                const wallet_balance = balance > allowance ? allowance : balance;
+                let b = (Number(wallet_balance) / 1e6).toFixed(3);
+                setUSDCBalance(b);
+            });
+        });
+    }
 
     useEffect(() => {
+        //debugger;
         if (!wallet?.provider) {
             setProvider(null)
         } else {
@@ -261,72 +287,57 @@ export const NavBarWeb3Onboard = () => {
                                         animate={shown ? "enter" : "exit"}
                                         className="dropdown-menu absolute"
                                     >
-                                        {wallet?.accounts[0]?.balance && (
+                                        {usdcBalance ? (
 
                                             <a className='animated-line balance'>
                                                 <motion.li
-                                                    whileHover={{
-                                                        x: 1,
-                                                    }}
                                                     className="cursor-pointer my-auto"
                                                 >
-                                                    {formatBalance(Object.values(wallet?.accounts[0]?.balance))} ETH
+                                                    {usdcBalance} USDC
                                                 </motion.li>
 
                                             </a>
 
+                                        ) : (
+                                            <button onClick={handleDepositUSDC} className='wallet_deposit'>
+                                                {awaitingApproval ? (
+                                                    <spam>Awaiting...</spam>
+                                                ) : (
+                                                    <spam>Aprove USDC</spam>
+                                                )}
+
+                                            </button>
                                         )}
-                                        {/*
-                                    <NavLink to="/browsemarkets" className='animated-line'>
-                                        <motion.li
-                                            whileHover={{
-                                                color: "#FFB703",
-                                                x: 2,
-                                            }}
-                                            className="cursor-pointer"
-                                        >
-                                            Browse markets
-                                        </motion.li>
-                                    </NavLink>
-                                    */}
+
+                                        <NavLink to="/browsemarkets" className='animated-line'>
+                                            <motion.li className="cursor-pointer">
+                                                Browse markets
+                                            </motion.li>
+                                        </NavLink>
+
                                         <NavLink to="/createmarket" className='animated-line'>
-                                            <motion.li
-                                                whileHover={{
-                                                    x: 2,
-                                                }}
-                                                className="cursor-pointer"
-                                            >
+                                            <motion.li className="cursor-pointer">
                                                 Create market
                                             </motion.li>
                                         </NavLink>
 
                                         <NavLink to="/cart" className='animated-line'>
-                                            <motion.li
-                                                whileHover={{
-                                                    x: 2,
-                                                }}
-                                                className="cursor-pointer"
-                                            >
+                                            <motion.li className="cursor-pointer">
                                                 View cart
                                             </motion.li>
                                         </NavLink>
 
                                         <NavLink to="/whatwedo" className='animated-line'>
-                                            <motion.li
-                                                whileHover={{
-                                                    x: 2,
-                                                }}
-                                                className="cursor-pointer"
-                                            >
+                                            <motion.li className="cursor-pointer">
                                                 What we do?
                                             </motion.li>
                                         </NavLink>
 
                                         <NavDropdown.Divider />
 
-                                        <NavDropdown.Item onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setMarketsArray(null); localStorage.removeItem('activeContract') }} className='wallet_disconnet'>
+                                        <button onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setActiveContract(null); localStorage.removeItem('activeContract') }} className='wallet_disconnet'>
                                             Disconnet
-                                        </NavDropdown.Item>
+                                        </button>
 
                                     </motion.ul>
                                 </motion.div>

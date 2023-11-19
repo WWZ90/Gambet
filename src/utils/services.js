@@ -19,7 +19,15 @@ export function formatDate(d) {
 
     const date = new Date(dateString);
 
-    const options = { year: 'numeric', month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+    const options = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'short'
+    };
 
     return date.toLocaleString('en-US', options);
 }
@@ -29,11 +37,10 @@ export function formatDateShort(d) {
 
     const date = new Date(dateString);
 
-    const options = { year: 'numeric', month: 'short', day: '2-digit' };
+    const options = {year: 'numeric', month: 'short', day: '2-digit'};
 
     return date.toLocaleString('en-US', options);
 }
-
 
 
 export const browseMarkets = async (activeContract) => {
@@ -41,8 +48,36 @@ export const browseMarkets = async (activeContract) => {
         .map(e => [e.args[1], e.args[2], e.args[3]])
         .map(async ([id, name, terms]) => [await getMarket(id, activeContract), name, terms])))
         .map(market => {
-            const [{ marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution }, name, terms] = market;
-            const mkt = {marketId, created, finished, creation, outcomeIndex, deadline, owner, commission, totalShares, shares, outcomes, resolution, name, terms};
+            const [{
+                marketId,
+                created,
+                finished,
+                creation,
+                outcomeIndex,
+                deadline,
+                owner,
+                commission,
+                totalShares,
+                shares,
+                outcomes,
+                resolution
+            }, name, terms] = market;
+            const mkt = {
+                marketId,
+                created,
+                finished,
+                creation,
+                outcomeIndex,
+                deadline,
+                owner,
+                commission,
+                totalShares,
+                shares,
+                outcomes,
+                resolution,
+                name,
+                terms
+            };
             mkt.prices = mkt.outcomes.map(o => calculatePrice(mkt, o));
             return mkt;
         });
@@ -53,7 +88,7 @@ const marketCache = {};
 export const getMarket = async (marketId, activeContract) => {
     console.log('getMarket');
 
-    const m =  await activeContract.markets(marketId).then(market => {
+    const m = await activeContract.markets(marketId).then(market => {
         let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, marketImage, outcomeImages] = market;
 
         shares = shares.split(" || ").map(n => Number(n));
@@ -94,7 +129,7 @@ export const getMarket = async (marketId, activeContract) => {
 
 export const getOwned = async (market, userAddress, activeContract) => {
     return await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
-} 
+}
 
 export const getPrices = async (market, owned, userAddress, activeContract) => {
     return await Promise.all(market.outcomes.map((outcome, idx) => activeContract.userTransfers(market.marketId, userAddress, outcome).then(async a => Math.round((Number(a) / 10 ** 6) / Number(owned[idx]) * 1000) / 1000)));
@@ -105,7 +140,7 @@ export const calculateCost = (market) => {
 }
 
 export const calculatePrice = (market, outcome) => {
-     return Math.max(1, market.shares[market.outcomes.indexOf(outcome)]) / calculateCost(market)
+    return Math.max(1, market.shares[market.outcomes.indexOf(outcome)]) / calculateCost(market)
 }
 
 export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
@@ -155,24 +190,25 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
     return await filledOrder.wait();
 }
 
-export const createBet = async (activeContract, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
+export const createBet = async (activeContract, usdc, owner, ooContractAddress, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
     try {
-        debugger;
+        //debugger;
         schedule = Date.parse(schedule) / 1000;
         deadline = Date.parse(deadline) / 1000;
         marketId = marketId.toLowerCase().trim();
 
-        /*
+
         if (await usdc.allowance(owner, ooContractAddress) === 0n) {
-            triggerError(`Please approve a minimum of ${createBetTotalCost.innerHTML || "0 USDC"}  to create your market.`, undefined, async () => await usdc.approve(ooContractAddress, Number(createBetTotalCost.innerHTML.split(" USDC")[0] * 1e6) || await usdc.balanceOf(owner)));
+            //triggerError(`Please approve a minimum of ${createBetTotalCost.innerHTML || "0 USDC"}  to create your market.`, undefined, async () => await usdc.approve(ooContractAddress, Number(createBetTotalCost.innerHTML.split(" USDC")[0] * 1e6) || await usdc.balanceOf(owner)));
             return;
-        } else
-        */ 
+        }
+
         /*
         if ((await getMarket(marketId, activeContract)).created) {
             return "Bet ID already exists";
         }
         */
+
         switch (schema) {
             /*
             case "bc":
@@ -180,7 +216,7 @@ export const createBet = async (activeContract, schema, address, marketId, deadl
                 break;
             */
             case "oo":
-                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
+                await activeContract.createOptimisticBet(address, marketId, schedule, deadline, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
                 break;
         }
     } catch (error) {

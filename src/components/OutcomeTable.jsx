@@ -4,7 +4,8 @@ import ContentLoader from "react-content-loader"
 
 import { useStateContext } from '../contexts/ContextProvider';
 
-import upload from '../assets/img/upload.png';
+import upload from '../assets/img/image_upload.png';
+
 import { ImageDisplay } from './ImageDisplay';
 
 export const OutcomeTable = () => {
