@@ -209,6 +209,12 @@ button:disabled {
     background-color: rgb(31 90 255);
 }
 
+.button.alert-danger {
+    color: #58151c; 
+    background-color: #f8d7da;
+    border-color: #f1aeb5;
+}
+
 .bi-trash3-fill,
 .bi-plus-circle-fill {
     transition: 0.3s all;

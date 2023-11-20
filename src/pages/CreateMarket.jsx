@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
@@ -46,6 +46,8 @@ export const CreateMarket = () => {
   const [deadlineDate, setDeadlineDate] = useState(new Date());
   const [scheduleDate, setScheduleDate] = useState(new Date());
 
+  const [totalCost, setTotalCost] = useState(0);
+  const [minimumInitialPool, setMinimumInitialPool] = useState(0);
   const [percentageError, setPercentageError] = useState('');
 
   const [marketImage, setMarketImage] = useState([]);
@@ -78,14 +80,15 @@ export const CreateMarket = () => {
     }
   }
 
-
   const handleAddBetChoice = (image) => {
     if (betChoice.trim() !== '') {
-      setBetChoiceList([...betChoiceList, { id: idBetChoice, image: image, betChoice, percentage: 0 }]);
-      setIdBetChoice(idBetChoice + 1);
-      setBetChoice('');
-      outcomeInputRef.current.focus();
-      checkPercentageSum(betChoiceList);
+      if (!betChoiceList.some(item => item.betChoice === betChoice)) {
+        setBetChoiceList([...betChoiceList, { id: idBetChoice, image: image, betChoice, percentage: 0 }]);
+        setIdBetChoice(idBetChoice + 1);
+        setBetChoice('');
+        outcomeInputRef.current.focus();
+        checkPercentageSum(betChoiceList);
+      }
     }
   }
 
@@ -122,6 +125,10 @@ export const CreateMarket = () => {
   }
 
   const handlePercentageChange = (id, percentage) => {
+
+    const newValue = parseInt(percentage, 10);
+    percentage = newValue < 0 ? 0 : newValue;
+
     const newBetChoiceList = betChoiceList.map((item) => {
       if (item.id === id) {
         return { ...item, percentage };
@@ -148,13 +155,48 @@ export const CreateMarket = () => {
     }
   }
 
-  const allPercentagesZero = (list) => {
-    return list.every((item) => parseFloat(item.percentage) === 0);
+  useEffect(() => {
+    renderCostMessage();
+  }, [betChoiceList])
+
+
+  const renderCostMessage = () => {
+    const ratios = betChoiceList.map(item => item.percentage).map(Number).filter(v => v);
+    const mIP = !Math.min(...ratios) ? 0 : Math.ceil(100 / Math.min(...ratios));
+
+    setMinimumInitialPool(mIP);
+
+    let actualInitialPool = betInitialPool;
+    if (minimumInitialPool > betInitialPool) {
+      actualInitialPool = minimumInitialPool;
+      setBetInitialPool(minimumInitialPool);
+    }
+
+    console.log(minimumInitialPool);
+
+    const tc = (10 + Math.sqrt(ratios.map(p => actualInitialPool / 100 * p).map(o => o * o).reduce((a, b) => a + b, 0))).toFixed(2);
+    setTotalCost(tc);
   }
 
   const handleChangeInitialPool = (event) => {
-    setBetInitialPool(event.target.value);
+    setBetInitialPool(Number(event.target.value));
   }
+
+  const handleIncrementInitialPool = () => {
+    setBetInitialPool(Number(betInitialPool + minimumInitialPool));
+  };
+
+  const handleDecrementInitialPool = () => {
+    if (betInitialPool >= minimumInitialPool) {
+      setBetInitialPool(Number(betInitialPool - minimumInitialPool));
+    }
+  };
+
+  useEffect(() => {
+    renderCostMessage();
+  }, [betInitialPool])
+
+
 
   const handleChangeCommission = (event) => {
     setBetCommission(event.target.value);
@@ -375,110 +417,128 @@ export const CreateMarket = () => {
           </div>
 
           {betChoiceList.length > 0 && (
-            <table className="table table-hover mt-2">
-              <thead>
-                <tr>
-                  <th className='col-1 text-center'>Image</th>
-                  <th className='col-8'>Outcome</th>
-                  <th className='col-1 text-center'>%</th>
-                  <th className='col-1 text-center'>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {betChoiceList.map((item) => (
-                  <tr key={item.id} className='align-middle'>
-                    <td>
+            <>
+              <table className="table table-hover mt-2">
+                <thead>
+                  <tr>
+                    <th className='col-1 text-center'>Image</th>
+                    <th className='col-8'>Outcome</th>
+                    <th className='col-1 text-center'>%</th>
+                    <th className='col-1 text-center'>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {betChoiceList.map((item) => (
+                    <tr key={item.id} className='align-middle'>
+                      <td>
 
-                      <ImageUploading
-                        value={item.image}
-                        onChange={(image) => handleImageUpload(image, item.id)}
-                        dataURLKey="data_url"
-                        acceptType={["jpg"]}
-                      >
-                        {({
-                          image,
-                          onImageUpload,
-                          onImageUpdate,
-                          onImageRemove,
-                          isDragging,
-                          dragProps
-                        }) => (
-                          // write your building UI
-                          <div className="upload__image-wrapper table_outcomes">
-                            {!item.image ? (
-                              <>
-                                <div className="upload_image">
-                                  <img alt="" src={upload} style={isDragging ? { color: "red" } : null}
-                                    {...dragProps}>
-                                  </img>
+                        <ImageUploading
+                          value={item.image}
+                          onChange={(image) => handleImageUpload(image, item.id)}
+                          dataURLKey="data_url"
+                          acceptType={["jpg"]}
+                        >
+                          {({
+                            image,
+                            onImageUpload,
+                            onImageUpdate,
+                            onImageRemove,
+                            isDragging,
+                            dragProps
+                          }) => (
+                            // write your building UI
+                            <div className="upload__image-wrapper table_outcomes">
+                              {!item.image ? (
+                                <>
+                                  <div className="upload_image">
+                                    <img alt="" src={upload} style={isDragging ? { color: "red" } : null}
+                                      {...dragProps}>
+                                    </img>
+                                    <div className="overlay" onClick={onImageUpdate}>
+                                      <i className="bi bi-cloud-arrow-up"></i>
+                                    </div>
+                                  </div>
+                                </>
+                              ) : (
+
+                                <div className="image-item upload_image">
+                                  <img src={item.image[0].data_url} alt="" width="70" />
                                   <div className="overlay">
-                                    <i className="bi bi-cloud-arrow-up" onClick={onImageUpdate} ></i>
+                                    <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
+                                    <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
                                   </div>
                                 </div>
-                              </>
-                            ) : (
 
-                              <div className="image-item upload_image">
-                                <img src={item.image[0].data_url} alt="" width="70" />
-                                <div className="overlay">
-                                  <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
-                                  <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
-                                </div>
-                              </div>
+                              )}
+                            </div>
+                          )}
+                        </ImageUploading >
 
-                            )}
-                          </div>
-                        )}
-                      </ImageUploading >
+                      </td>
+                      <td >{item.betChoice}</td>
+                      <td className='text-center'>
+                        <Form.Control
+                          type="number"
+                          style={{ width: '75px' }}
+                          value={item.percentage}
+                          onChange={(e) => handlePercentageChange(item.id, e.target.value)}
+                        />
+                      </td>
+                      <td className='text-center'>
+                        <i className="bi bi-trash3-fill" onClick={() => handleDeleteBetChoice(item.id)}></i>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-                    </td>
-                    <td >{item.betChoice}</td>
-                    <td className='text-center'>
-                      <Form.Control
-                        type="number"
-                        style={{ width: '75px' }}
-                        value={item.percentage}
-                        onChange={(e) => handlePercentageChange(item.id, e.target.value)}
-                      />
-                    </td>
-                    <td className='text-center'>
-                      <i className="bi bi-trash3-fill" onClick={() => handleDeleteBetChoice(item.id)}></i>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              {percentageError && (
+                <Alert variant="danger">
+                  {percentageError}
+                </Alert>
+              )}
+            </>
           )}
-          {percentageError && (
-            <Alert variant="danger">
-              {percentageError}
-            </Alert>
-          )}
+
 
           <Form.Label className='fw-bold mt-4' htmlFor="create-bet-initial-pool">
             <div className="d-flex">
               <div>Initial pool</div>
-              <OverlayTrigger
-                placement="top"
-                overlay={<Tooltip id="button-tooltip-2">The market must be bootstrapped with at least 0 initial shares</Tooltip>}
-              >
-                <i className="bi bi-info-circle pl-2"></i>
-              </OverlayTrigger>
             </div>
           </Form.Label>
-          <Form.Control
-            type="number"
-            id="create-bet-initial-pool"
-            placeholder="# Shares"
-            value={betInitialPool}
-            onChange={handleChangeInitialPool}
-          />
 
-          <div className='d-flex mt-3'>
-            <div className='fw-bold'>Total cost: <span className='total_cost'>$10 USDC</span></div>
+          <div className='box inputData'>
+            <div className='inputStyle'>
+              <OverlayTrigger
+                overlay={<Tooltip id="tooltip-decrement">-{minimumInitialPool}</Tooltip>}
+                placement="top"
+              >
+                <button className='buttonStyle' disabled={minimumInitialPool >= betInitialPool} onClick={handleDecrementInitialPool}>-</button>
+              </OverlayTrigger>
+              <input
+                type="text"
+                className="form-control text-center text_gray"
+                disabled='true'
+                value={minimumInitialPool <= betInitialPool ? betInitialPool : minimumInitialPool}
+                style={{ flex: 1, border: 'none' }}
+                onChange={handleChangeInitialPool}
+              />
+              <OverlayTrigger
+                overlay={<Tooltip id="tooltip-increment">+{minimumInitialPool}</Tooltip>}
+                placement="top"
+              >
+                <button className='buttonStyle' onClick={handleIncrementInitialPool}>+</button>
+              </OverlayTrigger>
+            </div>
           </div>
 
-          <p>Internal commission 2%</p>
+          <p className='text_gray'>The market must be bootstrapped with <spam className="text_max_c fw-medium">at least {minimumInitialPool} initial shares</spam></p>
+
+          <div className='d-flex mt-3'>
+            <div className='fw-bold'>Total cost: <span className='total_cost'>{totalCost} USDC</span></div>
+          </div>
+
+          <p className='text_gray'>Internal commission 2%</p>
 
           {/*
             <Form.Label className='fw-bold mt-4' htmlFor="create-bet-commission">
@@ -564,7 +624,15 @@ export const CreateMarket = () => {
 
           {activeContract ? (
             (usdcBalance ? (
-              <button className='button green standard mt-4' onClick={handleCreateMarket}>Create market</button>
+              (betChoiceList.length >= 2 ? (
+                (!percentageError ? (
+                    <button className='button green standard mt-4' onClick={handleCreateMarket}>Create market</button>
+                ):(
+                  <button className='button alert-danger standard mt-4'>The sum of all % has to be 100</button>
+                ))
+              ):(
+                <button className='button alert-danger standard mt-4'>At least need 2 outcomes</button>
+              ))
             ) : (
               (awaitingApproval ? (
                 <button className='button standard mt-4'>Aproving...</button>
