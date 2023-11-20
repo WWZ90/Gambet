@@ -165,16 +165,17 @@ export const CreateMarket = () => {
     const mIP = !Math.min(...ratios) ? 0 : Math.ceil(100 / Math.min(...ratios));
 
     setMinimumInitialPool(mIP);
-
+/*
     let actualInitialPool = betInitialPool;
     if (minimumInitialPool > betInitialPool) {
       actualInitialPool = minimumInitialPool;
       setBetInitialPool(minimumInitialPool);
     }
-
+*/
+    setBetInitialPool(mIP);
     console.log(minimumInitialPool);
 
-    const tc = (10 + Math.sqrt(ratios.map(p => actualInitialPool / 100 * p).map(o => o * o).reduce((a, b) => a + b, 0))).toFixed(2);
+    const tc = (10 + Math.sqrt(ratios.map(p => mIP / 100 * p).map(o => o * o).reduce((a, b) => a + b, 0))).toFixed(2);
     setTotalCost(tc);
   }
 
