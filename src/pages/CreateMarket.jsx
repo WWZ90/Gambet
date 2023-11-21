@@ -164,18 +164,15 @@ export const CreateMarket = () => {
     const ratios = betChoiceList.map(item => item.percentage).map(Number).filter(v => v);
     const mIP = !Math.min(...ratios) ? 0 : Math.ceil(100 / Math.min(...ratios));
 
-    setMinimumInitialPool(mIP);
-/*
-    let actualInitialPool = betInitialPool;
-    if (minimumInitialPool > betInitialPool) {
-      actualInitialPool = minimumInitialPool;
-      setBetInitialPool(minimumInitialPool);
+    if(mIP != minimumInitialPool){
+      setMinimumInitialPool(mIP);
+      setBetInitialPool(mIP);
     }
-*/
-    setBetInitialPool(mIP);
-    console.log(minimumInitialPool);
 
-    const tc = (10 + Math.sqrt(ratios.map(p => mIP / 100 * p).map(o => o * o).reduce((a, b) => a + b, 0))).toFixed(2);
+    const actualIP = betInitialPool > mIP ? betInitialPool : mIP;
+
+    const tc = (5 + Math.sqrt(ratios.map(p => actualIP / 100 * p).map(o => o * o).reduce((a, b) => a + b, 0))).toFixed(2);
+
     setTotalCost(tc);
   }
 
