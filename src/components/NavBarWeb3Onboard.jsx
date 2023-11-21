@@ -158,7 +158,7 @@ export const NavBarWeb3Onboard = () => {
                     setActiveContract(temp_activeContract);
 
                     const temp_usdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(await provider.getSigner())
-                    setUSDC(temp_usdc).then();
+                    setUSDC(temp_usdc);
                 })
             }
 

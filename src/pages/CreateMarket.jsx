@@ -20,7 +20,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
 import { Footer } from '../components/Footer'
 
-import { createBet } from '../utils/services';
+import { createBet, verifyMarketExist } from '../utils/services';
 
 export const CreateMarket = () => {
 
@@ -52,10 +52,24 @@ export const CreateMarket = () => {
 
   const [marketImage, setMarketImage] = useState([]);
 
+  const [marketIDExist, setMarketIDExist] = useState(false);
+
   const [{ connecting }, connect] = useConnectWallet();
 
-  const handleChangeBetID = (event) => {
-    setBetID(event.target.value)
+
+  const handleChangeBetID = async (event) => {
+    const mID = event.target.value;
+    
+    setBetID(mID);
+
+    await verifyMarketExist(mID, activeContract).then((result) => {
+      if(result){
+        setMarketIDExist(true);
+      }else{
+        setMarketIDExist(false);
+      }
+    })
+
   }
 
   const handleChangeBetSchema = (event) => {
@@ -311,8 +325,14 @@ export const CreateMarket = () => {
             value={betID}
             placeholder="argentina-2023"
             aria-describedby="create-bet-id-HelpBlock"
+            className={marketIDExist ? "input_error" : ""}
             onChange={handleChangeBetID}
           />
+
+          {marketIDExist && (
+            <p className='text_error'>This market id already exist</p>
+          )}
+          
 
           <div className='fw-bold mt-4'>How should the contract determine the outcome of your bet?</div>
           <Form.Select aria-label="Default select example" name='create-bet-schema' id='create-bet-schema' onChange={handleChangeBetSchema}>

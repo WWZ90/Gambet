@@ -257,6 +257,15 @@ table.table-hover tbody tr td:hover {
     background-color: #ffffff;
 }
 
+.input_error{
+    border: 1px solid red !important;
+}
+
+.text_error {
+    font-size: 12px;
+    color: red;
+}
+
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/
@@ -813,8 +822,8 @@ button.swithToChain:hover {
 .wallet_disconnet {
     font-size: 16px;
     border-radius: 30px;
-    border: 1px solid #d5b0b0;
-    background-color: #f1f1f1;
+    border: 1px solid #3e3e3e;
+    background-color: #ffffff00;
     color: var(--color-link-nav);
     width: 140px;
     padding-left: 5px !important;
@@ -824,20 +833,19 @@ button.swithToChain:hover {
 }
 
 .header .wallet_disconnet {
-    background-color: #000 !important;
+    background-color: #00000000 !important;
     /* color: #fff; */
-    border: none;
 }
 
 .header .wallet_disconnet:hover {
-    background-color: #0f0f0f !important;
+    background-color: #0f0f0f50 !important;
     /* color: #fff; */
-    border: none;
     color: var(--color-3);
 }
 
 .header .wallet_deposit:hover {
-    background-color: #ffffff;
+    background-color: #ffffff00;
+    border: 1px solid #555555;
     color: var(--color-3);
 }
 
