@@ -171,9 +171,9 @@ export const CreateMarket = () => {
 
     const actualIP = betInitialPool > mIP ? betInitialPool : mIP;
 
-    const tc = (5 + Math.sqrt(ratios.map(p => actualIP / 100 * p).map(o => o * o).reduce((a, b) => a + b, 0))).toFixed(2);
+    const totalCost = (10 + Math.sqrt(ratios.map(p => actualIP / 100 * p).map(o => o * o).reduce((a, b) => a + b, 0))).toFixed(2);
 
-    setTotalCost(tc);
+    setTotalCost(totalCost);
   }
 
   const handleChangeInitialPool = (event) => {
