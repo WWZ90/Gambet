@@ -75,7 +75,7 @@ export const Home = () => {
                 <div className="container position-relative align-items-center">
                     <div className="row">
                         <div className="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-                            <h1>Gambeth</h1>
+                            <h1>GAMBETH</h1>
                             <h2>A fully decentralized, blockchain-based web application in which anyone can participate on or create their own parimutuel betting pools.</h2>
                             <div className="d-flex justify-content-center justify-content-lg-start">
                                 {!wallet ? (

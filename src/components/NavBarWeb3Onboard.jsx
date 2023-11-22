@@ -25,7 +25,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 
-import logo from '../assets/img/logo.png';
+import logo from '../assets/img/gambeth-logo-text.png';
 
 export const NavBarWeb3Onboard = () => {
 

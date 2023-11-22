@@ -2,6 +2,7 @@
 :root {
     --color-1: #6F74E5;
     --color-2: #02024B;
+    --color-2-rgb: rgb(2, 2, 75);
     --color-3: #EE8C71;
     --color-4: #F3F9D2;
 }
@@ -26,7 +27,7 @@
 /* Global Colors */
 :root {
     --color-default: #000;
-    --color-body-background: #ffffff;
+    --color-body-background: var(--color-1);
     --color-primary: #7b5243;
     --color-secondary: #986856;
     --color-buttom: #00aeef;
@@ -53,7 +54,7 @@
     --color-footer: #969696;
     --color-fotter-hover: #ffffff;
     --color-footer-lines: #21dfc2;
-    --color-footer-background: #040919;
+    --color-footer-background: var(--color-2);
     --color-footer-social-background: #222636;
     --color-footer-social-background-hover: #2cc3fa;
 }
@@ -152,15 +153,15 @@ button:disabled {
 
 .btn-get-started {
     font-family: var(--onboard-font-family-medium);
-    background-image: linear-gradient(to left, #dd5a0d 0%, #b13000 51%, #dd5a0d 100%);
+    background-image: linear-gradient(to left, #ee8c71 5%, #cf3106 51%, #ee8c71 100%);
     margin: 10px;
     padding: 15px 45px;
     text-align: center;
     text-transform: uppercase;
     transition: 0.5s;
     background-size: 200% auto;
-    color: #e2e2e2 !important;
-    box-shadow: 0 0 20px #eee;
+    color: var(--color-4) !important;
+    box-shadow: 0px 0 10px #170338;
     border-radius: 60px;
     display: block;
 }
@@ -169,6 +170,7 @@ button:disabled {
     background-position: right center;
     color: #fff !important;
     text-decoration: none;
+    box-shadow: 0px 0 100px #170338;
 }
 
 /*
@@ -279,7 +281,7 @@ section h1 {
 }
 
 .section-bg {
-    background-color: #f8fbfe;
+    /*background-color: #f8fbfe;*/
 }
 
 .section-title {
@@ -293,14 +295,14 @@ section h1 {
     text-transform: uppercase;
     margin-bottom: 20px;
     padding-bottom: 0;
-    color: #124265;
+    color: #fff;
     font-family: var(--onboard-font-family-semibold);
 }
 
 .section-title p {
     margin-bottom: 0;
     font-size: 14px;
-    color: #919191;
+    color: var(--color-4);
 }
 
 #hero {
@@ -314,7 +316,7 @@ section h1 {
 
 #hero:before {
     content: "";
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(111, 117, 229, 0.9);
     position: absolute;
     bottom: 0;
     top: 0;
@@ -327,10 +329,10 @@ section h1 {
 }
 
 #hero h1 {
-    font-size: 80px;
+    font-size: 75px;
     font-weight: bold;
     text-align: left;
-    background: -webkit-linear-gradient(56deg, #dc590d 0%, #5f1900 100%);
+    background: -webkit-linear-gradient(56deg, #ffffff 10%, rgb(240, 255, 140) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -340,7 +342,7 @@ section h1 {
 #hero h2 {
     font-size: 22px;
     text-align: left;
-    color: #5e5e5e;
+    color: var(--color-4);
     font-family: var(--onboard-font-family-regular);
     margin-bottom: 20px;
     padding: 25px 0px;
@@ -495,8 +497,8 @@ section h1 {
 /* Home Page Custom Header
   ------------------------------*/
 .index-page .header {
-    --color-nav-background: rgba(255, 255, 255, 0);
-    --color-nav-background-dropmenu: rgba(255, 255, 255, 1);
+    --color-nav-background: var(--color-2);
+    --color-nav-background-dropmenu: var(--color-2);
     --color-nav: rgba(255, 255, 255, 0.515);
     --color-nav-hover: #ffffff;
 }
@@ -608,7 +610,7 @@ section h1 {
 
 .has-search .form-control {
     padding-left: 33px;
-    border-color: #e1e1e1ad !important;
+    border-color: #e1e1e138 !important;
 }
 
 @keyframes badgeBounce {
@@ -647,7 +649,7 @@ section h1 {
     height: 15px;
     text-align: center;
     pointer-events: none;
-    color: #35353557;
+    color: #464646;
     top: 20%;
 }
 
@@ -1451,8 +1453,8 @@ button.swithToChain:hover {
 --------------------------------------------------------------*/
 
 .market_tabs {
-    margin-top: 20px;
-    min-height: 70vh;
+    min-height: 60vh;
+    background-color: #fff;
 }
 
 .market_tabs .nav-item {
@@ -1460,9 +1462,14 @@ button.swithToChain:hover {
     border-radius: 10px;
 }
 
+.market_tabs .nav-link:hover {
+    border: 1px solid var(--color-1);
+    border-radius: 10px;
+}
+
 .market_tabs .nav-item.active {
     border-radius: 10px;
-    background-color: rgb(110 37 5);
+    background-color: var(--color-1);
 }
 
 .market_tabs .nav-item.active .nav-link {
@@ -1511,25 +1518,14 @@ button.swithToChain:hover {
     background-color: #fff;
     border-radius: 10px;
     border: 1px solid #e4e4e455;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.02), 0px 6px 12px rgb(0 137 157 / 10%);
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.02), 0px 6px 12px rgb(111 117 229 / 40%);
     cursor: pointer;
     color: black;
     transition: all 0.2s ease 0s;
 }
 
 .c-cZDZbz:hover {
-    flex-direction: column;
-    padding: 1rem 1rem 0.5rem;
-    height: 100%;
-    min-height: 190px;
-    overflow: hidden;
-    background-color: #fff;
-    border-radius: 10px;
-    border: 1px solid #e4e4e455;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.12), 0px 6px 12px rgba(0, 0, 0, 0.02);
-    cursor: pointer;
-    color: black;
-    transition: all 0.2s ease 0s;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.02), 0px 6px 12px rgb(111 117 229 / 60%);
 }
 
 .c-goxxzP {
@@ -1836,7 +1832,8 @@ hr {
 
 .footer:before {
     content: "";
-    background: rgb(0 0 36 / 90%);
+    background: var(--color-footer-background);
+    opacity: 0.93;
     position: absolute;
     inset: 0;
 }

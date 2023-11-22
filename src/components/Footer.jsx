@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import UMA from '../assets/img/uma.png';
-import Logo from '../assets/img/logo.png';
+import Logo from '../assets/img/gambeth-logo-text.png';
 
 export const Footer = () => {
 
