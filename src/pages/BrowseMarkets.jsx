@@ -62,7 +62,7 @@ export const BrowseMarkets = () => {
         setPreviousRoute('browseMarkets');
         setLoading(true);
       }
-    }else{
+    } else {
       setLoading(false);
     }
   }, [])
@@ -85,10 +85,37 @@ export const BrowseMarkets = () => {
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 0,
     autoplay: false,
     autoplaySpeed: 2000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ],
     nextArrow: (
       <div className="c-dhzjXW c-iBHQOu c-iBHQOu-fNKXAf-side-right slick-arrow slick-next" style="display: block;">
         <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" className="c-fAcSzf" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -122,20 +149,22 @@ export const BrowseMarkets = () => {
             <h1>Bet on your beliefs</h1>
             <Slider {...settings}>
               {marketsArray.map(function (market, i) {
-                return <Link key={market.name} className="box_market" to={`/market/id/${market.marketId}`}>
-                  {market.marketImage && market.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ?  (
-                    <div className='market_img'>
-                      <img src={market.marketImage}></img>
-                    </div>  
-                  ):(
+                return <Link key={market.name} to={`/market/id/${market.marketId}`}>
+                  <div className="box_market">
+                    {market.marketImage && market.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ? (
+                      <div className='market_img'>
+                        <img src={market.marketImage}></img>
+                      </div>
+                    ) : (
                       <div className='market_img'>
                         <img src={Image1}></img>
-                      </div>    
-                  )}
-                  
-                  <div className="market_info">
-                    <div className='market_title'>{truncateTextSize(market.name, 75)}</div>
-                    <div className='market_desc'>Shares: {market.totalShares}</div>
+                      </div>
+                    )}
+
+                    <div className="market_info">
+                      <div className='market_title'>{truncateTextSize(market.name, 75)}</div>
+                      <div className='market_desc'>Shares: {market.totalShares}</div>
+                    </div>
                   </div>
                 </Link>
 
