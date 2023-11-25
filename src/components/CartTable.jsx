@@ -6,7 +6,7 @@ export const CartTable = ({ cart, action, removeFromCart }) => {
 
     return (
         <>
-            <h4 className='text-center mt-5'>
+            <h4 className='text-center mt-5 text_yellow'>
                 {action === 'BUY' ? (
                     <>
                         Placed <span className="bids-text">Bids</span>
@@ -17,7 +17,7 @@ export const CartTable = ({ cart, action, removeFromCart }) => {
                     </>
                 )}
             </h4>
-            <p className='text-center'>{action === 'BUY' ? 'Max cost: 0.00' : 'Market pay: 0.00'}</p>
+            <p className='text-center text_white'>{action === 'BUY' ? 'Max cost: 0.00' : 'Market pay: 0.00'}</p>
             <table className="table table-hover">
                 <thead>
                     <tr>

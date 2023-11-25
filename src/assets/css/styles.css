@@ -27,7 +27,7 @@
 /* Global Colors */
 :root {
     --color-default: #000;
-    --color-body-background: var(--color-1);
+    --color-body-background: #001225;
     --color-primary: #7b5243;
     --color-secondary: #986856;
     --color-buttom: #00aeef;
@@ -40,7 +40,7 @@
 :root {
     --color-nav-background: var(--color-2);
     --color-nav: #fff;
-    --color-link-nav: #8a8a8a;
+    --color-link-nav: var(--color-4);
     --color-link-nav-hover: var(--color-3);
 
     --color-from-control-search-border: #424242;
@@ -54,7 +54,7 @@
     --color-footer: #969696;
     --color-fotter-hover: #ffffff;
     --color-footer-lines: #21dfc2;
-    --color-footer-background: var(--color-2);
+    --color-footer-background: rgba(1, 19, 39, 1);
     --color-footer-social-background: #222636;
     --color-footer-social-background-hover: #2cc3fa;
 }
@@ -118,6 +118,15 @@ h6 {
 .text_gray {
     color: var(--color_gray) !important;
     font-weight: lighter !important;
+    font-size: 13px;
+}
+
+.text_yellow {
+    color: var(--color-4) !important;
+}
+
+.text_white {
+    color: #fff !important;
 }
 
 /*
@@ -268,6 +277,26 @@ table.table-hover tbody tr td:hover {
     color: red;
 }
 
+.form-control, .form-select {
+    background-color: #001225 !important;
+    border: 1px solid #3d4349 !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #3a3e47 !important;
+    background-color: #00152b !important;
+    box-shadow: inset 0 1px 1px rgba(168, 168, 168, 0.075), 0 0 5px rgba(177, 177, 177, 0.4) !important;
+}
+
+.form-control::placeholder, .form-select::placeholder {
+    color: var(--color-from-control-search-text) !important;
+}
+
+.form-select{
+    color: #c0c0c0 !important;
+}
+
+
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/
@@ -276,12 +305,9 @@ section {
 }
 
 section h1 {
+    color: var(--color-4);
     text-align: center;
     padding: 10px 0px;
-}
-
-.section-bg {
-    /*background-color: #f8fbfe;*/
 }
 
 .section-title {
@@ -315,7 +341,7 @@ section h1 {
 
 #hero:before {
     content: "";
-    background: rgba(111, 117, 229, 0.9);
+    background: rgba(1, 19, 39, 0.94);
     position: absolute;
     bottom: 0;
     top: 0;
@@ -382,8 +408,6 @@ section h1 {
 .slick-slide {
     text-align: center;
     font-size: 18px;
-    /*width: 340px !important;*/
-    height: 320px !important;
     margin-bottom: 25px;
     overflow: hidden;
     cursor: pointer;
@@ -400,9 +424,8 @@ section h1 {
 
 .slick-slide .box_market{
     margin: 0px 10px;
-    border-top-left-radius: 8px !important;
-    border-top-right-radius: 8px !important;
-    box-shadow: rgb(209 0 0 / 0%) 0px 0px 0px 0px, rgb(0 115 135 / 14%) 1px 6px 9px 0px
+    border-radius: 8px !important;
+    box-shadow: rgb(209 0 0 / 7%) 0px 0px 0px 0px, rgb(0 0 0 / 41%) 1px 6px 9px 0px;
 }
 
 .slick-slide img {
@@ -429,7 +452,7 @@ section h1 {
     text-align: left;
     height: 40px;
     line-height: 20px;
-    color: var(--color-default);
+    color: var(--color-4);
 }
 
 .slick-slide .market_desc {
@@ -904,8 +927,12 @@ button.swithToChain:hover {
 
 .browseMarket {
     min-height: 80vh;
-    background-image: radial-gradient(circle, rgb(111, 117, 229) 0%, rgb(255, 255, 255) 35%, rgb(255, 255, 255) 80%);
+    /*background-image: radial-gradient(circle, rgb(111, 117, 229) 0%, rgb(255, 255, 255) 35%, rgb(255, 255, 255) 80%);*/
     z-index: -10;
+}
+
+.browseMarket .slick-slide {
+    height: 320px !important;
 }
 
 /*--------------------------------------------------------------
@@ -1271,21 +1298,21 @@ button.swithToChain:hover {
     padding: 4px 2px;
     margin: 2px 5px;
     width: 100%;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    border: 1px solid #e9e9e9;
+    border: 1px solid #32353d;
     font-family: var(--onboard-font-family-regular);
-
     font-size: 14px;
+    color: #b4b4b4;
 }
 
 .market_option:hover {
-    background-color: #f1f1f1;
+    background-color: #102232;
 }
 
 .market_option.active {
     background-color: #102232;
-    color: #fff;
+    color: var(--color-4);
 }
 
 .market_option p {
@@ -1318,17 +1345,19 @@ button.swithToChain:hover {
 
 .box {
     width: 340px;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 6px 12px rgba(0, 0, 0, 0.05);
+    /*box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 6px 12px rgba(0, 0, 0, 0.05);*/
     border-radius: 12px;
-    border: 1px solid #e0e0e0;
     flex-direction: column;
     row-gap: 1.5rem;
-    background-color: rgb(255, 255, 255);
+
+    padding: 24px;
+    background: #00152b;
+    border: 1px solid #32353d;
 
 }
 
 .box .box_header {
-    border-bottom: 1px solid #c0c0c0;
+    border-bottom: 1px solid #32353d;
     padding: 10px 10px;
 }
 
@@ -1373,13 +1402,15 @@ button.swithToChain:hover {
 .inputStyle {
     display: flex;
     align-items: center;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #32353d;
     border-radius: 10px;
     overflow: hidden;
 }
 
 .inputStyle:hover {
-    border: 1px solid #e4e4e4;
+    border: 1px solid #3a3e47;
+    background-color: #00152b !important;
+    box-shadow: inset 0 1px 1px rgba(168, 168, 168, 0.075), 0 0 5px rgba(177, 177, 177, 0.4) !important;
 }
 
 .box .buttonStyle {
@@ -1401,6 +1432,7 @@ button.swithToChain:hover {
 .box .form-control {
     background-color: transparent !important;
     font-family: var(--onboard-font-family-regular);
+    border: none !important;
 }
 
 .box .form-control:focus {
@@ -1749,16 +1781,16 @@ hr {
 }
 
 .create_market .container {
-    max-width: 800px;
+    justify-content: center;
+    display: flex;
 }
 
-.create_market .form-control:focus {
-    border-color: #dbdbdb;
-    box-shadow: inset 0 1px 1px rgba(168, 168, 168, 0.075), 0 0 5px rgba(177, 177, 177, 0.4);
-}
-
-.create_market .form-control::placeholder {
-    color: var(--color-from-control-search-text) !important;
+.create_market .create_market_box{
+    width: 600px;
+    padding: 24px;
+    background: #00152b;
+    border: 1px solid #32353d;
+    border-radius: 10px;
 }
 
 .create_market span.total_cost {
@@ -1777,6 +1809,18 @@ hr {
 
 .create_market .bi-info-circle {
     margin-left: 5px;
+}
+
+.create_market .box {
+    width: 230px;
+    /*box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 6px 12px rgba(0, 0, 0, 0.05);*/
+    border-radius: 12px;
+    flex-direction: column;
+    row-gap: 1.5rem;
+
+    padding: 0px;
+    background: none;
+    border: none;
 }
 
 .upload_image {
@@ -1953,10 +1997,12 @@ hr {
     position: relative;
     width: 80px;
     height: 80px;
+    color: red;
 }
 
 .lds-ripple div {
     position: absolute;
+    background: var(--color-4);
     border: 4px solid #001d42;
     opacity: 1;
     border-radius: 50%;

@@ -256,7 +256,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         <div className="col-2 text-start p-0">
                             <a className={`${activeOption == 'SELL' ? 'active sell' : 'sell'}`} onClick={() => { setActiveOption('SELL') }}>Sell</a>
                         </div>
-                        <motion.div className="col-7 text-end dropdown"
+                        <motion.div className="col-7 text-end text_yellow dropdown"
                             onHoverStart={() => setShown(true)}
                             onHoverEnd={() => setShown(false)}
                         >
@@ -305,7 +305,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         activeOption === 'BUY' ? (
                             <div className='d-flex flex-row flex-wrap'>
                                 {outcomeData.map((option, index) => (
-                                    <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
+                                    <div key={index} className={`market_option mb-2 ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <p>{option.outcome}</p>
                                             <p className='price'>${option.marketPrice}</p>
@@ -317,7 +317,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                             <div className='d-flex flex-row flex-wrap'>
                                 {myOutcomeByMarket.length > 0 ? (
                                     myOutcomeByMarket.map((option, index) => (
-                                        <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
+                                        <div key={index} className={`market_option mb-2 ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                             <div className='d-flex justify-content-between align-items-center'>
                                                 <p>{option.outcome}</p>
                                                 <p className='price'>${option.marketPrice}</p>
@@ -335,7 +335,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
                     {type == 'Limit' ? (
                         <>
-                            <div className='inputData'>
+                            <div className='inputData text_yellow'>
                                 <div className='d-flex'>
                                     <div className='inputDataTitle'>Limit Price</div>
                                     <OverlayTrigger
@@ -370,7 +370,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                 </div>
                             </div>
                             <div className='inputData'>
-                                <div className='inputDataTitle'>Shares</div>
+                                <div className='inputDataTitle text_yellow'>Shares</div>
                                 <div className='inputStyle'>
                                     <OverlayTrigger
                                         overlay={<Tooltip id="tooltip-decrement">-100</Tooltip>}
@@ -397,7 +397,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         </>
                     ) : (
                         <div className='inputData'>
-                            <div className='inputDataTitle'>Shares</div>
+                            <div className='inputDataTitle text_yellow'>Shares</div>
                             <div className='inputStyle'>
                                 <OverlayTrigger
                                     overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}

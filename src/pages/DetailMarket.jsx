@@ -49,6 +49,7 @@ export const DetailMarket = () => {
 
     const [option, setOption] = useState({
         // Otras opciones del gráfico
+        backgroundColor: '#001225',
         tooltip: {
             trigger: 'item',
         },
@@ -232,7 +233,7 @@ export const DetailMarket = () => {
                                                     <div className='col-6 text_gray' style={{ fontSize: '13px' }}>Resolution: {activeMarket.resolution}</div>
                                                 </div>
                                                 <div className='row d-flex aling-align-items-center title'>
-                                                    <div className=''>{activeMarket.name}</div>
+                                                    <div className='text_yellow'>{activeMarket.name}</div>
                                                 </div>
 
                                             </div>
@@ -252,8 +253,8 @@ export const DetailMarket = () => {
 
                                             <div className="module">
                                                 <div className='about'>
-                                                    <h3>About</h3>
-                                                    <p className={style} id="collapseAbout" aria-expanded="true">
+                                                    <h3 className='text_yellow'>About</h3>
+                                                    <p className='text_white' id="collapseAbout" aria-expanded="true">
                                                         {activeMarket.terms}
                                                     </p>
                                                     {/*
@@ -266,8 +267,8 @@ export const DetailMarket = () => {
 
                                                 </div>
                                                 <div className='resolution_outcome mt-4'>
-                                                    <h3>Resolution</h3>
-                                                    <p>No outcome has been proposed yet.</p>
+                                                    <h3 className='text_yellow'>Resolution</h3>
+                                                    <p className='text_white'>No outcome has been proposed yet.</p>
                                                 </div>
 
                                             </div>
