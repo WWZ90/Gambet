@@ -1300,18 +1300,18 @@ button.swithToChain:hover {
     width: 100%;
     border-radius: 10px;
     cursor: pointer;
-    border: 1px solid #32353d;
+    border: 1px solid #acacac49;
     font-family: var(--onboard-font-family-regular);
     font-size: 14px;
     color: #b4b4b4;
 }
 
 .market_option:hover {
-    background-color: #102232;
+    background-color: #EEF;
 }
 
 .market_option.active {
-    background-color: #102232;
+    background-color: var(--color-1);
     color: var(--color-4);
 }
 
