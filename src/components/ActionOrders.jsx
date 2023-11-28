@@ -256,7 +256,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         <div className="col-2 text-start p-0">
                             <a className={`${activeOption == 'SELL' ? 'active sell' : 'sell'}`} onClick={() => { setActiveOption('SELL') }}>Sell</a>
                         </div>
-                        <motion.div className="col-7 text-end text_yellow dropdown"
+                        <motion.div className="col-7 text-end dropdown"
                             onHoverStart={() => setShown(true)}
                             onHoverEnd={() => setShown(false)}
                         >
@@ -335,7 +335,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
                     {type == 'Limit' ? (
                         <>
-                            <div className='inputData text_yellow'>
+                            <div className='inputData'>
                                 <div className='d-flex'>
                                     <div className='inputDataTitle'>Limit Price</div>
                                     <OverlayTrigger
@@ -351,7 +351,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
                                         placement="top"
                                     >
-                                        <button className='buttonStyle' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementLimitPrice}>-</button>
+                                        <button className='buttonStyle blue' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementLimitPrice}>-</button>
                                     </OverlayTrigger>
                                     <input
                                         type="text"
@@ -365,18 +365,18 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         overlay={<Tooltip id="tooltip-increment">+1</Tooltip>}
                                         placement="top"
                                     >
-                                        <button className='buttonStyle' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementLimitPrice}>+</button>
+                                        <button className='buttonStyle blue' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementLimitPrice}>+</button>
                                     </OverlayTrigger>
                                 </div>
                             </div>
                             <div className='inputData'>
-                                <div className='inputDataTitle text_yellow'>Shares</div>
+                                <div className='inputDataTitle'>Shares</div>
                                 <div className='inputStyle'>
                                     <OverlayTrigger
                                         overlay={<Tooltip id="tooltip-decrement">-100</Tooltip>}
                                         placement="top"
                                     >
-                                        <button className='buttonStyle' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}>-</button>
+                                        <button className='buttonStyle blue' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}>-</button>
                                     </OverlayTrigger>
                                     <input
                                         type="text"
@@ -390,14 +390,14 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         overlay={<Tooltip id="tooltip-increment">+100</Tooltip>}
                                         placement="top"
                                     >
-                                        <button className='buttonStyle' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares}>+</button>
+                                        <button className='buttonStyle blue' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares}>+</button>
                                     </OverlayTrigger>
                                 </div>
                             </div>
                         </>
                     ) : (
                         <div className='inputData'>
-                            <div className='inputDataTitle text_yellow'>Shares</div>
+                            <div className='inputDataTitle'>Shares</div>
                             <div className='inputStyle'>
                                 <OverlayTrigger
                                     overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
