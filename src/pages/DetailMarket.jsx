@@ -47,6 +47,8 @@ export const DetailMarket = () => {
     const [loadingDetailMarket, setLoadingDetailMarket] = useState(false);
     const initialLoadingDetailMarketRef = useRef(loadingDetailMarket);
 
+    var colorPalette = ['#ffbf00', '#ff0000', '#33394B', '#ff0018', '#02024b'];
+
     const [option, setOption] = useState({
         // Otras opciones del gráfico
         backgroundColor: '#6F74E5',
@@ -58,6 +60,7 @@ export const DetailMarket = () => {
                 type: 'pie',
                 radius: '50%',
                 data: [], // Inicialmente vacío
+                color: colorPalette,
                 emphasis: {
                     itemStyle: {
                         shadowBlur: 10,
