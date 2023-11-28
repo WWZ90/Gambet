@@ -27,7 +27,8 @@
 /* Global Colors */
 :root {
     --color-default: #000;
-    --color-body-background: #001225;
+    /*--color-body-background: #001225;*/
+    --color-body-background: var(--color-1);
     --color-primary: #7b5243;
     --color-secondary: #986856;
     --color-buttom: #00aeef;
@@ -1352,7 +1353,7 @@ button.swithToChain:hover {
 
     padding: 24px;
     background: #fff;
-    border: 1px solid #32353d;
+    border: 1px solid #e6e6e6;
 
 }
 
