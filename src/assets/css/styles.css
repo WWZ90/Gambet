@@ -537,7 +537,7 @@ section h1 {
 /* Home Page Custom Header on page scroll
   ------------------------------*/
 .index-page.scrolled .header {
-    --color-nav-background: #011425f0;
+    /*--color-nav-background: #011425f0;*/
     --color-nav-background-dropmenu: #011425f0;
     --color-nav: #969696;
     --color-nav-hover: #fff;
