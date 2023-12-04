@@ -1,6 +1,26 @@
 import reactLogo from './assets/react.svg'
 import './App.css'
 
+import './assets/fonts/Saira/Saira-Regular.ttf';
+import './assets/fonts/Saira/Saira-Black.ttf';
+import './assets/fonts/Saira/Saira-BlackItalic.ttf';
+import './assets/fonts/Saira/Saira-Bold.ttf';
+import './assets/fonts/Saira/Saira-BoldItalic.ttf';
+import './assets/fonts/Saira/Saira-ExtraBold.ttf';
+import './assets/fonts/Saira/Saira-ExtraBoldItalic.ttf';
+import './assets/fonts/Saira/Saira-ExtraLight.ttf';
+import './assets/fonts/Saira/Saira-ExtraLightItalic.ttf';
+import './assets/fonts/Saira/Saira-Italic.ttf';
+import './assets/fonts/Saira/Saira-Light.ttf';
+import './assets/fonts/Saira/Saira-Medium.ttf';
+import './assets/fonts/Saira/Saira-MediumItalic.ttf';
+import './assets/fonts/Saira/Saira-SemiBold.ttf';
+import './assets/fonts/Saira/Saira-SemiBoldItalic.ttf';
+import './assets/fonts/Saira/Saira-Thin.ttf';
+import './assets/fonts/Saira/Saira-ThinItalic.ttf';
+
+
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { Helmet, HelmetProvider } from "react-helmet-async";

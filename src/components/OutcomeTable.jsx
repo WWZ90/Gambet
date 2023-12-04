@@ -16,7 +16,7 @@ export const OutcomeTable = () => {
     return (
         <>
             <table className="table table-hover text-center">
-                <thead className="table-light">
+                <thead className="table-light head_table">
                     <tr>
                         <th className="col-1">Image</th>
                         <th className="col-5 text-start">Outcome</th>

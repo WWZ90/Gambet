@@ -8,7 +8,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 import ReactEcharts from "echarts-for-react";
 
-import Image1 from '../assets/img/slider/1.jpg';
+import Image1 from '../assets/img/image_upload.png';
 
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
 import { OrderBook } from '../components/OrderBook';
@@ -51,14 +51,15 @@ export const DetailMarket = () => {
 
     const [option, setOption] = useState({
         // Otras opciones del gráfico
-        backgroundColor: '#6F74E5',
+        backgroundColor: '#102232',
         tooltip: {
             trigger: 'item',
         },
+        borderRadius: 5,
         series: [
             {
                 type: 'pie',
-                radius: '50%',
+                radius: '60%', // Increase this percentage to reduce padding
                 data: [], // Inicialmente vacío
                 color: colorPalette,
                 emphasis: {
@@ -85,9 +86,15 @@ export const DetailMarket = () => {
 
     useEffect(() => {
         //debugger;
+
+        console.log('detail market entrando');
+
         if (initialLoadingDetailMarketRef.current !== loadingDetailMarket) {
             return;
         }
+
+        setActiveMarket([]);
+
         setOutcomeData([]);
         setMyOutcomeByMarket([]);
 
@@ -104,9 +111,10 @@ export const DetailMarket = () => {
     }, [])
 
     const loadDetailMarket = async (marketReload) => {
+        setLoading(true);
         if (!marketsArray || !marketsArray.length) {
             setPreviousRoute(id);
-            setLoading(true);
+
 
             if (!localStorage.getItem('activeContract')) {
                 await connect();
@@ -120,6 +128,8 @@ export const DetailMarket = () => {
             foundMarket = marketReload;
         else
             foundMarket = marketsArray.find(market => market.marketId === id);
+
+        setActiveMarket(foundMarket);
 
         if (!foundMarket) {
             setMarketExist(false);
@@ -212,7 +222,7 @@ export const DetailMarket = () => {
                 </section>
             ) : (
                 <>
-                    {marketExist ? (
+                    {marketExist && activeMarket ? (
                         <section className='detail_market'>
                             <div className="content">
                                 <div className="inside">
@@ -269,7 +279,7 @@ export const DetailMarket = () => {
                                                     */}
 
                                                 </div>
-                                                <div className='resolution_outcome mt-4'>
+                                                <div className='resolution_outcome'>
                                                     <h3 className='text_yellow'>Resolution</h3>
                                                     <p className='text_white'>No outcome has been proposed yet.</p>
                                                 </div>

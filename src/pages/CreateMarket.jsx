@@ -53,22 +53,51 @@ export const CreateMarket = () => {
   const [marketImage, setMarketImage] = useState([]);
 
   const [marketIDExist, setMarketIDExist] = useState(false);
+  const [marketIdError, setMarketIdError] = useState(false);
+  const [marketNameError, setMarketNameError] = useState(false);
+  const [marketTermsError, setMarketTermsError] = useState(false);
+  const [marketOutcomesError, setMarketOutcomesError] = useState(false);
+  const [marketOutcomesHandleBlur, setMarketOutcomesHandleBlur] = useState(false);
 
   const [{ connecting }, connect] = useConnectWallet();
 
+  const handleBlur = (field, value) => {
+    if (!value) {
+      switch (field) {
+        case 'marketId':
+          setMarketIdError(true);
+          break;
+        case 'marketName':
+          setMarketNameError(true);
+          break;
+        case 'marketTerms':
+          setMarketTermsError(true);
+          break;
+        case 'marketOutcomes':
+          betChoiceList.length < 2 ? setMarketOutcomesError(true) : setMarketOutcomesError(false);
+          setMarketOutcomesHandleBlur(true);
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   const handleChangeBetID = async (event) => {
     const mID = event.target.value;
 
     setBetID(mID);
 
-    await verifyMarketExist(mID, activeContract).then((result) => {
-      if (result) {
-        setMarketIDExist(true);
-      } else {
-        setMarketIDExist(false);
-      }
-    })
+    if (mID) {
+      setMarketIdError(false);
+      await verifyMarketExist(mID, activeContract).then((result) => {
+        if (result) {
+          setMarketIDExist(true);
+        } else {
+          setMarketIDExist(false);
+        }
+      })
+    }
 
   }
 
@@ -77,27 +106,38 @@ export const CreateMarket = () => {
   }
 
   const handleChangeBetOOTitle = (event) => {
-    setBetOOTitle(event.target.value)
+    const mName = event.target.value;
+    setBetOOTitle(mName);
+
+    if (mName) {
+      setMarketNameError(false);
+    }
   }
 
   const handleChangeBetOO = (event) => {
-    setBetOO(event.target.value)
+    const mTerms = event.target.value;
+    setBetOO(mTerms);
+
+    if (mTerms) {
+      setMarketTermsError(false);
+    }
   }
 
   const handleChangeBetChoice = (event) => {
     setBetChoice(event.target.value);
   }
 
-  const handleOnKeyDown = (event) => {
+  const handleOutcomesOnKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleAddBetChoice();
     }
   }
 
-  const handleAddBetChoice = (image) => {
-    if (betChoice.trim() !== '') {
+  const handleAddBetChoice = () => {
+    //debugger;
+    if (betChoice) {
       if (!betChoiceList.some(item => item.betChoice === betChoice)) {
-        setBetChoiceList([...betChoiceList, { id: idBetChoice, image: image, betChoice, percentage: 0 }]);
+        setBetChoiceList([...betChoiceList, { id: idBetChoice, image: undefined, betChoice, percentage: 0 }]);
         setIdBetChoice(idBetChoice + 1);
         setBetChoice('');
         outcomeInputRef.current.focus();
@@ -105,6 +145,12 @@ export const CreateMarket = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if(marketOutcomesHandleBlur)
+      betChoiceList.length < 2 ? setMarketOutcomesError(true) : setMarketOutcomesError(false);
+  }, [betChoiceList])
+
 
   const handleImageUpload = (image, id) => {
     console.log(id);
@@ -303,7 +349,7 @@ export const CreateMarket = () => {
       <NavBarWeb3Onboard />
 
       <section className='create_market' id='create_market' >
-      <h1>Create a market</h1>
+        <h1>Create a market</h1>
         <div className="container">
           <div className="create_market_box">
 
@@ -325,12 +371,17 @@ export const CreateMarket = () => {
               value={betID}
               placeholder="argentina-2023"
               aria-describedby="create-bet-id-HelpBlock"
-              className={marketIDExist ? "input_error" : ""}
+              className={(marketIDExist || marketIdError) ? "input_error" : ""}
               onChange={handleChangeBetID}
+              onBlur={() => handleBlur('marketId', betID)}
             />
 
             {marketIDExist && (
               <p className='text_error'>This market id already exist</p>
+            )}
+
+            {marketIdError && (
+              <p className='text_error'>This field is required</p>
             )}
 
 
@@ -351,7 +402,12 @@ export const CreateMarket = () => {
               value={betOOTitle}
               placeholder="For example: Argentina's Presidential Elections"
               onChange={handleChangeBetOOTitle}
+              onBlur={() => handleBlur('marketName', betOOTitle)}
             />
+
+            {marketNameError && (
+              <p className='text_error'>This field is required</p>
+            )}
 
             <Form.Label className='text_yellow mt-4' htmlFor="create-bet-oo">Market Terms</Form.Label>
             <Form.Control
@@ -361,7 +417,12 @@ export const CreateMarket = () => {
               value={betOO}
               placeholder="This market will resolve to the winning candidate for Argentina's 2023 Presidential Elections"
               onChange={handleChangeBetOO}
+              onBlur={() => handleBlur('marketTerms', betOO)}
             />
+
+            {marketTermsError && (
+              <p className='text_error'>This field is required</p>
+            )}
 
             <Form.Label className='text_yellow mt-4' htmlFor="create-bet-oo">Market Image</Form.Label>
 
@@ -420,6 +481,7 @@ export const CreateMarket = () => {
               </div>
             </Form.Label>
 
+            <i className="bi bi-plus-circle-fill mt-2 ml-5" onClick={handleAddBetChoice}></i>
             <div className='d-flex align-middle gap-2'>
               <Form.Control
                 type="text"
@@ -427,12 +489,15 @@ export const CreateMarket = () => {
                 placeholder="Write an outcome"
                 value={betChoice}
                 onChange={handleChangeBetChoice}
-                onKeyDown={handleOnKeyDown}
+                onBlur={() => handleBlur('marketOutcomes', betChoice)}
+                onKeyDown={handleOutcomesOnKeyDown}
                 ref={outcomeInputRef}
               />
-
-              <i className="bi bi-plus-circle-fill mt-2" onClick={handleAddBetChoice}></i>
             </div>
+
+            {marketOutcomesError && (
+              <p className='text_error'>At least 2 outcomes required</p>
+            )}
 
             {betChoiceList.length > 0 && (
               <>
@@ -551,7 +616,7 @@ export const CreateMarket = () => {
               </div>
             </div>
 
-            <p className='text_gray'>The market must be bootstrapped with <spam className="text_max_c fw-medium">at least {minimumInitialPool} initial shares</spam></p>
+            <p className='text_gray'>The market must be bootstrapped with <span className="text_max_c fw-medium">at least {minimumInitialPool} initial shares</span></p>
 
             <div className='d-flex mt-3'>
               <div className='text_yellow'>Total cost: <span className='total_cost'>{totalCost} USDC</span></div>

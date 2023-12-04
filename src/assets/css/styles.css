@@ -12,13 +12,18 @@
     --color-default: #000;
     /*--color-body-background: #001225;*/
     --color-body-background: var(--color-1);
+    --color-body-background-image: linear-gradient(63deg, #02024b 0%, #6f74e5 100%);
     --color-primary: var(--color-3);
     --color-secondary: #986856;
 
-    --color-box-market-background: var(--color-2);
+    --color-box-market-background: var(--color-2); 
 
     --color-action-box: #fff;
-    --color-create-market-box: #fff;
+    --color-create-market-box: #01172f;
+
+    --color-table-th-background: #102232;
+
+    --color-boxs-detail-market-background: #102232;
 
     --color-action-box-market-option-background: #fff;
     --color-action-box-market-option-hover-background: #d9f6ff;
@@ -68,15 +73,101 @@
     --color-footer-social-background-hover: #2cc3fa;
 }
 
+@font-face {
+    font-family: "Saira-Regular";
+    src: local("Saira-Regular"),
+        url("../fonts/Saira/Saira-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Saira-Black";
+    src: local("Saira-Black"),
+        url("../fonts/Saira/Saira-Black.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Saira-BlackItalic";
+    src: local("Saira-BlackItalic"),
+        url("../fonts/Saira/Saira-BlackItalic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Saira-Bold";
+    src: local("Saira-Bold"),
+        url("../fonts/Saira/Saira-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Saira-BoldItalic";
+    src: local("Saira-BoldItalic"),
+        url("../fonts/Saira/Saira-BoldItalic.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Saira-ExtraLight";
+    src: local("Saira-ExtraLight"),
+        url("../fonts/Saira/Saira-ExtraLight.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-ExtraLightItalic";
+    src: local("Saira-ExtraLightItalic"),
+        url("../fonts/Saira/Saira-ExtraLightItalic.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-Italic";
+    src: local("Saira-Italic"),
+        url("../fonts/Saira/Saira-Italic.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-Light";
+    src: local("Saira-Light"),
+        url("../fonts/Saira/Saira-Light.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-LightItalic";
+    src: local("Saira-LightItalic"),
+        url("../fonts/Saira/Saira-LightItalic.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-Medium";
+    src: local("Saira-Medium"),
+        url("../fonts/Saira/Saira-Medium.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-MediumItalic";
+    src: local("Saira-MediumItalic"),
+        url("../fonts/Saira/Saira-MediumItalic.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-SemiBold";
+    src: local("Saira-SemiBold"),
+        url("../fonts/Saira/Saira-SemiBold.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-SemiBoldItalic";
+    src: local("Saira-SemiBoldItalic"),
+        url("../fonts/Saira/Saira-SemiBoldItalic.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-Thin";
+    src: local("Saira-Thin"),
+        url("../fonts/Saira/Saira-Thin.ttf") format("truetype");
+}
+@font-face {
+    font-family: "Saira-ThinItalic";
+    src: local("Saira-ThinItalic"),
+        url("../fonts/Saira/Saira-ThinItalic.ttf") format("truetype");
+}
+
 :root {
     --account-center-z-index: 2222;
-    --onboard-font-family-regular: "Ubuntu";
-    --onboard-font-family-light: "Ubuntu";
-    --onboard-font-family-ultralight: "Ubuntu";
-    --onboard-font-family-medium: "Ubuntu";
-    --onboard-font-family-semibold: "Ubuntu";
-    --onboard-font-family-bold: "Ubuntu";
-    --onboard-font-family-black: "Ubuntu";
+    --onboard-font-family-regular: "Saira-Regular";
+    --onboard-font-family-light: "Saira-Light";
+    --onboard-font-family-ultralight: "Saira-ExtraLight";
+    --onboard-font-family-medium: "Saira-Medium";
+    --onboard-font-family-semibold: "Saira-SemiBold";
+    --onboard-font-family-bold: "Saira-Bold";
+    --onboard-font-family-black: "Saira-Black";
     --account-center-position-top: -12px;
     --account-center-position-right: -12px;
     --swiper-navigation-size: 25px !important;
@@ -95,7 +186,8 @@ body {
 
 
     color: var(--color-default);
-    background-color: var(--color-body-background) !important;
+    /*background-color: var(--color-body-background) !important;*/
+    background-image: var(--color-body-background-image);
 
     line-height: 1.5;
     font-weight: 400;
@@ -205,38 +297,38 @@ button:disabled {
     box-shadow: 0px 0 100px #170338;
 }
 
-.short_button{
+.short_button {
     background-color: var(--color-short-button-background) !important;
 }
 
-.short_button:hover{
+.short_button:hover {
     background-color: var(--color-short-button-background-hover) !important;
 }
 
-.button.add_to_cart{
+.button.add_to_cart {
     color: var(--color-button-add-to-cart);
     background-color: var(--color-button-add-to-cart-background);
 }
 
-.button.add_to_cart:hover{
+.button.add_to_cart:hover {
     background-color: var(--color-button-add-to-cart-background-hover);
 }
 
-.button.buy_now{
+.button.buy_now {
     color: var(--color-button-buy-now);
     background-color: var(--color-button-buy-now-background);
 }
 
-.button.buy_now:hover{
+.button.buy_now:hover {
     background-color: var(--color-button-buy-now-background-hover);
 }
 
-.button.sell_now{
+.button.sell_now {
     color: var(--color-button-sell-now);
     background-color: var(--color-button-sell-to-cart-background);
 }
 
-.button.sell_now:hover{
+.button.sell_now:hover {
     background-color: var(--color-button-sell-to-cart-background-hover);
 }
 
@@ -318,7 +410,7 @@ table {
 table th {
     font-family: var(--onboard-font-family-semibold);
     font-weight: 500;
-    background-color: #102232 !important;
+    background-color: var(--color-table-th-background) !important;
     color: #fff !important;
 }
 
@@ -335,22 +427,25 @@ table.table-hover tbody tr td:hover {
     color: red;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
     background-color: #001225 !important;
     border: 1px solid #3d4349 !important;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
     border-color: #3a3e47 !important;
     background-color: #00152b !important;
     box-shadow: inset 0 1px 1px rgba(168, 168, 168, 0.075), 0 0 5px rgba(177, 177, 177, 0.4) !important;
 }
 
-.form-control::placeholder, .form-select::placeholder {
+.form-control::placeholder,
+.form-select::placeholder {
     color: var(--color-from-control-search-text) !important;
 }
 
-.form-select{
+.form-select {
     color: #c0c0c0 !important;
 }
 
@@ -479,10 +574,10 @@ section h1 {
     margin-left: 10px;
     margin-right: 10px;
     */
-    
+
 }
 
-.slick-slide .box_market{
+.slick-slide .box_market {
     margin: 0px 10px;
     border-radius: 8px !important;
     box-shadow: rgb(209 0 0 / 7%) 0px 0px 0px 0px, rgb(0 0 0 / 41%) 1px 6px 9px 0px;
@@ -1113,6 +1208,10 @@ button.swithToChain:hover {
 
 .detail_market .left_panel .top {
     display: flex;
+    background-color: var(--color-boxs-detail-market-background);
+    border-radius: 10px;
+    margin: 0px;
+    padding: 10px 0px;
 }
 
 .detail_market .left_panel .top .image img {
@@ -1141,6 +1240,29 @@ button.swithToChain:hover {
 
 .detail_market .table {
     min-height: 100px;
+    margin-top: 20px;
+}
+
+thead th {
+    background-color: #102232 !important;
+}
+
+thead th:first-child {
+    border-top-left-radius: 10px;
+}
+
+thead th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.table>thead>tr>th {
+    border: none !important;
+}
+
+/* remove border from first tbody row... */
+.table>tbody>tr:first-child>td,
+.table>tbody>tr:first-child>th {
+    border-top: none;
 }
 
 .detail_market .table .lds-ripple div {
@@ -1159,11 +1281,24 @@ button.swithToChain:hover {
     transform: translate(-50%, -50%);
 }
 
+.chart canvas {
+    border-radius: 10px;
+    margin: 10px 0px !important;
+}
+
 /************ COLAPSE **************/
 
 .module {
     font-size: 1rem;
     line-height: 1.5;
+}
+
+.module .about,
+.module .resolution_outcome {
+    background-color: #102232;
+    padding: 10px 10px;
+    border-radius: 10px;
+    margin-top: 10px;
 }
 
 
@@ -1189,6 +1324,7 @@ button.swithToChain:hover {
     font-weight: normal;
     text-align: justify;
     font-size: 16px;
+    margin-bottom: 0px !important;
 }
 
 .module a {
@@ -1202,7 +1338,7 @@ button.swithToChain:hover {
     --bs-accordion-active-color: #000 !important;
     --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgb(215 215 215 / 25%) !important;
 
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .accordion-body {
@@ -1254,7 +1390,7 @@ button.swithToChain:hover {
     border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     font-size: 15px;
-    font-family: var(--onboard-font-family-normal);
+    font-family: var(--onboard-font-family-regular);
     color: #929292;
     font-weight: 500;
     padding: 5px 0px;
@@ -1475,11 +1611,12 @@ button.swithToChain:hover {
     box-shadow: inset 0 1px 1px rgba(168, 168, 168, 0.075), 0 0 5px rgba(177, 177, 177, 0.4) !important;
 }
 
-.box .inputStyle{
-    border: 1px solid #97979749  !important;
-} 
-.box .inputStyle:hover{
-    background-color: #f5f5f5  !important;
+.box .inputStyle {
+    border: 1px solid #97979749 !important;
+}
+
+.box .inputStyle:hover {
+    background-color: #f5f5f5 !important;
     border: 1px solid #acacac49 !important;
 }
 
@@ -1855,7 +1992,7 @@ hr {
     display: flex;
 }
 
-.create_market .create_market_box{
+.create_market .create_market_box {
     width: 600px;
     padding: 24px;
     background: var(--color-create-market-box);
@@ -1875,6 +2012,7 @@ hr {
 
 .create_market i {
     cursor: pointer;
+    margin-right: 10px;
 }
 
 .create_market .bi-info-circle {
@@ -1944,6 +2082,7 @@ hr {
 # Footer
 --------------------------------------------------------------*/
 .footer {
+    font-family: var(--onboard-font-family-regular);
     color: #fff;
     /*background: url("../img/hero-bg.jpg") top center no-repeat;*/
     background-color: var(--color-footer-background);
@@ -1974,7 +2113,7 @@ hr {
     font-size: 14px;
     line-height: 24px;
     margin-bottom: 0;
-    font-family: var(--font-primary);
+    font-family: var(--onboard-font-family-light);
     color: #fff;
 }
 
@@ -2117,7 +2256,7 @@ hr {
 /* Small devices (landscape phones, 576px and up) */
 
 @media (max-width: 380px) {
-    .header{
+    .header {
         padding: 50px 0px;
     }
 
@@ -2125,7 +2264,7 @@ hr {
         margin-top: 40px;
     }
 
-    .c-cYEHai{
+    .c-cYEHai {
         padding: 0px !important;
     }
 }
@@ -2147,7 +2286,7 @@ hr {
         text-align: center;
     }
 
-    .footer .social-links{
+    .footer .social-links {
         justify-content: center;
     }
 }
