@@ -30,7 +30,7 @@ export const OutcomeTable = () => {
                     {outcomeData.length === 0 ? (
                         <>
                             <tr>
-                                <td colspan="6" className="align-items-center align-middle text-center">
+                                <td colSpan="6" className="align-items-center align-middle text-center">
                                     <ContentLoader
                                         speed={2}
                                         width="100%"

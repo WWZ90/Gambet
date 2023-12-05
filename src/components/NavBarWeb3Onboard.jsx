@@ -150,9 +150,6 @@ export const NavBarWeb3Onboard = () => {
 
         if (provider) {
             if (!marketsArray) {
-
-                console.log('NavBar provider');
-
                 start().then(async result => {
                     setSigner(temp_singer);
                     setActiveContract(temp_activeContract);
@@ -305,9 +302,9 @@ export const NavBarWeb3Onboard = () => {
                                         ) : (
                                             <button onClick={handleDepositUSDC} className='wallet_deposit'>
                                                 {awaitingApproval ? (
-                                                    <spam>Awaiting...</spam>
+                                                    <span>Awaiting...</span>
                                                 ) : (
-                                                    <spam>Aprove USDC</spam>
+                                                    <span>Aprove USDC</span>
                                                 )}
 
                                             </button>

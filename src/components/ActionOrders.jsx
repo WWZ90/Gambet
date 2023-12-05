@@ -113,10 +113,6 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
     useEffect(() => {
         if (outcomeData.length > 0) {
-
-            console.log('outcomeData');
-            console.log(outcomeData);
-
             calculateMarketMaxCost('maxCost');
         }
     }, [outcomeData])
@@ -145,14 +141,9 @@ export const ActionOrders = ({ loadDetailMarket }) => {
             result = Math.sqrt(sumatoria);
             setMaxCost(result);
         }
-
-        console.log('MyMaxCost');
-        console.log(result);
     }
 
     const addToCart = () => {
-
-        console.log('Outcome: ' + outcomeOptionSelected);
         // Nuevo elemento que deseas agregar al carrito
         const newCartItem = {
             id: idCartCounter,

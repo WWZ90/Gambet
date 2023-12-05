@@ -56,6 +56,9 @@ export const DetailMarket = () => {
             trigger: 'item',
         },
         borderRadius: 5,
+        textStyle: {
+            fontFamily: 'Saira-Regular'
+        },
         series: [
             {
                 type: 'pie',
@@ -85,9 +88,6 @@ export const DetailMarket = () => {
 
 
     useEffect(() => {
-        //debugger;
-
-        console.log('detail market entrando');
 
         if (initialLoadingDetailMarketRef.current !== loadingDetailMarket) {
             return;
@@ -112,6 +112,7 @@ export const DetailMarket = () => {
 
     const loadDetailMarket = async (marketReload) => {
         setLoading(true);
+
         if (!marketsArray || !marketsArray.length) {
             setPreviousRoute(id);
 
@@ -181,7 +182,6 @@ export const DetailMarket = () => {
     }
 
     useEffect(() => {
-        console.log('activeContract');
         if (!previousRoute) {
             return;
         }
@@ -191,21 +191,27 @@ export const DetailMarket = () => {
     useEffect(() => {
         if (marketsArray) {
             setMarketExist(true);
-            setLoading(false);
-            console.log(marketsArray);
         }
 
-        console.log('marketsArray');
         if (!previousRoute) {
+
             return;
         }
 
         setMarketExist(true);
-        setLoading(false);
         setPreviousRoute(false);
-        loadDetailMarket().then();
+        loadDetailMarket().then(async () => {
+
+        });
 
     }, [marketsArray])
+
+    useEffect(() => {
+        if (marketExist && activeMarket) {
+            setLoading(false);
+        }
+    }, [marketExist])
+
 
     return (
         <>

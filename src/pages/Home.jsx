@@ -50,8 +50,6 @@ export const Home = () => {
             }
 
             if (!marketsArray) {
-                console.log('Home activeContract');
-
                 getMarkets().then(result => {
                     setMarketsArray(result);
                 });

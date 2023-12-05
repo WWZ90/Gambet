@@ -153,7 +153,6 @@ export const CreateMarket = () => {
 
 
   const handleImageUpload = (image, id) => {
-    console.log(id);
     // Filtra las imágenes para mantener solo la última (la más reciente)
     // De no hacerse de esta forma, cuando se ponian mas outcomes, el array de image crecia, imagen en 0 siempre la primera q se puso, y en la ultima pos la actualizada
     const updatedImage = image.slice(-1);
@@ -161,7 +160,6 @@ export const CreateMarket = () => {
     const updatedList = betChoiceList.map((betChoice) =>
       betChoice.id === id ? { ...betChoice, image: updatedImage } : betChoice
     );
-    console.log(updatedList);
     setBetChoiceList(updatedList);
   };
 
@@ -195,8 +193,6 @@ export const CreateMarket = () => {
       }
       return item;
     });
-
-    console.log(newBetChoiceList);
 
     setBetChoiceList(newBetChoiceList);
     checkPercentageSum(newBetChoiceList);
@@ -272,9 +268,6 @@ export const CreateMarket = () => {
   }
 
   const handleOnChangeMarketImage = (image) => {
-    console.log('handleOnChangeMarketImage');
-    console.log(image);
-
     setMarketImage(image);
   };
 
@@ -324,8 +317,6 @@ export const CreateMarket = () => {
     handleImageSubmission(marketImage[0].file)
       .then((response) => response.json())
       .then(async (result) => {
-        console.log('Success:', result);
-
         const marketImage = result.data.thumb.url;
 
         //TODO: Subir las imagenes de los outcomes.

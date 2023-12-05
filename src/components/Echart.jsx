@@ -50,7 +50,7 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
                     color: 'red',
                     fontSize: 14,
                     fontWeight: 'bold',
-                    fontFamily: 'Ubuntu',
+                    fontFamily: 'Saira-Regular',
                 },
                 /*
                 showBackground: true,
@@ -82,11 +82,11 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
                 margin: '0',
                 show: false,
 
-                textStyle: {
-                    color: 'red',
-                    fontSize: 12,
-                    fontFamily: 'Ubuntu',
-                },
+
+                color: 'red',
+                fontSize: 12,
+                fontFamily: 'Saira-Regular',
+
             },
             animationDuration: 300,
             animationDurationUpdate: 300,
@@ -138,7 +138,7 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
                     color: 'green',
                     fontSize: 14,
                     fontWeight: 'bold',
-                    fontFamily: 'Ubuntu',
+                    fontFamily: 'Saira-Regular',
                 }
             }
         ],
@@ -160,12 +160,12 @@ export const Echart = React.memo(({ type, yAxisHeightAsks, yAxisHeightBids, barW
                 interval: 0,
                 margin: '10',
                 show: false,
-                textStyle: {
-                    color: 'green',
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    fontFamily: 'Ubuntu',
-                },
+
+                color: 'green',
+                fontSize: 14,
+                fontWeight: 'bold',
+                fontFamily: 'Saira-Regular',
+
             },
             splitLine: {
                 show: false

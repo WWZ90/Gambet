@@ -90,7 +90,7 @@ export const browseMarkets = async (activeContract) => {
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
-    console.log('getMarket');
+    //console.log('getMarket');
 
     const m = await activeContract.markets(marketId).then(market => {
         let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, resolution, marketImage, outcomeImages] = market;
@@ -104,7 +104,7 @@ export const getMarket = async (marketId, activeContract) => {
         outcomes = outcomes.split(" || ");
         outcomes = outcomes.slice(0, outcomes.length - 1);
 
-        console.log("SHARES | IMAGE | IMAGES", shares, marketImage, outcomeImages);
+        //console.log("SHARES | IMAGE | IMAGES", shares, marketImage, outcomeImages);
 
         return marketCache[marketId] = {
             marketId,
@@ -129,17 +129,17 @@ export const getMarket = async (marketId, activeContract) => {
     m.name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
     m.terms = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[3];
 
-    console.log(m);
+    //console.log(m);
 
     return m;
 }
 
 export const verifyMarketExist = async (marketId, activeContract) => {
-    console.log('MarketExist');
+    //console.log('MarketExist');
 
     const m = await activeContract.markets(marketId);
 
-    console.log(m[1]);
+    //console.log(m[1]);
 
     return m[1];
 }
