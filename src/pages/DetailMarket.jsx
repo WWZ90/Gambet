@@ -4,6 +4,8 @@ import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
 
+import { useReactCountdown}  from "use-react-countdown";
+
 import { useStateContext } from '../contexts/ContextProvider';
 
 import ReactEcharts from "echarts-for-react";
@@ -47,11 +49,14 @@ export const DetailMarket = () => {
     const [loadingDetailMarket, setLoadingDetailMarket] = useState(false);
     const initialLoadingDetailMarketRef = useRef(loadingDetailMarket);
 
-    var colorPalette = ['#ffbf00', '#ff0000', '#33394B', '#ff0018', '#02024b'];
+    let dateToEndCountdownAt = "July 22, 2024 10:30:00";
+    const { days, hours, minutes, seconds } = useReactCountdown(dateToEndCountdownAt);
+
+    var colorPalette = ['#41448b', '#ff0018', '#ffbf00', '#ff0000', '#33394B', '#22b75c', '#9d5215', '#159d8f', '#15609d', '#4e159d'];
 
     const [option, setOption] = useState({
         // Otras opciones del gráfico
-        backgroundColor: '#102232',
+        backgroundColor: '#F3F9D2',
         tooltip: {
             trigger: 'item',
         },
@@ -250,9 +255,14 @@ export const DetailMarket = () => {
                                                 <div className='row'>
                                                     <div className='col-6 text_gray first' style={{ fontSize: '13px' }}>Deadline: {activeMarket.deadline}</div>
                                                     <div className='col-6 text_gray' style={{ fontSize: '13px' }}>Resolution: {activeMarket.resolution}</div>
+                                                    
+                                                    <div>
+                                                        {days} D : {hours} H : {minutes} M : {seconds} S
+                                                    </div>
+
                                                 </div>
                                                 <div className='row d-flex aling-align-items-center title'>
-                                                    <div className='text_yellow'>{activeMarket.name}</div>
+                                                    <div className=''>{activeMarket.name}</div>
                                                 </div>
 
                                             </div>
@@ -272,8 +282,8 @@ export const DetailMarket = () => {
 
                                             <div className="module">
                                                 <div className='about'>
-                                                    <h3 className='text_yellow'>About</h3>
-                                                    <p className='text_white' id="collapseAbout" aria-expanded="true">
+                                                    <h3 className=''>About</h3>
+                                                    <p className='' id="collapseAbout" aria-expanded="true">
                                                         {activeMarket.terms}
                                                     </p>
                                                     {/*
@@ -286,8 +296,8 @@ export const DetailMarket = () => {
 
                                                 </div>
                                                 <div className='resolution_outcome'>
-                                                    <h3 className='text_yellow'>Resolution</h3>
-                                                    <p className='text_white'>No outcome has been proposed yet.</p>
+                                                    <h3 className=''>Resolution</h3>
+                                                    <p className=''>No outcome has been proposed yet.</p>
                                                 </div>
 
                                             </div>

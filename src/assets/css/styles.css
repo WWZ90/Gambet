@@ -21,9 +21,10 @@
     --color-action-box: #fff;
     --color-create-market-box: #01172f;
 
-    --color-table-th-background: #102232;
+    --color-table-th-background: #F3F9D2;
+    --color-table-th-background: var(--color-2);
 
-    --color-boxs-detail-market-background: #102232;
+    --color-boxs-detail-market-background: var(--color-4);
 
     --color-action-box-market-option-background: #fff;
     --color-action-box-market-option-hover-background: #d9f6ff;
@@ -1244,7 +1245,8 @@ button.swithToChain:hover {
 }
 
 thead th {
-    background-color: #102232 !important;
+    background-color: var(--color-boxs-detail-market-background) !important;
+    color: var(--color-table-th-color) !important;
 }
 
 thead th:first-child {
@@ -1295,7 +1297,7 @@ thead th:last-child {
 
 .module .about,
 .module .resolution_outcome {
-    background-color: #102232;
+    background-color: var(--color-boxs-detail-market-background);
     padding: 10px 10px;
     border-radius: 10px;
     margin-top: 10px;
