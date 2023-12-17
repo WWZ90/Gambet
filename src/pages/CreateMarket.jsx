@@ -294,20 +294,15 @@ export const CreateMarket = () => {
   const handleDepositUSDC = async () => {
     setAwaitingApproval(true);
     try {
-      await usdc.balanceOf(owner).then(async (balance) => {
-        debugger;
-        await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).then(async tx => {
-          tx.wait();
-          await usdc.balanceOf(owner).then(async (balance) => {
-            await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
-              const wallet_balance = balance > allowance ? allowance : balance;
-              let b = (Number(wallet_balance) / 1e6).toFixed(3);
-              setUSDCBalance(b);
-              setAwaitingApproval(false);
-            });
-          });
-        });
-      });
+        let balance = await usdc.balanceOf(owner);
+        let approvalTx = await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance);
+        await approvalTx.wait();
+        balance = await usdc.balanceOf(owner);
+        let allowance = usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS);
+        const walletBalance = balance > allowance ? allowance : balance;
+        let b = (Number(walletBalance) / 1e6).toFixed(3);
+        setUSDCBalance(b);
+        setAwaitingApproval(false);
     } catch {
       setAwaitingApproval(false);
     }
