@@ -24,7 +24,7 @@ import { createBet, verifyMarketExist } from '../utils/services';
 
 export const CreateMarket = () => {
 
-  const outcomeInputRef = useRef(null);
+  const outcomeInputRef = useRef();
 
   const { activeContract } = useStateContext();
   const { usdc } = useStateContext();
@@ -147,7 +147,7 @@ export const CreateMarket = () => {
   }
 
   useEffect(() => {
-    if(marketOutcomesHandleBlur)
+    if (marketOutcomesHandleBlur)
       betChoiceList.length < 2 ? setMarketOutcomesError(true) : setMarketOutcomesError(false);
   }, [betChoiceList])
 
@@ -295,11 +295,11 @@ export const CreateMarket = () => {
     setAwaitingApproval(true);
     try {
       await usdc.balanceOf(owner).then(async (balance) => {
+        debugger;
         await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).then(async tx => {
           tx.wait();
           await usdc.balanceOf(owner).then(async (balance) => {
             await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
-              //debugger;
               const wallet_balance = balance > allowance ? allowance : balance;
               let b = (Number(wallet_balance) / 1e6).toFixed(3);
               setUSDCBalance(b);
@@ -314,6 +314,62 @@ export const CreateMarket = () => {
   }
 
   const handleCreateMarket = async () => {
+    const uploadOutcomeImages = async () => {
+      const outcomeImagePromises = betChoiceList.map(async (item) => {
+        if (item.image === null || item.image === undefined) {
+          return "";
+        }
+
+        //debugger;
+
+        const outcomeImageResponse = await handleImageSubmission(item.image[0].file);
+        const outcomeImageResult = await outcomeImageResponse.json();
+
+        return outcomeImageResult.data.thumb.url;
+      });
+
+      return Promise.all(outcomeImagePromises);
+    };
+
+    try {
+      let marketImageURL = "";
+
+      if(marketImage.length > 0){
+        const marketImageResponse = await handleImageSubmission(marketImage[0].file);
+        const marketImageResult = await marketImageResponse.json();
+        marketImageURL = marketImageResult.data.thumb.url;
+      }
+      
+      const outcomesImagesArray = await uploadOutcomeImages();
+
+      const outcomesArray = betChoiceList.map((item) => item.betChoice);
+      const percentageArray = betChoiceList.map((item) => Number(item.percentage));
+
+      await createBet(
+        activeContract,
+        usdc,
+        owner,
+        import.meta.env.VITE_OO_CONTRACT_ADDRESS,
+        betType,
+        import.meta.env.VITE_USDC_ADDRESS,
+        betID,
+        deadlineDate,
+        scheduleDate,
+        Number(betInitialPool),
+        outcomesArray,
+        percentageArray,
+        betOOTitle,
+        betOO,
+        marketImageURL,
+        outcomesImagesArray
+      ).then((r) => {
+        console.log(r);
+      });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+    /*
     handleImageSubmission(marketImage[0].file)
       .then((response) => response.json())
       .then(async (result) => {
@@ -333,6 +389,7 @@ export const CreateMarket = () => {
       .catch((error) => {
         console.error('Error:', error);
       });
+    */
   }
 
   return (
@@ -423,7 +480,7 @@ export const CreateMarket = () => {
               onChange={handleOnChangeMarketImage}
               maxNumber='1'
               dataURLKey="data_url"
-              acceptType={["jpg"]}
+              acceptType={["jpg", "gif", "png"]}
             >
               {({
                 image,
@@ -510,7 +567,7 @@ export const CreateMarket = () => {
                             value={item.image}
                             onChange={(image) => handleImageUpload(image, item.id)}
                             dataURLKey="data_url"
-                            acceptType={["jpg"]}
+                            acceptType={["jpg", "gif", "png"]}
                           >
                             {({
                               image,
@@ -593,7 +650,7 @@ export const CreateMarket = () => {
                 <input
                   type="text"
                   className="form-control text-center text_gray"
-                  disabled='true'
+                  disabled={true} 
                   value={minimumInitialPool <= betInitialPool ? betInitialPool : minimumInitialPool}
                   style={{ flex: 1, border: 'none' }}
                   onChange={handleChangeInitialPool}

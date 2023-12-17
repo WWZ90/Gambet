@@ -233,7 +233,7 @@ export const createBet = async (activeContract, usdc, owner, ooContractAddress, 
                 break;
             */
             case "oo":
-                await activeContract.createOptimisticBet(address, marketId, schedule, deadline, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
+                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
                 break;
         }
     } catch (error) {

@@ -56,7 +56,7 @@ export const DetailMarket = () => {
 
     const [option, setOption] = useState({
         // Otras opciones del gráfico
-        backgroundColor: '#F3F9D2',
+        backgroundColor: '#ee8c71',
         tooltip: {
             trigger: 'item',
         },
