@@ -4,7 +4,7 @@ import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
 import { NavLink, useParams, useNavigate } from 'react-router-dom';
 
-import { useReactCountdown}  from "use-react-countdown";
+import Countdown from 'react-countdown';
 
 import { useStateContext } from '../contexts/ContextProvider';
 
@@ -19,6 +19,7 @@ import { OutcomeTable } from '../components/OutcomeTable';
 import { Footer } from '../components/Footer';
 
 import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders } from '../utils/services';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export const DetailMarket = () => {
 
@@ -49,14 +50,28 @@ export const DetailMarket = () => {
     const [loadingDetailMarket, setLoadingDetailMarket] = useState(false);
     const initialLoadingDetailMarketRef = useRef(loadingDetailMarket);
 
-    let dateToEndCountdownAt = "July 22, 2024 10:30:00";
-    const { days, hours, minutes, seconds } = useReactCountdown(dateToEndCountdownAt);
+    const Completionist = () => <span>You are good to go!</span>;
 
-    var colorPalette = ['#41448b', '#ff0018', '#ffbf00', '#ff0000', '#33394B', '#22b75c', '#9d5215', '#159d8f', '#15609d', '#4e159d'];
+    // Renderer callback with condition
+    const renderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            // Render a complete state
+            return <Completionist />;
+        } else {
+            // Render a countdown
+            return (
+                <span className='pl-5'>
+                    {days} D : {hours} H : {minutes} M : {seconds} S
+                </span>
+            );
+        }
+    };
+
+    var colorPalette = ['#41448b', '#8f000d', '#ffbf00', '#ff0000', '#33394B', '#22b75c', '#9d5215', '#159d8f', '#15609d', '#4e159d', '#ffffff'];
 
     const [option, setOption] = useState({
         // Otras opciones del gráfico
-        backgroundColor: '#ee8c71',
+        backgroundColor: '#02024B',
         tooltip: {
             trigger: 'item',
         },
@@ -165,12 +180,15 @@ export const DetailMarket = () => {
 
         const outcomeD = foundMarket.outcomes.map((outcome, index) => ({
             outcome,
+            image: foundMarket.outcomeImages[index],
             owned: Number(owned[index]),
             share: Number(foundMarket.shares[index]),
             marketPrice: calculatePrice(foundMarket, outcome).toFixed(3),
             averagePrice: (Number.isNaN(averages[index]) || !Number.isFinite(averages[index])) ? "-" : averages[index],
             sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
         }));
+
+        //debugger;
 
         setOutcomeData(outcomeD);
 
@@ -253,11 +271,25 @@ export const DetailMarket = () => {
 
                                             <div className='col-9 p-0'>
                                                 <div className='row'>
-                                                    <div className='col-6 text_gray first' style={{ fontSize: '13px' }}>Deadline: {activeMarket.deadline}</div>
-                                                    <div className='col-6 text_gray' style={{ fontSize: '13px' }}>Resolution: {activeMarket.resolution}</div>
-                                                    
-                                                    <div>
-                                                        {days} D : {hours} H : {minutes} M : {seconds} S
+                                                    <div className='col-6 text_gray first' style={{ fontSize: '13px' }}>
+                                                        <OverlayTrigger
+                                                            overlay={<Tooltip id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
+                                                            placement="top"
+                                                        >
+                                                            <i className="bi bi-info-circle pt-2 pr-2"></i>
+                                                        </OverlayTrigger>
+                                                        <span>Locked:</span>
+                                                        <Countdown date={activeMarket.resolution} renderer={renderer} />
+                                                    </div>
+                                                    <div className='col-6 text_gray' style={{ fontSize: '13px' }}>
+                                                        <OverlayTrigger
+                                                            overlay={<Tooltip id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
+                                                            placement="top"
+                                                        >
+                                                            <i className="bi bi-info-circle pt-2 pr-2"></i>
+                                                        </OverlayTrigger>
+                                                        <span>Deadline:</span>
+                                                        <Countdown date={activeMarket.deadline} renderer={renderer} />
                                                     </div>
 
                                                 </div>

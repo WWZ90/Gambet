@@ -43,8 +43,8 @@ export const CreateMarket = () => {
   const [betInitialPool, setBetInitialPool] = useState(0);
   const [betCommission, setBetCommission] = useState(0);
 
-  const [deadlineDate, setDeadlineDate] = useState(new Date());
-  const [scheduleDate, setScheduleDate] = useState(new Date());
+  const [dateLocked, setDateLocked] = useState(new Date());
+  const [dateDeadline, setDateDeadline] = useState(new Date());
 
   const [totalCost, setTotalCost] = useState(0);
   const [minimumInitialPool, setMinimumInitialPool] = useState(0);
@@ -256,15 +256,15 @@ export const CreateMarket = () => {
     setBetCommission(event.target.value);
   }
 
-  const handleDeadLineDateChange = (date) => {
-    setDeadlineDate(date);
-    if (scheduleDate < date) {
-      setScheduleDate(date);
+  const handleDateLockedChange = (date) => {
+    setDateLocked(date);
+    if (dateDeadline < date) {
+      setDateDeadline(date);
     }
   }
 
-  const handleScheduleDateChange = (date) => {
-    setScheduleDate(date);
+  const handleDateDeadlineChange = (date) => {
+    setDateDeadline(date);
   }
 
   const handleOnChangeMarketImage = (image) => {
@@ -348,8 +348,8 @@ export const CreateMarket = () => {
         betType,
         import.meta.env.VITE_USDC_ADDRESS,
         betID,
-        deadlineDate,
-        scheduleDate,
+        dateLocked,
+        dateDeadline,
         Number(betInitialPool),
         outcomesArray,
         percentageArray,
@@ -376,7 +376,7 @@ export const CreateMarket = () => {
         const percentageArray = betChoiceList.map(item => Number(item.percentage));
         const outcomesImagesArray = betChoiceList.map(item => item.image === null || item.image === undefined ? "" : item.image);
 
-        await createBet(activeContract, usdc, owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS, betType, import.meta.env.VITE_USDC_ADDRESS, betID, deadlineDate, scheduleDate, Number(betInitialPool), outcomesArray, percentageArray, betOOTitle, betOO, marketImage, outcomesImagesArray).then((r) => {
+        await createBet(activeContract, usdc, owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS, betType, import.meta.env.VITE_USDC_ADDRESS, betID, dateLocked, dateDeadline, Number(betInitialPool), outcomesArray, percentageArray, betOOTitle, betOO, marketImage, outcomesImagesArray).then((r) => {
           console.log(r);
         });
 
@@ -706,14 +706,14 @@ export const CreateMarket = () => {
               <div>
                 <DatePicker
                   className='form-control text_yellow'
-                  selected={deadlineDate}
+                  selected={dateLocked}
                   id="deadline-date"
-                  onChange={handleDeadLineDateChange}
+                  onChange={handleDateLockedChange}
                   timeInputLabel="Time:"
                   dateFormat="MM/dd/yyyy h:mm aa"
                   showTimeInput
                   minDate={new Date()}
-                  minTime={new Date(deadlineDate)}
+                  minTime={new Date(dateLocked)}
                 />
               </div>
               <div>
@@ -735,14 +735,14 @@ export const CreateMarket = () => {
               <div>
                 <DatePicker
                   className='form-control text_yellow'
-                  selected={scheduleDate}
+                  selected={dateDeadline}
                   id="schedule-date"
-                  onChange={handleScheduleDateChange}
+                  onChange={handleDateDeadlineChange}
                   timeInputLabel="Time:"
                   dateFormat="MM/dd/yyyy h:mm aa"
                   showTimeInput
-                  minDate={deadlineDate}
-                  minTime={new Date(deadlineDate).getTime()}
+                  minDate={dateLocked}
+                  minTime={new Date(dateLocked).getTime()}
                 />
               </div>
               <div>

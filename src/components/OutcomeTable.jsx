@@ -4,9 +4,9 @@ import ContentLoader from "react-content-loader"
 
 import { useStateContext } from '../contexts/ContextProvider';
 
-import upload from '../assets/img/image_upload.png';
-
 import { ImageDisplay } from './ImageDisplay';
+
+import upload from '../assets/img/image_upload.png';
 
 export const OutcomeTable = () => {
 
@@ -69,7 +69,11 @@ export const OutcomeTable = () => {
                         outcomeData.map((item, index) => (
                             <tr key={index} onClick={() => setOutcomeOptionSelected(item.outcome)} className='align-middle'>
                                 {/*  TODO: preguntar si existe item.thumbnail y item.fullSize */}
-                                <td><ImageDisplay thumbnailUrl={upload} /></td>
+                                {item.image ? (
+                                    <td><ImageDisplay thumbnailUrl={item.image} /></td>
+                                ):(
+                                    <td><ImageDisplay thumbnailUrl={upload} /></td>
+                                )}
                                 <td scope="row" className='text-start'>{item.outcome}</td>
                                 <td>{item.owned}</td>
                                 <td>{item.share}</td>

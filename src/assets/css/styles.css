@@ -21,13 +21,14 @@
     --color-action-box: #fff;
     --color-create-market-box: #01172f;
 
-    --color-table-th-background: #F3F9D2;
+    --color-table-th-color: var(--color-4);
     --color-table-th-background: var(--color-2);
 
-    --color-boxs-detail-market-background: var(--color-3);
+    --color-boxs-detail-market-background: var(--color-2);
+    --color-detail-market-text: var(--color-4); 
 
-    --color-action-box-market-option-background: #fff;
-    --color-action-box-market-option-hover-background: #d9f6ff;
+    --color-action-box-market-option-background: #FFF;
+    --color-action-box-market-option-hover-background: #f5f6ff;
     --color-action-box-market-option-active-background: var(--color-1);
 
     --color-short-button-background: var(--color-1);
@@ -162,13 +163,13 @@
 
 :root {
     --account-center-z-index: 2222;
-    --onboard-font-family-regular: "Saira-Regular";
-    --onboard-font-family-light: "Saira-Light";
-    --onboard-font-family-ultralight: "Saira-ExtraLight";
-    --onboard-font-family-medium: "Saira-Medium";
-    --onboard-font-family-semibold: "Saira-SemiBold";
-    --onboard-font-family-bold: "Saira-Bold";
-    --onboard-font-family-black: "Saira-Black";
+    --font-family-regular: "Saira-Regular";
+    --font-family-light: "Saira-Light";
+    --font-family-ultralight: "Saira-ExtraLight";
+    --font-family-medium: "Saira-Medium";
+    --font-family-semibold: "Saira-SemiBold";
+    --font-family-bold: "Saira-Bold";
+    --font-family-black: "Saira-Black";
     --account-center-position-top: -12px;
     --account-center-position-right: -12px;
     --swiper-navigation-size: 25px !important;
@@ -183,7 +184,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
 
 
     color: var(--color-default);
@@ -228,13 +229,14 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--onboard-font-family-medium);
+    font-family: var(--font-family-medium);
 }
 
 .text_gray {
     color: var(--color_gray) !important;
     font-weight: lighter !important;
     font-size: 13px;
+    font-family: var(--font-family-light);
 }
 
 .text_yellow {
@@ -247,7 +249,7 @@ h6 {
 
 /*
 .btn-get-started {
-    font-family: var(--onboard-font-family-medium);
+    font-family: var(--font-family-medium);
     font-weight: 500;
     font-size: 16px;
     letter-spacing: 1px;
@@ -277,7 +279,7 @@ button:disabled {
 
 
 .btn-get-started {
-    font-family: var(--onboard-font-family-medium);
+    font-family: var(--font-family-medium);
     background-image: linear-gradient(to left, #ee8c71 5%, #cf3106 51%, #ee8c71 100%);
     margin: 10px;
     padding: 15px 45px;
@@ -403,13 +405,13 @@ button:disabled {
 }
 
 table {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-size: 13px !important;
     cursor: pointer;
 }
 
 table th {
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
     font-weight: 500;
     background-color: var(--color-table-th-background) !important;
     color: #fff !important;
@@ -476,7 +478,7 @@ section h1 {
     margin-bottom: 20px;
     padding-bottom: 0;
     color: #fff;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .section-title p {
@@ -517,14 +519,14 @@ section h1 {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-family: var(--onboard-font-family-bold);
+    font-family: var(--font-family-bold);
 }
 
 #hero h2 {
     font-size: 22px;
     text-align: left;
     color: var(--color-4);
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     margin-bottom: 20px;
     padding: 25px 0px;
 }
@@ -603,7 +605,7 @@ section h1 {
 
 
 .slick-slide .market_title {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-size: 16px;
     padding: 10px;
     text-align: left;
@@ -613,7 +615,7 @@ section h1 {
 }
 
 .slick-slide .market_desc {
-    font-family: var(--onboard-font-family-bold);
+    font-family: var(--font-family-bold);
     font-weight: bold;
     font-size: 14px;
     padding-top: 14px;
@@ -704,7 +706,7 @@ section h1 {
 .header {
     color: var(--color-nav);
     background-color: var(--color-nav-background);
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     padding: 32px 0;
     z-index: 1000 !important;
     transition: all 0.5s;
@@ -896,7 +898,7 @@ section h1 {
     padding: 2px;
     font-style: normal;
     font-weight: 100;
-    font-family: var(--onboard-font-family-light);
+    font-family: var(--font-family-light);
 }
 
 .header .dropdown-menu {
@@ -953,7 +955,7 @@ button.swithToChain:hover {
 }
 
 .cart_table p {
-    font-family: var(--onboard-font-family-light);
+    font-family: var(--font-family-light);
 }
 
 .bids-text {
@@ -1046,7 +1048,7 @@ button.swithToChain:hover {
 .error_alert {
     position: fixed !important;
     z-index: 9;
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     margin: 64px 0px 0px;
     top: 0;
     right: 0;
@@ -1118,7 +1120,7 @@ button.swithToChain:hover {
 .faq .faq-list a {
     display: block;
     position: relative;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
     font-size: 16px;
     line-height: 24px;
     font-weight: 500;
@@ -1215,6 +1217,10 @@ button.swithToChain:hover {
     padding: 10px 0px;
 }
 
+.detail_market .left_panel .top i, .detail_market .left_panel .top span{
+    padding-right: 5px;
+}
+
 .detail_market .left_panel .top .image img {
     width: 100px;
     height: 100px;
@@ -1222,14 +1228,15 @@ button.swithToChain:hover {
 }
 
 .detail_market .title {
-    font-family: var(--onboard-font-family-medium);
+    font-family: var(--font-family-medium);
     font-size: 25px;
     padding-top: 20px;
     line-height: 25px;
+    color: var(--color-detail-market-text);
 }
 
 .detail_market .title_gray {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-size: 14px;
     padding-top: 5px;
     color: var(--color_gray);
@@ -1275,7 +1282,7 @@ thead th:last-child {
     display: inline;
     height: 40vh;
     text-align: center;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
     font-size: 18px;
     position: absolute;
     top: 50%;
@@ -1316,21 +1323,23 @@ thead th:last-child {
 }
 
 .module h3 {
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
     font-weight: normal;
     font-size: 19px;
+    color: var(--color-detail-market-text);
 }
 
 .module p {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-weight: normal;
     text-align: justify;
     font-size: 16px;
     margin-bottom: 0px !important;
+    color: var(--color-detail-market-text);
 }
 
 .module a {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-weight: normal;
     font-size: 14px;
 }
@@ -1348,7 +1357,7 @@ thead th:last-child {
 }
 
 .accordion-button {
-    font-family: var(--onboard-font-family-semibold) !important;
+    font-family: var(--font-family-semibold) !important;
     font-size: 19px !important;
 }
 
@@ -1376,11 +1385,11 @@ thead th:last-child {
 
 .accordion .order_block_asks .price_shares .option.price {
     color: var(--color-3);
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .accordion .order_block_asks .price_shares .option.share {
-    font-family: var(--onboard-font-family-medium);
+    font-family: var(--font-family-medium);
 }
 
 
@@ -1392,7 +1401,7 @@ thead th:last-child {
     border-top: 1px solid #e3e3e3;
     border-bottom: 1px solid #e3e3e3;
     font-size: 15px;
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     color: #929292;
     font-weight: 500;
     padding: 5px 0px;
@@ -1406,14 +1415,14 @@ thead th:last-child {
 .market_option_selected {
     display: flex;
     margin: 0px 0px;
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-size: 12px;
 }
 
 .market_option_selected p {
     display: flex;
     margin: 0px 0px;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .modal-header {
@@ -1422,7 +1431,7 @@ thead th:last-child {
 
 .modal-header .modal-title {
     font-size: 18px !important;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .modal-header .btn-close {
@@ -1447,7 +1456,7 @@ thead th:last-child {
 }
 
 .modal-body .form-check .form-check-label {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-size: 17px;
 }
 
@@ -1469,7 +1478,7 @@ thead th:last-child {
 
 .nav-link {
     color: #000 !important;
-    font-family: var(--onboard-font-family-medium);
+    font-family: var(--font-family-medium);
 }
 
 .nav-link.active {
@@ -1500,7 +1509,7 @@ thead th:last-child {
     border-radius: 10px;
     cursor: pointer;
     border: 1px solid #acacac49;
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     font-size: 14px;
     color: #b4b4b4;
     background-color: var(--color-action-box-market-option-background);
@@ -1521,7 +1530,7 @@ thead th:last-child {
 }
 
 .market_option p.price {
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 /***********************************/
@@ -1564,7 +1573,7 @@ thead th:last-child {
 .box a {
     color: #000 !important;
     cursor: pointer;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .box a.buy {
@@ -1640,7 +1649,7 @@ thead th:last-child {
 
 .box .form-control {
     background-color: transparent !important;
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     border: none !important;
 }
 
@@ -1658,7 +1667,7 @@ thead th:last-child {
 .box .inputData .inputDataTitle {
     margin: 10px 0px;
     margin-right: 5px;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
     font-weight: normal;
     font-size: 16px;
 }
@@ -1685,7 +1694,7 @@ thead th:last-child {
 }
 
 .box .dropdown a {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
 }
 
 .box .dropdown a:hover {
@@ -1728,11 +1737,11 @@ thead th:last-child {
 
 .market_tabs .nav-tabs {
     border-bottom: none;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .market_tabs .nav-tabs .nav-link {
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .c-dhzjXW-iuYlq-css {
@@ -1842,7 +1851,7 @@ thead th:last-child {
 }
 
 .c-dqzIym {
-    font-family: var(--onboard-font-family-light) !important;
+    font-family: var(--font-family-light) !important;
     margin: 0px;
     transition: all 0.2s ease 0s;
 }
@@ -1881,7 +1890,7 @@ thead th:last-child {
 }
 
 .c-dqzIym {
-    font-family: var(--onboard-font-family-semibold) !important;
+    font-family: var(--font-family-semibold) !important;
     margin: 0px;
     transition: all 0.2s ease 0s;
 }
@@ -1956,7 +1965,7 @@ hr {
 .c-PJLV {
     font-size: 12px;
     color: #808080;
-    font-family: var(--onboard-font-family-semibold);
+    font-family: var(--font-family-semibold);
 }
 
 .market_tabs .market_option {
@@ -1986,7 +1995,7 @@ hr {
 --------------------------------------------------------------*/
 
 .create_market {
-    font-family: var(--onboard-font-family-light);
+    font-family: var(--font-family-light);
 }
 
 .create_market .container {
@@ -2084,7 +2093,7 @@ hr {
 # Footer
 --------------------------------------------------------------*/
 .footer {
-    font-family: var(--onboard-font-family-regular);
+    font-family: var(--font-family-regular);
     color: #fff;
     /*background: url("../img/hero-bg.jpg") top center no-repeat;*/
     background-color: var(--color-footer-background);
@@ -2115,7 +2124,7 @@ hr {
     font-size: 14px;
     line-height: 24px;
     margin-bottom: 0;
-    font-family: var(--onboard-font-family-light);
+    font-family: var(--font-family-light);
     color: #fff;
 }
 
