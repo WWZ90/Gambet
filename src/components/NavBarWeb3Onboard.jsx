@@ -232,9 +232,24 @@ export const NavBarWeb3Onboard = () => {
                         </Navbar.Brand>
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="me-auto">
-                                <NavLink to="/browsemarkets" className='animated-line'>Browse market</NavLink>
-                                <NavLink to="/createmarket" className='animated-line'>Create market</NavLink>
-                                <NavLink to="/whatwedo">What we do?</NavLink>
+                                <div className="row row_links">
+                                    <div className="col-6">
+                                        <div className="row justify-content-center">
+                                            Markets
+                                        </div>
+                                        <div className="row">
+                                            <div className="col">
+                                                <NavLink to="/browsemarkets" className='animated-line'>Browse</NavLink>
+                                            </div>
+                                            <div className="col">
+                                                <NavLink to="/createmarket" className='animated-line'>Create</NavLink>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-6 pt-4">
+                                        <NavLink to="/whatwedo" className="animated-line">About us</NavLink>
+                                    </div>
+                                </div>
                             </Nav>
                             <div className="form-group has-search">
                                 <i className="bi bi-search form-control-feedback"></i>
