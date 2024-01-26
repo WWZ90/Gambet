@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
-import { useConnectWallet, useSetChain } from "@web3-onboard/react";
-import { ethers } from "ethers";
+import {useConnectWallet, useSetChain} from "@web3-onboard/react";
+import {ethers} from "ethers";
 
 import {
     formatAddress,
@@ -15,9 +15,9 @@ import {
 import ooAbi from '../libs/gambeth-oo-abi';
 import tokenAbi from '../libs/gambeth-oo-token-abi';
 
-import { browseMarkets, getMarket } from '../utils/services';
+import {browseMarkets, getMarket} from '../utils/services';
 
-import { useStateContext } from '../contexts/ContextProvider';
+import {useStateContext} from '../contexts/ContextProvider';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -29,25 +29,25 @@ import logo from '../assets/img/gambeth-logo-text.png';
 
 export const NavBarWeb3Onboard = () => {
 
-    const { wrongChain, setWrongChain } = useStateContext();
-    const { provider, setProvider } = useStateContext();
-    const { providerLoaded, setProviderLoaded } = useStateContext();
-    const { marketId, setMarketId } = useStateContext();
-    const { activeMarketId, setActiveMarketId } = useStateContext();
-    const { activeContract, setActiveContract } = useStateContext();
-    const { usdc, setUSDC } = useStateContext();
-    const { awaitingApproval, setAwaitingApproval } = useStateContext();
-    const { usdcBalance, setUSDCBalance } = useStateContext();
-    const { signer, setSigner } = useStateContext();
-    const { owner, setOwner } = useStateContext();
-    const { betType, setBetType } = useStateContext();
+    const {wrongChain, setWrongChain} = useStateContext();
+    const {provider, setProvider} = useStateContext();
+    const {providerLoaded, setProviderLoaded} = useStateContext();
+    const {marketId, setMarketId} = useStateContext();
+    const {activeMarketId, setActiveMarketId} = useStateContext();
+    const {activeContract, setActiveContract} = useStateContext();
+    const {usdc, setUSDC} = useStateContext();
+    const {awaitingApproval, setAwaitingApproval} = useStateContext();
+    const {usdcBalance, setUSDCBalance} = useStateContext();
+    const {signer, setSigner} = useStateContext();
+    const {owner, setOwner} = useStateContext();
+    const {betType, setBetType} = useStateContext();
 
-    const { marketsArray, setMarketsArray } = useStateContext();
+    const {marketsArray, setMarketsArray} = useStateContext();
 
-    const { cartCount, setCartCount } = useStateContext();
+    const {cartCount, setCartCount} = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
 
-    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
     const [
         {
             chains, // the list of chains that web3-onboard was initialized with
@@ -87,8 +87,7 @@ export const NavBarWeb3Onboard = () => {
         if (connectedChain.id != import.meta.env.VITE_CORRECT_CHAIN) //Goerli
         {
             setWrongChain(true);
-        }
-        else {
+        } else {
             setWrongChain(false);
             //setProviderLoaded(await setProvider(new ethers.BrowserProvider(wallet.provider, 'any')))
 
@@ -100,37 +99,37 @@ export const NavBarWeb3Onboard = () => {
 
     useEffect(() => {
 
-        let temp_singer = null;
-        let temp_activeContract = null;
+        let tempSinger = null;
+        let tempActiveContract = null;
 
         const start = async () => {
 
-            temp_singer = await provider.getSigner();
+            tempSinger = await provider.getSigner();
 
             if (marketId && activeContract) {
                 //alert("marketId && activeContract");
                 const betKind = (await getMarket(marketId)).kind;
                 switch (betKind) {
                     case 0n:
-                        temp_activeContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(temp_singer);
+                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSinger);
                         break;
                     case 1n:
-                        temp_activeContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(temp_singer);
+                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSinger);
                         break;
                 }
             } else if (betType) {
                 //alert("betType: " + betType);
                 switch (betType) {
                     case "oo":
-                        temp_activeContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(temp_singer);
+                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSinger);
                         break;
                     case "bc":
-                        temp_activeContract = import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS
-                            ? temp_activeContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(temp_singer)
+                        tempActiveContract = import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS
+                            ? tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSinger)
                             : null;
                         break;
                     default:
-                        temp_activeContract = new ethers.Contract(import.meta.env.VITE_PROVABLE_CONTRACT_ADDRESS, provableOracleAbi, provider).connect(signer);
+                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_PROVABLE_CONTRACT_ADDRESS, provableOracleAbi, provider).connect(signer);
                         break;
                 }
                 /*
@@ -140,25 +139,78 @@ export const NavBarWeb3Onboard = () => {
                 */
             }
 
-            if (temp_activeContract) {
-                setOwner(await temp_singer.getAddress());
+            if (tempActiveContract) {
+                setOwner(await tempSinger.getAddress());
+            } else {
+                setOwner("0x0000000000000000000000000000000000000000")
             }
 
             localStorage.setItem('activeContract', 'true');
 
         }
 
+        const tempStateContract = {};
         if (provider) {
             if (!marketsArray) {
                 start().then(async result => {
-                    setSigner(temp_singer);
-                    setActiveContract(temp_activeContract);
+                    setSigner(tempSinger);
+                    setActiveContract(tempActiveContract);
 
-                    const temp_usdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(await provider.getSigner())
-                    setUSDC(temp_usdc);
+                    const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(await provider.getSigner())
+                    setUSDC(tempUsdc);
                 })
             }
+        } else {
+            const iface = ethers.Interface.from(ooAbi);
+            const fallbackHandler = {
+                get(target, prop, receiver) {
+                    if (prop === "queryFilter") {
+                        return function (arg) {
+                            return fetch(`http://localhost:8080/event`, {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"}
+                            })
+                                .then(r => r.json())
+                                .then(r => r.map(r => iface.parseLog(r)))
+                                .then(r => {
+                                    console.log(r);
+                                    return r;
+                                })
+                        };
+                    }
+                    if (prop === "filters") {
+                        return new Proxy({}, {
+                            get(target, prop, receiver) {
+                                return function () {
+                                    console.log([...arguments]);
+                                    return `${prop}(${[...arguments].join(",")})`
+                                }
+                            }
+                        });
+                    }
+                    return function () {
+                        let args = iface.encodeFunctionData(prop, [...arguments]);
+                        return fetch(`http://localhost:8080/method`, {
+                            method: "POST",
+                            headers: {"Content-Type": "application/json"},
+                            body: JSON.stringify({
+                                name: prop,
+                                args
+                            })
+                        })
+                            .then(r => r.json())
+                            .then(r => {
+                                let data = r[Object.keys(r)[0]];
+                                return data.map
+                                    ? data.map(elm => elm[Object.keys(elm)[0]])
+                                    : data[Object.keys(data)[0]];
+                            });
+                    }
 
+                }
+            }
+            tempActiveContract = new Proxy({}, fallbackHandler);
+            setActiveContract(tempActiveContract);
         }
 
     }, [provider])
@@ -208,13 +260,15 @@ export const NavBarWeb3Onboard = () => {
     }, [connectedChain])
 
     const switchToChain = () => {
-        setChain({ chainId: import.meta.env.VITE_CORRECT_CHAIN });
+        setChain({chainId: import.meta.env.VITE_CORRECT_CHAIN});
     }
 
     return (
         <>
             {wrongChain && (
-                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain' onClick={switchToChain}> switch to Goerli</button></div>
+                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
+                                                                                                onClick={switchToChain}> switch
+                    to Goerli</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
@@ -253,7 +307,7 @@ export const NavBarWeb3Onboard = () => {
                             </Nav>
                             <div className="form-group has-search">
                                 <i className="bi bi-search form-control-feedback"></i>
-                                <input type="text" className="form-control" placeholder="Search market" />
+                                <input type="text" className="form-control" placeholder="Search market"/>
                             </div>
                         </Navbar.Collapse>
                         {!wallet ? (
@@ -289,7 +343,8 @@ export const NavBarWeb3Onboard = () => {
                                         <div className='cart'>
                                             <i className="bi bi-cart3">
                                                 {cartCount > 0 && (
-                                                    <span id="cart_menu_num" data-action="cart-can" className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                                    <span id="cart_menu_num" data-action="cart-can"
+                                                          className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
                                                 )}
 
                                             </i>
@@ -349,9 +404,17 @@ export const NavBarWeb3Onboard = () => {
                                             </motion.li>
                                         </NavLink>
 
-                                        <NavDropdown.Divider />
+                                        <NavDropdown.Divider/>
 
-                                        <button onClick={() => { disconnect({ label: wallet.label }); setProvider(null); setWrongChain(false); setShown(false); setActiveContract(null); setUSDCBalance(null); localStorage.removeItem('activeContract') }} className='wallet_disconnet'>
+                                        <button onClick={() => {
+                                            disconnect({label: wallet.label});
+                                            setProvider(null);
+                                            setWrongChain(false);
+                                            setShown(false);
+                                            setActiveContract(null);
+                                            setUSDCBalance(null);
+                                            localStorage.removeItem('activeContract')
+                                        }} className='wallet_disconnet'>
                                             Disconnet
                                         </button>
 

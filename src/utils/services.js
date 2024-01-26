@@ -104,7 +104,7 @@ export const getMarket = async (marketId, activeContract) => {
         outcomes = outcomes.split(" || ");
         outcomes = outcomes.slice(0, outcomes.length - 1);
 
-        //console.log("SHARES | IMAGE | IMAGES", shares, marketImage, outcomeImages);
+        console.log("SHARES | IMAGE | IMAGES", shares, marketImage, outcomeImages);
 
         return marketCache[marketId] = {
             marketId,
