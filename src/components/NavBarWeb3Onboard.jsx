@@ -99,33 +99,33 @@ export const NavBarWeb3Onboard = () => {
 
     useEffect(() => {
 
-        let tempSinger = null;
+        let tempSigner = null;
         let tempActiveContract = null;
 
         const start = async () => {
 
-            tempSinger = await provider.getSigner();
+            tempSigner = await provider.getSigner();
 
             if (marketId && activeContract) {
                 //alert("marketId && activeContract");
                 const betKind = (await getMarket(marketId)).kind;
                 switch (betKind) {
                     case 0n:
-                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSinger);
+                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
                         break;
                     case 1n:
-                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSinger);
+                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSigner);
                         break;
                 }
             } else if (betType) {
                 //alert("betType: " + betType);
                 switch (betType) {
                     case "oo":
-                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSinger);
+                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
                         break;
                     case "bc":
                         tempActiveContract = import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS
-                            ? tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSinger)
+                            ? tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSigner)
                             : null;
                         break;
                     default:
@@ -140,9 +140,7 @@ export const NavBarWeb3Onboard = () => {
             }
 
             if (tempActiveContract) {
-                setOwner(await tempSinger.getAddress());
-            } else {
-                setOwner("0x0000000000000000000000000000000000000000")
+                setOwner(await tempSigner.getAddress());
             }
 
             localStorage.setItem('activeContract', 'true');
@@ -153,7 +151,7 @@ export const NavBarWeb3Onboard = () => {
         if (provider) {
             if (!marketsArray) {
                 start().then(async result => {
-                    setSigner(tempSinger);
+                    setSigner(tempSigner);
                     setActiveContract(tempActiveContract);
 
                     const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(await provider.getSigner())
@@ -161,12 +159,13 @@ export const NavBarWeb3Onboard = () => {
                 })
             }
         } else {
+            setOwner("0x0000000000000000000000000000000000000000");
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
                 get(target, prop, receiver) {
                     if (prop === "queryFilter") {
                         return function (arg) {
-                            return fetch(`http://localhost:8080/event`, {
+                            return fetch(`https://gambeth-backend.fly.dev/event`, {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"}
                             })
@@ -190,7 +189,7 @@ export const NavBarWeb3Onboard = () => {
                     }
                     return function () {
                         let args = iface.encodeFunctionData(prop, [...arguments]);
-                        return fetch(`http://localhost:8080/method`, {
+                        return fetch(`https://gambeth-backend.fly.dev/method`, {
                             method: "POST",
                             headers: {"Content-Type": "application/json"},
                             body: JSON.stringify({

@@ -171,9 +171,9 @@ export const DetailMarket = () => {
             })),
         }));
 
-        const owned = await getOwned(foundMarket, owner || "0x0000000000000000000000000000000000000000", activeContract)
+        const owned = await getOwned(foundMarket, owner, activeContract)
 
-        const averages = await getPrices(foundMarket, owned, owner || "0x0000000000000000000000000000000000000000", activeContract);
+        const averages = await getPrices(foundMarket, owned, owner, activeContract);
 
         foundMarket.owned = owned;
         foundMarket.averagePrice = averages;
