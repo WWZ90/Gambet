@@ -44,7 +44,7 @@ export function formatDateShort(d) {
 
 
 export const browseMarkets = async (activeContract) => {
-    return (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
+    const markets = (await Promise.all((await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet()))
         .map(e => [e.args[1], e.args[2], e.args[3]])
         .map(async ([id, name, terms]) => [await getMarket(id, activeContract), name, terms])))
         .map(market => {
@@ -85,12 +85,14 @@ export const browseMarkets = async (activeContract) => {
             mkt.prices = mkt.outcomes.map(o => calculatePrice(mkt, o));
             return mkt;
         });
+    console.log(markets);
+    return markets;
 }
 
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
-    //console.log('getMarket');
+    console.log('getMarket');
 
     const m = await activeContract.markets(marketId).then(market => {
         let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, resolution, marketImage, outcomeImages] = market;
@@ -126,7 +128,9 @@ export const getMarket = async (marketId, activeContract) => {
         }
     });
 
-    m.name = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[2];
+    let filter = activeContract.filters.CreatedOptimisticBet(marketId);
+    console.log(filter);
+    m.name = (await activeContract.queryFilter(filter))[0].args[2];
     m.terms = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[3];
 
     //console.log(m);

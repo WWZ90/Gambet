@@ -164,25 +164,21 @@ export const NavBarWeb3Onboard = () => {
             const fallbackHandler = {
                 get(target, prop, receiver) {
                     if (prop === "queryFilter") {
-                        return function (arg) {
+                        return function ([name, topics]) {
                             return fetch(`https://gambeth-backend.fly.dev/event`, {
                                 method: "POST",
-                                headers: {"Content-Type": "application/json"}
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({name, topics})
                             })
                                 .then(r => r.json())
-                                .then(r => r.map(r => iface.parseLog(r)))
-                                .then(r => {
-                                    console.log(r);
-                                    return r;
-                                })
+                                .then(r => r.map(r => iface.parseLog(r)));
                         };
                     }
                     if (prop === "filters") {
                         return new Proxy({}, {
                             get(target, prop, receiver) {
                                 return function () {
-                                    console.log([...arguments]);
-                                    return `${prop}(${[...arguments].join(",")})`
+                                    return [prop, [...arguments].concat(new Array(3 - [...arguments].length).fill(null))]
                                 }
                             }
                         });
