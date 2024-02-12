@@ -147,8 +147,8 @@ export const NavBarWeb3Onboard = () => {
 
         }
 
-        const tempStateContract = {};
         if (provider) {
+            console.log("Using non proxy contract " + owner);
             if (!marketsArray) {
                 start().then(async result => {
                     setSigner(tempSigner);
@@ -158,7 +158,8 @@ export const NavBarWeb3Onboard = () => {
                     setUSDC(tempUsdc);
                 })
             }
-        } else {
+        } else if (!window.ethereum) {
+            console.log("Using proxy contract " + owner);
             setOwner("0x0000000000000000000000000000000000000000");
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
