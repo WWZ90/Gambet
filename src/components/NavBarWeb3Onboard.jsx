@@ -158,7 +158,9 @@ export const NavBarWeb3Onboard = () => {
                     setUSDC(tempUsdc);
                 })
             }
-        } else if (!window.ethereum) {
+        } else {
+            const gambethBackend = "https://gambeth-backend.fly.dev";
+            //const gambethBackend = "http://localhost:8080";
             console.log("Using proxy contract " + owner);
             setOwner("0x0000000000000000000000000000000000000000");
             const iface = ethers.Interface.from(ooAbi);
@@ -166,7 +168,7 @@ export const NavBarWeb3Onboard = () => {
                 get(target, prop, receiver) {
                     if (prop === "queryFilter") {
                         return function ([name, topics]) {
-                            return fetch(`https://gambeth-backend.fly.dev/event`, {
+                            return fetch(`${gambethBackend}/event`, {
                                 method: "POST",
                                 headers: {"Content-Type": "application/json"},
                                 body: JSON.stringify({name, topics})
@@ -186,7 +188,7 @@ export const NavBarWeb3Onboard = () => {
                     }
                     return function () {
                         let args = iface.encodeFunctionData(prop, [...arguments]);
-                        return fetch(`https://gambeth-backend.fly.dev/method`, {
+                        return fetch(`${gambethBackend}/method`, {
                             method: "POST",
                             headers: {"Content-Type": "application/json"},
                             body: JSON.stringify({
