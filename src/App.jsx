@@ -1,73 +1,123 @@
-import reactLogo from './assets/react.svg'
-import './App.css'
-
-import './assets/fonts/Saira/Saira-Regular.ttf';
-import './assets/fonts/Saira/Saira-Black.ttf';
-import './assets/fonts/Saira/Saira-BlackItalic.ttf';
-import './assets/fonts/Saira/Saira-Bold.ttf';
-import './assets/fonts/Saira/Saira-BoldItalic.ttf';
-import './assets/fonts/Saira/Saira-ExtraBold.ttf';
-import './assets/fonts/Saira/Saira-ExtraBoldItalic.ttf';
-import './assets/fonts/Saira/Saira-ExtraLight.ttf';
-import './assets/fonts/Saira/Saira-ExtraLightItalic.ttf';
-import './assets/fonts/Saira/Saira-Italic.ttf';
-import './assets/fonts/Saira/Saira-Light.ttf';
-import './assets/fonts/Saira/Saira-Medium.ttf';
-import './assets/fonts/Saira/Saira-MediumItalic.ttf';
-import './assets/fonts/Saira/Saira-SemiBold.ttf';
-import './assets/fonts/Saira/Saira-SemiBoldItalic.ttf';
-import './assets/fonts/Saira/Saira-Thin.ttf';
-import './assets/fonts/Saira/Saira-ThinItalic.ttf';
-
-
+import React, { useEffect } from 'react'
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import { Helmet, HelmetProvider } from "react-helmet-async";
 
+import { ContextProvider } from "./contexts/ContextProvider";
+
 import { Home } from './pages/Home'
-
-import Favicon from "./assets/img/favicon.ico";
-
-import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
-
-import { WagmiConfig } from 'wagmi'
-import { arbitrum, mainnet, goerli } from 'wagmi/chains'
 import { BrowseMarkets } from './pages/BrowseMarkets';
 import { CreateMarket } from './pages/CreateMarket';
-import { Cart } from './pages/Cart';
-import { WhatWeDo } from './pages/WhatWeDo';
+import { WhatWeDo } from './pages/whatwedo';
 import { NotFound } from './pages/NotFound';
 
-// 1. Get projectId
-const projectId = import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID;
+import Favicon from "./assets/img/gambeth-logo.png";
 
-// 2. Create wagmiConfig
-const metadata = {
-  name: 'Web3Modal',
-  description: 'Web3Modal',
-  url: 'https://web3modal.com',
-  icons: ['https://avatars.githubusercontent.com/u/37784886']
-}
+import blocknativeIcon from './assets/icons/logo.svg'
 
-const chains = [goerli]
-const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
+import {
+  init,
+  Web3OnboardProvider,
+  useConnectWallet,
+  useNotifications,
+  useSetChain,
+  useWallets,
+} from '@web3-onboard/react'
 
-// 3. Create modal
-createWeb3Modal({
-  wagmiConfig, projectId, chains, themeVariables: {
-    "--w3m-font-family": "GothamPro Light, sans-serif",
-    "--w3m-background-color": "#555555",
-    "--w3m-accent-color": "#555555",
-    "--w3m-text-big-bold-weight": "light",
-    "--w3m-text-medium-regular-weight": "normal",
-  }
+import injectedModule from '@web3-onboard/injected-wallets'
+import walletConnectModule from '@web3-onboard/walletconnect'
+import coinbaseModule from '@web3-onboard/coinbase'
+import { DetailMarket } from './pages/DetailMarket';
+import { Cart } from './pages/Cart';
+import { Education } from './pages/Education';
+
+const injected = injectedModule()
+const coinbase = coinbaseModule()
+const walletConnect = walletConnectModule({
+  projectId: 'f6bd6e2911b56f5ac3bc8b2d0e2d7ad5',
+  dappUrl: 'https://reactdemo.blocknative.com/'
 })
 
+const INFURA_ID = import.meta.env.VITE_INFURA_ID
+export const infuraRPC = `https://mainnet.infura.io/v3/${INFURA_ID}`
+const dappId = import.meta.env.VITE_BLOCKNATIVE_ID
 
+const web3Onboard = init({
+  connect: {
+    autoConnectAllPreviousWallet: true
+  },
+  wallets: [
+    injected,
+    coinbase,
+    walletConnect
+  ],
+  chains: [
+    {
+      id: '0x1',
+      token: 'ETH',
+      label: 'Ethereum',
+      rpcUrl: infuraRPC
+    },
+    {
+      id: '0x5',
+      token: 'ETH',
+      label: 'Goerli',
+      rpcUrl: `https://goerli.infura.io/v3/${INFURA_ID}`
+    },
+    {
+      id: '0x13881',
+      token: 'MATIC',
+      label: 'Polygon - Mumbai',
+      rpcUrl: 'https://matic-mumbai.chainstacklabs.com	'
+    }
+  ],
+  appMetadata: {
+    name: 'Gambeth',
+    icon: blocknativeIcon,
+    description: 'A fully decentralized, blockchain-based web application',
+    recommendedInjectedWallets: [
+      { name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
+      { name: 'MetaMask', url: 'https://metamask.io' }
+    ],
+    agreement: {
+      version: '1.0.0',
+      termsUrl: 'https://www.blocknative.com/terms-conditions',
+      privacyUrl: 'https://www.blocknative.com/privacy-policy'
+    },
+    gettingStartedGuide: 'https://blocknative.com',
+    explore: 'https://blocknative.com'
+  },
+  accountCenter: {
+    desktop: {
+      position: 'topRight',
+      enabled: false,
+      minimal: false
+    }
+  },
+  apiKey: dappId,
+  notify: {
+    transactionHandler: transaction => {
 
+      if (transaction.eventCode === 'txPool') {
+        return {
+          // autoDismiss set to zero will persist the notification until the user excuses it
+          autoDismiss: 0,
+          // message: `Your transaction is pending, click <a href="https://goerli.etherscan.io/tx/${transaction.hash}" rel="noopener noreferrer" target="_blank">here</a> for more info.`,
+          // or you could use onClick for when someone clicks on the notification itself
+          onClick: () =>
+            window.open(`https://goerli.etherscan.io/tx/${transaction.hash}`)
+        }
+      }
+    }
+  },
+  theme: 'dark'
+})
 
-function App() {
+function AppWeb3Onboard() {
+
+  useEffect(() => {
+    web3Onboard
+  }, [])
 
   return (
     <>
@@ -77,21 +127,25 @@ function App() {
           <link rel="icon" type="image/png" href={Favicon} sizes="16x16" />
         </Helmet>
       </HelmetProvider>
-      <WagmiConfig config={wagmiConfig}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/browsemarkets" element={<BrowseMarkets />} />
-            <Route path="/createmarket" element={<CreateMarket />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/whatwedo" element={<WhatWeDo />} />
+      <Web3OnboardProvider web3Onboard={web3Onboard}>
+        <ContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/browsemarkets" element={<BrowseMarkets />} />
+              <Route path="/market/id/:id" element={<DetailMarket />} />
+              <Route path="/createmarket" element={<CreateMarket />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/whatwedo" element={<WhatWeDo />} />
+              <Route path="/education" element={<Education />} />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </WagmiConfig>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </ContextProvider>
+      </Web3OnboardProvider>
     </>
   )
 }
 
-export default App
+export default AppWeb3Onboard

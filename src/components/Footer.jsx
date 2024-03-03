@@ -125,7 +125,7 @@ export const Footer = () => {
                                         <strong>Email:</strong> contact@gambeth.com<br></br>
                                     </p>
                                     <div className="social-links d-flex mt-3">
-                                        <a href="#" className="d-flex align-items-center justify-content-center"><i className="bi bi-twitter"></i></a>
+                                        <a href="#" className="d-flex align-items-center justify-content-center"><i className="bi bi-twitter-x"></i></a>
                                         <a href="#" className="d-flex align-items-center justify-content-center"><i className="bi bi-facebook"></i></a>
                                         <a href="#" className="d-flex align-items-center justify-content-center"><i className="bi bi-instagram"></i></a>
                                         <a href="#" className="d-flex align-items-center justify-content-center"><i className="bi bi-linkedin"></i></a>

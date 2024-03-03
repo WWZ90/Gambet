@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-import {useConnectWallet, useSetChain} from "@web3-onboard/react";
-import {ethers} from "ethers";
+import { useConnectWallet, useSetChain } from "@web3-onboard/react";
+import { ethers } from "ethers";
 
 import {
     formatAddress,
@@ -15,39 +15,45 @@ import {
 import ooAbi from '../libs/gambeth-oo-abi';
 import tokenAbi from '../libs/gambeth-oo-token-abi';
 
-import {browseMarkets, getMarket} from '../utils/services';
+import { browseMarkets, getMarket } from '../utils/services';
 
-import {useStateContext} from '../contexts/ContextProvider';
+import { useStateContext } from '../contexts/ContextProvider';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 
 import logo from '../assets/img/gambeth-logo-text.png';
+import magnifying_glass from '../assets/icons/png/magnifying-glass.png';
+import rocket from '../assets/icons/png/noto_rocket.png';
+import more from '../assets/icons/png/more.png';
+
+import { Button } from './Button';
 
 export const NavBarWeb3Onboard = () => {
 
-    const {wrongChain, setWrongChain} = useStateContext();
-    const {provider, setProvider} = useStateContext();
-    const {providerLoaded, setProviderLoaded} = useStateContext();
-    const {marketId, setMarketId} = useStateContext();
-    const {activeMarketId, setActiveMarketId} = useStateContext();
-    const {activeContract, setActiveContract} = useStateContext();
-    const {usdc, setUSDC} = useStateContext();
-    const {awaitingApproval, setAwaitingApproval} = useStateContext();
-    const {usdcBalance, setUSDCBalance} = useStateContext();
-    const {signer, setSigner} = useStateContext();
-    const {owner, setOwner} = useStateContext();
-    const {betType, setBetType} = useStateContext();
+    const { wrongChain, setWrongChain } = useStateContext();
+    const { provider, setProvider } = useStateContext();
+    const { providerLoaded, setProviderLoaded } = useStateContext();
+    const { marketId, setMarketId } = useStateContext();
+    const { activeMarketId, setActiveMarketId } = useStateContext();
+    const { activeContract, setActiveContract } = useStateContext();
+    const { usdc, setUSDC } = useStateContext();
+    const { awaitingApproval, setAwaitingApproval } = useStateContext();
+    const { usdcBalance, setUSDCBalance } = useStateContext();
+    const { signer, setSigner } = useStateContext();
+    const { owner, setOwner } = useStateContext();
+    const { betType, setBetType } = useStateContext();
 
-    const {marketsArray, setMarketsArray} = useStateContext();
+    const { marketsArray, setMarketsArray } = useStateContext();
 
-    const {cartCount, setCartCount} = useStateContext();
+    const { cartCount, setCartCount } = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
 
-    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [
         {
             chains, // the list of chains that web3-onboard was initialized with
@@ -56,6 +62,35 @@ export const NavBarWeb3Onboard = () => {
         },
         setChain // function to call to initiate user to switch chains in their wallet
     ] = useSetChain()
+
+    const [showMenuM, setShowMenuM] = useState(false);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowMenuM(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleMouseEnter = () => {
+        setShowMenuM(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowMenuM(false);
+    };
+
+    const handleClick = () => {
+        setShowMenuM(!showMenuM);
+    };
 
     const [shown, setShown] = useState(false);
 
@@ -170,8 +205,8 @@ export const NavBarWeb3Onboard = () => {
                         return function ([name, topics]) {
                             return fetch(`${gambethBackend}/event`, {
                                 method: "POST",
-                                headers: {"Content-Type": "application/json"},
-                                body: JSON.stringify({name, topics})
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ name, topics })
                             })
                                 .then(r => r.json())
                                 .then(r => r.map(r => iface.parseLog(r)));
@@ -190,7 +225,7 @@ export const NavBarWeb3Onboard = () => {
                         let args = iface.encodeFunctionData(prop, [...arguments]);
                         return fetch(`${gambethBackend}/method`, {
                             method: "POST",
-                            headers: {"Content-Type": "application/json"},
+                            headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
                                 name: prop,
                                 args
@@ -258,20 +293,20 @@ export const NavBarWeb3Onboard = () => {
     }, [connectedChain])
 
     const switchToChain = () => {
-        setChain({chainId: import.meta.env.VITE_CORRECT_CHAIN});
+        setChain({ chainId: import.meta.env.VITE_CORRECT_CHAIN });
     }
 
     return (
         <>
             {wrongChain && (
                 <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
-                                                                                                onClick={switchToChain}> switch
+                    onClick={switchToChain}> switch
                     to Goerli</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
                 <Navbar expand="lg" className="navmenu fixed-top">
-                    <Container fluid>
+                    <Container>
                         <Navbar.Brand>
                             <NavLink to="/">
                                 <img
@@ -283,36 +318,51 @@ export const NavBarWeb3Onboard = () => {
                             </NavLink>
                         </Navbar.Brand>
                         <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="me-auto">
-                                <div className="row row_links">
-                                    <div className="col-6">
-                                        <div className="row justify-content-center">
-                                            Markets
-                                        </div>
-                                        <div className="row">
-                                            <div className="col">
-                                                <NavLink to="/browsemarkets" className='animated-line'>Browse</NavLink>
-                                            </div>
-                                            <div className="col">
-                                                <NavLink to="/createmarket" className='animated-line'>Create</NavLink>
-                                            </div>
+                            <div className="row nav-center">
+                                <div className="col-10">
+                                    <div class="search-container">
+                                        <input type="text" class="search-input" placeholder="Searchs for markets and more..." />
+                                        <div class="search-icon">
+                                            <img src={magnifying_glass} alt="Search" />
                                         </div>
                                     </div>
-                                    <div className="col-6 pt-4">
-                                        <NavLink to="/whatwedo" className="animated-line">About us</NavLink>
+
+                                </div>
+                                <div className="col-2">
+                                    <div ref={dropdownRef}>
+                                        <Dropdown
+                                            onMouseEnter={handleMouseEnter}
+                                            onMouseLeave={handleMouseLeave}
+                                            onClick={handleClick}
+                                            show={showMenuM}
+                                        >
+                                            <Dropdown.Toggle id="dropdown-custom-components" className="dropdown-toggle">
+                                                Markets
+                                                <img src={more} alt="More Icon" className={`more-icon ${showMenuM ? 'rotate' : ''}`} />
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu className="dropdown-menu">
+                                                <Dropdown.Item href="#browse">
+                                                    <NavLink to="/browsemarkets" className='animated-line'>Browse</NavLink>
+                                                </Dropdown.Item>
+                                                <Dropdown.Item href="#create">
+                                                    <NavLink to="/createmarket" className='animated-line'>Create</NavLink>
+                                                </Dropdown.Item>
+                                                <Dropdown.Item href="#about">
+                                                    <NavLink to="/whatwedo" className="animated-line">About us</NavLink>
+                                                </Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
                                     </div>
                                 </div>
-                            </Nav>
-                            <div className="form-group has-search">
-                                <i className="bi bi-search form-control-feedback"></i>
-                                <input type="text" className="form-control" placeholder="Search market"/>
                             </div>
+
+
+
                         </Navbar.Collapse>
                         {!wallet ? (
                             <>
-                                <button className="wallet_connect_button" onClick={handleConnectWallet}>
-                                    Connect
-                                </button>
+                                <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet} backgroundColor="#6F75E5" />
                             </>
                         ) : (
 
@@ -342,7 +392,7 @@ export const NavBarWeb3Onboard = () => {
                                             <i className="bi bi-cart3">
                                                 {cartCount > 0 && (
                                                     <span id="cart_menu_num" data-action="cart-can"
-                                                          className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                                        className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
                                                 )}
 
                                             </i>
@@ -402,10 +452,10 @@ export const NavBarWeb3Onboard = () => {
                                             </motion.li>
                                         </NavLink>
 
-                                        <NavDropdown.Divider/>
+                                        <NavDropdown.Divider />
 
                                         <button onClick={() => {
-                                            disconnect({label: wallet.label});
+                                            disconnect({ label: wallet.label });
                                             setProvider(null);
                                             setWrongChain(false);
                                             setShown(false);

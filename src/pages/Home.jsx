@@ -12,10 +12,13 @@ import { useStateContext } from '../contexts/ContextProvider'
 
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
 
-import heroLogo from '../assets/img/hero-img.png';
 
 import { browseMarkets, truncateText } from '../utils/services';
 
+import heroLogo from '../assets/img/hero-img.png';
+import magnifying from '../assets/icons/png/noto_magnifying-glass-tilted-left.png';
+import artist_palette from '../assets/icons/png/noto_artist-palette.png';
+import rocket from '../assets/icons/png/noto_rocket.png';
 
 import AOS from 'aos';
 import 'aos/dist/aos';
@@ -23,6 +26,8 @@ import 'aos/dist/aos';
 import { FreqAskQ } from '../components/FreqAskQ';
 import { Footer } from '../components/Footer';
 import { MarketTabs } from '../components/MarketTabs';
+import { Button } from '../components/Button';
+import { EducationSection } from '../components/EducationSection';
 
 export const Home = () => {
 
@@ -40,6 +45,10 @@ export const Home = () => {
 
     const heroRef = useRef(null);
     const marketTabsRef = useRef(null);
+
+    const handleConnectWallet = async () => {
+        const walletsConnected = await connect();
+    };
 
     useEffect(() => {
 
@@ -73,22 +82,23 @@ export const Home = () => {
             <section className='hero' id='hero' ref={heroRef}>
                 <div className="container position-relative align-items-center">
                     <div className="row">
-                        <div className="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-                            <h1>GAMBETH</h1>
-                            <h2>A fully decentralized, blockchain-based web application in which anyone can participate on or create their own parimutuel betting pools.</h2>
+                        <div className="col-lg-8 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+                            <h2>A <span className=''>fully decentralized, blockchain-based</span> web application in which <span>anyone can participate on</span> or create their own parimutuel betting pools.</h2>
                             <div className="d-flex justify-content-center justify-content-lg-start">
                                 {!wallet ? (
-                                    <a href="#" className="btn-get-started" onClick={async () => {
-                                        const walletsConnected = await connect()
-                                    }}>Connect your wallet</a>
+                                    <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet} />
                                 ) : (
-                                    <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse markets</NavLink>
+                                    <>
+                                        <NavLink to="/browsemarkets">
+                                            <Button text="Browse markets" iconSrc={magnifying} style={{marginRight: 20}} onClick={() => {}} backgroundColor="#6F75E5"/>
+                                        </NavLink>
+                                        <NavLink to="/createmarket">
+                                            <Button text="Create a new market" iconSrc={artist_palette} onClick={() => {}} backgroundColor="#6F75E5"/>
+                                        </NavLink>
+                                    </>
                                 )}
 
                             </div>
-                        </div>
-                        <div className="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-                            <img src={heroLogo} className="img-fluid animated" alt="" />
                         </div>
                     </div>
                 </div>
@@ -96,7 +106,7 @@ export const Home = () => {
 
             <MarketTabs categories={categories} myRef={marketTabsRef} />
 
-            <FreqAskQ />
+            <EducationSection />
 
             <Footer />
         </>
