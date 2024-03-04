@@ -27,11 +27,16 @@ import {
 import injectedModule from '@web3-onboard/injected-wallets'
 import walletConnectModule from '@web3-onboard/walletconnect'
 import coinbaseModule from '@web3-onboard/coinbase'
+import magicModule from "@web3-onboard/magic";
+
 import { DetailMarket } from './pages/DetailMarket';
 import { Cart } from './pages/Cart';
 import { Education } from './pages/Education';
 
 const injected = injectedModule()
+const magic = magicModule({
+  apiKey: 'pk_live_52CBE113A3A4CDFC'
+});
 const coinbase = coinbaseModule()
 const walletConnect = walletConnectModule({
   projectId: 'f6bd6e2911b56f5ac3bc8b2d0e2d7ad5',
@@ -48,6 +53,7 @@ const web3Onboard = init({
   },
   wallets: [
     injected,
+      magic,
     coinbase,
     walletConnect
   ],
