@@ -141,7 +141,7 @@ export const NavBarWeb3Onboard = () => {
 
             const tempSigner = await provider.getSigner();
             const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
-            const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider)
+            const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
             setActiveContract(tempActiveContract);
             setOwner(await tempSigner.getAddress());
             console.log("Using non proxy contract " + owner);
@@ -217,7 +217,9 @@ export const NavBarWeb3Onboard = () => {
         setAwaitingApproval(true);
         try {
             await usdc.balanceOf(owner).then(async (balance) => {
-                await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).then(async tx => {
+                console.log("Approving USDC");
+                await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).catch(console.error).then(async tx => {
+                    console.log("Waiting for USDC approval");
                     tx.wait();
                     await usdc.balanceOf(owner).then(async (balance) => {
                         await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {

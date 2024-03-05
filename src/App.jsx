@@ -35,7 +35,8 @@ import { Education } from './pages/Education';
 
 const injected = injectedModule()
 const magic = magicModule({
-  apiKey: 'pk_live_52CBE113A3A4CDFC'
+  apiKey: 'pk_live_52CBE113A3A4CDFC',
+  userEmail: 'nicolas.siplis@gmail.com',
 });
 const coinbase = coinbaseModule()
 const walletConnect = walletConnectModule({
