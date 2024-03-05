@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
-import { useConnectWallet, useSetChain } from "@web3-onboard/react";
-import { ethers } from "ethers";
+import {useConnectWallet, useSetChain} from "@web3-onboard/react";
+import {ethers} from "ethers";
 
 import {
     formatAddress,
@@ -15,9 +15,9 @@ import {
 import ooAbi from '../libs/gambeth-oo-abi';
 import tokenAbi from '../libs/gambeth-oo-token-abi';
 
-import { browseMarkets, getMarket } from '../utils/services';
+import {browseMarkets, getMarket} from '../utils/services';
 
-import { useStateContext } from '../contexts/ContextProvider';
+import {useStateContext} from '../contexts/ContextProvider';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -31,29 +31,29 @@ import magnifying_glass from '../assets/icons/png/magnifying-glass.png';
 import rocket from '../assets/icons/png/noto_rocket.png';
 import more from '../assets/icons/png/more.png';
 
-import { Button } from './Button';
+import {Button} from './Button';
 
 export const NavBarWeb3Onboard = () => {
 
-    const { wrongChain, setWrongChain } = useStateContext();
-    const { provider, setProvider } = useStateContext();
-    const { providerLoaded, setProviderLoaded } = useStateContext();
-    const { marketId, setMarketId } = useStateContext();
-    const { activeMarketId, setActiveMarketId } = useStateContext();
-    const { activeContract, setActiveContract } = useStateContext();
-    const { usdc, setUSDC } = useStateContext();
-    const { awaitingApproval, setAwaitingApproval } = useStateContext();
-    const { usdcBalance, setUSDCBalance } = useStateContext();
-    const { signer, setSigner } = useStateContext();
-    const { owner, setOwner } = useStateContext();
-    const { betType, setBetType } = useStateContext();
+    const {wrongChain, setWrongChain} = useStateContext();
+    const {provider, setProvider} = useStateContext();
+    const {providerLoaded, setProviderLoaded} = useStateContext();
+    const {marketId, setMarketId} = useStateContext();
+    const {activeMarketId, setActiveMarketId} = useStateContext();
+    const {activeContract, setActiveContract} = useStateContext();
+    const {usdc, setUSDC} = useStateContext();
+    const {awaitingApproval, setAwaitingApproval} = useStateContext();
+    const {usdcBalance, setUSDCBalance} = useStateContext();
+    const {signer, setSigner} = useStateContext();
+    const {owner, setOwner} = useStateContext();
+    const {betType, setBetType} = useStateContext();
 
-    const { marketsArray, setMarketsArray } = useStateContext();
+    const {marketsArray, setMarketsArray} = useStateContext();
 
-    const { cartCount, setCartCount } = useStateContext();
+    const {cartCount, setCartCount} = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
 
-    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
     const [
         {
             chains, // the list of chains that web3-onboard was initialized with
@@ -134,57 +134,47 @@ export const NavBarWeb3Onboard = () => {
 
     useEffect(() => {
 
-        const start = async () => {
-            if (!provider) {
-                return;
-            }
-
-            const tempSigner = await provider.getSigner();
-            const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
-            const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
-            setActiveContract(tempActiveContract);
-            setOwner(await tempSigner.getAddress());
-            console.log("Using non proxy contract " + owner);
-            setSigner(tempSigner);
-            setUSDC(tempUsdc);
-            localStorage.setItem('activeContract', 'true');
-        }
-
-        start().catch(console.error);
-
-        if (!provider) {
+        const setupActiveContract = (connectedContract) => {
             const gambethBackend = "https://gambeth-backend.fly.dev";
             //const gambethBackend = "http://localhost:8080";
             console.log("Using proxy contract " + owner);
-            setOwner("0x0000000000000000000000000000000000000000");
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
                 get(target, prop, receiver) {
-                    if (prop === "queryFilter") {
-                        return function ([name, topics]) {
-                            return fetch(`${gambethBackend}/event`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({ name, topics })
-                            })
-                                .then(r => r.json())
-                                .then(r => r.map(r => iface.parseLog(r)));
-                        };
-                    }
-                    if (prop === "filters") {
-                        return new Proxy({}, {
-                            get(target, prop, receiver) {
-                                return function () {
-                                    return [prop, [...arguments].concat(new Array(3 - [...arguments].length).fill(null))]
+                    switch (prop) {
+                        case "queryFilter":
+                            return function ([name, topics]) {
+                                return fetch(`${gambethBackend}/event`, {
+                                    method: "POST",
+                                    headers: {"Content-Type": "application/json"},
+                                    body: JSON.stringify({name, topics})
+                                })
+                                    .then(r => r.json())
+                                    .then(r => r.map(r => iface.parseLog(r)));
+                            };
+                        case "filters":
+                            return new Proxy({}, {
+                                get(target, prop, receiver) {
+                                    return function () {
+                                        return [prop, [...arguments].concat(new Array(3 - [...arguments].length).fill(null))]
+                                    }
                                 }
+                            });
+                        case "fillOrder":
+                        case "createOptimisticBet":
+                            return function () {
+                                console.log(prop, ...arguments);
+                                return connectedContract
+                                    ? connectedContract[prop](...arguments)
+                                    : console.error("Tried to call write method without connected contract")
                             }
-                        });
                     }
+
                     return function () {
                         let args = iface.encodeFunctionData(prop, [...arguments]);
                         return fetch(`${gambethBackend}/method`, {
                             method: "POST",
-                            headers: { "Content-Type": "application/json" },
+                            headers: {"Content-Type": "application/json"},
                             body: JSON.stringify({
                                 name: prop,
                                 args
@@ -193,17 +183,39 @@ export const NavBarWeb3Onboard = () => {
                             .then(r => r.json())
                             .then(r => {
                                 let data = r[Object.keys(r)[0]];
-                                return data.map
+                                const value = data.map
                                     ? data.map(elm => elm[Object.keys(elm)[0]])
-                                    : data[Object.keys(data)[0]];
+                                    : typeof data === "object"
+                                        ? data[Object.keys(data)[0]]
+                                        : data;
+                                console.log(prop, r, data, Object.keys(data), value);
+                                return value;
                             });
                     }
 
                 }
             }
-            let activeContract = new Proxy({}, fallbackHandler);
+            let activeContract = new Proxy(connectedContract || {}, fallbackHandler);
             setActiveContract(activeContract);
         }
+
+        const start = async () => {
+            if (!provider) {
+                return;
+            }
+
+            const tempSigner = await provider.getSigner();
+            const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
+            const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
+            setOwner(await tempSigner.getAddress());
+            console.log("Using non proxy contract " + owner);
+            setSigner(tempSigner);
+            setUSDC(tempUsdc);
+            localStorage.setItem('activeContract', 'true');
+            return tempActiveContract;
+        }
+
+        start().then(setupActiveContract).catch(console.error);
 
     }, [provider])
 
@@ -220,15 +232,13 @@ export const NavBarWeb3Onboard = () => {
                 console.log("Approving USDC");
                 await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).catch(console.error).then(async tx => {
                     console.log("Waiting for USDC approval");
-                    tx.wait();
-                    await usdc.balanceOf(owner).then(async (balance) => {
-                        await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
-                            //debugger;
-                            const wallet_balance = balance > allowance ? allowance : balance;
-                            let b = (Number(wallet_balance) / 1e6).toFixed(3);
-                            setUSDCBalance(b);
-                            setAwaitingApproval(false);
-                        });
+                    await tx.wait();
+                    await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
+                        //debugger;
+                        const wallet_balance = balance > allowance ? allowance : balance;
+                        let b = (Number(wallet_balance) / 1e6).toFixed(3);
+                        setUSDCBalance(b);
+                        setAwaitingApproval(false);
                     });
                 });
             });
@@ -254,14 +264,14 @@ export const NavBarWeb3Onboard = () => {
     }, [connectedChain])
 
     const switchToChain = () => {
-        setChain({ chainId: import.meta.env.VITE_CORRECT_CHAIN });
+        setChain({chainId: import.meta.env.VITE_CORRECT_CHAIN});
     }
 
     return (
         <>
             {wrongChain && (
                 <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
-                    onClick={switchToChain}> switch
+                                                                                                onClick={switchToChain}> switch
                     to Goerli</button></div>
             )}
 
@@ -282,9 +292,10 @@ export const NavBarWeb3Onboard = () => {
                             <div className="row nav-center">
                                 <div className="col-10">
                                     <div className="search-container">
-                                        <input type="text" className="search-input" placeholder="Searchs for markets and more..." />
+                                        <input type="text" className="search-input"
+                                               placeholder="Searchs for markets and more..."/>
                                         <div className="search-icon">
-                                            <img src={magnifying_glass} alt="Search" />
+                                            <img src={magnifying_glass} alt="Search"/>
                                         </div>
                                     </div>
 
@@ -297,17 +308,21 @@ export const NavBarWeb3Onboard = () => {
                                             onClick={handleClick}
                                             show={showMenuM}
                                         >
-                                            <Dropdown.Toggle id="dropdown-custom-components" className="dropdown-toggle">
+                                            <Dropdown.Toggle id="dropdown-custom-components"
+                                                             className="dropdown-toggle">
                                                 Markets
-                                                <img src={more} alt="More Icon" className={`more-icon ${showMenuM ? 'rotate' : ''}`} />
+                                                <img src={more} alt="More Icon"
+                                                     className={`more-icon ${showMenuM ? 'rotate' : ''}`}/>
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu className="dropdown-menu">
                                                 <Dropdown.Item href="#browse">
-                                                    <NavLink to="/browsemarkets" className='animated-line'>Browse</NavLink>
+                                                    <NavLink to="/browsemarkets"
+                                                             className='animated-line'>Browse</NavLink>
                                                 </Dropdown.Item>
                                                 <Dropdown.Item href="#create">
-                                                    <NavLink to="/createmarket" className='animated-line'>Create</NavLink>
+                                                    <NavLink to="/createmarket"
+                                                             className='animated-line'>Create</NavLink>
                                                 </Dropdown.Item>
                                                 <Dropdown.Item href="#about">
                                                     <NavLink to="/whatwedo" className="animated-line">About us</NavLink>
@@ -319,11 +334,11 @@ export const NavBarWeb3Onboard = () => {
                             </div>
 
 
-
                         </Navbar.Collapse>
                         {!wallet ? (
                             <>
-                                <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet} backgroundColor="#6F75E5" />
+                                <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet}
+                                        backgroundColor="#6F75E5"/>
                             </>
                         ) : (
 
@@ -353,7 +368,7 @@ export const NavBarWeb3Onboard = () => {
                                             <i className="bi bi-cart3">
                                                 {cartCount > 0 && (
                                                     <span id="cart_menu_num" data-action="cart-can"
-                                                        className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                                          className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
                                                 )}
 
                                             </i>
@@ -413,10 +428,10 @@ export const NavBarWeb3Onboard = () => {
                                             </motion.li>
                                         </NavLink>
 
-                                        <NavDropdown.Divider />
+                                        <NavDropdown.Divider/>
 
                                         <button onClick={() => {
-                                            disconnect({ label: wallet.label });
+                                            disconnect({label: wallet.label});
                                             setProvider(null);
                                             setWrongChain(false);
                                             setShown(false);

@@ -128,7 +128,7 @@ export const DetailMarket = () => {
         });
 
 
-    }, [])
+    }, [owner])
 
     const loadDetailMarket = async (marketReload) => {
         setLoading(true);
@@ -171,9 +171,13 @@ export const DetailMarket = () => {
             })),
         }));
 
-        const owned = await getOwned(foundMarket, owner, activeContract)
+        const user = owner || "0x0000000000000000000000000000000000000000";
 
-        const averages = await getPrices(foundMarket, owned, owner, activeContract);
+        console.log(user);
+
+        const owned = await getOwned(foundMarket, user, activeContract)
+
+        const averages = await getPrices(foundMarket, owned, user, activeContract);
 
         foundMarket.owned = owned;
         foundMarket.averagePrice = averages;
@@ -227,13 +231,13 @@ export const DetailMarket = () => {
 
         });
 
-    }, [marketsArray])
+    }, [marketsArray, owner])
 
     useEffect(() => {
         if (marketExist && activeMarket) {
             setLoading(false);
         }
-    }, [marketExist])
+    }, [marketExist, owner])
 
 
     return (
