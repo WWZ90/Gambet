@@ -134,66 +134,25 @@ export const NavBarWeb3Onboard = () => {
 
     useEffect(() => {
 
-        let tempSigner = null;
-        let tempActiveContract = null;
-
         const start = async () => {
-
-            tempSigner = await provider.getSigner();
-
-            if (marketId && activeContract) {
-                //alert("marketId && activeContract");
-                const betKind = (await getMarket(marketId)).kind;
-                switch (betKind) {
-                    case 0n:
-                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
-                        break;
-                    case 1n:
-                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSigner);
-                        break;
-                }
-            } else if (betType) {
-                //alert("betType: " + betType);
-                switch (betType) {
-                    case "oo":
-                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
-                        break;
-                    case "bc":
-                        tempActiveContract = import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS
-                            ? tempActiveContract = new ethers.Contract(import.meta.env.VITE_HUMAN_CONTRACT_ADDRESS, [], provider).connect(tempSigner)
-                            : null;
-                        break;
-                    default:
-                        tempActiveContract = new ethers.Contract(import.meta.env.VITE_PROVABLE_CONTRACT_ADDRESS, provableOracleAbi, provider).connect(signer);
-                        break;
-                }
-                /*
-                if (marketId) {
-                    await loadProvider();
-                }
-                */
+            if (!provider) {
+                return;
             }
 
-            if (tempActiveContract) {
-                setOwner(await tempSigner.getAddress());
-            }
-
+            const tempSigner = await provider.getSigner();
+            const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
+            const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider)
+            setActiveContract(tempActiveContract);
+            setOwner(await tempSigner.getAddress());
+            console.log("Using non proxy contract " + owner);
+            setSigner(tempSigner);
+            setUSDC(tempUsdc);
             localStorage.setItem('activeContract', 'true');
-
         }
 
-        if (provider) {
-            console.log("Using non proxy contract " + owner);
-            if (!marketsArray) {
-                start().then(async result => {
-                    setSigner(tempSigner);
-                    setActiveContract(tempActiveContract);
+        start().catch(console.error);
 
-                    const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(await provider.getSigner())
-                    setUSDC(tempUsdc);
-                })
-            }
-        } else {
+        if (!provider) {
             const gambethBackend = "https://gambeth-backend.fly.dev";
             //const gambethBackend = "http://localhost:8080";
             console.log("Using proxy contract " + owner);
@@ -242,8 +201,8 @@ export const NavBarWeb3Onboard = () => {
 
                 }
             }
-            tempActiveContract = new Proxy({}, fallbackHandler);
-            setActiveContract(tempActiveContract);
+            let activeContract = new Proxy({}, fallbackHandler);
+            setActiveContract(activeContract);
         }
 
     }, [provider])
@@ -320,9 +279,9 @@ export const NavBarWeb3Onboard = () => {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <div className="row nav-center">
                                 <div className="col-10">
-                                    <div class="search-container">
-                                        <input type="text" class="search-input" placeholder="Searchs for markets and more..." />
-                                        <div class="search-icon">
+                                    <div className="search-container">
+                                        <input type="text" className="search-input" placeholder="Searchs for markets and more..." />
+                                        <div className="search-icon">
                                             <img src={magnifying_glass} alt="Search" />
                                         </div>
                                     </div>
