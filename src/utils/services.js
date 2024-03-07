@@ -149,7 +149,10 @@ export const verifyMarketExist = async (marketId, activeContract) => {
 }
 
 export const getOwned = async (market, userAddress, activeContract) => {
-    return await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
+    console.log("Getting owned for", userAddress);
+    const owned = await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
+    console.log(owned);
+    return owned
 }
 
 export const getPrices = async (market, owned, userAddress, activeContract) => {
