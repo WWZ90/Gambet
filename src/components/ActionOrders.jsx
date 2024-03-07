@@ -11,8 +11,14 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 import ContentLoader from "react-content-loader"
 
+import { Button } from './Button.jsx';
+
 import 'react-toastify/dist/ReactToastify.css';
 import { getMarket, fetchOrders, fillOrder } from "../utils/services.js";
+
+import noto_money_bag from "../assets/icons/png/noto_money-bag.png";
+import noto_dollar_banknote from "../assets/icons/png/noto_dollar-banknote.png";
+import noto_shopping_cart from "../assets/icons/png/noto_shopping-cart.png";
 
 export const ActionOrders = ({ loadDetailMarket }) => {
 
@@ -241,32 +247,36 @@ export const ActionOrders = ({ loadDetailMarket }) => {
             <div className='box'>
                 <div className='box_header'>
                     <div className="row">
-                        <div className="col-2 text-center">
-                            <a className={`${activeOption == 'BUY' ? 'active buy' : 'buy'}`} onClick={() => { setActiveOption('BUY') }}>Buy</a>
+                        <div className={`${activeOption == 'BUY' ? 'active buy' : 'buy'} col-2 text-center d-flex action`} onClick={() => { setActiveOption('BUY') }}>
+                            <a>Buy</a>
+                            <img src={noto_money_bag} className='icon' />
                         </div>
-                        <div className="col-2 text-start p-0">
-                            <a className={`${activeOption == 'SELL' ? 'active sell' : 'sell'}`} onClick={() => { setActiveOption('SELL') }}>Sell</a>
+                        <div className={`${activeOption == 'SELL' ? 'active sell' : 'sell'} col-2 text-start d-flex action second`} onClick={() => { setActiveOption('SELL') }}>
+                            <a>Sell</a>
+                            <img src={noto_dollar_banknote} className='icon' />
                         </div>
-                        <motion.div className="col-7 text-end dropdown"
-                            onHoverStart={() => setShown(true)}
-                            onHoverEnd={() => setShown(false)}
-                        >
-                            {type}
-                            <motion.ul
-                                variants={showMenu}
-                                initial="exit"
-                                animate={shown ? "enter" : "exit"}
-                                className="dropdown-menu absolute"
+                        <div className="col-4">
+                            <motion.div className="text-end dropdown"
+                                onHoverStart={() => setShown(true)}
+                                onHoverEnd={() => setShown(false)}
                             >
-                                <motion.li className="cursor-pointer my-auto">
-                                    <a onClick={() => { setType('Limit') }}>Limit</a>
-                                </motion.li>
-                                <motion.li className="cursor-pointer my-auto">
-                                    <a onClick={() => { setType('AMM') }}>AMM</a>
-                                </motion.li>
-                            </motion.ul>
+                                {type}
+                                <motion.ul
+                                    variants={showMenu}
+                                    initial="exit"
+                                    animate={shown ? "enter" : "exit"}
+                                    className="dropdown-menu absolute"
+                                >
+                                    <motion.li className="cursor-pointer my-auto">
+                                        <a onClick={() => { setType('Limit') }}>Limit</a>
+                                    </motion.li>
+                                    <motion.li className="cursor-pointer my-auto">
+                                        <a onClick={() => { setType('AMM') }}>AMM</a>
+                                    </motion.li>
+                                </motion.ul>
 
-                        </motion.div>
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
                 <div className='box_content'>
@@ -296,7 +306,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         activeOption === 'BUY' ? (
                             <div className='d-flex flex-row flex-wrap'>
                                 {outcomeData.map((option, index) => (
-                                    <div key={index} className={`market_option mb-2 ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
+                                    <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                         <div className='d-flex justify-content-between align-items-center'>
                                             <p>{option.outcome}</p>
                                             <p className='price'>${option.marketPrice}</p>
@@ -308,7 +318,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                             <div className='d-flex flex-row flex-wrap'>
                                 {myOutcomeByMarket.length > 0 ? (
                                     myOutcomeByMarket.map((option, index) => (
-                                        <div key={index} className={`market_option mb-2 ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
+                                        <div key={index} className={`market_option ${outcomeOptionSelected == option.outcome ? 'active' : ''}`} onClick={() => setOutcomeOptionSelected(option.outcome)} label={option.outcome}>
                                             <div className='d-flex justify-content-between align-items-center'>
                                                 <p>{option.outcome}</p>
                                                 <p className='price'>${option.marketPrice}</p>
@@ -329,12 +339,14 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                             <div className='inputData'>
                                 <div className='d-flex'>
                                     <div className='inputDataTitle'>Limit Price</div>
+                                    {/*
                                     <OverlayTrigger
                                         placement="top"
                                         overlay={<Tooltip id="button-tooltip-2">Just numbers between 0 and 0.999. Use 0 for AMM</Tooltip>}
                                     >
                                         <i className="bi bi-info-circle pt-2 pl-2"></i>
                                     </OverlayTrigger>
+                                    */}
                                 </div>
 
                                 <div className='inputStyle'>
@@ -415,31 +427,34 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                     )}
 
                     <div className='action_info text_gray'>
-                        <div className='d-flex justify-content-between mt-3 mb-2'>
+                        <div className='d-flex justify-content-between mb-1'>
                             <div className='fw-normal'>Max cost:</div>
-                            <div className='text_max_c'>{myMaxCost}</div>
+                            <div className=''>{myMaxCost}</div>
                         </div>
-                        <div className='d-flex justify-content-between mt-2 mb-2'>
+                        <div className='d-flex justify-content-between mt-1 mb-1'>
                             <div className=''>Estimated shares:</div>
                             <div className=''>0.00</div>
                         </div>
-                        <div className='d-flex justify-content-between mt-2 mb-2'>
+                        <div className='d-flex justify-content-between mt-1 mb-1'>
                             <div className=''>Max profit:</div>
                             <div className=''>$0.00</div>
                         </div>
-                        <div className='d-flex justify-content-between mt-2'>
+                        <div className='d-flex justify-content-between mt-1'>
                             <div className=''>Estimated fees (shares):</div>
                             <div className=''>$0.00</div>
                         </div>
                     </div>
 
-                    {activeOption === 'BUY' ? (
-                        <button disabled={shares <= 0} className={`button ${shares > 0 ? 'buy_now' : ''}`} onClick={handleOrderExecution}>Buy Now</button>
-                    ) : (
-                        <button disabled={shares <= 0 || myOutcomeByMarket.length === 0} className={`button ${shares > 0 && myOutcomeByMarket.length > 0 ? 'sell_now' : ''}`} onClick={handleOrderExecution}>Sell Now</button>
-                    )}
+                    <div className="d-flex justify-content-between mt-5 buttons">
+                        <Button text="Add to cart" iconSrc={noto_shopping_cart} disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} style={{ border: "1px solid #6F75E5", color: "#6F75E5 !important", width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={addToCart}/>
+                        
+                        {activeOption === 'BUY' ? (
+                            <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{width: "120px", height: "55px", padding: "13px 5px 13px 5px"}} onClick={handleOrderExecution}/>
+                        ) : (
+                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{width: "120px", height: "55px", padding: "13px 5px 13px 5px"}} onClick={handleOrderExecution}/>
+                        )}
 
-                    <button disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} className={`button ${(activeOption === 'BUY' && shares > 0) || (activeOption === 'SELL' && myOutcomeByMarket.length > 0 && shares > 0) ? 'add_to_cart' : ''}`} onClick={addToCart}>Add to Cart</button>
+                    </div>
 
                     <ToastContainer
                         position="top-right"

@@ -327,6 +327,7 @@ h6 {
 
 button:disabled {
     background: #f5f5f5;
+    cursor: no-drop;
 }
 
 
@@ -551,7 +552,7 @@ section h1 {
     padding: 90px;
 }
 
-.image-back{
+.image-back {
     width: 100%;
     height: 100%;
     position: relative;
@@ -641,7 +642,7 @@ section h1 {
     position: fixed;
 }
 
-.header-fill{
+.header-fill {
     height: 1px;
 }
 
@@ -1210,6 +1211,7 @@ button.swithToChain:hover {
 .detail_market {
     margin-top: 79px;
     padding-top: 60px;
+    padding-bottom: 60px;
     display: flex;
     width: 100%;
     min-height: 60vh;
@@ -1532,24 +1534,35 @@ thead th:last-child {
 }
 
 .market_option {
+    color: #F3F9D2;
+
+    font-family: var(--font-family-light);
+    font-size: 13px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+
     padding: 4px 2px;
-    margin: 2px 5px;
+    margin-bottom: 14px;
     width: 100%;
+    height: 42px;
+    padding: 13px 20px;
+    align-items: center;
     border-radius: 10px;
     cursor: pointer;
-    border: 1px solid #acacac49;
-    font-family: var(--font-family-regular);
-    font-size: 14px;
-    color: #b4b4b4;
-    background-color: var(--color-action-box-market-option-background);
+    border-radius: 10px;
+    border: 1px solid #595BAF;
+
+    background: #20226A;
+    transition: 0.2s all;
 }
 
 .market_option:hover {
-    background-color: var(--color-action-box-market-option-hover-background);
+    background-color: #6F75E5;
 }
 
 .market_option.active {
-    background-color: var(--color-action-box-market-option-active-background);
+    background-color: #6F75E5;
     color: var(--color-4);
 }
 
@@ -1558,9 +1571,7 @@ thead th:last-child {
     margin: 0px;
 }
 
-.market_option p.price {
-    font-family: var(--font-family-semibold);
-}
+.market_option p.price {}
 
 /***********************************/
 
@@ -1588,47 +1599,55 @@ thead th:last-child {
     flex-direction: column;
     row-gap: 1.5rem;
 
-    padding: 24px;
+    padding: 33px;
     background: #20226A;
 }
 
 .detail_market .box .box_header {
-    border-bottom: 1px solid #32353d;
     padding: 10px 10px;
 }
 
-.detail_market .box a {
-    color: #000 !important;
+.detail_market .box .action {
     cursor: pointer;
-    font-family: var(--font-family-semibold);
+    border-radius: 10px;
+    background: #6F75E5;
+    padding: 5px 20px 5px 20px !important;
+    width: 78px;
+    height: 29px;
+    transition: 0.2s all;
 }
 
-.detail_market .box a.buy {
-    color: green !important;
-    padding-bottom: 10px;
-    border-bottom: none;
-    font-weight: bold;
-    transition: none !important;
+.detail_market .box .action a {
+    color: var(--Text-5) !important;
+    cursor: pointer;
+    font-family: var(--font-family-light);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }
 
-.detail_market .box a.sell {
-    color: red !important;
-    padding-bottom: 10px;
-    border-bottom: none;
-    font-weight: bold;
-    transition: none !important;
+.detail_market .box .action.second {
+    margin-left: 10px;
 }
 
-.detail_market .box a.active.buy {
-    border-bottom: 2px solid green;
+.detail_market .box img.icon {
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
+    margin-top: 3px;
 }
 
-.detail_market .box a.active.sell {
-    border-bottom: 2px solid red;
+.detail_market .box .active.buy {
+    background-color: var(--Accent-orange-5);
+}
+
+.detail_market .box .active.sell {
+    background-color: var(--Accent-orange-5);
 }
 
 .detail_market .box .box_content {
-    padding: 20px 13px;
+    padding: 32px 0px 10px 0px;
 }
 
 .detail_market .box .box_content .bi-info-circle {
@@ -1650,23 +1669,32 @@ thead th:last-child {
 }
 
 .detail_market .box .inputStyle {
-    border: 1px solid #97979749 !important;
+    border: none !important;
 }
 
 .detail_market .box .inputStyle:hover {
-    background-color: #f5f5f5 !important;
-    border: 1px solid #acacac49 !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .detail_market .box .buttonStyle {
-    border: none;
     width: 30px;
+    height: 42px;
+    border-radius: 13.333px;
+    color: #F3F9D2;
+    background: #6F75E5;
+    display: inline-flex;
+    padding: 8.667px 16px !important;
+    justify-content: center;
+    align-items: center;
+    gap: 5.333px;
+    flex-shrink: 0;
+    border: none;
     padding: 3px 0px;
-    background: #e5e5e5;
-    border-radius: 8px;
-    margin: 3px;
     cursor: pointer;
-    font-weight: normal;
+    font-weight: bold;
+    font-size: 25px;
     transition: 0.5s all;
 }
 
@@ -1675,9 +1703,25 @@ thead th:last-child {
 }
 
 .detail_market .box .form-control {
+    color: #595BAF !important;
+
+    font-family: var(--font-family-light);
+    font-size: 13px !important;
+    font-style: normal;
+    font-weight: 250;
+    line-height: 120%;
+    display: flex;
+    width: 165px;
+    height: 42px;
+    padding: 13px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
     background-color: transparent !important;
-    font-family: var(--font-family-regular);
-    border: none !important;
+    border-radius: 10px;
+    border: 1px solid #595BAF !important;
+    margin: 0px 10px 0px 10px;
 }
 
 .detail_market .box .form-control:focus {
@@ -1694,9 +1738,25 @@ thead th:last-child {
 .detail_market .box .inputData .inputDataTitle {
     margin: 10px 0px;
     margin-right: 5px;
-    font-family: var(--font-family-semibold);
-    font-weight: normal;
+    color: #F3F9D2;
+    font-family: var(--font-family-regular);
     font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+
+}
+
+.detail_market .box .action_info {
+    color: #F3F9D2 !important;
+
+    font-family: var(--font-family-light);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+
+    margin-top: 30px;
 }
 
 .detail_market .box .dropdown-menu {
@@ -1716,12 +1776,24 @@ thead th:last-child {
 }
 
 .detail_market .box .dropdown {
+    color: var(--Text-5);
+
+    font-family: var(--font-family-light);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
     padding-right: 0px;
+    padding-top: 5px;
     cursor: pointer;
 }
 
 .detail_market .box .dropdown a {
-    font-family: var(--font-family-regular);
+    font-family: var(--font-family-light);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }
 
 .detail_market .box .dropdown a:hover {
@@ -1836,7 +1908,7 @@ thead th:last-child {
     line-height: 120%;
 }
 
-.markets-box .market-box .market-box-header .top-section .market-box-date span{
+.markets-box .market-box .market-box-header .top-section .market-box-date span {
     margin-right: 6px;
 }
 
