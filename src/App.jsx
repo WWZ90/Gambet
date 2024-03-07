@@ -13,7 +13,7 @@ import { NotFound } from './pages/NotFound';
 
 import Favicon from "./assets/img/gambeth-logo.png";
 
-import blocknativeIcon from './assets/icons/logo.svg'
+import blocknativeIcon from './assets/img/LogoGambeth_SVG.svg'
 
 import {
   init,
@@ -46,6 +46,15 @@ const walletConnect = walletConnectModule({
 const INFURA_ID = import.meta.env.VITE_INFURA_ID
 export const infuraRPC = `https://mainnet.infura.io/v3/${INFURA_ID}`
 const dappId = import.meta.env.VITE_BLOCKNATIVE_ID
+
+const customTheme = {
+  '--w3o-background-color': '#6F75E5',
+  '--w3o-foreground-color': '#02024C',
+  '--w3o-text-color': '#F3F9D2',
+  '--w3o-border-color': '#ccc',
+  '--w3o-action-color': '#F3F9D2',
+  '--w3o-border-radius': '15px'
+}
 
 const web3Onboard = init({
   connect: {
@@ -116,7 +125,7 @@ const web3Onboard = init({
       }
     }
   },
-  theme: 'dark'
+  theme: customTheme
 })
 
 function AppWeb3Onboard() {

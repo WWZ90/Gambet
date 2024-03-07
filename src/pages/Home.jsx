@@ -77,38 +77,42 @@ export const Home = () => {
 
     return (
         <>
-            <NavBarWeb3Onboard />
+            <div className="image-back">
 
-            <section className='hero' id='hero' ref={heroRef}>
-                <div className="container position-relative align-items-center">
-                    <div className="row">
-                        <div className="col-lg-8 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-                            <h2>A <span className=''>fully decentralized, blockchain-based</span> web application in which <span>anyone can participate on</span> or create their own parimutuel betting pools.</h2>
-                            <div className="d-flex justify-content-center justify-content-lg-start">
-                                {!wallet ? (
-                                    <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet} />
-                                ) : (
-                                    <>
-                                        <NavLink to="/browsemarkets">
-                                            <Button text="Browse markets" iconSrc={magnifying} style={{marginRight: 20}} onClick={() => {}} backgroundColor="#6F75E5"/>
-                                        </NavLink>
-                                        <NavLink to="/createmarket">
-                                            <Button text="Create a new market" iconSrc={artist_palette} onClick={() => {}} backgroundColor="#6F75E5"/>
-                                        </NavLink>
-                                    </>
-                                )}
 
+                <NavBarWeb3Onboard />
+
+                <section className='hero' id='hero' ref={heroRef}>
+                    <div className="container position-relative align-items-center">
+                        <div className="row">
+                            <div className="col-lg-8 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+                                <h2>A <span className=''>fully decentralized, blockchain-based</span> web application in which <span>anyone can participate on</span> or create their own parimutuel betting pools.</h2>
+                                <div className="d-flex justify-content-center justify-content-lg-start">
+                                    {!wallet ? (
+                                        <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet} backgroundColor="#6F75E5" />
+                                    ) : (
+                                        <>
+                                            <NavLink to="/browsemarkets">
+                                                <Button text="Browse markets" iconSrc={magnifying} style={{ marginRight: 20 }} onClick={() => { }} backgroundColor="#6F75E5" />
+                                            </NavLink>
+                                            <NavLink to="/createmarket">
+                                                <Button text="Create a new market" iconSrc={artist_palette} onClick={() => { }} backgroundColor="#6F75E5" />
+                                            </NavLink>
+                                        </>
+                                    )}
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section >
+                </section >
 
-            <MarketTabs categories={categories} myRef={marketTabsRef} />
+                <MarketTabs categories={categories} myRef={marketTabsRef} />
 
-            <EducationSection />
+                <EducationSection />
 
-            <Footer />
+                <Footer />
+            </div>
         </>
     )
 }

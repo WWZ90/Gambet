@@ -238,87 +238,89 @@ export const DetailMarket = () => {
 
     return (
         <>
-            <NavBarWeb3Onboard />
+            <div className="image-back">
+                <NavBarWeb3Onboard />
+                <div className='header-fill'></div>
 
-            {loading ? (
-                <section className='detail_market'>
-                    <div className="container align-items-center text-center">
-                        <div className="lds-ripple">
-                            <div></div>
-                            <div></div>
+                {loading ? (
+                    <section className='detail_market'>
+                        <div className="container align-items-center text-center">
+                            <div className="lds-ripple">
+                                <div></div>
+                                <div></div>
+                            </div>
                         </div>
-                    </div>
-                </section>
-            ) : (
-                <>
-                    {marketExist && activeMarket ? (
-                        <section className='detail_market'>
-                            <div className="content">
-                                <div className="inside">
-                                    <div className="left_panel">
-                                        <div className="row top">
+                    </section>
+                ) : (
+                    <>
+                        {marketExist && activeMarket ? (
+                            <section className='detail_market'>
+                                <div className="content">
+                                    <div className="inside">
+                                        <div className="left_panel">
+                                            <div className="row top">
 
-                                            {activeMarket.marketImage && activeMarket.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ? (
-                                                <div className='col-2 image'>
-                                                    <img src={activeMarket.marketImage}></img>
-                                                </div>
-                                            ) : (
-                                                <div className='col-2 image'>
-                                                    <img src={Image1}></img>
-                                                </div>
-                                            )}
-
-
-                                            <div className='col-9 p-0'>
-                                                <div className='row'>
-                                                    <div className='col-6 text_gray first' style={{ fontSize: '13px' }}>
-                                                        <OverlayTrigger
-                                                            overlay={<Tooltip id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
-                                                            placement="top"
-                                                        >
-                                                            <i className="bi bi-info-circle pt-2 pr-2"></i>
-                                                        </OverlayTrigger>
-                                                        <span>Locked:</span>
-                                                        <Countdown date={activeMarket.resolution} renderer={renderer} />
+                                                {activeMarket.marketImage && activeMarket.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ? (
+                                                    <div className='col-2 image'>
+                                                        <img src={activeMarket.marketImage}></img>
                                                     </div>
-                                                    <div className='col-6 text_gray' style={{ fontSize: '13px' }}>
-                                                        <OverlayTrigger
-                                                            overlay={<Tooltip id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
-                                                            placement="top"
-                                                        >
-                                                            <i className="bi bi-info-circle pt-2 pr-2"></i>
-                                                        </OverlayTrigger>
-                                                        <span>Deadline:</span>
-                                                        <Countdown date={activeMarket.deadline} renderer={renderer} />
+                                                ) : (
+                                                    <div className='col-2 image'>
+                                                        <img src={Image1}></img>
+                                                    </div>
+                                                )}
+
+
+                                                <div className='col-9 p-0'>
+                                                    <div className='row'>
+                                                        <div className='col-6 text_gray first' style={{ fontSize: '13px' }}>
+                                                            <OverlayTrigger
+                                                                overlay={<Tooltip id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
+                                                                placement="top"
+                                                            >
+                                                                <i className="bi bi-info-circle pt-2 pr-2"></i>
+                                                            </OverlayTrigger>
+                                                            <span>Locked:</span>
+                                                            <Countdown date={activeMarket.resolution} renderer={renderer} />
+                                                        </div>
+                                                        <div className='col-6 text_gray' style={{ fontSize: '13px' }}>
+                                                            <OverlayTrigger
+                                                                overlay={<Tooltip id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
+                                                                placement="top"
+                                                            >
+                                                                <i className="bi bi-info-circle pt-2 pr-2"></i>
+                                                            </OverlayTrigger>
+                                                            <span>Deadline:</span>
+                                                            <Countdown date={activeMarket.deadline} renderer={renderer} />
+                                                        </div>
+
+                                                    </div>
+                                                    <div className='row d-flex aling-align-items-center title'>
+                                                        <div className=''>{activeMarket.name}</div>
                                                     </div>
 
-                                                </div>
-                                                <div className='row d-flex aling-align-items-center title'>
-                                                    <div className=''>{activeMarket.name}</div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className='details'>
-                                            <div className="row">
-                                                <div className="col-12">
-                                                    <div className="chart">
-                                                        <ReactEcharts option={option} />
-                                                    </div>
                                                 </div>
                                             </div>
+                                            <div className='details'>
+                                                <div className="row">
+                                                    <div className="col-12">
+                                                        <div className="chart">
+                                                            <ReactEcharts option={option} />
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                            <OutcomeTable />
+                                                <OutcomeTable />
 
-                                            <OrderBook />
+                                                <OrderBook />
 
-                                            <div className="module">
-                                                <div className='about'>
-                                                    <h3 className=''>About</h3>
-                                                    <p className='' id="collapseAbout" aria-expanded="true">
-                                                        {activeMarket.terms}
-                                                    </p>
-                                                    {/*
+                                                <div className="module">
+                                                    <div className='about'>
+                                                        <h3 className=''>About</h3>
+                                                        <p className='' id="collapseAbout" aria-expanded="true">
+                                                            {activeMarket.terms}
+                                                        </p>
+                                                        {/*
                                                         <a role="button" onClick={updateCollapse} className="collapsed"
                                                             data-toggle="collapse" href="#collapseAbout"
                                                             aria-expanded="false" aria-controls="collapseAbout">
@@ -326,42 +328,43 @@ export const DetailMarket = () => {
                                                         </a>
                                                     */}
 
-                                                </div>
-                                                <div className='resolution_outcome'>
-                                                    <h3 className=''>Resolution</h3>
-                                                    <p className=''>No outcome has been proposed yet.</p>
-                                                </div>
+                                                    </div>
+                                                    <div className='resolution_outcome'>
+                                                        <h3 className=''>Resolution</h3>
+                                                        <p className=''>No outcome has been proposed yet.</p>
+                                                    </div>
 
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <div className='stiky_block'>
+                                            <ActionOrders loadDetailMarket={loadDetailMarket} />
+                                        </div>
+
                                     </div>
 
-                                    <div className='stiky_block'>
-                                        <ActionOrders loadDetailMarket={loadDetailMarket} />
+                                </div>
+                            </section>
+                        ) : (
+                            <section className='detail_market'>
+                                <div className="content no_market">
+                                    <div>
+                                        The market you are requesting does not exist
                                     </div>
-
+                                    <div>
+                                        <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse
+                                            markets</NavLink>
+                                    </div>
                                 </div>
-
-                            </div>
-                        </section>
-                    ) : (
-                        <section className='detail_market'>
-                            <div className="content no_market">
-                                <div>
-                                    The market you are requesting does not exist
-                                </div>
-                                <div>
-                                    <NavLink to="/browsemarkets" className='btn-get-started connected'>Browse
-                                        markets</NavLink>
-                                </div>
-                            </div>
-                        </section>
-                    )}
-                </>
-            )}
+                            </section>
+                        )}
+                    </>
+                )}
 
 
-            <Footer />
+                <Footer />
+            </div>
         </>
     )
 }
