@@ -170,6 +170,17 @@ export const NavBarWeb3Onboard = () => {
                             }
                     }
 
+                    const parseResponse = r => {
+                        let data = r[Object.keys(r)[0]];
+                        const value = data.map
+                            ? data.map(parseResponse)
+                            : typeof data === "object"
+                                ? data[Object.keys(data)[0]]
+                                : data;
+                        console.log(prop, r, data, Object.keys(data), value);
+                        return value;
+                    };
+
                     return function () {
                         let args = iface.encodeFunctionData(prop, [...arguments]);
                         return fetch(`${gambethBackend}/method`, {
@@ -181,16 +192,7 @@ export const NavBarWeb3Onboard = () => {
                             })
                         })
                             .then(r => r.json())
-                            .then(r => {
-                                let data = r[Object.keys(r)[0]];
-                                const value = data.map
-                                    ? data.map(elm => elm[Object.keys(elm)[0]])
-                                    : typeof data === "object"
-                                        ? data[Object.keys(data)[0]]
-                                        : data;
-                                console.log(prop, r, data, Object.keys(data), value);
-                                return value;
-                            });
+                            .then(parseResponse);
                     }
 
                 }
