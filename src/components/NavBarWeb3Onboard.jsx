@@ -176,7 +176,9 @@ export const NavBarWeb3Onboard = () => {
                             ? data.map(parseResponse)
                             : typeof data === "object"
                                 ? data[Object.keys(data)[0]]
-                                : data;
+                                : data.toString().startsWith("0x")
+                                    ? parseInt(data)
+                                    : data;
                         console.log(prop, r, data, Object.keys(data), value);
                         return value;
                     };
