@@ -136,11 +136,11 @@ export const NavBarWeb3Onboard = () => {
 
         const setupActiveContract = (connectedContract) => {
             const gambethBackend = "https://gambeth-backend.fly.dev";
-            //const gambethBackend = "http://localhost:8080";
+            // const gambethBackend = "http://localhost:8080";
             console.log("Using proxy contract " + owner);
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
-                get(target, prop, receiver) {
+                get(target, prop) {
                     switch (prop) {
                         case "queryFilter":
                             return function ([name, topics]) {
@@ -154,7 +154,7 @@ export const NavBarWeb3Onboard = () => {
                             };
                         case "filters":
                             return new Proxy({}, {
-                                get(target, prop, receiver) {
+                                get(target, prop) {
                                     return function () {
                                         return [prop, [...arguments].concat(new Array(3 - [...arguments].length).fill(null))]
                                     }
@@ -170,16 +170,17 @@ export const NavBarWeb3Onboard = () => {
                             }
                     }
 
-                    const parseResponse = r => {
-                        let data = r[Object.keys(r)[0]];
+                    const parseResponse = (input) => {
+                        let dataType = Object.keys(input)[0];
+                        let data = input[dataType];
                         const value = data.map
                             ? data.map(parseResponse)
                             : typeof data === "object"
-                                ? data[Object.keys(data)[0]]
-                                : data.toString().startsWith("0x")
+                                ? parseResponse(data)
+                                : ["Uint", "Int"].includes(dataType)
                                     ? parseInt(data)
                                     : data;
-                        console.log(prop, r, data, Object.keys(data), value);
+                        console.log(prop, input, data, Object.keys(data), value);
                         return value;
                     };
 
