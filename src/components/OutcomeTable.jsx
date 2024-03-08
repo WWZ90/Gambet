@@ -18,12 +18,12 @@ export const OutcomeTable = () => {
             <table className="table table-hover text-center">
                 <thead className="table-light head_table">
                     <tr>
-                        <th className="col-1">Image</th>
-                        <th className="col-5 text-start">Outcome</th>
+                        <th className="col-2"></th>
+                        <th className="col-3 text-start"></th>
                         <th className="col-1">Owned</th>
                         <th className="col-1">Share</th>
-                        <th className="col-2">Average price</th>
-                        <th className="col-2">Share payout</th>
+                        <th className="col-3">Average price</th>
+                        <th className="col-3">Share payout</th>
                     </tr>
                 </thead>
                 <tbody>
