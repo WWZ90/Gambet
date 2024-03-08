@@ -135,13 +135,11 @@ export const DetailMarket = () => {
 
         if (!marketsArray || !marketsArray.length) {
             setPreviousRoute(id);
-
-
-            if (!localStorage.getItem('activeContract')) {
-                await connect();
-            }
+            console.log("Not loading market");
             return;
         }
+
+        console.log("Loading market");
 
         let foundMarket = null;
 
@@ -206,6 +204,8 @@ export const DetailMarket = () => {
 
         setActiveMarket(foundMarket);
         setMarketId(id);
+        setLoadingDetailMarket(false);
+        setLoading(false);
     }
 
     useEffect(() => {

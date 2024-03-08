@@ -54,14 +54,9 @@ export const BrowseMarkets = () => {
 
   useEffect(() => {
     if (!marketsArray) {
-      if (!localStorage.getItem('activeContract')) {
-        connect();
         setPreviousRoute('browseMarkets');
+        console.log("Loading markets...");
         setLoading(true);
-      } else {
-        setPreviousRoute('browseMarkets');
-        setLoading(true);
-      }
     } else {
       setLoading(false);
     }
