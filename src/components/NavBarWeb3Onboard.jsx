@@ -136,7 +136,7 @@ export const NavBarWeb3Onboard = () => {
 
         const setupActiveContract = (connectedContract) => {
             const gambethBackend = "https://gambeth-backend.fly.dev";
-            //const gambethBackend = "http://localhost:8080";
+            // const gambethBackend = "http://localhost:8080";
             console.log("Using proxy contract " + owner);
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
