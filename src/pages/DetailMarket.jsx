@@ -47,7 +47,7 @@ export const DetailMarket = () => {
 
     const [loading, setLoading] = useState(true);
     const [marketExist, setMarketExist] = useState(false);
-    const [loadingDetailMarket, setLoadingDetailMarket] = useState(false);
+    const [loadingDetailMarket, setLoadingDetailMarket] = useState(true);
     const initialLoadingDetailMarketRef = useRef(loadingDetailMarket);
 
     const Completionist = () => <span>You are good to go!</span>;
@@ -120,7 +120,6 @@ export const DetailMarket = () => {
 
         setPreviousRoute(false);
 
-        setLoadingDetailMarket(true);
         initialLoadingDetailMarketRef.current = true;
         loadDetailMarket().then(async () => {
             setLoadingDetailMarket(false);
@@ -131,7 +130,7 @@ export const DetailMarket = () => {
     }, [owner])
 
     const loadDetailMarket = async (marketReload) => {
-        setLoading(true);
+        setLoading(false);
 
         if (!marketsArray || !marketsArray.length) {
             setPreviousRoute(id);
