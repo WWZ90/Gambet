@@ -74,16 +74,16 @@ export const OutcomeTable = () => {
                                 ):(
                                     <td><ImageDisplay thumbnailUrl={upload} /></td>
                                 )}
-                                <td scope="row" className='text-start'>{item.outcome}</td>
-                                <td>{item.owned}</td>
-                                <td>{item.share}</td>
+                                <td scope="row" className={`text-start ${outcomeOptionSelected == item.outcome ? 'active' : ''}`}>{item.outcome}</td>
+                                <td className={`${outcomeOptionSelected == item.outcome ? 'active' : ''}`}>{item.owned}</td>
+                                <td className={`${outcomeOptionSelected == item.outcome ? 'active' : ''}`}>{item.share}</td>
                                 {item.averagePrice != '-' ? (
-                                    <td>${item.averagePrice}</td>
+                                    <td className={`${outcomeOptionSelected == item.outcome ? 'active' : ''}`}>${item.averagePrice}</td>
                                 ) : (
-                                    <td>{item.averagePrice}</td>
+                                    <td className={`${outcomeOptionSelected == item.outcome ? 'active' : ''}`}>{item.averagePrice}</td>
                                 )}
 
-                                <td>${item.sharePayout}</td>
+                                <td className={`${outcomeOptionSelected == item.outcome ? 'active' : ''}`}>${item.sharePayout}</td>
                             </tr>
                         ))
 

@@ -1267,6 +1267,10 @@ button.swithToChain:hover {
     border-color: var(--Primary-blue-5) !important;
 }
 
+.detail_market .table tr td.active {
+    color: var(--Accent-orange-5) !important;
+}
+
 .detail_market .table img {
     width: 54px !important;
     height: 54px !important;
@@ -1294,6 +1298,7 @@ button.swithToChain:hover {
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
+    transition: 0.2s all;
 }
 
 .detail_market .table tr td:hover {
