@@ -54,6 +54,7 @@ export const DetailMarket = () => {
 
     // Renderer callback with condition
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
+        console.log('TIEMPO: ' + minutes);
         if (completed) {
             // Render a complete state
             return <Completionist />;
@@ -130,7 +131,6 @@ export const DetailMarket = () => {
     }, [owner])
 
     const loadDetailMarket = async (marketReload) => {
-        setLoading(false);
 
         if (!marketsArray || !marketsArray.length) {
             setPreviousRoute(id);
@@ -203,8 +203,6 @@ export const DetailMarket = () => {
 
         setActiveMarket(foundMarket);
         setMarketId(id);
-        setLoadingDetailMarket(false);
-        setLoading(false);
     }
 
     useEffect(() => {
@@ -233,10 +231,10 @@ export const DetailMarket = () => {
     }, [marketsArray, owner])
 
     useEffect(() => {
-        if (marketExist && activeMarket) {
+        if (outcomeData.length != 0) {
             setLoading(false);
         }
-    }, [marketExist, owner])
+    }, [outcomeData])
 
 
     return (
@@ -256,7 +254,7 @@ export const DetailMarket = () => {
                     </section>
                 ) : (
                     <>
-                        {marketExist && activeMarket ? (
+                        {outcomeData ? (
                             <section className='detail_market'>
                                 <div className="content">
                                     <div className="inside">
@@ -272,7 +270,6 @@ export const DetailMarket = () => {
                                                         <img src={Image1}></img>
                                                     </div>
                                                 )}
-
 
                                                 <div className='col-9 p-0'>
                                                     <div className='row'>
