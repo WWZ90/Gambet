@@ -1,49 +1,49 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
-import { useConnectWallet, useSetChain } from "@web3-onboard/react";
+import {useConnectWallet, useSetChain} from "@web3-onboard/react";
 
-import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import {NavLink, useParams, useNavigate} from 'react-router-dom';
 
 import Countdown from 'react-countdown';
 
-import { useStateContext } from '../contexts/ContextProvider';
+import {useStateContext} from '../contexts/ContextProvider';
 
 import ReactEcharts from "echarts-for-react";
 
 import Image1 from '../assets/img/image_upload.png';
 
-import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
-import { OrderBook } from '../components/OrderBook';
-import { ActionOrders } from '../components/ActionOrders';
-import { OutcomeTable } from '../components/OutcomeTable';
-import { Footer } from '../components/Footer';
+import {NavBarWeb3Onboard} from '../components/NavBarWeb3Onboard';
+import {OrderBook} from '../components/OrderBook';
+import {ActionOrders} from '../components/ActionOrders';
+import {OutcomeTable} from '../components/OutcomeTable';
+import {Footer} from '../components/Footer';
 
-import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders } from '../utils/services';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import {browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders} from '../utils/services';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 export const DetailMarket = () => {
 
-    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
 
     const navigate = useNavigate();
 
-    const { id } = useParams();
-    const { previousRoute, setPreviousRoute } = useStateContext(false);
+    const {id} = useParams();
+    const {previousRoute, setPreviousRoute} = useStateContext(false);
 
-    const { activeContract } = useStateContext();
-    const { owner } = useStateContext();
+    const {activeContract} = useStateContext();
+    const {owner} = useStateContext();
 
-    const { activeMarket, setActiveMarket } = useStateContext();
-    const { marketId, setMarketId } = useStateContext();
-    const { marketsArray, setMarketsArray } = useStateContext();
-    const { orders, setOrders } = useStateContext();
+    const {activeMarket, setActiveMarket} = useStateContext();
+    const {marketId, setMarketId} = useStateContext();
+    const {marketsArray, setMarketsArray} = useStateContext();
+    const {orders, setOrders} = useStateContext();
 
     const [style, setStyle] = useState('collapse');
     const [showAboutCollapse, setShowAboutCollapse] = useState(false);
 
-    const { outcomeData, setOutcomeData } = useStateContext();
-    const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
-    const { setOutcomeOptionSelected } = useStateContext();
+    const {outcomeData, setOutcomeData} = useStateContext();
+    const {myOutcomeByMarket, setMyOutcomeByMarket} = useStateContext();
+    const {setOutcomeOptionSelected} = useStateContext();
 
     const [loading, setLoading] = useState(true);
     const [marketExist, setMarketExist] = useState(true);
@@ -53,10 +53,10 @@ export const DetailMarket = () => {
     const Completionist = () => <span>You are good to go!</span>;
 
     // Renderer callback with condition
-    const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    const renderer = ({days, hours, minutes, seconds, completed}) => {
         if (completed) {
             // Render a complete state
-            return <Completionist />;
+            return <Completionist/>;
         } else {
             // Render a countdown
             return (
@@ -239,7 +239,7 @@ export const DetailMarket = () => {
     return (
         <>
             <div className="image-back">
-                <NavBarWeb3Onboard />
+                <NavBarWeb3Onboard/>
                 <div className='header-fill'></div>
 
                 {loading ? (
@@ -272,25 +272,30 @@ export const DetailMarket = () => {
 
                                                 <div className='col-9 p-0'>
                                                     <div className='row'>
-                                                        <div className='col-6 text_gray first' style={{ fontSize: '13px' }}>
+                                                        <div className='col-6 text_gray first'
+                                                             style={{fontSize: '13px'}}>
                                                             <OverlayTrigger
-                                                                overlay={<Tooltip id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
+                                                                overlay={<Tooltip
+                                                                    id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
                                                                 placement="top"
                                                             >
                                                                 <i className="bi bi-info-circle pt-2 pr-2"></i>
                                                             </OverlayTrigger>
                                                             <span>Locked:</span>
-                                                            <Countdown date={activeMarket.resolution} renderer={renderer} />
+                                                            <Countdown date={activeMarket.resolution}
+                                                                       renderer={renderer}/>
                                                         </div>
-                                                        <div className='col-6 text_gray' style={{ fontSize: '13px' }}>
+                                                        <div className='col-6 text_gray' style={{fontSize: '13px'}}>
                                                             <OverlayTrigger
-                                                                overlay={<Tooltip id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
+                                                                overlay={<Tooltip
+                                                                    id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
                                                                 placement="top"
                                                             >
                                                                 <i className="bi bi-info-circle pt-2 pr-2"></i>
                                                             </OverlayTrigger>
                                                             <span>Deadline:</span>
-                                                            <Countdown date={activeMarket.deadline} renderer={renderer} />
+                                                            <Countdown date={activeMarket.deadline}
+                                                                       renderer={renderer}/>
                                                         </div>
 
                                                     </div>
@@ -304,14 +309,48 @@ export const DetailMarket = () => {
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="chart">
-                                                            <ReactEcharts option={option} />
+                                                            <div style={{
+                                                                display: 'flex',
+                                                                flexDirection: 'row',
+                                                                alignItems: 'flex-end',
+                                                                justifyContent: 'flex-start',
+                                                                gap: '10px',
+                                                                padding: '20px'
+                                                            }}>
+                                                                {outcomeData.map((item, index) => (
+                                                                    <div key={index} style={{
+                                                                        display: 'flex',
+                                                                        height: '500px',
+                                                                        flexDirection: 'column',
+                                                                        alignItems: 'center',
+                                                                        gap: '4px'
+                                                                    }}>
+                                                                        <div style={{
+                                                                            color: 'white',
+                                                                            marginBottom: '4px'
+                                                                        }}>{`${(item.marketPrice ** 2).toFixed(3) * 100}%`}</div>
+                                                                        <div style={{
+                                                                            background: 'linear-gradient(180deg, rgba(255,123,89,1) 0%, rgba(255,88,88,1) 100%)',
+                                                                            borderRadius: '10px',
+                                                                            width: '20px',
+                                                                            height: `${(item.marketPrice ** 2).toFixed(3) * 100}%`,
+                                                                            transition: 'height 0.3s ease-in-out',
+                                                                            boxShadow: 'inset 0 -3px 6px rgba(0,0,0,0.2)'
+                                                                        }}/>
+                                                                        <div style={{
+                                                                            color: 'white',
+                                                                            marginTop: '4px'
+                                                                        }}>{item.outcome}</div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <OutcomeTable />
+                                                <OutcomeTable/>
 
-                                                <OrderBook />
+                                                <OrderBook/>
 
                                                 <div className="module">
                                                     <div className='about'>
@@ -338,7 +377,7 @@ export const DetailMarket = () => {
                                         </div>
 
                                         <div className='stiky_block'>
-                                            <ActionOrders loadDetailMarket={loadDetailMarket} />
+                                            <ActionOrders loadDetailMarket={loadDetailMarket}/>
                                         </div>
 
                                     </div>
@@ -362,7 +401,7 @@ export const DetailMarket = () => {
                 )}
 
 
-                <Footer />
+                <Footer/>
             </div>
         </>
     )

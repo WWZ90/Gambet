@@ -208,13 +208,15 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
         .filter(o => price === 0 || (action === "BUY" ? (price >= o.pricePerShare) : (price <= o.pricePerShare)))
         .map(o => o.idx));
     console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
+    localStorage.txPool = `Processing pending orders...`;
+    localStorage.txConfirmed = `Order completed! Market will be updated shortly`;
     const filledOrder = await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
-    return await filledOrder.wait();
+    const resolved = await filledOrder.wait();
+    return resolved
 }
 
 export const createBet = async (activeContract, usdc, owner, ooContractAddress, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
     try {
-        debugger;
         schedule = Date.parse(schedule) / 1000;
         deadline = Date.parse(deadline) / 1000;
         marketId = marketId.toLowerCase().trim();
@@ -238,7 +240,11 @@ export const createBet = async (activeContract, usdc, owner, ooContractAddress, 
                 break;
             */
             case "oo":
-                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(tx => tx.wait());
+                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(async tx => {
+                    localStorage.txPool = "Market is being created...";
+                    localStorage.txConfirmed = "Market created!";
+                    return await tx.wait();
+                });
                 break;
         }
     } catch (error) {

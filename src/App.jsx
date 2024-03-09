@@ -112,16 +112,13 @@ const web3Onboard = init({
   apiKey: dappId,
   notify: {
     transactionHandler: transaction => {
-
-      if (transaction.eventCode === 'txPool') {
-        return {
-          // autoDismiss set to zero will persist the notification until the user excuses it
-          autoDismiss: 0,
-          // message: `Your transaction is pending, click <a href="https://goerli.etherscan.io/tx/${transaction.hash}" rel="noopener noreferrer" target="_blank">here</a> for more info.`,
-          // or you could use onClick for when someone clicks on the notification itself
-          onClick: () =>
+      return {
+        // autoDismiss set to zero will persist the notification until the user excuses it
+        autoDismiss: transaction.eventCode === "txConfirmed" ? 5000 : 0,
+        message: localStorage[transaction.eventCode],
+        // or you could use onClick for when someone clicks on the notification itself
+        onClick: () =>
             window.open(`https://goerli.etherscan.io/tx/${transaction.hash}`)
-        }
       }
     }
   },
