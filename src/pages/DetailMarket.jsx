@@ -46,7 +46,7 @@ export const DetailMarket = () => {
     const { setOutcomeOptionSelected } = useStateContext();
 
     const [loading, setLoading] = useState(true);
-    const [marketExist, setMarketExist] = useState(false);
+    const [marketExist, setMarketExist] = useState(true);
     const [loadingDetailMarket, setLoadingDetailMarket] = useState(true);
     const initialLoadingDetailMarketRef = useRef(loadingDetailMarket);
 
