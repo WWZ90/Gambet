@@ -54,7 +54,6 @@ export const DetailMarket = () => {
 
     // Renderer callback with condition
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
-        console.log('TIEMPO: ' + minutes);
         if (completed) {
             // Render a complete state
             return <Completionist />;
