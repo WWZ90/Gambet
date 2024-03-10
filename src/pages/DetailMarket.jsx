@@ -338,13 +338,12 @@ export const DetailMarket = () => {
                                                                             fontSize: '12px',
                                                                             fontStyle: 'normal',
                                                                             fontWeight: '300',
-                                                                            marginBottom: '4px',
                                                                             minWidth: '40px',
-                                                                            textAlign: outcomeData.length < 3 ? 'left' : 'center',
-                                                                            marginTop: outcomeData.length < 3 ? '0px' : '0px',
-                                                                            marginLeft: outcomeData.length < 3 ? '8px' : '0px',
-                                                                            marginBottom: outcomeData.length < 3 ? '0px' : '8px',
-                                                                            marginRight: outcomeData.length < 3 ? '0px' : '0px'
+                                                                            marginTop: '0px',
+                                                                            textAlign: outcomeThreshold() ?  'center' : 'left',
+                                                                            marginLeft: outcomeThreshold() ? '0px' : '8px',
+                                                                            marginBottom: outcomeThreshold() ? '8px' : '0px',
+                                                                            marginRight: outcomeThreshold() ? '0px' : '0px'
                                                                         }}>{`${(item.marketPrice ** 2).toFixed(3) * 100}%`}</div>
                                                                         <div style={{
                                                                             position: 'relative',
