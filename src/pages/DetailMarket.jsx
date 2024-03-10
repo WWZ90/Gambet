@@ -340,10 +340,10 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             minWidth: '40px',
                                                                             marginTop: '0px',
+                                                                            marginRight: '0px',
                                                                             textAlign: outcomeThreshold() ?  'center' : 'left',
                                                                             marginLeft: outcomeThreshold() ? '0px' : '8px',
                                                                             marginBottom: outcomeThreshold() ? '8px' : '0px',
-                                                                            marginRight: outcomeThreshold() ? '0px' : '0px'
                                                                         }}>{`${((item.marketPrice ** 2) * 100).toFixed(3)}%`}</div>
                                                                         <div style={{
                                                                             position: 'relative',
@@ -358,7 +358,7 @@ export const DetailMarket = () => {
                                                                                 borderRadius: '30px',
                                                                                 [chartThreshold() ? 'width' : 'height']: '34px',
                                                                                 [chartThreshold() ? 'height' : 'width']: `${(item.marketPrice ** 2).toFixed(3) * 100}%`,
-                                                                                transition: 'height 0.3s ease-in-out',
+                                                                                transition: 'height 0.3s ease-in-out, width 0.3s ease-in-out',
                                                                                 boxShadow: 'inset 0 -3px 6px rgba(0,0,0,0.2)',
                                                                                 position: 'absolute',
                                                                                 bottom: '0'
