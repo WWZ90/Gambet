@@ -356,7 +356,8 @@ export const DetailMarket = () => {
                                                                             fontSize: '12px',
                                                                             fontStyle: 'normal',
                                                                             fontWeight: '300',
-                                                                            marginTop: '4px'
+                                                                            marginTop: '4px',
+                                                                            width: '20%'
                                                                         }}>{item.outcome}</div>
                                                                     </div>
                                                                 ))}
