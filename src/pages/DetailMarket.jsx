@@ -374,13 +374,13 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             textTransform: 'capitalize',
                                                                             display: 'flex',
-                                                                            justifyContent: !outcomeThreshold() ? 'end' : 'center',
-                                                                            width: !outcomeThreshold() ? '30%' : '',
+                                                                            justifyContent: outcomeThreshold() ? 'center' : 'end',
+                                                                            width: outcomeThreshold() ?  '' : '30%',
                                                                             textAlign: 'end',
-                                                                            marginTop: !outcomeThreshold() ? '0px' : '5px',
-                                                                            marginLeft: !outcomeThreshold() ? '0px' : '0px',
-                                                                            marginBottom: !outcomeThreshold() ? '0px' : '0px',
-                                                                            marginRight: !outcomeThreshold() ? '8px' : '0px'
+                                                                            marginTop: outcomeThreshold() ? '5px' : '0px',
+                                                                            marginLeft: outcomeThreshold() ? '0px' : '0px',
+                                                                            marginBottom: outcomeThreshold() ? '0px' : '0px',
+                                                                            marginRight: outcomeThreshold() ?  '0px' : '8px'
                                                                         }}>{item.outcome}</div>
                                                                     </div>
                                                                 ))}
