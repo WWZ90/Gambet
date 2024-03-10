@@ -311,19 +311,21 @@ export const DetailMarket = () => {
                                                         <div className="chart">
                                                             <div style={{
                                                                 display: 'flex',
-                                                                flexDirection: 'row',
-                                                                alignItems: 'flex-end',
+                                                                flexDirection: outcomeData.length > 3 ? 'row' : 'column',
+                                                                alignItems: 'center',
                                                                 justifyContent: 'center',
                                                                 gap: '30px',
                                                                 padding: '20px',
-                                                                height: '240px',
+                                                                height: outcomeData.length > 3 ? '32px' : '240px',
+                                                                width: outcomeData.length > 3 ? '240px' : '32px',
                                                                 marginTop: '40px',
                                                             }}>
                                                                 {outcomeData.map((item, index) => (
                                                                     <div key={index} style={{
                                                                         display: 'flex',
                                                                         height: '240px',
-                                                                        flexDirection: 'column',
+                                                                        width: '500px',
+                                                                        flexDirection: outcomeData.length > 3 ? 'column' : 'row-reverse',
                                                                         alignItems: 'center',
                                                                         gap: '4px'
                                                                     }}>
@@ -335,12 +337,12 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             marginBottom: '4px'
                                                                         }}>{`${(item.marketPrice ** 2).toFixed(3) * 100}%`}</div>
-                                                                        <div className="" style={{ position: 'relative', borderRadius: '30px', height: '100%', background: '#1C1D60', width: '34px' }}>
+                                                                        <div className="" style={{ position: 'relative', borderRadius: '30px', height: outcomeData.length > 3 ? '100%' : '32px', background: '#1C1D60', width: outcomeData.length > 3 ? '34px' : '100%'}}>
                                                                             <div style={{
                                                                                 background: 'linear-gradient(180deg, rgba(247,180,161,1) 0%, rgba(249,117,81,1) 100%)',
                                                                                 borderRadius: '30px',
-                                                                                width: '34px',
-                                                                                height: `${(item.marketPrice ** 2).toFixed(3) * 100}%`,
+                                                                                [outcomeData.length > 3 ? 'width' : 'height']: '34px',
+                                                                                [outcomeData.length > 3 ? 'height' : 'width']: `${(item.marketPrice ** 2).toFixed(3) * 100}%`,
                                                                                 transition: 'height 0.3s ease-in-out',
                                                                                 boxShadow: 'inset 0 -3px 6px rgba(0,0,0,0.2)',
                                                                                 position: 'absolute',
