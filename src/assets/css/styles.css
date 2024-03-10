@@ -1672,7 +1672,7 @@ button.swithToChain:hover {
 }
 
 .detail_market .box .action a {
-    color: var(--Text-5) !important;
+    color: var(--Primary-blue-5) !important;
     cursor: pointer;
     font-family: var(--font-family-light);
     font-size: 12px;
@@ -1828,6 +1828,7 @@ button.swithToChain:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
     line-height: 2;
     background-color: var(--Primary-blue-5);
+    min-width: 90px;
 }
 
 .detail_market .box .dropdown {
@@ -1841,6 +1842,11 @@ button.swithToChain:hover {
     padding-right: 0px;
     padding-top: 5px;
     cursor: pointer;
+    border: 1px solid var(--Accent-orange-5);
+    border-radius: 10px;
+    text-align: center !important;
+    margin-left: 10px;
+    padding-bottom: 3px;
 }
 
 .detail_market .box .dropdown a {
