@@ -1660,7 +1660,7 @@ button.swithToChain:hover {
 .detail_market .box .action {
     cursor: pointer;
     border-radius: 10px;
-    border: 1px solid var(--Accent-orange-5);
+    border: 1px solid var(--Primary-blue-5);
     padding: 5px 20px 5px 20px !important;
     width: 78px;
     height: 29px;
@@ -1681,6 +1681,10 @@ button.swithToChain:hover {
     line-height: normal;
 }
 
+.detail_market .box .active.buy a, .detail_market .box .active.sell a{
+    color: var(--Primary-blue-5) !important;
+}
+
 .detail_market .box .action.second {
     margin-left: 10px;
 }
@@ -1692,12 +1696,9 @@ button.swithToChain:hover {
     margin-top: 3px;
 }
 
-.detail_market .box .active.buy {
+.detail_market .box .active.buy, .detail_market .box .active.sell {
     background-color: var(--Accent-orange-5);
-}
-
-.detail_market .box .active.sell {
-    background-color: var(--Accent-orange-5);
+    border: 1px solid var(--Accent-orange-5);
 }
 
 .detail_market .box .box_content {
