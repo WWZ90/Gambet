@@ -270,7 +270,7 @@ export const DetailMarket = () => {
                                                     </div>
                                                 )}
 
-                                                <div className='col-9 p-0'>
+                                                <div className='col-9 p-0 r-details'>
                                                     <div className='row'>
                                                         <div className='col-6 text_gray first'
                                                             style={{ fontSize: '13px' }}>
@@ -300,7 +300,7 @@ export const DetailMarket = () => {
 
                                                     </div>
                                                     <div className='row d-flex aling-align-items-center title'>
-                                                        <div className=''>{activeMarket.name}</div>
+                                                        {activeMarket.name}
                                                     </div>
 
                                                 </div>

@@ -1241,12 +1241,16 @@ button.swithToChain:hover {
     border-radius: 8px;
 }
 
+.detail_market .r-details{
+    margin-left: 32px;
+}
+
 .detail_market .title {
     font-family: var(--font-family-medium);
-    font-size: 25px;
-    padding-top: 20px;
+    font-size: 32px;
+    padding: 20px 10px 0px 10px;
     line-height: 25px;
-    color: var(--color-detail-market-text);
+    color: var(--Text-5);
 }
 
 .detail_market .title_gray {
