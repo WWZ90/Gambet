@@ -1685,6 +1685,10 @@ button.swithToChain:hover {
     color: var(--Primary-blue-5) !important;
 }
 
+.detail_market .box .buy:hover a, .detail_market .box .sell:hover a{
+    color: var(--Primary-blue-5) !important;
+}
+
 .detail_market .box .action.second {
     margin-left: 10px;
 }
