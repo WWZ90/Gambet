@@ -359,6 +359,7 @@ export const DetailMarket = () => {
                                                                             textTransform: 'capitalize',
                                                                             display: 'flex',
                                                                             justifyContent: 'center',
+                                                                            width: "20%",
                                                                             alignContent: 'center',
                                                                             textAlign: 'center',
                                                                             marginTop: '4px'
