@@ -316,8 +316,8 @@ export const DetailMarket = () => {
                                                                 justifyContent: 'center',
                                                                 gap: outcomeData.length > 3 ? '30px' : '0px',
                                                                 padding: outcomeData.length > 3 ? '20px' : '0px',
-                                                                height: outcomeData.length > 3 ? '32px' : '240px',
-                                                                width: outcomeData.length > 3 ? '240px' : 'auto',
+                                                                height: outcomeData.length > 3 ? '32px' : '140px',
+                                                                width: outcomeData.length > 3 ? '100%' : 'auto',
                                                                 marginTop: '40px',
                                                             }}>
                                                                 {outcomeData.map((item, index) => (
