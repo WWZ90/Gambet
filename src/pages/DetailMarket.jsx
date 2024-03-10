@@ -365,9 +365,9 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             textTransform: 'capitalize',
                                                                             display: 'flex',
-                                                                            justifyContent: 'end',
+                                                                            justifyContent: 'center',
                                                                             width: "20%",
-                                                                            textAlign: 'end',
+                                                                            textAlign: 'center',
                                                                             marginBottom: '4px',
                                                                             marginRight: '4px'
                                                                         }}>{item.outcome}</div>
