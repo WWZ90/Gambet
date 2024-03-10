@@ -337,7 +337,14 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             marginBottom: '4px'
                                                                         }}>{`${(item.marketPrice ** 2).toFixed(3) * 100}%`}</div>
-                                                                        <div className="" style={{ position: 'relative', borderRadius: '30px', height: outcomeData.length > 3 ? '100%' : '32px', background: '#1C1D60', width: outcomeData.length > 3 ? '34px' : '100%'}}>
+                                                                        <div style={{ 
+                                                                            position: 'relative', 
+                                                                            borderRadius: '30px', 
+                                                                            height: outcomeData.length > 3 ? '100%' : '32px', 
+                                                                            background: '#1C1D60', 
+                                                                            width: outcomeData.length > 3 ? '34px' : '100%',
+                                                                            overflow: 'hidden'
+                                                                            }}>
                                                                             <div style={{
                                                                                 background: 'linear-gradient(180deg, rgba(247,180,161,1) 0%, rgba(249,117,81,1) 100%)',
                                                                                 borderRadius: '30px',
