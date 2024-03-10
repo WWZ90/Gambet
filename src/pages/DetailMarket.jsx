@@ -1,49 +1,49 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
-import { useConnectWallet, useSetChain } from "@web3-onboard/react";
+import {useConnectWallet, useSetChain} from "@web3-onboard/react";
 
-import { NavLink, useParams, useNavigate } from 'react-router-dom';
+import {NavLink, useParams, useNavigate} from 'react-router-dom';
 
 import Countdown from 'react-countdown';
 
-import { useStateContext } from '../contexts/ContextProvider';
+import {useStateContext} from '../contexts/ContextProvider';
 
 import ReactEcharts from "echarts-for-react";
 
 import Image1 from '../assets/img/image_upload.png';
 
-import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
-import { OrderBook } from '../components/OrderBook';
-import { ActionOrders } from '../components/ActionOrders';
-import { OutcomeTable } from '../components/OutcomeTable';
-import { Footer } from '../components/Footer';
+import {NavBarWeb3Onboard} from '../components/NavBarWeb3Onboard';
+import {OrderBook} from '../components/OrderBook';
+import {ActionOrders} from '../components/ActionOrders';
+import {OutcomeTable} from '../components/OutcomeTable';
+import {Footer} from '../components/Footer';
 
-import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders } from '../utils/services';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import {browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders} from '../utils/services';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 export const DetailMarket = () => {
 
-    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
 
     const navigate = useNavigate();
 
-    const { id } = useParams();
-    const { previousRoute, setPreviousRoute } = useStateContext(false);
+    const {id} = useParams();
+    const {previousRoute, setPreviousRoute} = useStateContext(false);
 
-    const { activeContract } = useStateContext();
-    const { owner } = useStateContext();
+    const {activeContract} = useStateContext();
+    const {owner} = useStateContext();
 
-    const { activeMarket, setActiveMarket } = useStateContext();
-    const { marketId, setMarketId } = useStateContext();
-    const { marketsArray, setMarketsArray } = useStateContext();
-    const { orders, setOrders } = useStateContext();
+    const {activeMarket, setActiveMarket} = useStateContext();
+    const {marketId, setMarketId} = useStateContext();
+    const {marketsArray, setMarketsArray} = useStateContext();
+    const {orders, setOrders} = useStateContext();
 
     const [style, setStyle] = useState('collapse');
     const [showAboutCollapse, setShowAboutCollapse] = useState(false);
 
-    const { outcomeData, setOutcomeData } = useStateContext();
-    const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
-    const { setOutcomeOptionSelected } = useStateContext();
+    const {outcomeData, setOutcomeData} = useStateContext();
+    const {myOutcomeByMarket, setMyOutcomeByMarket} = useStateContext();
+    const {setOutcomeOptionSelected} = useStateContext();
 
     const [loading, setLoading] = useState(true);
     const [marketExist, setMarketExist] = useState(true);
@@ -53,10 +53,10 @@ export const DetailMarket = () => {
     const Completionist = () => <span>You are good to go!</span>;
 
     // Renderer callback with condition
-    const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    const renderer = ({days, hours, minutes, seconds, completed}) => {
         if (completed) {
             // Render a complete state
-            return <Completionist />;
+            return <Completionist/>;
         } else {
             // Render a countdown
             return (
@@ -106,6 +106,8 @@ export const DetailMarket = () => {
         }
     }
 
+
+    const outcomeThreshold = () => outcomeData.length > 3;
 
     useEffect(() => {
 
@@ -240,7 +242,7 @@ export const DetailMarket = () => {
     return (
         <>
             <div className="image-back">
-                <NavBarWeb3Onboard />
+                <NavBarWeb3Onboard/>
                 <div className='header-fill'></div>
 
                 {loading ? (
@@ -274,7 +276,7 @@ export const DetailMarket = () => {
                                                 <div className='col-9 p-0 r-details'>
                                                     <div className='row'>
                                                         <div className='col-6 text_gray first'
-                                                            style={{ fontSize: '13px' }}>
+                                                             style={{fontSize: '13px'}}>
                                                             <OverlayTrigger
                                                                 overlay={<Tooltip
                                                                     id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
@@ -284,9 +286,9 @@ export const DetailMarket = () => {
                                                             </OverlayTrigger>
                                                             <span>Locked:</span>
                                                             <Countdown date={activeMarket.resolution}
-                                                                renderer={renderer} />
+                                                                       renderer={renderer}/>
                                                         </div>
-                                                        <div className='col-6 text_gray' style={{ fontSize: '13px' }}>
+                                                        <div className='col-6 text_gray' style={{fontSize: '13px'}}>
                                                             <OverlayTrigger
                                                                 overlay={<Tooltip
                                                                     id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
@@ -296,7 +298,7 @@ export const DetailMarket = () => {
                                                             </OverlayTrigger>
                                                             <span>Deadline:</span>
                                                             <Countdown date={activeMarket.deadline}
-                                                                renderer={renderer} />
+                                                                       renderer={renderer}/>
                                                         </div>
 
                                                     </div>
@@ -336,7 +338,13 @@ export const DetailMarket = () => {
                                                                             fontSize: '12px',
                                                                             fontStyle: 'normal',
                                                                             fontWeight: '300',
-                                                                            marginBottom: '4px'
+                                                                            marginBottom: '4px',
+                                                                            minWidth: '40px',
+                                                                            textAlign: outcomeData.length < 3 ? 'left' : 'center',
+                                                                            marginTop: outcomeData.length < 3 ? '0px' : '0px',
+                                                                            marginLeft: outcomeData.length < 3 ? '8px' : '0px',
+                                                                            marginBottom: outcomeData.length < 3 ? '0px' : '8px',
+                                                                            marginRight: outcomeData.length < 3 ? '0px' : '0px'
                                                                         }}>{`${(item.marketPrice ** 2).toFixed(3) * 100}%`}</div>
                                                                         <div style={{
                                                                             position: 'relative',
@@ -345,7 +353,7 @@ export const DetailMarket = () => {
                                                                             background: '#1C1D60',
                                                                             width: chartThreshold() ? '34px' : '100%',
                                                                             overflow: 'hidden'
-                                                                            }}>
+                                                                        }}>
                                                                             <div style={{
                                                                                 background: 'linear-gradient(180deg, rgba(247,180,161,1) 0%, rgba(249,117,81,1) 100%)',
                                                                                 borderRadius: '30px',
@@ -355,7 +363,7 @@ export const DetailMarket = () => {
                                                                                 boxShadow: 'inset 0 -3px 6px rgba(0,0,0,0.2)',
                                                                                 position: 'absolute',
                                                                                 bottom: '0'
-                                                                            }} />
+                                                                            }}/>
                                                                         </div>
 
                                                                         <div style={{
@@ -366,13 +374,13 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             textTransform: 'capitalize',
                                                                             display: 'flex',
-                                                                            justifyContent: chartThreshold() ? 'center' : 'end',
-                                                                            width: "20%",
+                                                                            justifyContent: !outcomeThreshold() ? 'end' : 'center',
+                                                                            width: !outcomeThreshold() ? '30%' : '',
                                                                             textAlign: 'end',
-                                                                            marginTop: chartThreshold() ? '4px' : '0px',
-                                                                            marginLeft: chartThreshold() ? '4px' : '0px',
-                                                                            marginBottom: chartThreshold() ? '0px' : '4px',
-                                                                            marginRight: chartThreshold() ? '0px' : '4px'
+                                                                            marginTop: !outcomeThreshold() ? '0px' : '5px',
+                                                                            marginLeft: !outcomeThreshold() ? '0px' : '0px',
+                                                                            marginBottom: !outcomeThreshold() ? '0px' : '0px',
+                                                                            marginRight: !outcomeThreshold() ? '8px' : '0px'
                                                                         }}>{item.outcome}</div>
                                                                     </div>
                                                                 ))}
@@ -381,9 +389,9 @@ export const DetailMarket = () => {
                                                     </div>
                                                 </div>
 
-                                                <OutcomeTable />
+                                                <OutcomeTable/>
 
-                                                <OrderBook />
+                                                <OrderBook/>
 
                                                 <div className="module">
                                                     <div className='about'>
@@ -410,7 +418,7 @@ export const DetailMarket = () => {
                                         </div>
 
                                         <div className='stiky_block'>
-                                            <ActionOrders loadDetailMarket={loadDetailMarket} />
+                                            <ActionOrders loadDetailMarket={loadDetailMarket}/>
                                         </div>
 
                                     </div>
@@ -434,8 +442,8 @@ export const DetailMarket = () => {
                 )}
 
 
-                <Footer />
-            </div >
+                <Footer/>
+            </div>
         </>
     )
 }
