@@ -356,6 +356,11 @@ export const DetailMarket = () => {
                                                                             fontSize: '12px',
                                                                             fontStyle: 'normal',
                                                                             fontWeight: '300',
+                                                                            textTransform: 'capitalize',
+                                                                            display: 'flex',
+                                                                            justifyContent: 'center',
+                                                                            alignContent: 'center',
+                                                                            textAlign: 'center',
                                                                             marginTop: '4px'
                                                                         }}>{item.outcome}</div>
                                                                     </div>
