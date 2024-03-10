@@ -314,10 +314,10 @@ export const DetailMarket = () => {
                                                                 flexDirection: outcomeData.length > 3 ? 'row' : 'column',
                                                                 alignItems: 'center',
                                                                 justifyContent: 'center',
-                                                                gap: '30px',
-                                                                padding: '20px',
+                                                                gap: outcomeData.length > 3 ? '30px' : '0px',
+                                                                padding: outcomeData.length > 3 ? '20px' : '0px',
                                                                 height: outcomeData.length > 3 ? '32px' : '240px',
-                                                                width: outcomeData.length > 3 ? '240px' : '32px',
+                                                                width: outcomeData.length > 3 ? '240px' : 'auto',
                                                                 marginTop: '40px',
                                                             }}>
                                                                 {outcomeData.map((item, index) => (
