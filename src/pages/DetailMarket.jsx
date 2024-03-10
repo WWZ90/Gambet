@@ -344,7 +344,7 @@ export const DetailMarket = () => {
                                                                             textAlign: outcomeThreshold() ?  'center' : 'left',
                                                                             marginLeft: outcomeThreshold() ? '0px' : '8px',
                                                                             marginBottom: outcomeThreshold() ? '8px' : '0px',
-                                                                        }}>{`${((item.marketPrice ** 2) * 100).toFixed(3)}%`}</div>
+                                                                        }}>{`${Math.round((item.marketPrice ** 2) * 100)}%`}</div>
                                                                         <div style={{
                                                                             position: 'relative',
                                                                             borderRadius: '30px',
