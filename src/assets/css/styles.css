@@ -1607,12 +1607,13 @@ button.swithToChain:hover {
 }
 
 .market_option:hover {
-    background-color: #6F75E5;
+    background-color: var(--Text-5);
+    color: var(--Primary-blue-5);
 }
 
 .market_option.active {
-    background-color: #6F75E5;
-    color: var(--color-4);
+    background-color: var(--Text-5);
+    color: var(--Primary-blue-5);
 }
 
 .market_option p {
@@ -1822,6 +1823,7 @@ button.swithToChain:hover {
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
     line-height: 2;
+    background-color: var(--Primary-blue-5);
 }
 
 .detail_market .box .dropdown {
@@ -1843,6 +1845,7 @@ button.swithToChain:hover {
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    color: var(--Text-5) !important;
 }
 
 .detail_market .box .dropdown a:hover {
