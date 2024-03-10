@@ -324,7 +324,7 @@ export const DetailMarket = () => {
                                                                     <div key={index} style={{
                                                                         display: 'flex',
                                                                         height: '240px',
-                                                                        width: '500px',
+                                                                        width: outcomeData.length > 3 ? '66px' : '500px',
                                                                         flexDirection: outcomeData.length > 3 ? 'column' : 'row-reverse',
                                                                         alignItems: 'center',
                                                                         gap: '4px'
@@ -365,11 +365,13 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             textTransform: 'capitalize',
                                                                             display: 'flex',
-                                                                            justifyContent: 'end',
+                                                                            justifyContent: outcomeData.length < 3 ? 'end' : 'center',
                                                                             width: "20%",
                                                                             textAlign: 'end',
-                                                                            marginBottom: '4px',
-                                                                            marginRight: '4px'
+                                                                            marginTop: outcomeData.length < 3 ? '0px' : '4px',
+                                                                            marginLeft: outcomeData.length < 3 ? '0px' : '4px',
+                                                                            marginBottom: outcomeData.length < 3 ? '4px' : '0px',
+                                                                            marginRight: outcomeData.length < 3 ? '4px' : '0px'
                                                                         }}>{item.outcome}</div>
                                                                     </div>
                                                                 ))}
