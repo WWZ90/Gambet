@@ -235,6 +235,7 @@ export const DetailMarket = () => {
         }
     }, [outcomeData])
 
+    const chartThreshold = () => outcomeData?.length > 3;
 
     return (
         <>
@@ -311,21 +312,21 @@ export const DetailMarket = () => {
                                                         <div className="chart">
                                                             <div style={{
                                                                 display: 'flex',
-                                                                flexDirection: outcomeData.length > 3 ? 'row' : 'column',
+                                                                flexDirection: chartThreshold() ? 'row' : 'column',
                                                                 alignItems: 'center',
                                                                 justifyContent: 'center',
-                                                                gap: outcomeData.length > 3 ? '30px' : '0px',
-                                                                padding: outcomeData.length > 3 ? '20px' : '0px',
-                                                                height: outcomeData.length > 3 ? '260px' : '140px',
-                                                                width: outcomeData.length > 3 ? '100%' : 'auto',
-                                                                marginTop: outcomeData.length > 3 ? '40px' : '10px'
+                                                                gap: chartThreshold() ? '30px' : '0px',
+                                                                padding: chartThreshold() ? '20px' : '0px',
+                                                                height: chartThreshold() ? '260px' : '140px',
+                                                                width: chartThreshold() ? '100%' : 'auto',
+                                                                marginTop: chartThreshold() ? '40px' : '10px'
                                                             }}>
                                                                 {outcomeData.map((item, index) => (
                                                                     <div key={index} style={{
                                                                         display: 'flex',
                                                                         height: '240px',
-                                                                        width: outcomeData.length > 3 ? '66px' : '500px',
-                                                                        flexDirection: outcomeData.length > 3 ? 'column' : 'row-reverse',
+                                                                        width: chartThreshold() ? '66px' : '500px',
+                                                                        flexDirection: chartThreshold() ? 'column' : 'row-reverse',
                                                                         alignItems: 'center',
                                                                         gap: '4px'
                                                                     }}>
@@ -337,19 +338,19 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             marginBottom: '4px'
                                                                         }}>{`${(item.marketPrice ** 2).toFixed(3) * 100}%`}</div>
-                                                                        <div style={{ 
-                                                                            position: 'relative', 
-                                                                            borderRadius: '30px', 
-                                                                            height: outcomeData.length > 3 ? '100%' : '32px', 
-                                                                            background: '#1C1D60', 
-                                                                            width: outcomeData.length > 3 ? '34px' : '100%',
+                                                                        <div style={{
+                                                                            position: 'relative',
+                                                                            borderRadius: '30px',
+                                                                            height: chartThreshold() ? '100%' : '32px',
+                                                                            background: '#1C1D60',
+                                                                            width: chartThreshold() ? '34px' : '100%',
                                                                             overflow: 'hidden'
                                                                             }}>
                                                                             <div style={{
                                                                                 background: 'linear-gradient(180deg, rgba(247,180,161,1) 0%, rgba(249,117,81,1) 100%)',
                                                                                 borderRadius: '30px',
-                                                                                [outcomeData.length > 3 ? 'width' : 'height']: '34px',
-                                                                                [outcomeData.length > 3 ? 'height' : 'width']: `${(item.marketPrice ** 2).toFixed(3) * 100}%`,
+                                                                                [chartThreshold() ? 'width' : 'height']: '34px',
+                                                                                [chartThreshold() ? 'height' : 'width']: `${(item.marketPrice ** 2).toFixed(3) * 100}%`,
                                                                                 transition: 'height 0.3s ease-in-out',
                                                                                 boxShadow: 'inset 0 -3px 6px rgba(0,0,0,0.2)',
                                                                                 position: 'absolute',
@@ -365,13 +366,13 @@ export const DetailMarket = () => {
                                                                             fontWeight: '300',
                                                                             textTransform: 'capitalize',
                                                                             display: 'flex',
-                                                                            justifyContent: outcomeData.length < 3 ? 'end' : 'center',
+                                                                            justifyContent: chartThreshold() ? 'center' : 'end',
                                                                             width: "20%",
                                                                             textAlign: 'end',
-                                                                            marginTop: outcomeData.length < 3 ? '0px' : '4px',
-                                                                            marginLeft: outcomeData.length < 3 ? '0px' : '4px',
-                                                                            marginBottom: outcomeData.length < 3 ? '4px' : '0px',
-                                                                            marginRight: outcomeData.length < 3 ? '4px' : '0px'
+                                                                            marginTop: chartThreshold() ? '4px' : '0px',
+                                                                            marginLeft: chartThreshold() ? '4px' : '0px',
+                                                                            marginBottom: chartThreshold() ? '0px' : '4px',
+                                                                            marginRight: chartThreshold() ? '0px' : '4px'
                                                                         }}>{item.outcome}</div>
                                                                     </div>
                                                                 ))}
