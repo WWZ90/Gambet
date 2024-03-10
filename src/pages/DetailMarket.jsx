@@ -318,7 +318,7 @@ export const DetailMarket = () => {
                                                                 padding: outcomeData.length > 3 ? '20px' : '0px',
                                                                 height: outcomeData.length > 3 ? '32px' : '140px',
                                                                 width: outcomeData.length > 3 ? '100%' : 'auto',
-                                                                marginTop: '40px',
+                                                                marginTop: outcomeData.length > 3 ? '40px' : '10px'
                                                             }}>
                                                                 {outcomeData.map((item, index) => (
                                                                     <div key={index} style={{
