@@ -142,10 +142,13 @@ export const NavBarWeb3Onboard = () => {
                 get(target, prop, receiver) {
                     if (connectedContract) {
                         try {
+                            console.log("Calling contract directly");
                             return Reflect.get(target, prop, receiver);
                         } catch(err) {
                             console.error("Error while calling contract directly, falling back to backend contract", err);
                         }
+                    } else {
+                        console.log("No contract found, falling back to backend contract");
                     }
                     switch (prop) {
                         case "queryFilter":
