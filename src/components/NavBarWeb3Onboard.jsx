@@ -141,16 +141,6 @@ export const NavBarWeb3Onboard = () => {
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
                 get(target, prop, receiver) {
-                    if (connectedContract) {
-                        try {
-                            console.log("Calling contract directly");
-                            return Reflect.get(target, prop, receiver);
-                        } catch(err) {
-                            console.error("Error while calling contract directly, falling back to backend contract", err);
-                        }
-                    } else {
-                        console.log("No contract found, falling back to backend contract");
-                    }
                     switch (prop) {
                         case "queryFilter":
                             return function ([name, topics]) {
