@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { motion } from "framer-motion";
 
@@ -11,14 +11,18 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import { ToastContainer, toast } from 'react-toastify';
 import ContentLoader from "react-content-loader"
 
+import Dropdown from 'react-bootstrap/Dropdown';
 import { Button } from './Button.jsx';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { getMarket, fetchOrders, fillOrder } from "../utils/services.js";
 
-import noto_money_bag from "../assets/icons/png/noto_money-bag.png";
+import noto_money_bag from "../assets/icons/png/noto_heavy-dollar-sign.png";
 import noto_dollar_banknote from "../assets/icons/png/noto_dollar-banknote.png";
 import noto_shopping_cart from "../assets/icons/png/noto_shopping-cart.png";
+import noto_heavy_dollar_sign from "../assets/icons/png/noto_heavy-dollar-sign.png";
+
+import more from '../assets/icons/png/more.png';
 
 export const ActionOrders = ({ loadDetailMarket }) => {
 
@@ -53,6 +57,35 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         shares: 0,
         action: '',
     });
+
+    const [showMenuM, setShowMenuM] = useState(true);
+    const dropdownRef2 = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef2.current && !dropdownRef2.current.contains(event.target)) {
+                setShowMenuM(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleMouseEnter = () => {
+        setShowMenuM(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowMenuM(false);
+    };
+
+    const handleClick = () => {
+        setShowMenuM(!showMenuM);
+    };
 
     const showMenu = {
         enter: {
@@ -246,38 +279,73 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         <>
             <div className='box'>
                 <div className='box_header'>
+                    <div className="d-flex justify-align-content-between justify-content-lg-start">
+                        <Button text="Buy" iconSrc={noto_heavy_dollar_sign} style={{ padding: "10px", width: "110px", height: "40px", marginRight: "10px", backgroundColor: activeOption === 'BUY' ? '#EE8C71' : '#6262D9', }} onClick={() => { setActiveOption('BUY') }} />
+                        <Button text="Sell" iconSrc={noto_dollar_banknote} style={{ padding: "10px", width: "110px", height: "40px", marginRight: "10px", backgroundColor: activeOption === 'SELL' ? '#EE8C71' : '#6262D9', }} onClick={() => { setActiveOption('SELL') }} />
+                        <div ref={dropdownRef2}>
+                            <Dropdown
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                                onClick={handleClick}
+                                show={showMenuM}
+                            >
+                                <Dropdown.Toggle id="dropdown-custom-components"
+                                    className="dropdown-toggle">
+                                    {type}
+                                    <img src={more} alt="More Icon"
+                                        className={`more-icon ${showMenuM ? 'rotate' : ''}`} />
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu className="dropdown-menu">
+                                    <Dropdown.Item onClick={() => { setType('Limit') }}>
+                                        Limit
+                                    </Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item onClick={() => { setType('AMM') }}>
+                                        AMM
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </div>
+                    </div>
+                    {/* 
                     <div className="row">
                         <div className={`${activeOption == 'BUY' ? 'active buy' : 'buy'} col-2 text-center d-flex action`} onClick={() => { setActiveOption('BUY') }}>
                             <a>Buy</a>
-                            <img src={noto_money_bag} className='icon' />
+                            <img src={noto_heavy_dollar_sign} className='icon' />
                         </div>
                         <div className={`${activeOption == 'SELL' ? 'active sell' : 'sell'} col-2 text-start d-flex action second`} onClick={() => { setActiveOption('SELL') }}>
                             <a>Sell</a>
                             <img src={noto_dollar_banknote} className='icon' />
                         </div>
                         <div className="col-4">
-                            <motion.div className="text-end dropdown"
-                                onHoverStart={() => setShown(true)}
-                                onHoverEnd={() => setShown(false)}
-                            >
-                                {type}
-                                <motion.ul
-                                    variants={showMenu}
-                                    initial="exit"
-                                    animate={shown ? "enter" : "exit"}
-                                    className="dropdown-menu absolute"
-                                >
-                                    <motion.li className="cursor-pointer my-auto">
-                                        <a onClick={() => { setType('Limit') }}>Limit</a>
-                                    </motion.li>
-                                    <motion.li className="cursor-pointer my-auto">
-                                        <a onClick={() => { setType('AMM') }}>AMM</a>
-                                    </motion.li>
-                                </motion.ul>
 
-                            </motion.div>
+                            
+                        <motion.div className="text-end dropdown"
+                            onHoverStart={() => setShown(true)}
+                            onHoverEnd={() => setShown(false)}
+                        >
+                            {type}
+                            <motion.ul
+                                variants={showMenu}
+                                initial="exit"
+                                animate={shown ? "enter" : "exit"}
+                                className="dropdown-menu absolute"
+                            >
+                                <motion.li className="cursor-pointer my-auto">
+                                    <a onClick={() => { setType('Limit') }}>Limit</a>
+                                </motion.li>
+                                <motion.li className="cursor-pointer my-auto">
+                                    <a onClick={() => { setType('AMM') }}>AMM</a>
+                                </motion.li>
+                            </motion.ul>
+
+                        </motion.div>
+                       
+
                         </div>
                     </div>
+                     */}
                 </div>
                 <div className='box_content'>
 
@@ -446,12 +514,12 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                     </div>
 
                     <div className="d-flex justify-content-between mt-5 buttons">
-                        <Button text="Add to cart" iconSrc={noto_shopping_cart} disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} style={{ border: "1px solid #6F75E5", color: "#6F75E5 !important", width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={addToCart}/>
-                        
+                        <Button text="Add to cart" iconSrc={noto_shopping_cart} disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} style={{ border: "1px solid #6F75E5", color: "#6F75E5 !important", width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={addToCart} />
+
                         {activeOption === 'BUY' ? (
-                            <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{width: "120px", height: "55px", padding: "13px 5px 13px 5px"}} onClick={handleOrderExecution}/>
+                            <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{ width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={handleOrderExecution} />
                         ) : (
-                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{width: "120px", height: "55px", padding: "13px 5px 13px 5px"}} onClick={handleOrderExecution}/>
+                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{ width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={handleOrderExecution} />
                         )}
 
                     </div>
@@ -470,7 +538,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                     />
 
                 </div>
-            </div>
+            </div >
         </>
     )
 }

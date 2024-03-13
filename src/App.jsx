@@ -32,6 +32,7 @@ import magicModule from "@web3-onboard/magic";
 import { DetailMarket } from './pages/DetailMarket';
 import { Cart } from './pages/Cart';
 import { Education } from './pages/Education';
+import { CreateMarketCarousel } from './pages/CreateMarketCarousel';
 
 const injected = injectedModule()
 const magic = magicModule({
@@ -147,6 +148,7 @@ function AppWeb3Onboard() {
               <Route path="/browsemarkets" element={<BrowseMarkets />} />
               <Route path="/market/id/:id" element={<DetailMarket />} />
               <Route path="/createmarket" element={<CreateMarket />} />
+              <Route path="/createmarket2" element={<CreateMarketCarousel />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/whatwedo" element={<WhatWeDo />} />
               <Route path="/education" element={<Education />} />
