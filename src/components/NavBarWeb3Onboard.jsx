@@ -30,6 +30,7 @@ import logo from '../assets/img/gambeth-logo-text.png';
 import magnifying_glass from '../assets/icons/png/magnifying-glass.png';
 import rocket from '../assets/icons/png/noto_rocket.png';
 import more from '../assets/icons/png/more.png';
+import plus from '../assets/icons/png/plus.png';
 
 import {Button} from './Button';
 
@@ -283,9 +284,7 @@ export const NavBarWeb3Onboard = () => {
     return (
         <>
             {wrongChain && (
-                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
-                                                                                                onClick={switchToChain}> switch
-                    to Goerli</button></div>
+                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain' onClick={switchToChain}> switch to Goerli</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
@@ -329,16 +328,14 @@ export const NavBarWeb3Onboard = () => {
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu className="dropdown-menu">
-                                                <Dropdown.Item href="#browse">
-                                                    <NavLink to="/browsemarkets"
-                                                             className='animated-line'>Browse</NavLink>
+                                                <Dropdown.Item href='/createmarket' className='d-flex'>
+                                                    <img src={plus}/>
+                                                    <span>Create market</span>
                                                 </Dropdown.Item>
-                                                <Dropdown.Item href="#create">
-                                                    <NavLink to="/createmarket"
-                                                             className='animated-line'>Create</NavLink>
-                                                </Dropdown.Item>
-                                                <Dropdown.Item href="#about">
-                                                    <NavLink to="/whatwedo" className="animated-line">About us</NavLink>
+                                                <Dropdown.Divider />
+                                                <Dropdown.Item href='/browsemarkets' className='d-flex'>
+                                                    <img src={magnifying_glass}/>
+                                                    <span>Browse market</span>
                                                 </Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>

@@ -298,11 +298,11 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
                                 <Dropdown.Menu className="dropdown-menu">
                                     <Dropdown.Item onClick={() => { setType('Limit') }}>
-                                        Limit
+                                        <span>Limit</span>
                                     </Dropdown.Item>
                                     <Dropdown.Divider />
                                     <Dropdown.Item onClick={() => { setType('AMM') }}>
-                                        AMM
+                                        <span>AMM</span>
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>

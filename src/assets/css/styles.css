@@ -674,23 +674,6 @@ section h1 {
     width: 100% !important;
 }
 
-.header .navmenu .navbar-collapse a:after {
-    content: "•";
-    display: block;
-    font-size: 1.5em;
-    color: var(--color-3);
-    position: absolute;
-    bottom: -0.35em;
-    left: 0;
-    opacity: 0;
-    transition: opacity 0.3s ease, left 0.3s ease;
-}
-
-.header .navmenu a.active:after,
-.header .navmenu a:hover:after {
-    opacity: 1;
-    left: 10%;
-}
 
 .header .navmenu span.navbar-brand a:after {
     opacity: 0;
@@ -912,17 +895,33 @@ section h1 {
 
 .header .dropdown-menu {
     background-color: rgba(19, 20, 32, 0.80);
-    padding-left: 10px;
-    top: 52 !important;
+    padding: 0px 10px 0px 10px;
     z-index: 1;
     opacity: 1 !important;
-    width: 100%;
+    width: 206px;
+    transform: translate(-125px, -10px) !important;
+    border-radius: 15px !important;
+}
+
+.header .dropdown-menu img {
+    width: 24px;
+    height: 24px;
+    margin: 10px;
+}
+
+.header .dropdown-menu .dropdown-divider {
+    margin: 0px -10px 0px -10px !important;
+}
+
+.header .dropdown-menu span {
+    padding: 10px 10px 10px 0px;
 }
 
 .header .dropdown-menu a:hover {
     color: var(--color-link-nav-hover);
     top: 120%;
 }
+
 
 button.swithToChain {
     background-color: transparent;
@@ -1011,7 +1010,7 @@ button.swithToChain:hover {
     padding-bottom: 0px !important;
 }
 
-.dropdown-divider {
+.header .navmenu .dropdown .dropdown-divider {
     height: 0;
     margin: var(--bs-dropdown-divider-margin-y) 0;
     overflow: hidden;
@@ -1685,6 +1684,15 @@ button.swithToChain:hover {
     content: none;
 }
 
+.detail_market .box .dropdown-divider {
+    height: 0;
+    margin: 5px 0px 5px 0px !important;
+    padding: 0px !important;
+    overflow: hidden;
+    border-top: 1px solid #c2c2c2 !important;
+    opacity: 1;
+}
+
 .detail_market .box .action {
     cursor: pointer;
     border-radius: 10px;
@@ -1851,13 +1859,9 @@ button.swithToChain:hover {
 
 .detail_market .box .dropdown-menu {
     opacity: 1;
-    position: absolute;
     cursor: pointer;
-    transform: none;
-    top: 0px !important;
     width: 109px;
-    right: -17px;
-    padding: 6px;
+    padding: 6px 0px 6px 0px;
     transform: translate(-29px, 42px) !important;
     text-align: center;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 0.5rem 1rem;
