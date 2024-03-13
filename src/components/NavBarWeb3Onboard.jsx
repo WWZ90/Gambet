@@ -137,10 +137,19 @@ export const NavBarWeb3Onboard = () => {
         const setupActiveContract = (connectedContract) => {
             const gambethBackend = "https://gambeth-backend.fly.dev";
             // const gambethBackend = "http://localhost:8080";
-            console.log("Using proxy contract " + owner);
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
-                get(target, prop) {
+                get(target, prop, receiver) {
+                    if (connectedContract) {
+                        try {
+                            console.log("Calling contract directly");
+                            return Reflect.get(target, prop, receiver);
+                        } catch(err) {
+                            console.error("Error while calling contract directly, falling back to backend contract", err);
+                        }
+                    } else {
+                        console.log("No contract found, falling back to backend contract");
+                    }
                     switch (prop) {
                         case "queryFilter":
                             return function ([name, topics]) {
@@ -180,7 +189,6 @@ export const NavBarWeb3Onboard = () => {
                                 : ["Uint", "Int"].includes(dataType)
                                     ? parseInt(data)
                                     : data;
-                        console.log(prop, input, data, Object.keys(data), value);
                         return value;
                     };
 
@@ -213,14 +221,15 @@ export const NavBarWeb3Onboard = () => {
             const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
             const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
             setOwner(await tempSigner.getAddress());
-            console.log("Using non proxy contract " + owner);
             setSigner(tempSigner);
             setUSDC(tempUsdc);
-            localStorage.setItem('activeContract', 'true');
             return tempActiveContract;
         }
 
-        start().then(setupActiveContract).catch(console.error);
+        start().catch(err => {
+            console.error(err);
+            return null;
+        }).then(setupActiveContract);
 
     }, [provider])
 
@@ -239,7 +248,6 @@ export const NavBarWeb3Onboard = () => {
                     console.log("Waiting for USDC approval");
                     await tx.wait();
                     await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
-                        //debugger;
                         const wallet_balance = balance > allowance ? allowance : balance;
                         let b = (Number(wallet_balance) / 1e6).toFixed(3);
                         setUSDCBalance(b);
