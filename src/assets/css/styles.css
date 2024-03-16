@@ -19,8 +19,10 @@
     --Neutral-02: #9E9FB8;
 
     --Primary-blue-05: #6E6EEA;
+    --Primary-blue-0: #7A7AFC;
     --Primary-blue-1: #6262D9;
     --Primary-blue-3: #323292;
+    --Primary-blue-4: #1A1A6F;
     --Primary-blue-5: #02024C;
     --Accent-orange-5: #EE8C71;
 
@@ -326,26 +328,56 @@ h6 {
     box-shadow: 0px 4px 10px 0px rgba(255, 255, 255, 0.25);
 }
 
-.icon-button.secundary{
+.icon-button.secundary {
     background-color: transparent !important;
     border: 2px solid var(--Primary-blue-1) !important;
 }
 
-.icon-button.secundary:disabled{
+.icon-button.secundary:disabled {
     background-color: transparent !important;
     border: 2px solid var(--Neutral-02) !important;
 }
 
-.icon-button.secundary:disabled span{
+.icon-button.secundary:disabled span {
     color: var(--Neutral-01);
 }
 
-.icon-button.secundary:hover:enabled{
+.icon-button.secundary:hover:enabled {
     border: 2px solid var(--Accent-orange-5) !important;
 }
 
-.icon-button.secundary:hover:enabled span{
+.icon-button.secundary:hover:enabled span {
     color: var(--Accent-orange-5) !important;
+}
+
+.short-icon-button {
+    width: 42.478px;
+    height: 42px;
+    border-radius: 13.333px;
+    color: #F3F9D2;
+    background: #6F75E5;
+    display: inline-flex;
+    padding: 8.667px 16px !important;
+    justify-content: center;
+    align-items: center;
+    gap: 5.333px;
+    flex-shrink: 0;
+    border: none;
+    padding: 3px 0px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 25px;
+    transition: 0.5s all;
+}
+
+.short-icon-button.subtract img {
+    width: 15px;
+    height: 4px;
+}
+
+.short-icon-button.add img {
+    width: 12px;
+    height: 12px;
 }
 
 .button {
@@ -387,14 +419,6 @@ button:disabled span {
     color: #fff !important;
     text-decoration: none;
     box-shadow: 0px 0 100px #170338;
-}
-
-.short_button {
-    background-color: var(--color-short-button-background) !important;
-}
-
-.short_button:hover {
-    background-color: var(--color-short-button-background-hover) !important;
 }
 
 .button.buy_now {
@@ -1777,15 +1801,15 @@ button.swithToChain:hover {
     padding: 32px 0px 10px 0px;
 }
 
-.detail_market .box .box_content .icon-button.secundary:hover:enabled{
+.detail_market .box .box_content .icon-button.secundary:hover:enabled {
     background-color: transparent !important;
 }
 
-.detail_market .box .box_content .icon-button.secundary:enabled span{
+.detail_market .box .box_content .icon-button.secundary:enabled span {
     color: var(--Primary-blue-1) !important;
 }
 
-.detail_market .box .box_content .icon-button.secundary:hover:enabled span{
+.detail_market .box .box_content .icon-button.secundary:hover:enabled span {
     color: var(--Accent-orange-5) !important;
 }
 
@@ -1809,36 +1833,13 @@ button.swithToChain:hover {
 
 .detail_market .box .inputStyle {
     border: none !important;
+    padding-bottom: 10px;
 }
 
 .detail_market .box .inputStyle:hover {
     background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
-}
-
-.detail_market .box .buttonStyle {
-    width: 30px;
-    height: 42px;
-    border-radius: 13.333px;
-    color: #F3F9D2;
-    background: #6F75E5;
-    display: inline-flex;
-    padding: 8.667px 16px !important;
-    justify-content: center;
-    align-items: center;
-    gap: 5.333px;
-    flex-shrink: 0;
-    border: none;
-    padding: 3px 0px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 25px;
-    transition: 0.5s all;
-}
-
-.detail_market .box .buttonStyle:hover {
-    background: #cccccc;
 }
 
 .detail_market .box .form-control {
@@ -2127,25 +2128,25 @@ button.swithToChain:hover {
     background: var(--Primary-blue-5);
 }
 
-.education .icon-button.secundary{
+.education .icon-button.secundary {
     border: 2px solid var(--Accent-orange-5) !important;
     margin-top: 22px;
 }
 
-.education .icon-button.secundary span{
+.education .icon-button.secundary span {
     transition: 0.2s all;
 }
 
-.education .icon-button.secundary:hover{
+.education .icon-button.secundary:hover {
     border: 2px solid var(--Primary-blue-3) !important;
     background-color: transparent !important;
 }
 
-.education .icon-button.secundary:hover span{
+.education .icon-button.secundary:hover span {
     color: var(--Primary-blue-05) !important;
 }
 
-.education .icon-button.secundary span{
+.education .icon-button.secundary span {
     color: var(--Accent-orange-5) !important;
 }
 
@@ -2228,6 +2229,58 @@ button.swithToChain:hover {
     background-color: #6F75E5 !important;
 }
 
+/*--------------------------------------------------------------
+# Create Market Carousel
+--------------------------------------------------------------*/
+
+.create-market-carousel {
+    margin-top: 115px;
+    margin-bottom: 60px;
+}
+
+.create-market-carousel .carousel-form {
+    color: white;
+    justify-content: center;
+    width: 500px;
+    padding: 10px;
+}
+
+.create-market-carousel .pages {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: 1px;
+    margin-top: 56px;
+    background-color: var(--Primary-blue-0);
+}
+
+.create-market-carousel .pages a {
+    color: var(--Primary-blue-0) !important;
+    display: inline-flex;
+    width: 28.3px;
+    height: 28.3px;
+    background: #1C1D60;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 0 0.1rem 0;
+    position: relative;
+}
+
+.create-market-carousel .pages a.active {
+    background: #EE8C71;
+    color: var(--Primary-blue-4) !important;
+}
+
+.create-market-carousel .icon-button.secundary:hover {
+    background-color: transparent !important;
+}
+
+.create-market-carousel .icon-button.secundary span {
+    color: var(--Primary-blue-05);
+}
 
 /*--------------------------------------------------------------
 # Create Market

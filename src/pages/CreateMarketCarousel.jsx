@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard'
 import { Footer } from '../components/Footer'
 
-import "./CreateMarketCarousel.css"
 import { Button } from '../components/Button'
 
 import pointing_left from "../assets/icons/png/noto_backhand-index-pointing-left.png";
 import pointing_right from "../assets/icons/png/noto_backhand-index-pointing-right.png";
+import check from "../assets/icons/png/check.png";
 
 export const CreateMarketCarousel = () => {
 
@@ -37,18 +37,36 @@ export const CreateMarketCarousel = () => {
 
                         </div>
                     </div>
-                    <div className="d-flex align-items-center justify-content-between">
-                        <Button text='Back' onClick={handlePrev} style={{border: "2px solid #6E6EEA"}}/>
-                        <Button text='Continue' onClick={handleNext} iconSrc={pointing_right} backgroundColor='#6E6EEA'/>
+                    <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                        {pageIndex > 1 ?
+                            <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                            :
+                            <></>
+                        }
+                        <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleNext} />
                     </div>
                     <div className="pages">
-                        <a className={`${pageIndex == 1 ? 'active' : ''}`}>1</a>
-                        <a className={`${pageIndex == 2 ? 'active' : ''}`}>2</a>
-                        <a className={`${pageIndex == 3 ? 'active' : ''}`}>3</a>
-                        <a className={`${pageIndex == 4 ? 'active' : ''}`}>4</a>
-                        <a className={`${pageIndex == 5 ? 'active' : ''}`}>5</a>
-                        <a className={`${pageIndex == 6 ? 'active' : ''}`}>6</a>
-                        <a className={`${pageIndex == 7 ? 'active' : ''}`}>7</a>
+                        <a className={`${pageIndex == 1 ? 'active' : ''}`}>
+                            {pageIndex <= 1 ? "1" : <img src={check} />}
+                        </a>
+                        <a className={`${pageIndex == 2 ? 'active' : ''}`}>
+                            {pageIndex <= 2 ? "2" : <img src={check} />}
+                        </a>
+                        <a className={`${pageIndex == 3 ? 'active' : ''}`}>
+                            {pageIndex <= 3 ? "3" : <img src={check} />}
+                        </a>
+                        <a className={`${pageIndex == 4 ? 'active' : ''}`}>
+                            {pageIndex <= 4 ? "4" : <img src={check} />}
+                        </a>
+                        <a className={`${pageIndex == 5 ? 'active' : ''}`}>
+                            {pageIndex <= 5 ? "5" : <img src={check} />}
+                        </a>
+                        <a className={`${pageIndex == 6 ? 'active' : ''}`}>
+                            {pageIndex <= 6 ? "6" : <img src={check} />}
+                        </a>
+                        <a className={`${pageIndex == 7 ? 'active' : ''}`}>
+                            {pageIndex <= 7 ? "7" : <img src={check} />}
+                        </a>
                     </div>
                 </div>
 

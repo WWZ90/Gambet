@@ -21,6 +21,8 @@ import noto_money_bag from "../assets/icons/png/noto_heavy-dollar-sign.png";
 import noto_dollar_banknote from "../assets/icons/png/noto_dollar-banknote.png";
 import noto_shopping_cart from "../assets/icons/png/noto_shopping-cart.png";
 import noto_heavy_dollar_sign from "../assets/icons/png/noto_heavy-dollar-sign.png";
+import subtract from "../assets/icons/png/-.png";
+import add from "../assets/icons/png/+.png";
 
 import more from '../assets/icons/png/more.png';
 
@@ -422,7 +424,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
                                         placement="top"
                                     >
+                                        {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementLimitPrice}>-</button>
+                                        */}
+                                        <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementLimitPrice}/>
                                     </OverlayTrigger>
                                     <input
                                         type="text"
@@ -436,7 +441,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         overlay={<Tooltip id="tooltip-increment">+1</Tooltip>}
                                         placement="top"
                                     >
+                                        {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementLimitPrice}>+</button>
+                                        */}
+                                        <Button cName="short-icon-button add" iconSrc={add} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementLimitPrice}/>
                                     </OverlayTrigger>
                                 </div>
                             </div>
@@ -447,7 +455,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         overlay={<Tooltip id="tooltip-decrement">-100</Tooltip>}
                                         placement="top"
                                     >
+                                        {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}>-</button>
+                                        */}
+                                        <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}/>
                                     </OverlayTrigger>
                                     <input
                                         type="text"
@@ -461,7 +472,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         overlay={<Tooltip id="tooltip-increment">+100</Tooltip>}
                                         placement="top"
                                     >
+                                        {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares}>+</button>
+                                        */}
+                                        <Button cName="short-icon-button add" iconSrc={add} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares}/>
                                     </OverlayTrigger>
                                 </div>
                             </div>
