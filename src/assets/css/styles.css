@@ -19,6 +19,7 @@
     --Neutral-02: #9E9FB8;
 
     --Primary-blue-1: #6262D9;
+    --Primary-blue-3: #323292;
     --Primary-blue-5: #02024C;
     --Accent-orange-5: #EE8C71;
 
@@ -1623,13 +1624,15 @@ button.swithToChain:hover {
 }
 
 .market_option:hover {
-    background-color: var(--Text-5);
-    color: var(--Primary-blue-5);
+    background-color: var(--Primary-blue-3);
+}
+
+.market_option:active {
+    background-color: var(--Primary-blue-5) !important;
 }
 
 .market_option.active {
-    background-color: var(--Text-5);
-    color: var(--Primary-blue-5);
+    background-color: var(--Primary-blue-3);
 }
 
 .market_option p {
