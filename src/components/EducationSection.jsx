@@ -21,9 +21,12 @@ export const EducationSection = () => {
                         </div>
                         <div className="education-left-text">
                             <div className="education-left-tittle">
-                                <span className=''>Gambeth</span> Education</div>
+                                <span>Gambeth</span> Education</div>
                             <div className="education-left-body">Tutorials, dynamic content, and personalized assessments will help you get started with Gambeth. Learn more <span><img src={pointing_right} /></span></div>
-                            <div className="education-left-body">or go to <span className='link'><NavLink to="/education" className="animated-line">Gambeth Education page!</NavLink></span></div>
+                            <div className="education-left-body">or go to Gambeth Education page!</div>
+                            <NavLink to="/education">
+                                <Button text="Read more!" cName="secundary" style={{width: "184px", padding: "10px"}}/>
+                            </NavLink>
                         </div>
                     </div>
                 </div>

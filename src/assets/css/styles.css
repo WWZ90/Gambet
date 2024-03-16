@@ -9,15 +9,16 @@
 
 /* Global Colors */
 :root {
-    --Primary-blue-5: #02024C;
     --Text-1: #F3F9D2;
     --Text-2: #F3F4D4;
     --Text-3: #F8F8E5;
     --Text-4: #F3F4D4;
     --Text-5: #F3F4D4;
 
+    --Neutral-01: #C3C4D6;
     --Neutral-02: #9E9FB8;
 
+    --Primary-blue-05: #6E6EEA;
     --Primary-blue-1: #6262D9;
     --Primary-blue-3: #323292;
     --Primary-blue-5: #02024C;
@@ -292,7 +293,7 @@ h6 {
 
 .icon-button {
     display: flex;
-    height: 48px;
+    height: 40px;
     padding: 13px 24px;
     justify-content: center;
     align-items: center;
@@ -317,8 +318,12 @@ h6 {
     transition: 0.2s all;
 }
 
-.icon-button:hover {
+.icon-button:hover:enabled {
     background: var(--Accent-orange-5) !important;
+}
+
+.icon-button:active:enabled {
+    box-shadow: 0px 4px 10px 0px rgba(255, 255, 255, 0.25);
 }
 
 .icon-button.secundary{
@@ -331,11 +336,15 @@ h6 {
     border: 2px solid var(--Neutral-02) !important;
 }
 
-.icon-button.secundary:hover{
+.icon-button.secundary:disabled span{
+    color: var(--Neutral-01);
+}
+
+.icon-button.secundary:hover:enabled{
     border: 2px solid var(--Accent-orange-5) !important;
 }
 
-.icon-button.secundary:hover span{
+.icon-button.secundary:hover:enabled span{
     color: var(--Accent-orange-5) !important;
 }
 
@@ -1768,6 +1777,18 @@ button.swithToChain:hover {
     padding: 32px 0px 10px 0px;
 }
 
+.detail_market .box .box_content .icon-button.secundary:hover:enabled{
+    background-color: transparent !important;
+}
+
+.detail_market .box .box_content .icon-button.secundary:enabled span{
+    color: var(--Primary-blue-1) !important;
+}
+
+.detail_market .box .box_content .icon-button.secundary:hover:enabled span{
+    color: var(--Accent-orange-5) !important;
+}
+
 .detail_market .box .box_content .bi-info-circle {
     padding-top: 10px !important;
 }
@@ -2106,8 +2127,30 @@ button.swithToChain:hover {
     background: var(--Primary-blue-5);
 }
 
+.education .icon-button.secundary{
+    border: 2px solid var(--Accent-orange-5) !important;
+    margin-top: 22px;
+}
+
+.education .icon-button.secundary span{
+    transition: 0.2s all;
+}
+
+.education .icon-button.secundary:hover{
+    border: 2px solid var(--Primary-blue-3) !important;
+    background-color: transparent !important;
+}
+
+.education .icon-button.secundary:hover span{
+    color: var(--Primary-blue-05) !important;
+}
+
+.education .icon-button.secundary span{
+    color: var(--Accent-orange-5) !important;
+}
+
 .education .education-left-text {
-    margin-top: 35px;
+    margin-top: -10px;
     margin-left: 20px;
 }
 
@@ -2118,6 +2161,7 @@ button.swithToChain:hover {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin-bottom: 10px;
 }
 
 .education .education-left-tittle span {
