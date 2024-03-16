@@ -58,7 +58,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
         action: '',
     });
 
-    const [showMenuM, setShowMenuM] = useState(true);
+    const [showMenuM, setShowMenuM] = useState(false);
     const dropdownRef2 = useRef(null);
 
     useEffect(() => {
@@ -514,12 +514,12 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                     </div>
 
                     <div className="d-flex justify-content-between mt-5 buttons">
-                        <Button text="Add to cart" iconSrc={noto_shopping_cart} disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} style={{ border: "1px solid #6F75E5", color: "#6F75E5 !important", width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={addToCart} />
+                        <Button cName="secundary" text="Add to cart" iconSrc={noto_shopping_cart} disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} style={{ width: "133px", padding: "10px 16px" }} onClick={addToCart} />
 
                         {activeOption === 'BUY' ? (
-                            <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{ width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={handleOrderExecution} />
+                            <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{ width: "133px", padding: "10px 16px" }} onClick={handleOrderExecution} />
                         ) : (
-                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{ width: "120px", height: "55px", padding: "13px 5px 13px 5px" }} onClick={handleOrderExecution} />
+                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{ width: "133px", padding: "10px 16px"}} onClick={handleOrderExecution} />
                         )}
 
                     </div>

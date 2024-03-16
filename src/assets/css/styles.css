@@ -12,10 +12,13 @@
     --Primary-blue-5: #02024C;
     --Text-1: #F3F9D2;
     --Text-2: #F3F4D4;
-    --Text-3: #F3F4D4;
+    --Text-3: #F8F8E5;
     --Text-4: #F3F4D4;
     --Text-5: #F3F4D4;
 
+    --Neutral-02: #9E9FB8;
+
+    --Primary-blue-1: #6262D9;
     --Primary-blue-5: #02024C;
     --Accent-orange-5: #EE8C71;
 
@@ -304,16 +307,35 @@ h6 {
 }
 
 .icon-button span {
-    font-family: var(--font-family-ultralight) !important;
+    font-family: var(--font-family-regular) !important;
     color: var(--Text-5);
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    transition: 0.2s all;
 }
 
 .icon-button:hover {
     background: var(--Accent-orange-5) !important;
+}
+
+.icon-button.secundary{
+    background-color: transparent !important;
+    border: 2px solid var(--Primary-blue-1) !important;
+}
+
+.icon-button.secundary:disabled{
+    background-color: transparent !important;
+    border: 2px solid var(--Neutral-02) !important;
+}
+
+.icon-button.secundary:hover{
+    border: 2px solid var(--Accent-orange-5) !important;
+}
+
+.icon-button.secundary:hover span{
+    color: var(--Accent-orange-5) !important;
 }
 
 .button {
@@ -326,8 +348,12 @@ h6 {
 }
 
 button:disabled {
-    background: #f5f5f5;
+    background: var(--Neutral-02) !important;
     cursor: no-drop;
+}
+
+button:disabled span {
+    color: var(--Text-3);
 }
 
 
@@ -359,15 +385,6 @@ button:disabled {
 
 .short_button:hover {
     background-color: var(--color-short-button-background-hover) !important;
-}
-
-.button.add_to_cart {
-    color: var(--color-button-add-to-cart);
-    background-color: var(--color-button-add-to-cart-background);
-}
-
-.button.add_to_cart:hover {
-    background-color: var(--color-button-add-to-cart-background-hover);
 }
 
 .button.buy_now {
