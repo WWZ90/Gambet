@@ -79,24 +79,23 @@ export const Home = () => {
         <>
             <div className="image-back">
 
-
                 <NavBarWeb3Onboard />
 
                 <section className='hero' id='hero' ref={heroRef}>
                     <div className="container position-relative align-items-center">
                         <div className="row">
                             <div className="col-lg-8 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-                                <h2>A <span className=''>fully decentralized, blockchain-based</span> web application in which <span>anyone can participate on</span> or create their own parimutuel betting pools.</h2>
+                                <h3 className='h3_regular'>A <span className='h3_semibold'>fully decentralized,</span> <span className='h3_medium'>blockchain-based</span> web application in which <span className='h3_semibold'>anyone can participate on</span> or create their own parimutuel betting pools.</h3>
                                 <div className="d-flex justify-content-center justify-content-lg-start">
                                     {!wallet ? (
                                         <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet} backgroundColor="#6F75E5" />
                                     ) : (
                                         <>
                                             <NavLink to="/browsemarkets">
-                                                <Button text="Browse markets" iconSrc={magnifying} style={{ marginRight: 20 }} onClick={() => { }} backgroundColor="#6F75E5" />
+                                                <Button text="Browse markets" iconSrc={magnifying} style={{ width: "184px", marginRight: 20 }} onClick={() => { }} backgroundColor="#6F75E5" />
                                             </NavLink>
                                             <NavLink to="/createmarket">
-                                                <Button text="Create a new market" iconSrc={artist_palette} onClick={() => { }} backgroundColor="#6F75E5" />
+                                                <Button text="Create a new market" iconSrc={artist_palette} onClick={() => { }} backgroundColor="#6F75E5" style={{width: "184px" ,padding: "10px 10px"}} />
                                             </NavLink>
                                         </>
                                     )}

@@ -20,6 +20,7 @@ import {Footer} from '../components/Footer';
 
 import {browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders} from '../utils/services';
 import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import { Button } from '../components/Button';
 
 export const DetailMarket = () => {
 
