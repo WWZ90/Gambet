@@ -141,35 +141,6 @@ export const NavBarWeb3Onboard = () => {
             const iface = ethers.Interface.from(ooAbi);
             const fallbackHandler = {
                 get(target, prop, receiver) {
-                    switch (prop) {
-                        case "queryFilter":
-                            return function ([name, topics]) {
-                                return fetch(`${gambethBackend}/event`, {
-                                    method: "POST",
-                                    headers: {"Content-Type": "application/json"},
-                                    body: JSON.stringify({name, topics})
-                                })
-                                    .then(r => r.json())
-                                    .then(r => r.map(r => iface.parseLog(r)));
-                            };
-                        case "filters":
-                            return new Proxy({}, {
-                                get(target, prop) {
-                                    return function () {
-                                        return [prop, [...arguments].concat(new Array(3 - [...arguments].length).fill(null))]
-                                    }
-                                }
-                            });
-                        case "fillOrder":
-                        case "createOptimisticBet":
-                            return function () {
-                                console.log(prop, ...arguments);
-                                return connectedContract
-                                    ? connectedContract[prop](...arguments)
-                                    : console.error("Tried to call write method without connected contract")
-                            }
-                    }
-
                     const parseResponse = (input) => {
                         let dataType = Object.keys(input)[0];
                         let data = input[dataType];
@@ -183,24 +154,79 @@ export const NavBarWeb3Onboard = () => {
                         return value;
                     };
 
-                    return function () {
-                        let args = iface.encodeFunctionData(prop, [...arguments]);
-                        return fetch(`${gambethBackend}/method`, {
-                            method: "POST",
-                            headers: {"Content-Type": "application/json"},
-                            body: JSON.stringify({
-                                name: prop,
-                                args
-                            })
-                        })
-                            .then(r => r.json())
-                            .then(parseResponse);
+                    const handleWalletCall = (prop) => {
+                        switch (prop) {
+                            case "queryFilter":
+                                return function ([name, topics]) {
+                                    return fetch(`${gambethBackend}/event`, {
+                                        method: "POST",
+                                        headers: {"Content-Type": "application/json"},
+                                        body: JSON.stringify({name, topics})
+                                    })
+                                        .then(r => r.json())
+                                        .then(r => r.map(r => iface.parseLog(r)));
+                                };
+                            case "filters":
+                                return new Proxy({}, {
+                                    get(target, prop) {
+                                        return function () {
+                                            return [prop, [...arguments].concat(new Array(3 - [...arguments].length).fill(null))]
+                                        }
+                                    }
+                                });
+                            case "fillOrder":
+                            case "createOptimisticBet":
+                                return function () {
+                                    console.log(prop, ...arguments);
+                                    return connectedContract
+                                        ? connectedContract[prop](...arguments)
+                                        : console.error("Tried to call write method without connected contract")
+                                }
+                            default:
+                                return function () {
+                                    let args = iface.encodeFunctionData(prop, [...arguments]);
+                                    return fetch(`${gambethBackend}/method`, {
+                                        method: "POST",
+                                        headers: {"Content-Type": "application/json"},
+                                        body: JSON.stringify({
+                                            name: prop,
+                                            args
+                                        })
+                                    })
+                                        .then(r => r.json())
+                                        .then(parseResponse);
+                                }
+                        }
                     }
 
+                    try {
+                        const originalReturn = Reflect.get(target, prop, receiver);
+
+                        if (originalReturn?.then) {
+                            return originalReturn.catch(async error => {
+                                console.error("Error calling injected wallet, trying backend fallback handler: ", error);
+                                return handleWalletCall(prop);
+                            });
+                        } else if (!originalReturn) {
+                            const fallback = handleWalletCall(prop);
+                            console.log("Original return is undefined, using fallback", fallback);
+                            return fallback;
+                        } else {
+                            return originalReturn;
+                        }
+                    } catch (error) {
+                        console.error("Error calling injected wallet, trying backend fallback handler: ", error);
+                        return handleWalletCall(prop);
+                    }
                 }
             }
-            let activeContract = new Proxy(connectedContract || {}, fallbackHandler);
-            setActiveContract(activeContract);
+
+            if (connectedContract) {
+                let activeContract = new Proxy(connectedContract, fallbackHandler);
+                setActiveContract(activeContract);
+            } else {
+                setActiveContract(new Proxy({}, fallbackHandler));
+            }
         }
 
         const start = async () => {
@@ -274,7 +300,9 @@ export const NavBarWeb3Onboard = () => {
     return (
         <>
             {wrongChain && (
-                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain' onClick={switchToChain}> switch to Goerli</button></div>
+                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
+                                                                                                onClick={switchToChain}> switch
+                    to Goerli</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
@@ -322,7 +350,7 @@ export const NavBarWeb3Onboard = () => {
                                                     <img src={plus}/>
                                                     <span>Create market</span>
                                                 </Dropdown.Item>
-                                                <Dropdown.Divider />
+                                                <Dropdown.Divider/>
                                                 <Dropdown.Item href='/browsemarkets' className='d-flex'>
                                                     <img src={magnifying_glass}/>
                                                     <span>Browse market</span>

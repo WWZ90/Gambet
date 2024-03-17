@@ -46,7 +46,7 @@ export function formatDateShort(d) {
 export const browseMarkets = async (activeContract) => {
     console.log(activeContract.filters);
     const filter = activeContract.filters.CreatedOptimisticBet();
-    const markets = (await Promise.all((await activeContract.queryFilter(filter))
+    const markets = (await Promise.all((await activeContract.queryFilter(filter, 10666446, 'latest'))
         .map(e => [e.args[1], e.args[2], e.args[3]])
         .map(async ([id, name, terms]) => [await getMarket(id, activeContract), name, terms])))
         .map(market => {
