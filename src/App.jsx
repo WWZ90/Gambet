@@ -78,7 +78,7 @@ const web3Onboard = init({
       id: '0x5',
       token: 'ETH',
       label: 'Goerli',
-      rpcUrl: `https://goerli.infura.io/v3/${INFURA_ID}`
+      rpcUrl: `https://rpc.ankr.com/eth_goerli`
     },
     {
       id: '0x13881',
