@@ -157,14 +157,19 @@ export const NavBarWeb3Onboard = () => {
                     const handleWalletCall = (prop) => {
                         switch (prop) {
                             case "queryFilter":
-                                return function ([name, topics]) {
+                                return function (filter, fromBlock) {
+                                    const body = JSON.stringify({name: filter[0], topics: filter[1]});
                                     return fetch(`${gambethBackend}/event`, {
                                         method: "POST",
                                         headers: {"Content-Type": "application/json"},
-                                        body: JSON.stringify({name, topics})
+                                        body
                                     })
-                                        .then(r => r.json())
-                                        .then(r => r.map(r => iface.parseLog(r)));
+                                        .then(r => {
+                                            console.log("Response is", r);
+                                            return r.json()
+                                        })
+                                        .then(r => r.map(r => iface.parseLog(r)))
+                                        .catch(console.error);
                                 };
                             case "filters":
                                 return new Proxy({}, {
@@ -227,7 +232,7 @@ export const NavBarWeb3Onboard = () => {
                             return originalReturn;
                         }
                     } catch (error) {
-                        //console.error("Error calling injected wallet, trying backend fallback handler: ", error);
+                        console.error("Error calling injected wallet, trying backend fallback handler: ", error);
                         return handleWalletCall(prop);
                     }
                 }
