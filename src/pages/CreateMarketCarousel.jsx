@@ -25,6 +25,7 @@ import pointing_left from "../assets/icons/png/noto_backhand-index-pointing-left
 import pointing_right from "../assets/icons/png/noto_backhand-index-pointing-right.png";
 import check from "../assets/icons/png/check.png";
 import upload from '../assets/img/image_upload_2.png';
+import plus from '../assets/icons/png/plus.png';
 
 export const CreateMarketCarousel = () => {
     const outcomeInputRef = useRef();
@@ -58,6 +59,7 @@ export const CreateMarketCarousel = () => {
     const [marketIDExist, setMarketIDExist] = useState(false);
     const [marketIdError, setMarketIdError] = useState(false);
     const [marketNameError, setMarketNameError] = useState(false);
+    const [imageError, setImageError] = useState(false);
     const [marketTermsError, setMarketTermsError] = useState(false);
     const [marketOutcomesError, setMarketOutcomesError] = useState(false);
     const [marketOutcomesHandleBlur, setMarketOutcomesHandleBlur] = useState(false);
@@ -271,6 +273,7 @@ export const CreateMarketCarousel = () => {
     }
 
     const handleOnChangeMarketImage = (image) => {
+        console.log('okok');
         setMarketImage(image);
     };
 
@@ -405,12 +408,33 @@ export const CreateMarketCarousel = () => {
             setPageIndex(pageIndex + 1);
     }
 
+    const [imageUrl, setImageUrl] = useState('');
+
+    const handleImageUrlChange = (event) => {
+        setImageUrl(event.target.value);
+    };
+
+    const handleImportFromUrl = () => {
+        setImageError(false);
+        const img = new Image();
+        img.src = imageUrl;
+
+        img.onload = () => {
+            setMarketImage([...marketImage, { data_url: imageUrl }]);
+            setImageUrl('');
+        };
+
+        img.onerror = () => {
+            setImageError(true);
+        };
+    };
+
     const renderFormPage = () => {
         switch (pageIndex) {
             case 1:
                 return (
                     <div className='form-page'>
-                        <p className='h3_medium'>What's your Market ID?</p>
+                        <p className='h3_medium'>What’s your Market ID?</p>
                         <p className='body_2'>Market ID is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
                         <div className="forms">
                             <Form.Control
@@ -458,53 +482,220 @@ export const CreateMarketCarousel = () => {
             case 3:
                 return (
                     <div className='form-page'>
-                        <div className='form-page'>
-                            <p className='h3_medium'>Set up the terms for your market</p>
-                            <p className='body_2'>Market terms is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
-                            <div className="forms">
-                                <Form.Control
-                                    as="textarea"
-                                    rows={3}
-                                    id="create-bet-oo"
-                                    value={betOO}
-                                    placeholder="This market will resolve to the winning candidate for Argentina's 2023 Presidential Elections"
-                                    className={(marketTermsError) ? "elegant_input input_error" : "elegant_input"}
-                                    onChange={handleChangeBetOO}
-                                    onBlur={() => handleBlur('marketTerms', betOO)}
-                                />
+                        <p className='h3_medium'>Set up the terms for your market</p>
+                        <p className='body_2'>Market terms is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                        <div className="forms">
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                id="create-bet-oo"
+                                value={betOO}
+                                placeholder="This market will resolve to the winning candidate for Argentina's 2023 Presidential Elections"
+                                className={(marketTermsError) ? "elegant_input input_error" : "elegant_input"}
+                                onChange={handleChangeBetOO}
+                                onBlur={() => handleBlur('marketTerms', betOO)}
+                            />
 
-                                {marketTermsError && (
-                                    <p className='text_error'>This field is required</p>
-                                )}
-                            </div>
+                            {marketTermsError && (
+                                <p className='text_error'>This field is required</p>
+                            )}
                         </div>
                     </div>
                 );
             case 4:
                 return (
                     <div className='form-page'>
-                        <div className='form-page'>
-                            <div className='form-page'>
-                                <p className='h3_medium'>Upload your market’s image</p>
-                                <div className="forms">
-                                    <div className="form_rect_img odd">
-                                        <div className="img">
-                                            <img src={upload}/>
-                                        </div>
-                                        <div className="body_2">
-                                            Drop your image here, or <span>browse</span>
+                        <p className='h3_medium'>Upload your market’s image</p>
+                        <div className="forms">
+
+                            <ImageUploading
+                                multiple
+                                value={marketImage}
+                                onChange={handleOnChangeMarketImage}
+                                maxNumber='1'
+                                dataURLKey="data_url"
+                                acceptType={["jpg", "jpeg", "png", "webp"]}
+                                style={{
+                                    width: '100%', // Hacer que ImageUploading abarque todo el ancho del contenedor
+                                    height: '100%', // Hacer que ImageUploading abarque toda la altura del contenedor
+                                }}
+                            >
+                                {({
+                                    image,
+                                    onImageUpload,
+                                    onImageUpdate,
+                                    onImageRemove,
+                                    isDragging,
+                                    dragProps
+                                }) => (
+                                    <div className={`form_rect_img ${isDragging ? 'upload__image-wrapper dragging' : 'upload__image-wrapper'}`}
+
+                                        {...dragProps}
+                                    >
+                                        {!marketImage.length ? (
+                                            <>
+                                                <div className="upload_image">
+                                                    <img
+                                                        alt=""
+                                                        width="100"
+                                                        src={upload}
+                                                        style={isDragging ? { color: "red" } : null}
+                                                    />
+                                                    <div className="overlay" onClick={onImageUpdate}>
+                                                        <i className="bi bi-cloud-arrow-up"></i>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            marketImage.map((image, index) => (
+                                                <div key={index} className="image-item upload_image">
+                                                    <img src={image.data_url} alt="" width="100" />
+                                                    <div className="overlay">
+                                                        <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(index)} ></i>
+                                                        <i className="bi bi-trash" onClick={() => onImageRemove(index)}></i>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+
+                                        <div className="body_2 mb-1">
+                                            Drop your image here, or <span onClick={() => onImageUpdate(0)} style={{ textDecoration: "underline", color: "#EE8C71" }}>browse</span>
                                         </div>
                                         <div className="body_small">Supports: PNG, JPG, JPEG, WEBP</div>
                                     </div>
-                                </div>
+                                )}
+                            </ImageUploading>
+
+                            <div class="line-with-or">
+                                <span className="line"></span>
+                                <span className="body_small or">or</span>
+                                <span className="line"></span>
+                            </div>
+
+                            <p className='body_1 mb-2'>Import from URL</p>
+                            <Form.Control
+                                className='elegant_input w-100'
+                                type="text"
+                                value={imageUrl}
+                                onChange={handleImageUrlChange}
+                            />
+                            {imageError && (
+                                <p className='text_error'>The url does not contain a valid image</p>
+                            )}
+                            <div className="d-flex justify-content-end mt-3">
+                                <Button text="Upload" cName="terciary" style={{ width: "184px" }} disabled={!imageUrl} onClick={handleImportFromUrl} />
                             </div>
                         </div>
+
                     </div>
                 );
             case 5:
                 return (
                     <div className='form-page'>
-                        {/* Contenido de la quinta página */}
+                        <p className='h3_medium'>What’s your outcome?</p>
+                        <p className='body_2'>Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                        <div className="forms">
+                            <div className="d-flex justify-content-between add_outcome">
+                                <Form.Control
+                                    type="text"
+                                    className="elegant_input"
+                                    id="create-bet-choice"
+                                    placeholder="Write an outcome"
+                                    value={betChoice}
+                                    onChange={handleChangeBetChoice}
+                                    onBlur={() => handleBlur('marketOutcomes', betChoice)}
+                                    onKeyDown={handleOutcomesOnKeyDown}
+                                    ref={outcomeInputRef}
+                                />
+                                <Button text="Add" cName="terciary" iconSrc={plus} style={{ width: "120px" }} disabled={!betChoice} onClick={handleAddBetChoice} />
+                            </div>
+                        </div>
+
+                        {betChoiceList.length > 0 && (
+                            <>
+                                <table className="table table-hover mt-2">
+                                    <thead>
+                                        <tr>
+                                            <th className='col-1 text-center'>Image</th>
+                                            <th className='col-8'>Outcome</th>
+                                            <th className='col-1 text-center'>%</th>
+                                            <th className='col-1 text-center'>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {betChoiceList.map((item) => (
+                                            <tr key={item.id} className='align-middle'>
+                                                <td>
+
+                                                    <ImageUploading
+                                                        value={item.image}
+                                                        onChange={(image) => handleImageUpload(image, item.id)}
+                                                        dataURLKey="data_url"
+                                                        acceptType={["jpg", "gif", "png"]}
+                                                    >
+                                                        {({
+                                                            image,
+                                                            onImageUpload,
+                                                            onImageUpdate,
+                                                            onImageRemove,
+                                                            isDragging,
+                                                            dragProps
+                                                        }) => (
+                                                            // write your building UI
+                                                            <div className="upload__image-wrapper table_outcomes">
+                                                                {!item.image ? (
+                                                                    <>
+                                                                        <div className="upload_image">
+                                                                            <img alt="" src={upload} style={isDragging ? { color: "red" } : null}
+                                                                                {...dragProps}>
+                                                                            </img>
+                                                                            <div className="overlay" onClick={onImageUpdate}>
+                                                                                <i className="bi bi-cloud-arrow-up"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </>
+                                                                ) : (
+
+                                                                    <div className="image-item upload_image">
+                                                                        <img src={item.image[0].data_url} alt="" width="70" />
+                                                                        <div className="overlay">
+                                                                            <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
+                                                                            <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
+                                                                        </div>
+                                                                    </div>
+
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </ImageUploading >
+
+                                                </td>
+                                                <td >{item.betChoice}</td>
+                                                <td className='text-center'>
+                                                    <Form.Control
+                                                        type="number"
+                                                        className='text_white'
+                                                        style={{ width: '75px' }}
+                                                        value={item.percentage}
+                                                        onChange={(e) => handlePercentageChange(item.id, e.target.value)}
+                                                    />
+                                                </td>
+                                                <td className='text-center'>
+                                                    <i className="bi bi-trash3-fill" onClick={() => handleDeleteBetChoice(item.id)}></i>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+
+                                {percentageError && (
+                                    <Alert variant="danger">
+                                        {percentageError}
+                                    </Alert>
+                                )}
+                            </>
+                        )}
+                        
                     </div>
                 );
             case 6:

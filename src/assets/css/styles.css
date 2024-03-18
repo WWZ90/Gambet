@@ -345,7 +345,7 @@ h6 {
 }
 
 button span {
-    font-family: var(--font-family-light);
+    font-family: var(--font-family-regular);
     font-size: 14px !important;
     font-style: normal;
     font-weight: 500;
@@ -416,6 +416,32 @@ button span {
 }
 
 .icon-button.secundary:hover:enabled span {
+    color: var(--Accent-orange-5) !important;
+}
+
+.icon-button.terciary {
+    background-color: transparent !important;
+    border: 0px !important;
+}
+
+.icon-button.terciary:hover {
+    background-color: transparent !important;
+    border: 0px !important;
+}
+
+.icon-button.terciary span {
+    color: var(--Primary-blue-05);
+}
+
+.icon-button.terciary:disabled span {
+    color: var(--Neutral-02) !important;
+}
+
+.icon-button.terciary:hover:enabled {
+    color: var(--Accent-orange-5) !important;
+}
+
+.icon-button.terciary:hover:enabled span {
     color: var(--Accent-orange-5) !important;
 }
 
@@ -2300,8 +2326,7 @@ button.swithToChain:hover {
 .create-market-carousel .carousel-form {
     color: var(--Text-1) !important;
     justify-content: center;
-    max-width: 640px;
-    padding: 10px;
+    max-width: 660px;   
 }
 
 .create-market-carousel .carousel-form p {
@@ -2315,31 +2340,67 @@ button.swithToChain:hover {
 .create-market-carousel .carousel-form .form_rect_img {
     width: 660px;
     height: 172px;
-    overflow: hidden;
-    position: relative;
+    border: 1px solid #6F75E5;
+    border-radius: 9px;
+    border-style: dashed;
     text-align: center;
     padding: 30px;
     margin-bottom: 20px;
 }
 
-.create-market-carousel .carousel-form .odd:before {
-
-    border-radius: 9px
+.create-market-carousel .carousel-form .form_rect_img.dragging {
+    border: 1px solid var(--Accent-orange-5);
+    border-style: dashed;
+    background-color: rgba(110, 110, 234, 0.3);
 }
 
-.create-market-carousel .carousel-form .form_rect_img:before {
-
-    content: "";
-    position: absolute;
-    border: 2px dashed #6F75E5;
-    top: -1px;
-    bottom: -1px;
-    left: -1px;
-    right: -1px;
-}
-
-.create-market-carousel .carousel-form .form_rect_img .img{
+.create-market-carousel .carousel-form .form_rect_img .img {
     margin-bottom: 12px;
+}
+
+.create-market-carousel .carousel-form .form_rect_img .body_2 {
+    width: 212px;
+    margin: auto;
+}
+
+.create-market-carousel .carousel-form .form_rect_img .body_small {
+    width: 130px;
+    margin: auto;
+}
+
+.create-market-carousel .carousel-form .add_outcome input {
+    width: 80%;
+    margin-right: 20px;
+}
+
+.create-market-carousel .carousel-form .add_outcome img {
+    filter: invert(40%) sepia(71%) saturate(6771%) hue-rotate(221deg) brightness(96%) contrast(91%);
+    transition: 0.2s all;
+}
+
+.create-market-carousel .carousel-form .add_outcome button:hover img {
+    filter: invert(20%) sepia(43%) saturate(976%) hue-rotate(308deg) brightness(94%) contrast(99%);
+}
+
+.create-market-carousel .carousel-form .add_outcome button:disabled img {
+    filter: invert(29%) sepia(35%) saturate(1792%) hue-rotate(200deg) brightness(105%) contrast(61%);
+}
+
+.line-with-or {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 90px;
+}
+
+.line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #6F75E5;
+}
+
+.or {
+    margin: 0 7px;
 }
 
 .create-market-carousel .pages {
@@ -2348,7 +2409,7 @@ button.swithToChain:hover {
     align-items: center;
     gap: 20px;
     height: 1px;
-    margin-top: 56px;
+    margin: 56px 0px;
     background-color: var(--Primary-blue-0);
 }
 
@@ -2432,8 +2493,11 @@ button.swithToChain:hover {
 }
 
 .upload_image {
+    width: 73px;
+    height: 66px;
     position: relative;
     display: inline-block;
+    margin-bottom: 15px;
 }
 
 .upload__image-wrapper {
@@ -2441,7 +2505,9 @@ button.swithToChain:hover {
 }
 
 .upload__image-wrapper img {
-    width: 80px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .upload__image-wrapper.table_outcomes img {
