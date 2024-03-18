@@ -158,7 +158,8 @@ export const NavBarWeb3Onboard = () => {
                         switch (prop) {
                             case "queryFilter":
                                 return function (filter, fromBlock) {
-                                    const body = JSON.stringify({name: filter[0], topics: filter[1]});
+                                    const body = JSON.stringify({name: filter?.fragment?.name || filter[0], topics: filter[1]?.map ? filter[1] : [null, null, null]});
+                                    console.log("Querying filter", prop, [...arguments], body);
                                     return fetch(`${gambethBackend}/event`, {
                                         method: "POST",
                                         headers: {"Content-Type": "application/json"},
@@ -213,20 +214,25 @@ export const NavBarWeb3Onboard = () => {
                             return originalReturn.catch(async error => {
                                 // console.error("Error calling injected wallet, trying backend fallback handler: ", error);
                                 return handleWalletCall(prop);
-                            });
+                            }).then(r => r === undefined ? handleWalletCall(prop) : r);
                         } else if (originalReturn?.constructor?.name === "AsyncFunction") {
-                            console.log("Original return is an async function, adding fallback logic to it", originalReturn);
+                            console.log("Original return is an async function, adding fallback logic to it", prop, originalReturn, connectedContract);
                             return async function () {
                                 try {
-                                    return await originalReturn(...arguments);
+                                    const r = await originalReturn(...arguments);
+                                    if (r === undefined) {
+                                        return handleWalletCall(prop)(...arguments);
+                                    }
+                                    return r;
                                 } catch (error) {
-                                    // console.error("Error calling injected wallet, trying backend fallback handler: ", error);
-                                    return handleWalletCall(prop)(...arguments);
+                                    const r = await handleWalletCall(prop)(...arguments);
+                                    console.error("Error calling injected wallet async function, trying backend fallback handler: ", error, prop, originalReturn, r, [...arguments]);
+                                    return r;
                                 }
                             }
-                        } else if (!originalReturn) {
+                        } else if (originalReturn === undefined) {
                             const fallback = handleWalletCall(prop);
-                            console.log("Original return is undefined, using fallback", fallback);
+                            console.log("Original return is undefined, using fallback", prop, fallback, connectedContract);
                             return fallback;
                         } else {
                             return originalReturn;
@@ -242,7 +248,7 @@ export const NavBarWeb3Onboard = () => {
                 let activeContract = new Proxy(connectedContract, fallbackHandler);
                 setActiveContract(activeContract);
             } else {
-                setActiveContract(new Proxy({}, fallbackHandler));
+                setActiveContract(new Proxy(fallbackHandler, fallbackHandler));
             }
         }
 
