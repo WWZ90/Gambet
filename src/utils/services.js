@@ -169,7 +169,7 @@ export const calculatePrice = (market, outcome) => {
 
 export const fetchOrders = async (refresh, activeContract, activeMarketId) => {
     let betOrders = refresh ? [] : (betOrders || []);
-    const contractOrders = await (activeContract || {getOrders: async () => []}).getOrders(activeMarketId || "", betOrders.length, 100);
+    const contractOrders = await activeContract.getOrders(activeMarketId || "", betOrders.length, 100);
     const newOrders = contractOrders.map(o => ({
         orderPosition: o[0] ? "SELL" : "BUY",
         pricePerShare: Number(o[1]) / 1e6,

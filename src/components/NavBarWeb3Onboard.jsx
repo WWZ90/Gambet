@@ -200,13 +200,25 @@ export const NavBarWeb3Onboard = () => {
                     }
 
                     try {
+                        console.log("Trying to call original method", prop);
                         const originalReturn = Reflect.get(target, prop, receiver);
-
+                        console.log("Called original method without error", prop, originalReturn);
                         if (originalReturn?.then) {
+                            console.log("Original return is a promise, adding fallback logic to it", originalReturn);
                             return originalReturn.catch(async error => {
-                                console.error("Error calling injected wallet, trying backend fallback handler: ", error);
+                                // console.error("Error calling injected wallet, trying backend fallback handler: ", error);
                                 return handleWalletCall(prop);
                             });
+                        } else if (originalReturn?.constructor?.name === "AsyncFunction") {
+                            console.log("Original return is an async function, adding fallback logic to it", originalReturn);
+                            return async function () {
+                                try {
+                                    return await originalReturn(...arguments);
+                                } catch (error) {
+                                    // console.error("Error calling injected wallet, trying backend fallback handler: ", error);
+                                    return handleWalletCall(prop)(...arguments);
+                                }
+                            }
                         } else if (!originalReturn) {
                             const fallback = handleWalletCall(prop);
                             console.log("Original return is undefined, using fallback", fallback);
@@ -215,7 +227,7 @@ export const NavBarWeb3Onboard = () => {
                             return originalReturn;
                         }
                     } catch (error) {
-                        console.error("Error calling injected wallet, trying backend fallback handler: ", error);
+                        //console.error("Error calling injected wallet, trying backend fallback handler: ", error);
                         return handleWalletCall(prop);
                     }
                 }
