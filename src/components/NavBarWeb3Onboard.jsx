@@ -157,7 +157,7 @@ export const NavBarWeb3Onboard = () => {
                     const handleWalletCall = (prop) => {
                         switch (prop) {
                             case "queryFilter":
-                                return function (filter, fromBlock) {
+                                return function (filter) {
                                     const body = JSON.stringify({name: filter?.fragment?.name || filter[0], topics: filter[1]?.map ? filter[1] : [null, null, null]});
                                     console.log("Querying filter", prop, [...arguments], body);
                                     return fetch(`${gambethBackend}/event`, {
