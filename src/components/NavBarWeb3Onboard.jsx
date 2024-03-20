@@ -323,9 +323,7 @@ export const NavBarWeb3Onboard = () => {
     return (
         <>
             {wrongChain && (
-                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
-                                                                                                onClick={switchToChain}> switch
-                    to Goerli</button></div>
+                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain' onClick={switchToChain}> switch to Polygon-Mumbai</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
