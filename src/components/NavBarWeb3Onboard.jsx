@@ -206,20 +206,19 @@ export const NavBarWeb3Onboard = () => {
                     }
 
                     try {
-                        console.log("Trying to call original method", prop);
-                        const originalReturn = Reflect.get(target, prop, receiver);
-                        console.log("Called original method without error", prop, originalReturn);
-                        if (originalReturn?.then) {
-                            console.log("Original return is a promise, adding fallback logic to it", originalReturn);
+                        let originalReturn = Reflect.get(target, prop, receiver);
+                        originalReturn = originalReturn?.catch?.(async error => {
                             return originalReturn.catch(async error => {
-                                // console.error("Error calling injected wallet, trying backend fallback handler: ", error);
+                                console.error("Error calling injected wallet promise, trying backend fallback handler: ", error);
                                 return handleWalletCall(prop);
                             }).then(r => r === undefined ? handleWalletCall(prop) : r);
-                        } else if (originalReturn?.constructor?.name === "AsyncFunction") {
+                        }) || originalReturn;
+                        
+                        if (originalReturn?.constructor?.name === "AsyncFunction") {
                             console.log("Original return is an async function, adding fallback logic to it", prop, originalReturn, connectedContract);
                             return async function () {
                                 try {
-                                    const r = await originalReturn(...arguments);
+                                    const r = await connectedContract?.[prop]?.(...arguments);
                                     if (r === undefined) {
                                         return handleWalletCall(prop)(...arguments);
                                     }
