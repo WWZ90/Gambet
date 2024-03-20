@@ -75,12 +75,6 @@ const web3Onboard = init({
       rpcUrl: infuraRPC
     },
     {
-      id: '0x5',
-      token: 'ETH',
-      label: 'Goerli',
-      rpcUrl: `https://rpc.ankr.com/eth_goerli`
-    },
-    {
       id: '0x13881',
       token: 'MATIC',
       label: 'Polygon - Mumbai',

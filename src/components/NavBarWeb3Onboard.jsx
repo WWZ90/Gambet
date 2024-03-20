@@ -158,7 +158,7 @@ export const NavBarWeb3Onboard = () => {
                         switch (prop) {
                             case "queryFilter":
                                 return function (filter, fromBlock) {
-                                    const body = JSON.stringify({ name: filter?.fragment?.name || filter[0], topics: filter[1]?.map ? filter[1] : [null, null, null] });
+                                    const body = JSON.stringify({name: filter?.fragment?.name || filter[0], topics: filter[1]?.map ? filter[1] : [null, null, null]});
                                     console.log("Querying filter", prop, [...arguments], body);
                                     return fetch(`${gambethBackend}/event`, {
                                         method: "POST",
@@ -323,7 +323,9 @@ export const NavBarWeb3Onboard = () => {
     return (
         <>
             {wrongChain && (
-                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain' onClick={switchToChain}> switch to Polygon-Mumbai</button></div>
+                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
+                                                                                                onClick={switchToChain}> switch
+                    to Goerli</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
