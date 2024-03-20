@@ -325,7 +325,7 @@ export const NavBarWeb3Onboard = () => {
             {wrongChain && (
                 <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
                                                                                                 onClick={switchToChain}> switch
-                    to Goerli</button></div>
+                    to Mumbai</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
