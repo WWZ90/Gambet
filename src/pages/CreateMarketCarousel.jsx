@@ -26,6 +26,11 @@ import pointing_right from "../assets/icons/png/noto_backhand-index-pointing-rig
 import check from "../assets/icons/png/check.png";
 import upload from '../assets/img/image_upload_2.png';
 import plus from '../assets/icons/png/plus.png';
+import trash from "../assets/icons/png/trash.png";
+import subtract from "../assets/icons/png/-.png";
+import add from "../assets/icons/png/+.png";
+import party from "../assets/icons/png/noto_party-popper.png";
+import rocket from '../assets/icons/png/noto_rocket.png';
 
 export const CreateMarketCarousel = () => {
     const outcomeInputRef = useRef();
@@ -37,13 +42,13 @@ export const CreateMarketCarousel = () => {
     const { owner } = useStateContext();
     const { betType } = useStateContext();
 
-    const [betID, setBetID] = useState()
-    const [betSchema, setBetSchema] = useState()
-    const [betOOTitle, setBetOOTitle] = useState()
-    const [betOO, setBetOO] = useState()
-    const [betChoice, setBetChoice] = useState()
+    const [betID, setBetID] = useState("");
+    const [betSchema, setBetSchema] = useState();
+    const [betOOTitle, setBetOOTitle] = useState("");
+    const [betOO, setBetOO] = useState("");
+    const [betChoice, setBetChoice] = useState("");
     const [betChoiceList, setBetChoiceList] = useState([])
-    const [idBetChoice, setIdBetChoice] = useState(0)
+    const [idBetChoice, setIdBetChoice] = useState(0);
     const [betInitialPool, setBetInitialPool] = useState(0);
     const [betCommission, setBetCommission] = useState(0);
 
@@ -189,6 +194,9 @@ export const CreateMarketCarousel = () => {
 
     const handlePercentageChange = (id, percentage) => {
 
+        if (percentage.length == 0)
+            percentage = 0;
+
         const newValue = parseInt(percentage, 10);
         percentage = newValue < 0 ? 0 : newValue;
 
@@ -209,7 +217,7 @@ export const CreateMarketCarousel = () => {
 
         if (list.length >= 0) {
             if (sum !== 100) {
-                setPercentageError('The sum of all the % has to be 100');
+                setPercentageError('Please note that the sum of all the % has to be 100');
             } else {
                 setPercentageError('');
             }
@@ -298,6 +306,7 @@ export const CreateMarketCarousel = () => {
     }
 
     const handleDepositUSDC = async () => {
+        console.log(activeContract);
         setAwaitingApproval(true);
         try {
             let balance = await usdc.balanceOf(owner);
@@ -433,200 +442,242 @@ export const CreateMarketCarousel = () => {
         switch (pageIndex) {
             case 1:
                 return (
-                    <div className='form-page'>
-                        <p className='h3_medium'>What’s your Market ID?</p>
-                        <p className='body_2'>Market ID is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
-                        <div className="forms">
-                            <Form.Control
-                                type="text"
-                                id="create-bet-id"
-                                value={betID}
-                                placeholder="argentina-2023"
-                                aria-describedby="create-bet-id-HelpBlock"
-                                className={(marketIDExist || marketIdError) ? "elegant_input input_error" : "elegant_input"}
-                                onChange={handleChangeBetID}
-                                onBlur={() => handleBlur('marketId', betID)}
-                            />
-                            {marketIDExist && (
-                                <p className='text_error'>This market id already exist</p>
-                            )}
+                    <>
+                        <div className='form-page'>
+                            <p className='h3_medium'>What’s your Market ID?</p>
+                            <p className='body_2'>Market ID is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                            <div className="forms">
+                                <Form.Control
+                                    type="text"
+                                    id="create-bet-id"
+                                    value={betID}
+                                    placeholder="argentina-2023"
+                                    aria-describedby="create-bet-id-HelpBlock"
+                                    className={(marketIDExist || marketIdError) ? "elegant_input input_error" : "elegant_input"}
+                                    onChange={handleChangeBetID}
+                                    onBlur={() => handleBlur('marketId', betID)}
+                                />
+                                {marketIDExist && (
+                                    <p className='text_error'>This market id already exist</p>
+                                )}
 
-                            {marketIdError && (
-                                <p className='text_error'>This field is required</p>
-                            )}
+                                {marketIdError && (
+                                    <p className='text_error'>This field is required</p>
+                                )}
+                            </div>
                         </div>
-                    </div>
+
+                        <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                            {pageIndex > 1 ?
+                                <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                                :
+                                <></>
+                            }
+                            <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled={marketIDExist || marketIdError || betID.length == 0} onClick={handleNext} />
+                        </div>
+                    </>
                 );
             case 2:
                 return (
-                    <div className='form-page'>
-                        <p className='h3_medium'>Give your market a name!</p>
-                        <p className='body_2'>Market name is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
-                        <div className="forms">
-                            <Form.Control
-                                type="text"
-                                id="create-bet-oo-title"
-                                value={betOOTitle}
-                                placeholder="For example: Argentina's Presidential Elections"
-                                className={(marketNameError) ? "elegant_input input_error" : "elegant_input"}
-                                onChange={handleChangeBetOOTitle}
-                                onBlur={() => handleBlur('marketName', betOOTitle)}
-                            />
+                    <>
+                        <div className='form-page'>
+                            <p className='h3_medium'>Give your market a name!</p>
+                            <p className='body_2'>Market name is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                            <div className="forms">
+                                <Form.Control
+                                    type="text"
+                                    id="create-bet-oo-title"
+                                    value={betOOTitle}
+                                    placeholder="For example: Argentina's Presidential Elections"
+                                    className={(marketNameError) ? "elegant_input input_error" : "elegant_input"}
+                                    onChange={handleChangeBetOOTitle}
+                                    onBlur={() => handleBlur('marketName', betOOTitle)}
+                                />
 
-                            {marketNameError && (
-                                <p className='text_error'>This field is required</p>
-                            )}
+                                {marketNameError && (
+                                    <p className='text_error'>This field is required</p>
+                                )}
+                            </div>
                         </div>
-                    </div>
+
+                        <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                            {pageIndex > 1 ?
+                                <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                                :
+                                <></>
+                            }
+                            <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled={marketNameError || betOOTitle.length == 0} onClick={handleNext} />
+                        </div>
+                    </>
                 );
             case 3:
                 return (
-                    <div className='form-page'>
-                        <p className='h3_medium'>Set up the terms for your market</p>
-                        <p className='body_2'>Market terms is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
-                        <div className="forms">
-                            <Form.Control
-                                as="textarea"
-                                rows={3}
-                                id="create-bet-oo"
-                                value={betOO}
-                                placeholder="This market will resolve to the winning candidate for Argentina's 2023 Presidential Elections"
-                                className={(marketTermsError) ? "elegant_input input_error" : "elegant_input"}
-                                onChange={handleChangeBetOO}
-                                onBlur={() => handleBlur('marketTerms', betOO)}
-                            />
+                    <>
+                        <div className='form-page'>
+                            <p className='h3_medium'>Set up the terms for your market</p>
+                            <p className='body_2'>Market terms is Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                            <div className="forms">
+                                <Form.Control
+                                    as="textarea"
+                                    rows={3}
+                                    id="create-bet-oo"
+                                    value={betOO}
+                                    placeholder="This market will resolve to the winning candidate for Argentina's 2023 Presidential Elections"
+                                    className={(marketTermsError) ? "elegant_input input_error" : "elegant_input"}
+                                    onChange={handleChangeBetOO}
+                                    onBlur={() => handleBlur('marketTerms', betOO)}
+                                />
 
-                            {marketTermsError && (
-                                <p className='text_error'>This field is required</p>
-                            )}
+                                {marketTermsError && (
+                                    <p className='text_error'>This field is required</p>
+                                )}
+                            </div>
                         </div>
-                    </div>
+
+                        <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                            {pageIndex > 1 ?
+                                <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                                :
+                                <></>
+                            }
+                            <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled={marketTermsError || betOO.length == 0} onClick={handleNext} />
+                        </div>
+                    </>
                 );
             case 4:
                 return (
-                    <div className='form-page'>
-                        <p className='h3_medium'>Upload your market’s image</p>
-                        <div className="forms">
+                    <>
+                        <div className='form-page'>
+                            <p className='h3_medium'>Upload your market’s image</p>
+                            <div className="forms">
 
-                            <ImageUploading
-                                multiple
-                                value={marketImage}
-                                onChange={handleOnChangeMarketImage}
-                                maxNumber='1'
-                                dataURLKey="data_url"
-                                acceptType={["jpg", "jpeg", "png", "webp"]}
-                                style={{
-                                    width: '100%', // Hacer que ImageUploading abarque todo el ancho del contenedor
-                                    height: '100%', // Hacer que ImageUploading abarque toda la altura del contenedor
-                                }}
-                            >
-                                {({
-                                    image,
-                                    onImageUpload,
-                                    onImageUpdate,
-                                    onImageRemove,
-                                    isDragging,
-                                    dragProps
-                                }) => (
-                                    <div className={`form_rect_img ${isDragging ? 'upload__image-wrapper dragging' : 'upload__image-wrapper'}`}
+                                <ImageUploading
+                                    multiple
+                                    value={marketImage}
+                                    onChange={handleOnChangeMarketImage}
+                                    maxNumber='1'
+                                    dataURLKey="data_url"
+                                    acceptType={["jpg", "jpeg", "png", "webp"]}
+                                    style={{
+                                        width: '100%', // Hacer que ImageUploading abarque todo el ancho del contenedor
+                                        height: '100%', // Hacer que ImageUploading abarque toda la altura del contenedor
+                                    }}
+                                >
+                                    {({
+                                        image,
+                                        onImageUpload,
+                                        onImageUpdate,
+                                        onImageRemove,
+                                        isDragging,
+                                        dragProps
+                                    }) => (
+                                        <div className={`form_rect_img ${isDragging ? 'upload__image-wrapper dragging' : 'upload__image-wrapper'}`}
 
-                                        {...dragProps}
-                                    >
-                                        {!marketImage.length ? (
-                                            <>
-                                                <div className="upload_image">
-                                                    <img
-                                                        alt=""
-                                                        width="100"
-                                                        src={upload}
-                                                        style={isDragging ? { color: "red" } : null}
-                                                    />
-                                                    <div className="overlay" onClick={onImageUpdate}>
-                                                        <i className="bi bi-cloud-arrow-up"></i>
+                                            {...dragProps}
+                                        >
+                                            {!marketImage.length ? (
+                                                <>
+                                                    <div className="upload_image">
+                                                        <img
+                                                            alt=""
+                                                            width="100"
+                                                            src={upload}
+                                                            style={isDragging ? { color: "red" } : null}
+                                                        />
+                                                        <div className="overlay" onClick={onImageUpdate}>
+                                                            <i className="bi bi-cloud-arrow-up"></i>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </>
-                                        ) : (
-                                            marketImage.map((image, index) => (
-                                                <div key={index} className="image-item upload_image">
-                                                    <img src={image.data_url} alt="" width="100" />
-                                                    <div className="overlay">
-                                                        <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(index)} ></i>
-                                                        <i className="bi bi-trash" onClick={() => onImageRemove(index)}></i>
+                                                </>
+                                            ) : (
+                                                marketImage.map((image, index) => (
+                                                    <div key={index} className="image-item upload_image">
+                                                        <img src={image.data_url} alt="" width="100" />
+                                                        <div className="overlay">
+                                                            <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(index)} ></i>
+                                                            <img src={trash} className='trash' onClick={() => onImageRemove(index)} />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))
-                                        )}
+                                                ))
+                                            )}
 
-                                        <div className="body_2 mb-1">
-                                            Drop your image here, or <span onClick={() => onImageUpdate(0)} style={{ textDecoration: "underline", color: "#EE8C71" }}>browse</span>
+                                            <div className="body_2 mb-1">
+                                                Drop your image here, or <span onClick={() => onImageUpdate(0)} style={{ textDecoration: "underline", color: "#EE8C71" }}>browse</span>
+                                            </div>
+                                            <div className="body_small">Supports: PNG, JPG, JPEG, WEBP</div>
                                         </div>
-                                        <div className="body_small">Supports: PNG, JPG, JPEG, WEBP</div>
-                                    </div>
+                                    )}
+                                </ImageUploading>
+
+                                <div className="line-with-or">
+                                    <span className="line"></span>
+                                    <span className="body_small or">or</span>
+                                    <span className="line"></span>
+                                </div>
+
+                                <p className='body_1 mb-2'>Import from URL</p>
+                                <Form.Control
+                                    className='elegant_input w-100'
+                                    type="text"
+                                    value={imageUrl}
+                                    onChange={handleImageUrlChange}
+                                />
+                                {imageError && (
+                                    <p className='text_error'>The url does not contain a valid image</p>
                                 )}
-                            </ImageUploading>
-
-                            <div class="line-with-or">
-                                <span className="line"></span>
-                                <span className="body_small or">or</span>
-                                <span className="line"></span>
+                                <div className="d-flex justify-content-end mt-3">
+                                    <Button text="Upload" cName="terciary" style={{ width: "184px" }} disabled={!imageUrl} onClick={handleImportFromUrl} />
+                                </div>
                             </div>
 
-                            <p className='body_1 mb-2'>Import from URL</p>
-                            <Form.Control
-                                className='elegant_input w-100'
-                                type="text"
-                                value={imageUrl}
-                                onChange={handleImageUrlChange}
-                            />
-                            {imageError && (
-                                <p className='text_error'>The url does not contain a valid image</p>
-                            )}
-                            <div className="d-flex justify-content-end mt-3">
-                                <Button text="Upload" cName="terciary" style={{ width: "184px" }} disabled={!imageUrl} onClick={handleImportFromUrl} />
-                            </div>
                         </div>
 
-                    </div>
+                        <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                            {pageIndex > 1 ?
+                                <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                                :
+                                <></>
+                            }
+                            <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled={marketTermsError || betOO.length == 0} onClick={handleNext} />
+                        </div>
+                    </>
                 );
             case 5:
                 return (
-                    <div className='form-page'>
-                        <p className='h3_medium'>What’s your outcome?</p>
-                        <p className='body_2'>Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
-                        <div className="forms">
-                            <div className="d-flex justify-content-between add_outcome">
-                                <Form.Control
-                                    type="text"
-                                    className="elegant_input"
-                                    id="create-bet-choice"
-                                    placeholder="Write an outcome"
-                                    value={betChoice}
-                                    onChange={handleChangeBetChoice}
-                                    onBlur={() => handleBlur('marketOutcomes', betChoice)}
-                                    onKeyDown={handleOutcomesOnKeyDown}
-                                    ref={outcomeInputRef}
-                                />
-                                <Button text="Add" cName="terciary" iconSrc={plus} style={{ width: "120px" }} disabled={!betChoice} onClick={handleAddBetChoice} />
+                    <>
+                        <div className='form-page'>
+                            <p className='h3_medium'>What’s your outcome?</p>
+                            <p className='body_2'>Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                            <div className="forms">
+                                <div className="d-flex justify-content-between add_outcome">
+                                    <Form.Control
+                                        type="text"
+                                        className="elegant_input"
+                                        id="create-bet-choice"
+                                        placeholder="Write an outcome"
+                                        value={betChoice}
+                                        onChange={handleChangeBetChoice}
+                                        onBlur={() => handleBlur('marketOutcomes', betChoice)}
+                                        onKeyDown={handleOutcomesOnKeyDown}
+                                        ref={outcomeInputRef}
+                                    />
+                                    <Button text="Add" cName="terciary" iconSrc={plus} style={{ width: "120px" }} disabled={!betChoice} onClick={handleAddBetChoice} />
+                                </div>
                             </div>
-                        </div>
 
-                        {betChoiceList.length > 0 && (
-                            <>
-                                <table className="table table-hover mt-2">
-                                    <thead>
-                                        <tr>
-                                            <th className='col-1 text-center'>Image</th>
-                                            <th className='col-8'>Outcome</th>
-                                            <th className='col-1 text-center'>%</th>
-                                            <th className='col-1 text-center'>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                            {betChoiceList.length > 0 && (
+                                <>
+                                    <div className="outcomes_box mt-2 align-middle body_3">
+                                        <div className="row header_row">
+                                            <div className='col-2 text-start'>Image</div>
+                                            <div className='col-6 text-start'>Outcome</div>
+                                            <div className='col-2 text-center'>%</div>
+                                            <div className='col-2 text-center'></div>
+
+                                        </div>
                                         {betChoiceList.map((item) => (
-                                            <tr key={item.id} className='align-middle'>
-                                                <td>
-
+                                            <div key={item.id} className='row align-middle outcome_row'>
+                                                <div className='col-2 text-start'>
                                                     <ImageUploading
                                                         value={item.image}
                                                         onChange={(image) => handleImageUpload(image, item.id)}
@@ -642,7 +693,7 @@ export const CreateMarketCarousel = () => {
                                                             dragProps
                                                         }) => (
                                                             // write your building UI
-                                                            <div className="upload__image-wrapper table_outcomes">
+                                                            <div className="upload__image-wrapper">
                                                                 {!item.image ? (
                                                                     <>
                                                                         <div className="upload_image">
@@ -656,11 +707,11 @@ export const CreateMarketCarousel = () => {
                                                                     </>
                                                                 ) : (
 
-                                                                    <div className="image-item upload_image">
+                                                                    <div className="my-auto image-item upload_image">
                                                                         <img src={item.image[0].data_url} alt="" width="70" />
                                                                         <div className="overlay">
                                                                             <i className="bi bi-cloud-arrow-up" onClick={() => onImageUpdate(item.id)} ></i>
-                                                                            <i className="bi bi-trash" onClick={() => handleImageRemove(item.id)}></i>
+                                                                            <img src={trash} className='trash' onClick={() => onImageRemove(index)} />
                                                                         </div>
                                                                     </div>
 
@@ -669,46 +720,156 @@ export const CreateMarketCarousel = () => {
                                                         )}
                                                     </ImageUploading >
 
-                                                </td>
-                                                <td >{item.betChoice}</td>
-                                                <td className='text-center'>
+                                                </div>
+                                                <div className='col-6 my-auto text-start'>{item.betChoice}</div>
+                                                <div className='col-2 my-auto'>
                                                     <Form.Control
-                                                        type="number"
-                                                        className='text_white'
+                                                        type="text"
+                                                        className='elegant_input'
                                                         style={{ width: '75px' }}
                                                         value={item.percentage}
                                                         onChange={(e) => handlePercentageChange(item.id, e.target.value)}
                                                     />
-                                                </td>
-                                                <td className='text-center'>
-                                                    <i className="bi bi-trash3-fill" onClick={() => handleDeleteBetChoice(item.id)}></i>
-                                                </td>
-                                            </tr>
+                                                </div>
+                                                <div className='col-2 my-auto text-end'>
+                                                    <img src={trash} className='trash' onClick={() => handleDeleteBetChoice(item.id)} />
+                                                </div>
+                                            </div>
                                         ))}
-                                    </tbody>
-                                </table>
+                                    </div>
 
-                                {percentageError && (
-                                    <Alert variant="danger">
-                                        {percentageError}
-                                    </Alert>
-                                )}
-                            </>
-                        )}
-                        
-                    </div>
+                                    {percentageError && (
+                                        <Alert variant="danger">
+                                            {percentageError}
+                                        </Alert>
+                                    )}
+
+                                    {betChoiceList.length < 2 && (
+                                        <Alert variant="danger">
+                                            <span>At least need 2 outcomes</span>
+                                        </Alert>
+                                    )}
+                                </>
+                            )}
+
+                        </div>
+                        <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                            {pageIndex > 1 ?
+                                <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                                :
+                                <></>
+                            }
+                            <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled={percentageError || betChoiceList.length < 2} onClick={handleNext} />
+                        </div>
+                    </>
                 );
             case 6:
                 return (
-                    <div className='form-page'>
-                        {/* Contenido de la sexta página */}
-                    </div>
+                    <>
+                        <div className='form-page'>
+                            <p className='h3_medium'>Choose the initial pool</p>
+                            <p className='body_2'>Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                            <div className="forms">
+
+                                <div className='input_style'>
+
+                                    <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={minimumInitialPool >= betInitialPool} onClick={handleDecrementInitialPool} />
+
+                                    <Form.Control
+                                        type="text"
+                                        className="elegant_input text-center"
+                                        disabled={true}
+                                        value={minimumInitialPool <= betInitialPool ? betInitialPool : minimumInitialPool}
+                                        style={{ flex: 1, border: 'none' }}
+                                        onChange={handleChangeInitialPool}
+                                    />
+
+                                    <Button cName="short-icon-button add" iconSrc={add} onClick={handleIncrementInitialPool} />
+                                </div>
+                            </div>
+
+                            <p className='body_m_small'>The market must be bootstrapped with <span className="body_m_small_bold">at least {minimumInitialPool} initial shares</span></p>
+
+                            <p className='d-body_1'>Total cost: <span className='body_1_medium'>{totalCost} USDC</span></p>
+
+                            <p className='body_m_small last'>Internal commission 2%</p>
+                        </div>
+                        <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                            {pageIndex > 1 ?
+                                <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                                :
+                                <></>
+                            }
+                            <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleNext} />
+                        </div>
+                    </>
                 );
             case 7:
                 return (
-                    <div className='form-page'>
-                        {/* Contenido de la séptima página */}
-                    </div>
+                    <>
+                        <div className='form-page text-start'>
+                            <p className='h3_medium'>Finally, define dates</p>
+                            <p className='body_2'>Lorem ipsum dolor sit amet consectetur. At rutrum scelerisque in justo purus posuere mauris. Sed ut posuere eu et. Cursus dictum risus massa sit nibh sed. </p>
+                            <div className="forms">
+                                <Form.Label htmlFor="deadline-date">
+                                    <p className='h4_medium'>When will the pool be locked?</p>
+                                </Form.Label>
+                                <div>
+                                    <DatePicker
+                                        className='elegant_input w-100'
+                                        selected={dateLocked}
+                                        id="deadline-date"
+                                        onChange={handleDateLockedChange}
+                                        timeInputLabel="Time:"
+                                        dateFormat="MM/dd/yyyy h:mm aa"
+                                        showTimeInput
+                                        minDate={new Date()}
+                                        minTime={new Date(dateLocked)}
+                                    />
+                                </div>
+                                <div>
+                                    <Form.Label className='mt-4' htmlFor="deadline-date">
+                                        <p className='h4_medium'>What’s the deadline for the market?</p>
+                                    </Form.Label>
+                                </div>
+                                <div>
+                                    <DatePicker
+                                        className='elegant_input w-100'
+                                        selected={dateDeadline}
+                                        id="schedule-date"
+                                        onChange={handleDateDeadlineChange}
+                                        timeInputLabel="Time:"
+                                        dateFormat="MM/dd/yyyy h:mm aa"
+                                        showTimeInput
+                                        minDate={dateLocked}
+                                        minTime={new Date(dateLocked).getTime()}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
+                            {pageIndex > 1 ?
+                                <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
+                                :
+                                <></>
+                            }
+
+                            {owner ? (
+                                (usdcBalance ? (
+                                    <Button text='Create' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleCreateMarket} />
+                                ) : (
+                                    (awaitingApproval ? (
+                                        <Button text='Aproving...' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled="true"/>
+                                    ) : (
+                                        <Button text='Aprove USDC' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleDepositUSDC} />
+                                    ))
+                                ))
+                            ) : (
+                                <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet} backgroundColor="#6F75E5" />
+                            )}
+
+                        </div>
+                    </>
                 );
             default:
                 return null;
@@ -734,36 +895,12 @@ export const CreateMarketCarousel = () => {
 
                                 {renderFormPage()}
 
-                                <div className={`d-flex align-items-center ${pageIndex > 1 ? "justify-content-between" : "justify-content-end"} `}>
-                                    {pageIndex > 1 ?
-                                        <Button cName="secundary" text='Back' iconSrc={pointing_left} iconOnLeft="true" style={{ border: "2px solid #6E6EEA", width: "184px" }} onClick={handlePrev} />
-                                        :
-                                        <></>
-                                    }
-                                    <Button text='Continue' iconSrc={pointing_right} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleNext} />
-                                </div>
                                 <div className="pages">
-                                    <a className={`${pageIndex == 1 ? 'active' : ''}`}>
-                                        {pageIndex <= 1 ? "1" : <img src={check} />}
-                                    </a>
-                                    <a className={`${pageIndex == 2 ? 'active' : ''}`}>
-                                        {pageIndex <= 2 ? "2" : <img src={check} />}
-                                    </a>
-                                    <a className={`${pageIndex == 3 ? 'active' : ''}`}>
-                                        {pageIndex <= 3 ? "3" : <img src={check} />}
-                                    </a>
-                                    <a className={`${pageIndex == 4 ? 'active' : ''}`}>
-                                        {pageIndex <= 4 ? "4" : <img src={check} />}
-                                    </a>
-                                    <a className={`${pageIndex == 5 ? 'active' : ''}`}>
-                                        {pageIndex <= 5 ? "5" : <img src={check} />}
-                                    </a>
-                                    <a className={`${pageIndex == 6 ? 'active' : ''}`}>
-                                        {pageIndex <= 6 ? "6" : <img src={check} />}
-                                    </a>
-                                    <a className={`${pageIndex == 7 ? 'active' : ''}`}>
-                                        {pageIndex <= 7 ? "7" : <img src={check} />}
-                                    </a>
+                                    {[...Array(7).keys()].map((page, index) => (
+                                        <a key={index} className={`${pageIndex == page + 1 ? 'active' : ''}`}>
+                                            {pageIndex <= page + 1 ? page + 1 : <img src={check} />}
+                                        </a>
+                                    ))}
                                 </div>
                             </div>
                         </div>

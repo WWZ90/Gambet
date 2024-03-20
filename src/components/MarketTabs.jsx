@@ -14,6 +14,7 @@ import { truncateTextSize } from '../utils/services';
 
 import Image1 from '../assets/img/slider/1.jpg';
 import clock from '../assets/icons/png/ph_clock.png';
+import { Button } from './Button';
 
 export const MarketTabs = ({ categories, myRef }) => {
 
@@ -51,12 +52,7 @@ export const MarketTabs = ({ categories, myRef }) => {
                                 key={category}
                                 className={`nav-item ${activeCategory === category ? 'active' : ''}`}
                             >
-                                <button
-                                    className="nav-link"
-                                    onClick={() => handleTabChange(category)}
-                                >
-                                    {category}
-                                </button>
+                                <Button text={category} cName="terciary nav-link" onClick={() => handleTabChange(category)} />
                             </li>
                         ))}
                     </ul>

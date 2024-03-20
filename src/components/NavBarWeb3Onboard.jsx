@@ -1,11 +1,11 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-import {useConnectWallet, useSetChain} from "@web3-onboard/react";
-import {ethers} from "ethers";
+import { useConnectWallet, useSetChain } from "@web3-onboard/react";
+import { ethers } from "ethers";
 
 import {
     formatAddress,
@@ -15,9 +15,9 @@ import {
 import ooAbi from '../libs/gambeth-oo-abi';
 import tokenAbi from '../libs/gambeth-oo-token-abi';
 
-import {browseMarkets, getMarket} from '../utils/services';
+import { browseMarkets, getMarket } from '../utils/services';
 
-import {useStateContext} from '../contexts/ContextProvider';
+import { useStateContext } from '../contexts/ContextProvider';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -32,29 +32,29 @@ import rocket from '../assets/icons/png/noto_rocket.png';
 import more from '../assets/icons/png/more.png';
 import plus from '../assets/icons/png/plus.png';
 
-import {Button} from './Button';
+import { Button } from './Button';
 
 export const NavBarWeb3Onboard = () => {
 
-    const {wrongChain, setWrongChain} = useStateContext();
-    const {provider, setProvider} = useStateContext();
-    const {providerLoaded, setProviderLoaded} = useStateContext();
-    const {marketId, setMarketId} = useStateContext();
-    const {activeMarketId, setActiveMarketId} = useStateContext();
-    const {activeContract, setActiveContract} = useStateContext();
-    const {usdc, setUSDC} = useStateContext();
-    const {awaitingApproval, setAwaitingApproval} = useStateContext();
-    const {usdcBalance, setUSDCBalance} = useStateContext();
-    const {signer, setSigner} = useStateContext();
-    const {owner, setOwner} = useStateContext();
-    const {betType, setBetType} = useStateContext();
+    const { wrongChain, setWrongChain } = useStateContext();
+    const { provider, setProvider } = useStateContext();
+    const { providerLoaded, setProviderLoaded } = useStateContext();
+    const { marketId, setMarketId } = useStateContext();
+    const { activeMarketId, setActiveMarketId } = useStateContext();
+    const { activeContract, setActiveContract } = useStateContext();
+    const { usdc, setUSDC } = useStateContext();
+    const { awaitingApproval, setAwaitingApproval } = useStateContext();
+    const { usdcBalance, setUSDCBalance } = useStateContext();
+    const { signer, setSigner } = useStateContext();
+    const { owner, setOwner } = useStateContext();
+    const { betType, setBetType } = useStateContext();
 
-    const {marketsArray, setMarketsArray} = useStateContext();
+    const { marketsArray, setMarketsArray } = useStateContext();
 
-    const {cartCount, setCartCount} = useStateContext();
+    const { cartCount, setCartCount } = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
 
-    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [
         {
             chains, // the list of chains that web3-onboard was initialized with
@@ -158,11 +158,11 @@ export const NavBarWeb3Onboard = () => {
                         switch (prop) {
                             case "queryFilter":
                                 return function (filter, fromBlock) {
-                                    const body = JSON.stringify({name: filter?.fragment?.name || filter[0], topics: filter[1]?.map ? filter[1] : [null, null, null]});
+                                    const body = JSON.stringify({ name: filter?.fragment?.name || filter[0], topics: filter[1]?.map ? filter[1] : [null, null, null] });
                                     console.log("Querying filter", prop, [...arguments], body);
                                     return fetch(`${gambethBackend}/event`, {
                                         method: "POST",
-                                        headers: {"Content-Type": "application/json"},
+                                        headers: { "Content-Type": "application/json" },
                                         body
                                     })
                                         .then(r => {
@@ -193,7 +193,7 @@ export const NavBarWeb3Onboard = () => {
                                     let args = iface.encodeFunctionData(prop, [...arguments]);
                                     return fetch(`${gambethBackend}/method`, {
                                         method: "POST",
-                                        headers: {"Content-Type": "application/json"},
+                                        headers: { "Content-Type": "application/json" },
                                         body: JSON.stringify({
                                             name: prop,
                                             args
@@ -317,15 +317,13 @@ export const NavBarWeb3Onboard = () => {
     }, [connectedChain])
 
     const switchToChain = () => {
-        setChain({chainId: import.meta.env.VITE_CORRECT_CHAIN});
+        setChain({ chainId: import.meta.env.VITE_CORRECT_CHAIN });
     }
 
     return (
         <>
             {wrongChain && (
-                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
-                                                                                                onClick={switchToChain}> switch
-                    to Goerli</button></div>
+                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain' onClick={switchToChain}> switch to Polygon-Mumbai</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
@@ -346,9 +344,9 @@ export const NavBarWeb3Onboard = () => {
                                 <div className="col-10">
                                     <div className="search-container">
                                         <input type="text" className="search-input"
-                                               placeholder="Searchs for markets and more..."/>
+                                            placeholder="Searchs for markets and more..." />
                                         <div className="search-icon">
-                                            <img src={magnifying_glass} alt="Search"/>
+                                            <img src={magnifying_glass} alt="Search" />
                                         </div>
                                     </div>
 
@@ -362,20 +360,20 @@ export const NavBarWeb3Onboard = () => {
                                             show={showMenuM}
                                         >
                                             <Dropdown.Toggle id="dropdown-custom-components"
-                                                             className="dropdown-toggle">
+                                                className="dropdown-toggle">
                                                 Markets
                                                 <img src={more} alt="More Icon"
-                                                     className={`more-icon ${showMenuM ? 'rotate' : ''}`}/>
+                                                    className={`more-icon ${showMenuM ? 'rotate' : ''}`} />
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu className="dropdown-menu">
                                                 <Dropdown.Item href='/createmarket' className='d-flex'>
-                                                    <img src={plus}/>
+                                                    <img src={plus} />
                                                     <span>Create market</span>
                                                 </Dropdown.Item>
-                                                <Dropdown.Divider/>
+                                                <Dropdown.Divider />
                                                 <Dropdown.Item href='/browsemarkets' className='d-flex'>
-                                                    <img src={magnifying_glass}/>
+                                                    <img src={magnifying_glass} />
                                                     <span>Browse market</span>
                                                 </Dropdown.Item>
                                             </Dropdown.Menu>
@@ -389,7 +387,7 @@ export const NavBarWeb3Onboard = () => {
                         {!wallet ? (
                             <>
                                 <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet}
-                                        backgroundColor="#6F75E5"/>
+                                    backgroundColor="#6F75E5" />
                             </>
                         ) : (
 
@@ -419,7 +417,7 @@ export const NavBarWeb3Onboard = () => {
                                             <i className="bi bi-cart3">
                                                 {cartCount > 0 && (
                                                     <span id="cart_menu_num" data-action="cart-can"
-                                                          className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                                        className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
                                                 )}
 
                                             </i>
@@ -479,10 +477,10 @@ export const NavBarWeb3Onboard = () => {
                                             </motion.li>
                                         </NavLink>
 
-                                        <NavDropdown.Divider/>
+                                        <NavDropdown.Divider />
 
                                         <button onClick={() => {
-                                            disconnect({label: wallet.label});
+                                            disconnect({ label: wallet.label });
                                             setProvider(null);
                                             setWrongChain(false);
                                             setShown(false);

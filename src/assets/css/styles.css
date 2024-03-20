@@ -29,7 +29,7 @@
 
     --Accent-orange-5: #EE8C71;
 
-
+    --Error-color: #CF6679;
 
 
     --color-default: #000;
@@ -320,6 +320,14 @@ h6 {
     line-height: normal;
 }
 
+.h4_medium {
+    font-family: var(--font-family-medium);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
 .body_1 {
     font-family: var(--font-family-regular);
     font-size: 16px;
@@ -328,11 +336,43 @@ h6 {
     line-height: normal;
 }
 
+.body_1_medium {
+    font-family: var(--font-family-medium);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
 .body_2 {
     font-family: var(--font-family-regular);
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
+    line-height: normal;
+}
+
+.body_3 {
+    font-family: var(--font-family-regular);
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%;
+}
+
+.body_m_small {
+    font-family: var(--font-family-light);
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.body_m_small_bold {
+    font-family: var(--font-family-medium);
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
     line-height: normal;
 }
 
@@ -544,12 +584,18 @@ textarea.elegant_input::-webkit-scrollbar-thumb {
 }
 
 .input_error {
-    border: 1px solid var(--Accent-orange-5) !important;
+    border: 1px solid var(--Error-color) !important;
 }
 
 .text_error {
-    font-size: 12px;
-    color: red;
+    color: var(--Error-color);
+
+    font-family: var(--font-family-regular);
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    padding-top: 10px;
 }
 
 
@@ -2016,38 +2062,31 @@ button.swithToChain:hover {
 }
 
 .market_tabs .nav-item .nav-link {
-    color: var(--Text-1) !important;
-    font-family: var(--font-family-ultralight) !important;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-
-    border: 1px solid transparent !important;
     border-top: 0px !important;
     border-bottom: 0px !important;
     border-radius: 20px;
 }
 
-.market_tabs .nav-link:hover {
-    border-radius: 20px;
-    border: 1px solid var(--Accent-orange-5) !important;
-    border-top: 0px !important;
-    border-bottom: 0px !important;
+.market_tabs .nav-item .icon-button.terciary:hover {
+    background-color: var(--Accent-orange-5) !important;
 }
 
-.market_tabs .nav-item.active {
-    border-radius: 20px;
-    background-color: var(--Accent-orange-5);
+.market_tabs .nav-item .icon-button.terciary:hover span {
+    color: var(--Text-5) !important;
 }
 
-.market_tabs .nav-item.active .nav-link {
-    border: 1px solid rgba(255, 0, 0, 0);
+.market_tabs .nav-item.active .icon-button.terciary {
+    background-color: var(--Accent-orange-5) !important;
 }
 
 .market_tabs .nav-tabs {
     border-bottom: none;
     margin-bottom: 67px;
+    gap: 20px;
+}
+
+.market_tabs .nav-tabs .icon-button.terciary span {
+    color: var(--Text-5);
 }
 
 .markets-box {
@@ -2326,7 +2365,7 @@ button.swithToChain:hover {
 .create-market-carousel .carousel-form {
     color: var(--Text-1) !important;
     justify-content: center;
-    max-width: 660px;   
+    max-width: 660px;
 }
 
 .create-market-carousel .carousel-form p {
@@ -2335,6 +2374,11 @@ button.swithToChain:hover {
 
 .create-market-carousel .carousel-form .forms {
     margin: 36px 0px;
+}
+
+.create-market-carousel .carousel-form .forms .elegant_input::placeholder {
+    color: var(--Secondary-blue-2) !important;
+    font-size: 13px;
 }
 
 .create-market-carousel .carousel-form .form_rect_img {
@@ -2368,6 +2412,23 @@ button.swithToChain:hover {
     margin: auto;
 }
 
+.line-with-or {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 90px;
+}
+
+.line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #6F75E5;
+}
+
+.or {
+    margin: 0 7px;
+}
+
 .create-market-carousel .carousel-form .add_outcome input {
     width: 80%;
     margin-right: 20px;
@@ -2386,22 +2447,119 @@ button.swithToChain:hover {
     filter: invert(29%) sepia(35%) saturate(1792%) hue-rotate(200deg) brightness(105%) contrast(61%);
 }
 
-.line-with-or {
+.create-market-carousel .outcomes_box {
+    color: var(--Secondary-blue-2);
+    margin-bottom: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(202, 209, 220, 0.26);
+    background: linear-gradient(269deg, #0C0C56 49.21%, rgba(12, 12, 86, 0.00) 172.33%);
+    backdrop-filter: blur(10px);
+}
+
+.create-market-carousel .outcomes_box .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.create-market-carousel .outcomes_box .header_row {
+    height: 50px;
+    padding: 23px 0px 13px 23px;
+}
+
+.create-market-carousel .outcome_row {
+    height: 70px;
+    border-top: 1px solid #202062;
+    padding: 0px 23px;
+}
+
+.create-market-carousel .outcome_row .elegant_input {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 20px 90px;
+    width: 102px !important;
+    height: 42px;
+    padding: 13px 20px;
+    margin-left: 5px;
+    text-align: center;
 }
 
-.line {
-    flex-grow: 1;
-    height: 1px;
-    background-color: #6F75E5;
+.create-market-carousel img.trash {
+    width: 24px !important;
+    height: 24px !important;
+    transition: 0.2s all;
 }
 
-.or {
-    margin: 0 7px;
+.create-market-carousel img.trash:hover {
+    filter: invert(64%) sepia(68%) saturate(485%) hue-rotate(319deg) brightness(95%) contrast(96%);
+    cursor: pointer;
 }
+
+.create-market-carousel .outcome_row .upload_image {
+    height: 70px;
+    margin-bottom: 0px;
+    display: flex;
+}
+
+.create-market-carousel .outcome_row .upload_image .overlay {
+    width: 40px;
+    height: 36px;
+    top: 17px;
+    left: 0px;
+}
+
+.create-market-carousel .outcome_row .upload_image img {
+    width: 40px;
+    height: 36px;
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+}
+
+.create-market-carousel .overlay img.trash {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.create-market-carousel .input_style {
+    position: relative;
+    display: flex;
+}
+
+.create-market-carousel .input_style .short-icon-button {
+    position: absolute;
+    width: 31px;
+}
+
+.create-market-carousel .input_style .short-icon-button.subtract {
+    left: 0;
+    z-index: 1;
+}
+
+.create-market-carousel .input_style .short-icon-button.add {
+    right: 0;
+}
+
+.create-market-carousel p.body_m_small.last {
+    margin-bottom: 36px;
+}
+
+.create-market-carousel .react-datepicker-wrapper {
+    width: 100%;
+}
+
+.create-market-carousel .alert-danger {
+    font-family: var(--font-family-light);
+    color: var(--Error-color);
+    border: 1px solid var(--Error-color);
+    border-radius: 10px;
+    padding: 13px;
+    background: linear-gradient(269deg, #0C0C56 49.21%, rgba(12, 12, 86, 0.00) 172.33%);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 120%;
+    margin-bottom: 36px;
+}
+
 
 .create-market-carousel .pages {
     display: inline-flex;
