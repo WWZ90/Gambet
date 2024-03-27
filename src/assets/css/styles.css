@@ -26,6 +26,7 @@
     --Primary-blue-5: #02024C;
 
     --Secondary-blue-2: #C5C8F5;
+    --Secondary-blue-8: #313472;
 
     --Accent-orange-5: #EE8C71;
 
@@ -99,7 +100,7 @@
 }
 
 @font-face {
-    font-family: "Saira-Regular";
+    font-family: "Saira-Regular", sans-serif;
     src: local("Saira-Regular"),
         url("../fonts/Saira/Saira-Regular.ttf") format("truetype");
 }
@@ -405,6 +406,17 @@ button span {
 
 .text_white {
     color: #fff !important;
+}
+
+.button_switch_container {
+    background: var(--Secondary-blue-8);
+    border-radius: 20px;
+    height: 46px;
+    padding: 8px 6px;
+    margin-right: 10px;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
 }
 
 .icon-button {
@@ -1387,8 +1399,8 @@ button.swithToChain:hover {
 }
 
 .detail_market .left_panel {
-    width: calc(100vw - 420px);
-    max-width: 880px;
+    width: calc(100vw - 1px);
+    max-width: 840px;
 }
 
 .detail_market .left_panel .top {
@@ -1803,9 +1815,8 @@ button.swithToChain:hover {
 
 .detail_market .stiky_block {
     height: fit-content;
-    width: 380px;
     min-width: 360px;
-    max-width: 360px;
+    max-width: 433px;
     margin-top: 0rem;
     position: sticky;
     position: -webkit-sticky;
@@ -1814,13 +1825,13 @@ button.swithToChain:hover {
 }
 
 .detail_market .box {
-    width: 380px;
+    width: 433px;
     /*box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.05), 0px 6px 12px rgba(0, 0, 0, 0.05);*/
     border-radius: 20px;
     flex-direction: column;
     row-gap: 1.5rem;
 
-    padding: 33px;
+    padding: 33px 45px 45px 45px;
     background: #20226A;
 }
 
@@ -2366,6 +2377,10 @@ button.swithToChain:hover {
     color: var(--Text-1) !important;
     justify-content: center;
     max-width: 660px;
+}
+
+.create-market-carousel .carousel-form .form-page {
+    transition: 0.2s all;
 }
 
 .create-market-carousel .carousel-form p {

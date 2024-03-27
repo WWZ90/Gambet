@@ -282,8 +282,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
             <div className='box'>
                 <div className='box_header'>
                     <div className="d-flex justify-align-content-between justify-content-lg-start">
-                        <Button text="Buy" iconSrc={noto_heavy_dollar_sign} style={{ padding: "10px", width: "110px", height: "40px", marginRight: "10px", backgroundColor: activeOption === 'BUY' ? '#EE8C71' : '#6262D9', }} onClick={() => { setActiveOption('BUY') }} />
-                        <Button text="Sell" iconSrc={noto_dollar_banknote} style={{ padding: "10px", width: "110px", height: "40px", marginRight: "10px", backgroundColor: activeOption === 'SELL' ? '#EE8C71' : '#6262D9', }} onClick={() => { setActiveOption('SELL') }} />
+                        <div className="button_switch_container d-flex">
+                            <Button text="Buy" iconSrc={noto_heavy_dollar_sign} style={{ padding: "10px", width: "119px", height: "40px", backgroundColor: activeOption === 'BUY' ? '#EE8C71' : 'transparent', }} onClick={() => { setActiveOption('BUY') }} />
+                            <Button text="Sell" iconSrc={noto_dollar_banknote} style={{ padding: "10px", width: "119px", height: "40px", backgroundColor: activeOption === 'SELL' ? '#EE8C71' : 'transparent', }} onClick={() => { setActiveOption('SELL') }} />
+                        </div>
                         <div ref={dropdownRef2}>
                             <Dropdown
                                 onMouseEnter={handleMouseEnter}
@@ -427,7 +429,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementLimitPrice}>-</button>
                                         */}
-                                        <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementLimitPrice}/>
+                                        <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementLimitPrice} />
                                     </OverlayTrigger>
                                     <input
                                         type="text"
@@ -444,7 +446,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementLimitPrice}>+</button>
                                         */}
-                                        <Button cName="short-icon-button add" iconSrc={add} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementLimitPrice}/>
+                                        <Button cName="short-icon-button add" iconSrc={add} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementLimitPrice} />
                                     </OverlayTrigger>
                                 </div>
                             </div>
@@ -458,7 +460,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}>-</button>
                                         */}
-                                        <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}/>
+                                        <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares} />
                                     </OverlayTrigger>
                                     <input
                                         type="text"
@@ -475,7 +477,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                         {/*
                                         <button className='buttonStyle short_button' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares}>+</button>
                                         */}
-                                        <Button cName="short-icon-button add" iconSrc={add} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares}/>
+                                        <Button cName="short-icon-button add" iconSrc={add} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares} />
                                     </OverlayTrigger>
                                 </div>
                             </div>
@@ -488,7 +490,11 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                     overlay={<Tooltip id="tooltip-decrement">-1</Tooltip>}
                                     placement="top"
                                 >
+                                    {/*
                                     <button className='buttonStyle' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}>-</button>
+                                    */}
+                                    <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares} />
+                                    
                                 </OverlayTrigger>
                                 <input
                                     type="text"
@@ -502,7 +508,10 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                     overlay={<Tooltip id="tooltip-increment">+1</Tooltip>}
                                     placement="top"
                                 >
+                                    {/*
                                     <button className='buttonStyle' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares}>+</button>
+                                    */}
+                                    <Button cName="short-icon-button add" iconSrc={add} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleIncrementShares} />
                                 </OverlayTrigger>
                             </div>
                         </div>
@@ -533,7 +542,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                         {activeOption === 'BUY' ? (
                             <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{ width: "133px", padding: "10px 16px" }} onClick={handleOrderExecution} />
                         ) : (
-                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{ width: "133px", padding: "10px 16px"}} onClick={handleOrderExecution} />
+                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{ width: "133px", padding: "10px 16px" }} onClick={handleOrderExecution} />
                         )}
 
                     </div>

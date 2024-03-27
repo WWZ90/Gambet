@@ -1,50 +1,50 @@
-import React, {useEffect, useState, useRef} from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
-import {useConnectWallet, useSetChain} from "@web3-onboard/react";
+import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 
-import {NavLink, useParams, useNavigate} from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 
 import Countdown from 'react-countdown';
 
-import {useStateContext} from '../contexts/ContextProvider';
+import { useStateContext } from '../contexts/ContextProvider';
 
-import ReactEcharts from "echarts-for-react";
+import { truncateTextSize } from '../utils/services';
 
 import Image1 from '../assets/img/image_upload.png';
 
-import {NavBarWeb3Onboard} from '../components/NavBarWeb3Onboard';
-import {OrderBook} from '../components/OrderBook';
-import {ActionOrders} from '../components/ActionOrders';
-import {OutcomeTable} from '../components/OutcomeTable';
-import {Footer} from '../components/Footer';
+import { NavBarWeb3Onboard } from '../components/NavBarWeb3Onboard';
+import { OrderBook } from '../components/OrderBook';
+import { ActionOrders } from '../components/ActionOrders';
+import { OutcomeTable } from '../components/OutcomeTable';
+import { Footer } from '../components/Footer';
 
-import {browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders} from '../utils/services';
-import {OverlayTrigger, Tooltip} from 'react-bootstrap';
+import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetchOrders } from '../utils/services';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Button } from '../components/Button';
 
 export const DetailMarket = () => {
 
-    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
+    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
 
     const navigate = useNavigate();
 
-    const {id} = useParams();
-    const {previousRoute, setPreviousRoute} = useStateContext(false);
+    const { id } = useParams();
+    const { previousRoute, setPreviousRoute } = useStateContext(false);
 
-    const {activeContract} = useStateContext();
-    const {owner} = useStateContext();
+    const { activeContract } = useStateContext();
+    const { owner } = useStateContext();
 
-    const {activeMarket, setActiveMarket} = useStateContext();
-    const {marketId, setMarketId} = useStateContext();
-    const {marketsArray, setMarketsArray} = useStateContext();
-    const {orders, setOrders} = useStateContext();
+    const { activeMarket, setActiveMarket } = useStateContext();
+    const { marketId, setMarketId } = useStateContext();
+    const { marketsArray, setMarketsArray } = useStateContext();
+    const { orders, setOrders } = useStateContext();
 
     const [style, setStyle] = useState('collapse');
     const [showAboutCollapse, setShowAboutCollapse] = useState(false);
 
-    const {outcomeData, setOutcomeData} = useStateContext();
-    const {myOutcomeByMarket, setMyOutcomeByMarket} = useStateContext();
-    const {setOutcomeOptionSelected} = useStateContext();
+    const { outcomeData, setOutcomeData } = useStateContext();
+    const { myOutcomeByMarket, setMyOutcomeByMarket } = useStateContext();
+    const { setOutcomeOptionSelected } = useStateContext();
 
     const [loading, setLoading] = useState(true);
     const [marketExist, setMarketExist] = useState(true);
@@ -54,10 +54,10 @@ export const DetailMarket = () => {
     const Completionist = () => <span>You are good to go!</span>;
 
     // Renderer callback with condition
-    const renderer = ({days, hours, minutes, seconds, completed}) => {
+    const renderer = ({ days, hours, minutes, seconds, completed }) => {
         if (completed) {
             // Render a complete state
-            return <Completionist/>;
+            return <Completionist />;
         } else {
             // Render a countdown
             return (
@@ -243,7 +243,7 @@ export const DetailMarket = () => {
     return (
         <>
             <div className="image-back">
-                <NavBarWeb3Onboard/>
+                <NavBarWeb3Onboard />
                 <div className='header-fill'></div>
 
                 {loading ? (
@@ -277,7 +277,7 @@ export const DetailMarket = () => {
                                                 <div className='col-9 p-0 r-details'>
                                                     <div className='row'>
                                                         <div className='col-6 text_gray first'
-                                                             style={{fontSize: '13px'}}>
+                                                            style={{ fontSize: '13px' }}>
                                                             <OverlayTrigger
                                                                 overlay={<Tooltip
                                                                     id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
@@ -287,9 +287,9 @@ export const DetailMarket = () => {
                                                             </OverlayTrigger>
                                                             <span>Locked:</span>
                                                             <Countdown date={activeMarket.resolution}
-                                                                       renderer={renderer}/>
+                                                                renderer={renderer} />
                                                         </div>
-                                                        <div className='col-6 text_gray' style={{fontSize: '13px'}}>
+                                                        <div className='col-6 text_gray' style={{ fontSize: '13px' }}>
                                                             <OverlayTrigger
                                                                 overlay={<Tooltip
                                                                     id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
@@ -299,7 +299,7 @@ export const DetailMarket = () => {
                                                             </OverlayTrigger>
                                                             <span>Deadline:</span>
                                                             <Countdown date={activeMarket.deadline}
-                                                                       renderer={renderer}/>
+                                                                renderer={renderer} />
                                                         </div>
 
                                                     </div>
@@ -342,7 +342,7 @@ export const DetailMarket = () => {
                                                                             minWidth: '40px',
                                                                             marginTop: '0px',
                                                                             marginRight: '0px',
-                                                                            textAlign: outcomeThreshold() ?  'center' : 'left',
+                                                                            textAlign: outcomeThreshold() ? 'center' : 'left',
                                                                             marginLeft: outcomeThreshold() ? '0px' : '8px',
                                                                             marginBottom: outcomeThreshold() ? '8px' : '0px',
                                                                         }}>{`${Math.round((item.marketPrice ** 2) * 100)}%`}</div>
@@ -363,7 +363,7 @@ export const DetailMarket = () => {
                                                                                 boxShadow: 'inset 0 -3px 6px rgba(0,0,0,0.2)',
                                                                                 position: 'absolute',
                                                                                 bottom: '0'
-                                                                            }}/>
+                                                                            }} />
                                                                         </div>
 
                                                                         <div style={{
@@ -375,13 +375,25 @@ export const DetailMarket = () => {
                                                                             textTransform: 'capitalize',
                                                                             display: 'flex',
                                                                             justifyContent: outcomeThreshold() ? 'center' : 'end',
-                                                                            width: outcomeThreshold() ?  '' : '30%',
+                                                                            width: outcomeThreshold() ? '' : '30%',
                                                                             textAlign: 'end',
                                                                             marginTop: outcomeThreshold() ? '5px' : '0px',
                                                                             marginLeft: outcomeThreshold() ? '0px' : '0px',
                                                                             marginBottom: outcomeThreshold() ? '0px' : '0px',
-                                                                            marginRight: outcomeThreshold() ?  '0px' : '8px'
-                                                                        }}>{item.outcome}</div>
+                                                                            marginRight: outcomeThreshold() ? '0px' : '8px'
+                                                                        }}>
+
+                                                                            <OverlayTrigger key={index}
+                                                                                overlay={<Tooltip
+                                                                                    id="tooltip-decrement">{item.outcome}</Tooltip>}
+                                                                                placement="top"
+                                                                            >
+                                                                                <span>{truncateTextSize(item.outcome, 10)}</span>
+                                                                            </OverlayTrigger>
+
+
+
+                                                                        </div>
                                                                     </div>
                                                                 ))}
                                                             </div>
@@ -389,9 +401,9 @@ export const DetailMarket = () => {
                                                     </div>
                                                 </div>
 
-                                                <OutcomeTable/>
+                                                <OutcomeTable />
 
-                                                <OrderBook/>
+                                                <OrderBook />
 
                                                 <div className="module">
                                                     <div className='about'>
@@ -418,7 +430,7 @@ export const DetailMarket = () => {
                                         </div>
 
                                         <div className='stiky_block'>
-                                            <ActionOrders loadDetailMarket={loadDetailMarket}/>
+                                            <ActionOrders loadDetailMarket={loadDetailMarket} />
                                         </div>
 
                                     </div>
@@ -442,7 +454,7 @@ export const DetailMarket = () => {
                 )}
 
 
-                <Footer/>
+                <Footer />
             </div>
         </>
     )
