@@ -549,12 +549,12 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                     </div>
 
                     <div className="d-flex justify-content-between mt-5 buttons">
-                        <Button cName="secundary" text="Add to cart" iconSrc={noto_shopping_cart} disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} style={{ width: "133px", padding: "10px 16px" }} onClick={addToCart} />
+                        <Button cName="secundary" text="Add to cart" iconSrc={noto_shopping_cart} disabled={(activeOption === 'BUY' && shares === 0) || (activeOption === 'SELL' && (myOutcomeByMarket.length === 0 || shares === 0))} style={{ width: "161px", padding: "10px 16px" }} onClick={addToCart} />
 
                         {activeOption === 'BUY' ? (
-                            <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{ width: "133px", padding: "10px 16px" }} onClick={handleOrderExecution} />
+                            <Button text="Buy now" iconSrc={noto_money_bag} disabled={shares <= 0} backgroundColor="#6F75E5" style={{ width: "161px", padding: "10px 16px" }} onClick={handleOrderExecution} />
                         ) : (
-                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{ width: "133px", padding: "10px 16px" }} onClick={handleOrderExecution} />
+                            <Button text="Sell now" iconSrc={noto_money_bag} disabled={shares <= 0 || myOutcomeByMarket.length === 0} backgroundColor="#6F75E5" style={{ width: "161px", padding: "10px 16px" }} onClick={handleOrderExecution} />
                         )}
 
                     </div>
