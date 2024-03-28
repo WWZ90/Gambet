@@ -534,6 +534,79 @@ button span {
     transition: 0.3s all;
 }
 
+/* Toogle button */
+
+.toggle_button {
+    display: inline-block;
+    position: relative;
+    width: 250px;
+    height: 40px;
+    background-color: #5037f3;
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--Secondary-blue-8);
+    border-radius: 20px;
+    height: 46px;
+    padding: 8px 6px;
+    margin-right: 10px;
+    align-items: center;
+    gap: 3px;
+}
+
+.toggle_button input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle_button .slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border-radius: 20px;
+    transition: 0.4s;
+    width: 111px;
+    background-color: rgb(238, 140, 113);
+    padding: 10px;
+    width: 119px;
+    height: 40px;
+}
+
+.toggle_labels {
+    font-family: var(--font-family-regular);
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    align-items: center;
+    padding: 0 33px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.toggle_button .labels {
+    z-index: 1;
+}
+
+/* Position the slider on the right when checked */
+.toggle_button input:checked+.slider {
+    transform: translateX(125px);
+}
+
+.toggle_button input:checked {
+    color: var(--Text-5);
+}
+
+/*****************/
+
 button:disabled {
     background: var(--Neutral-02) !important;
     cursor: no-drop;

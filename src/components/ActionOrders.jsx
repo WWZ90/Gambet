@@ -282,10 +282,21 @@ export const ActionOrders = ({ loadDetailMarket }) => {
             <div className='box'>
                 <div className='box_header'>
                     <div className="d-flex justify-align-content-between justify-content-lg-start">
-                        <div className="button_switch_container d-flex">
-                            <Button text="Buy" iconSrc={noto_heavy_dollar_sign} style={{ padding: "10px", width: "119px", height: "40px", backgroundColor: activeOption === 'BUY' ? '#EE8C71' : 'transparent', }} onClick={() => { setActiveOption('BUY') }} />
-                            <Button text="Sell" iconSrc={noto_dollar_banknote} style={{ padding: "10px", width: "119px", height: "40px", backgroundColor: activeOption === 'SELL' ? '#EE8C71' : 'transparent', }} onClick={() => { setActiveOption('SELL') }} />
-                        </div>
+                        <label className="toggle_button">
+                            <input type="checkbox" id="buySellToggle" hidden />
+                            <span className="slider"></span>
+                            <span className="toggle_labels">
+                                <span className="labels" onClick={() => { setActiveOption('BUY') }}>Buy <img src={noto_heavy_dollar_sign} /></span>
+                                <span className="labels" onClick={() => { setActiveOption('SELL') }}>Sell <img src={noto_dollar_banknote} /></span>
+                            </span>
+                        </label>
+                        {/*
+                            <div className="button_switch_container d-flex">
+                                <Button text="Buy" iconSrc={noto_heavy_dollar_sign} style={{ padding: "10px", width: "119px", height: "40px", backgroundColor: activeOption === 'BUY' ? '#EE8C71' : 'transparent', }} onClick={() => { setActiveOption('BUY') }} />
+                                <Button text="Sell" iconSrc={noto_dollar_banknote} style={{ padding: "10px", width: "119px", height: "40px", backgroundColor: activeOption === 'SELL' ? '#EE8C71' : 'transparent', }} onClick={() => { setActiveOption('SELL') }} />
+                            </div>
+                        */}
+
                         <div ref={dropdownRef2}>
                             <Dropdown
                                 onMouseEnter={handleMouseEnter}
@@ -312,6 +323,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                             </Dropdown>
                         </div>
                     </div>
+
                     {/* 
                     <div className="row">
                         <div className={`${activeOption == 'BUY' ? 'active buy' : 'buy'} col-2 text-center d-flex action`} onClick={() => { setActiveOption('BUY') }}>
@@ -494,7 +506,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
                                     <button className='buttonStyle' disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares}>-</button>
                                     */}
                                     <Button cName="short-icon-button subtract" iconSrc={subtract} disabled={activeOption === 'SELL' && myOutcomeByMarket.length === 0} onClick={handleDecrementShares} />
-                                    
+
                                 </OverlayTrigger>
                                 <input
                                     type="text"
