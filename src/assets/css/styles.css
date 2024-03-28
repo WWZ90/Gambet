@@ -100,7 +100,7 @@
 }
 
 @font-face {
-    font-family: "Saira-Regular", sans-serif;
+    font-family: "Saira-Regular";
     src: local("Saira-Regular"),
         url("../fonts/Saira/Saira-Regular.ttf") format("truetype");
 }
