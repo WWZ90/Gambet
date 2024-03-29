@@ -22,6 +22,10 @@ import { browseMarkets, getOwned, getPrices, calculateCost, calculatePrice, fetc
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Button } from '../components/Button';
 
+import ph_clock_2 from '../assets/icons/png/ph_clock_2.png';
+import share from '../assets/icons/png/share.png';
+import heart from '../assets/icons/png/heart.png';
+
 export const DetailMarket = () => {
 
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
@@ -274,36 +278,47 @@ export const DetailMarket = () => {
                                                     </div>
                                                 )}
 
-                                                <div className='col-9 p-0 r-details'>
-                                                    <div className='row'>
-                                                        <div className='col-6 text_gray first'
-                                                            style={{ fontSize: '13px' }}>
-                                                            <OverlayTrigger
-                                                                overlay={<Tooltip
-                                                                    id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
-                                                                placement="top"
-                                                            >
-                                                                <i className="bi bi-info-circle pt-2 pr-2"></i>
-                                                            </OverlayTrigger>
-                                                            <span>Locked:</span>
-                                                            <Countdown date={activeMarket.resolution}
-                                                                renderer={renderer} />
+                                                <div className='col-10 p-0 r-details'>
+                                                    <div className='top_row d-flex justify-content-between'>
+                                                        <div className="d-flex">
+                                                            <div className="">
+                                                                <span className='body_4 category_name_box'>
+                                                                    Sports
+                                                                </span>
+                                                            </div>
+                                                            <div className='date body_4'>
+                                                                <OverlayTrigger
+                                                                    overlay={<Tooltip
+                                                                        id="tooltip-decrement">{activeMarket.resolution}</Tooltip>}
+                                                                    placement="top"
+                                                                >
+                                                                    <img src={ph_clock_2} style={{ marginRight: '5px' }} />
+                                                                </OverlayTrigger>
+                                                                <span>Locked:</span>
+                                                                <Countdown date={activeMarket.resolution}
+                                                                    renderer={renderer} />
+                                                            </div>
+                                                            <div className='date body_4'>
+                                                                <OverlayTrigger
+                                                                    overlay={<Tooltip
+                                                                        id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
+                                                                    placement="top"
+                                                                >
+                                                                    <img src={ph_clock_2} style={{ marginRight: '5px' }} />
+                                                                </OverlayTrigger>
+                                                                <span>Deadline:</span>
+                                                                <Countdown date={activeMarket.deadline}
+                                                                    renderer={renderer} />
+                                                            </div>
                                                         </div>
-                                                        <div className='col-6 text_gray' style={{ fontSize: '13px' }}>
-                                                            <OverlayTrigger
-                                                                overlay={<Tooltip
-                                                                    id="tooltip-decrement">{activeMarket.deadline}</Tooltip>}
-                                                                placement="top"
-                                                            >
-                                                                <i className="bi bi-info-circle pt-2 pr-2"></i>
-                                                            </OverlayTrigger>
-                                                            <span>Deadline:</span>
-                                                            <Countdown date={activeMarket.deadline}
-                                                                renderer={renderer} />
+
+                                                        <div className="social">
+                                                            <img src={share} style={{ marginRight: '16px' }} />
+                                                            <img src={heart} style={{}} />
                                                         </div>
 
                                                     </div>
-                                                    <div className='row d-flex aling-align-items-center title'>
+                                                    <div className='bottom_row d-flex aling-align-items-center title'>
                                                         {activeMarket.name}
                                                     </div>
 
@@ -322,7 +337,7 @@ export const DetailMarket = () => {
                                                                 padding: chartThreshold() ? '20px' : '0px',
                                                                 height: chartThreshold() ? '260px' : '140px',
                                                                 width: chartThreshold() ? '100%' : 'auto',
-                                                                marginTop: chartThreshold() ? '40px' : '10px'
+                                                                marginTop: chartThreshold() ? '20px' : '10px'
                                                             }}>
                                                                 {outcomeData.map((item, index) => (
                                                                     <div key={index} style={{
