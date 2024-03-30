@@ -160,19 +160,21 @@ export const NavBarWeb3Onboard = () => {
 
     const calculateCostForFillOrder = (parameters) => {
         let cost = 0;
+        console.log(parameters);
         const buys = {
             // Filter only buys
-            amounts: parameters[0].filter((e,i) => parameters[2][i] === 0),
-            prices: parameters[1].filter((e,i) => parameters[2][i] === 0)
+            amounts: parameters[0].filter((e,i) => parameters[2][i] === 0n),
+            prices: parameters[1].filter((e,i) => parameters[2][i] === 0n)
         }
         for (let i = 0; i < buys.amounts.length; i++) {
-            cost += buys.amounts[i] * (buys.prices[i] || 1);
+            cost += buys.amounts[i] * (buys.prices[i] || 1e6);
         }
+        console.log("Cost is", cost);
         return cost;
     }
 
     const gaslessTransaction = async (contract, prop, args) => {
-        if (!signer || !contract) {
+        if (!signer || !contract || !owner) {
             console.error("Missing required signer/contract", signer, contract);
             return;
         }
@@ -186,11 +188,13 @@ export const NavBarWeb3Onboard = () => {
             "createOptimisticBet": calculateCostForOptimisticBet
         }
         const cost = costCalculator[prop](args);
-
+        console.log(import.meta.env.VITE_OO_CONTRACT_ADDRESS, owner);
+        debugger;
         const callData = [
             usdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
             contract.interface.encodeFunctionData(prop, args)
         ];
+        await usdc.transfer(owner, cost).then(tx => tx.wait());
         // Send the User Operation to the ERC-4337 mempool
         const client = await Client.init(rpcUrl);
         const res = await client.sendUserOperation(builder.executeBatch(callTo, callData), {
