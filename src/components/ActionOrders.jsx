@@ -23,7 +23,6 @@ import noto_shopping_cart from "../assets/icons/png/noto_shopping-cart.png";
 import noto_heavy_dollar_sign from "../assets/icons/png/noto_heavy-dollar-sign.png";
 import subtract from "../assets/icons/png/-.png";
 import add from "../assets/icons/png/+.png";
-
 import more from '../assets/icons/png/more.png';
 
 export const ActionOrders = ({ loadDetailMarket }) => {
