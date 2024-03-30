@@ -271,6 +271,7 @@ export const ActionOrders = ({ loadDetailMarket }) => {
 
         fillOrder(activeContract, marketId, orderToExecute, orders).then(() => {
             getMarket(marketId, activeContract).then(market => {
+                console.log("Reloading market after filling order");
                 loadDetailMarket(market);
             })
         })

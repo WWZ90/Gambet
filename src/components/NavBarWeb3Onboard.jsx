@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
-import { useConnectWallet, useSetChain } from "@web3-onboard/react";
-import { ethers } from "ethers";
+import {useConnectWallet, useSetChain} from "@web3-onboard/react";
+import {ethers} from "ethers";
+import {Presets, Client} from "userop"
 
 import {
     formatAddress,
@@ -15,9 +16,9 @@ import {
 import ooAbi from '../libs/gambeth-oo-abi';
 import tokenAbi from '../libs/gambeth-oo-token-abi';
 
-import { browseMarkets, getMarket } from '../utils/services';
+import {browseMarkets, getMarket} from '../utils/services';
 
-import { useStateContext } from '../contexts/ContextProvider';
+import {useStateContext} from '../contexts/ContextProvider';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -32,29 +33,29 @@ import rocket from '../assets/icons/png/noto_rocket.png';
 import more from '../assets/icons/png/more.png';
 import plus from '../assets/icons/png/plus.png';
 
-import { Button } from './Button';
+import {Button} from './Button';
 
 export const NavBarWeb3Onboard = () => {
 
-    const { wrongChain, setWrongChain } = useStateContext();
-    const { provider, setProvider } = useStateContext();
-    const { providerLoaded, setProviderLoaded } = useStateContext();
-    const { marketId, setMarketId } = useStateContext();
-    const { activeMarketId, setActiveMarketId } = useStateContext();
-    const { activeContract, setActiveContract } = useStateContext();
-    const { usdc, setUSDC } = useStateContext();
-    const { awaitingApproval, setAwaitingApproval } = useStateContext();
-    const { usdcBalance, setUSDCBalance } = useStateContext();
-    const { signer, setSigner } = useStateContext();
-    const { owner, setOwner } = useStateContext();
-    const { betType, setBetType } = useStateContext();
+    const {wrongChain, setWrongChain} = useStateContext();
+    const {provider, setProvider} = useStateContext();
+    const {providerLoaded, setProviderLoaded} = useStateContext();
+    const {marketId, setMarketId} = useStateContext();
+    const {activeMarketId, setActiveMarketId} = useStateContext();
+    const {activeContract, setActiveContract} = useStateContext();
+    const {usdc, setUSDC} = useStateContext();
+    const {awaitingApproval, setAwaitingApproval} = useStateContext();
+    const {usdcBalance, setUSDCBalance} = useStateContext();
+    const {signer, setSigner} = useStateContext();
+    const {owner, setOwner} = useStateContext();
+    const {betType, setBetType} = useStateContext();
 
-    const { marketsArray, setMarketsArray } = useStateContext();
+    const {marketsArray, setMarketsArray} = useStateContext();
 
-    const { cartCount, setCartCount } = useStateContext();
+    const {cartCount, setCartCount} = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
 
-    const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
+    const [{wallet, connecting}, connect, disconnect] = useConnectWallet();
     const [
         {
             chains, // the list of chains that web3-onboard was initialized with
@@ -133,6 +134,81 @@ export const NavBarWeb3Onboard = () => {
         }
     }
 
+    const gasslessAddress = async (rpcUrl, signer) => {
+        if (!signer) {
+            return null;
+        }
+        const paymasterUrl = "https://api.stackup.sh/v1/paymaster/7daadcaada371e09de5519d2522bbe7691554adbf8cf2869c6dbbaedb90633bb";
+        const paymasterContext = {type: "payg"};
+        const opts = {
+            paymasterMiddleware: Presets.Middleware.verifyingPaymaster(
+                paymasterUrl,
+                paymasterContext
+            )
+        }
+        const builder = await Presets.Builder.SimpleAccount.init(signer, rpcUrl, opts);
+        const address = builder.getSender();
+        console.log(`Account address: ${address}`);
+        return [address, builder];
+    }
+
+    const writeOps = ["fillOrder", "createOptimisticBet"];
+
+    const calculateCostForOptimisticBet = (parameters) => {
+        throw "Unimplemented"
+    }
+
+    const calculateCostForFillOrder = (parameters) => {
+        let cost = 0;
+        console.log(parameters);
+        const buys = {
+            // Filter only buys
+            amounts: parameters[0].filter((e,i) => parameters[2][i] === 0n),
+            prices: parameters[1].filter((e,i) => parameters[2][i] === 0n)
+        }
+        for (let i = 0; i < buys.amounts.length; i++) {
+            cost += buys.amounts[i] * (buys.prices[i] || 1e6);
+        }
+        console.log("Cost is", cost);
+        return cost;
+    }
+
+    const gaslessTransaction = async (contract, prop, args) => {
+        if (!signer || !contract || !owner) {
+            console.error("Missing required signer/contract", signer, contract);
+            return;
+        }
+        console.log(prop, args);
+        const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
+        const [, builder] = await gasslessAddress(rpcUrl, signer);
+        // Encode the calls
+        const callTo = [import.meta.env.VITE_USDC_ADDRESS, await contract.getAddress()];
+        const costCalculator = {
+            "fillOrder": calculateCostForFillOrder,
+            "createOptimisticBet": calculateCostForOptimisticBet
+        }
+        const cost = costCalculator[prop](args);
+        console.log(import.meta.env.VITE_OO_CONTRACT_ADDRESS, owner);
+        debugger;
+        const callData = [
+            usdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
+            contract.interface.encodeFunctionData(prop, args)
+        ];
+        await usdc.transfer(owner, cost).then(tx => tx.wait());
+        // Send the User Operation to the ERC-4337 mempool
+        const client = await Client.init(rpcUrl);
+        const res = await client.sendUserOperation(builder.executeBatch(callTo, callData), {
+            onBuild: (op) => console.log("Signed UserOperation:", op),
+        });
+
+        // Return receipt
+        console.log(`UserOpHash: ${res.userOpHash}`);
+        console.log("Waiting for transaction...");
+        const ev = await res.wait();
+        console.log(`Transaction hash: ${ev?.transactionHash ?? null}`);
+        console.log(`View here: https://jiffyscan.xyz/userOpHash/${res.userOpHash}`);
+    }
+
     useEffect(() => {
 
         const setupActiveContract = (connectedContract) => {
@@ -158,11 +234,14 @@ export const NavBarWeb3Onboard = () => {
                         switch (prop) {
                             case "queryFilter":
                                 return function (filter, fromBlock) {
-                                    const body = JSON.stringify({name: filter?.fragment?.name || filter[0], topics: filter[1]?.map ? filter[1] : [null, null, null]});
+                                    const body = JSON.stringify({
+                                        name: filter?.fragment?.name || filter[0],
+                                        topics: filter[1]?.map ? filter[1] : [null, null, null]
+                                    });
                                     console.log("Querying filter", prop, [...arguments], body);
                                     return fetch(`${gambethBackend}/event`, {
                                         method: "POST",
-                                        headers: { "Content-Type": "application/json" },
+                                        headers: {"Content-Type": "application/json"},
                                         body
                                     })
                                         .then(r => {
@@ -182,18 +261,18 @@ export const NavBarWeb3Onboard = () => {
                                 });
                             case "fillOrder":
                             case "createOptimisticBet":
-                                return function () {
-                                    console.log(prop, ...arguments);
-                                    return connectedContract
-                                        ? connectedContract[prop](...arguments)
-                                        : console.error("Tried to call write method without connected contract")
+                                return async function () {
+                                    if (!connectedContract) {
+                                        return alert("Tried to call write method without connected contract")
+                                    }
+                                    return gaslessTransaction(connectedContract, prop, [...arguments]);
                                 }
                             default:
                                 return function () {
                                     let args = iface.encodeFunctionData(prop, [...arguments]);
                                     return fetch(`${gambethBackend}/method`, {
                                         method: "POST",
-                                        headers: { "Content-Type": "application/json" },
+                                        headers: {"Content-Type": "application/json"},
                                         body: JSON.stringify({
                                             name: prop,
                                             args
@@ -213,13 +292,13 @@ export const NavBarWeb3Onboard = () => {
                                 return handleWalletCall(prop);
                             }).then(r => r === undefined ? handleWalletCall(prop) : r);
                         }) || originalReturn;
-                        
+
                         if (originalReturn?.constructor?.name === "AsyncFunction") {
                             console.log("Original return is an async function, adding fallback logic to it", prop, originalReturn, connectedContract);
                             return async function () {
                                 try {
-                                    const r = await connectedContract?.[prop]?.(...arguments);
-                                    if (r === undefined) {
+                                    const r = writeOps.includes(prop) ? await handleWalletCall(prop)(...arguments) : await connectedContract?.[prop]?.(...arguments);
+                                    if (r === undefined && !writeOps.includes(prop)) {
                                         return handleWalletCall(prop)(...arguments);
                                     }
                                     return r;
@@ -259,8 +338,12 @@ export const NavBarWeb3Onboard = () => {
             const tempSigner = await provider.getSigner();
             const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
             const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
-            setOwner(await tempSigner.getAddress());
             setSigner(tempSigner);
+            const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
+            gasslessAddress(rpcUrl, tempSigner).then(([owner]) => {
+                console.log("Owner is " + owner);
+                setOwner(owner);
+            });
             setUSDC(tempUsdc);
             return tempActiveContract;
         }
@@ -273,30 +356,7 @@ export const NavBarWeb3Onboard = () => {
     }, [provider])
 
     const handleConnectWallet = async () => {
-        await connect().then(async (result) => {
-            await handleDepositUSDC();
-        })
-    }
-
-    const handleDepositUSDC = async () => {
-        setAwaitingApproval(true);
-        try {
-            await usdc.balanceOf(owner).then(async (balance) => {
-                console.log("Approving USDC");
-                await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance).catch(console.error).then(async tx => {
-                    console.log("Waiting for USDC approval");
-                    await tx.wait();
-                    await usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS).then(async (allowance) => {
-                        const wallet_balance = balance > allowance ? allowance : balance;
-                        let b = (Number(wallet_balance) / 1e6).toFixed(3);
-                        setUSDCBalance(b);
-                        setAwaitingApproval(false);
-                    });
-                });
-            });
-        } catch {
-            setAwaitingApproval(false);
-        }
+        await connect();
     }
 
     useEffect(() => {
@@ -316,13 +376,15 @@ export const NavBarWeb3Onboard = () => {
     }, [connectedChain])
 
     const switchToChain = () => {
-        setChain({ chainId: import.meta.env.VITE_CORRECT_CHAIN });
+        setChain({chainId: import.meta.env.VITE_CORRECT_CHAIN});
     }
 
     return (
         <>
             {wrongChain && (
-                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain' onClick={switchToChain}> switch to Polygon-Mumbai</button></div>
+                <div className='error_alert'>You are on the incorrect network. Please a <button className='swithToChain'
+                                                                                                onClick={switchToChain}> switch
+                    to Polygon-Mumbai</button></div>
             )}
 
             <header id="header" className="header fixed-top d-flex align-items-center">
@@ -343,9 +405,9 @@ export const NavBarWeb3Onboard = () => {
                                 <div className="col-10">
                                     <div className="search-container">
                                         <input type="text" className="search-input"
-                                            placeholder="Searchs for markets and more..." />
+                                               placeholder="Searchs for markets and more..."/>
                                         <div className="search-icon">
-                                            <img src={magnifying_glass} alt="Search" />
+                                            <img src={magnifying_glass} alt="Search"/>
                                         </div>
                                     </div>
 
@@ -359,20 +421,20 @@ export const NavBarWeb3Onboard = () => {
                                             show={showMenuM}
                                         >
                                             <Dropdown.Toggle id="dropdown-custom-components"
-                                                className="dropdown-toggle">
+                                                             className="dropdown-toggle">
                                                 Markets
                                                 <img src={more} alt="More Icon"
-                                                    className={`more-icon ${showMenuM ? 'rotate' : ''}`} />
+                                                     className={`more-icon ${showMenuM ? 'rotate' : ''}`}/>
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu className="dropdown-menu">
                                                 <Dropdown.Item href='/createmarket' className='d-flex'>
-                                                    <img src={plus} />
+                                                    <img src={plus}/>
                                                     <span>Create market</span>
                                                 </Dropdown.Item>
-                                                <Dropdown.Divider />
+                                                <Dropdown.Divider/>
                                                 <Dropdown.Item href='/browsemarkets' className='d-flex'>
-                                                    <img src={magnifying_glass} />
+                                                    <img src={magnifying_glass}/>
                                                     <span>Browse market</span>
                                                 </Dropdown.Item>
                                             </Dropdown.Menu>
@@ -386,7 +448,7 @@ export const NavBarWeb3Onboard = () => {
                         {!wallet ? (
                             <>
                                 <Button text="Connect" iconSrc={rocket} onClick={handleConnectWallet}
-                                    backgroundColor="#6F75E5" />
+                                        backgroundColor="#6F75E5"/>
                             </>
                         ) : (
 
@@ -416,7 +478,7 @@ export const NavBarWeb3Onboard = () => {
                                             <i className="bi bi-cart3">
                                                 {cartCount > 0 && (
                                                     <span id="cart_menu_num" data-action="cart-can"
-                                                        className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
+                                                          className={`badge rounded-circle ${cartCount > 0 ? 'badge_active' : ''}`}>{cartCount}</span>
                                                 )}
 
                                             </i>
@@ -442,7 +504,7 @@ export const NavBarWeb3Onboard = () => {
                                             </a>
 
                                         ) : (
-                                            <button onClick={handleDepositUSDC} className='wallet_deposit'>
+                                            <button className='wallet_deposit'>
                                                 {awaitingApproval ? (
                                                     <span>Awaiting...</span>
                                                 ) : (
@@ -476,10 +538,10 @@ export const NavBarWeb3Onboard = () => {
                                             </motion.li>
                                         </NavLink>
 
-                                        <NavDropdown.Divider />
+                                        <NavDropdown.Divider/>
 
                                         <button onClick={() => {
-                                            disconnect({ label: wallet.label });
+                                            disconnect({label: wallet.label});
                                             setProvider(null);
                                             setWrongChain(false);
                                             setShown(false);
