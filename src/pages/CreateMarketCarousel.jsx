@@ -67,6 +67,7 @@ export const CreateMarketCarousel = () => {
     const [imageError, setImageError] = useState(false);
     const [marketTermsError, setMarketTermsError] = useState(false);
     const [marketOutcomesError, setMarketOutcomesError] = useState(false);
+    const [marketOutcomeExists, setMarketOutcomeExists] = useState(false);
     const [marketOutcomesHandleBlur, setMarketOutcomesHandleBlur] = useState(false);
 
     const [{ connecting }, connect] = useConnectWallet();
@@ -135,6 +136,7 @@ export const CreateMarketCarousel = () => {
 
     const handleChangeBetChoice = (event) => {
         setBetChoice(event.target.value);
+        setMarketOutcomeExists(false);
     }
 
     const handleOutcomesOnKeyDown = (event) => {
@@ -152,6 +154,8 @@ export const CreateMarketCarousel = () => {
                 setBetChoice('');
                 outcomeInputRef.current.focus();
                 checkPercentageSum(betChoiceList);
+            } else {
+                setMarketOutcomeExists(true);
             }
         }
     }
@@ -663,6 +667,9 @@ export const CreateMarketCarousel = () => {
                                     />
                                     <Button text="Add" cName="terciary" iconSrc={plus} style={{ width: "120px" }} disabled={!betChoice} onClick={handleAddBetChoice} />
                                 </div>
+                                {marketOutcomeExists && (
+                                    <p className='text_error'>That outcome already exists</p>
+                                )}
                             </div>
 
                             {betChoiceList.length > 0 && (
@@ -859,7 +866,7 @@ export const CreateMarketCarousel = () => {
                                     <Button text='Create' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleCreateMarket} />
                                 ) : (
                                     (awaitingApproval ? (
-                                        <Button text='Aproving...' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled="true"/>
+                                        <Button text='Aproving...' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled="true" />
                                     ) : (
                                         <Button text='Aprove USDC' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleDepositUSDC} />
                                     ))

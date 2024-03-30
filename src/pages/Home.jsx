@@ -67,12 +67,6 @@ export const Home = () => {
         }
     }, [activeContract])
 
-    useEffect(() => {
-        //AOS.init();
-
-    }, [])
-
-
     const categories = ['Trending', 'New', 'Ending Soon', 'Volume', 'Liquidity'];
 
     return (

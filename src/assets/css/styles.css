@@ -369,6 +369,10 @@ h6 {
     line-height: 120%;
 }
 
+.body_4_1 {
+    font-weight: 500 !important;
+}
+
 .body_m_small {
     font-family: var(--font-family-light);
     font-size: 10px;
@@ -1356,13 +1360,14 @@ button.swithToChain:hover {
 --------------------------------------------------------------*/
 
 .browseMarket {
-    min-height: 80vh;
+    margin-top: 160px;
+    margin-bottom: 130px;
     /*background-image: radial-gradient(circle, rgb(111, 117, 229) 0%, rgb(255, 255, 255) 35%, rgb(255, 255, 255) 80%);*/
     z-index: -10;
 }
 
 .browseMarket .slick-slide {
-    height: 320px !important;
+    /*height: 320px !important;*/
 }
 
 /*--------------------------------------------------------------
@@ -2214,7 +2219,7 @@ button.swithToChain:hover {
     display: flex;
     justify-content: center;
     flex-flow: wrap;
-    gap: 30px;
+    gap: 20px;
 }
 
 .markets-box .market-box .market-box-header {
@@ -2239,6 +2244,10 @@ button.swithToChain:hover {
     flex-shrink: 0;
 }
 
+.markets-box .market-box:hover {
+    background: rgba(111, 117, 229, 0.50);
+}
+
 .markets-box .market-box .market-box-inside {
     width: 100%;
     height: 100%;
@@ -2256,16 +2265,14 @@ button.swithToChain:hover {
 .markets-box .market-box .market-box-header .top-section {
     padding-left: 16px !important;
     color: var(--Text-1);
-
-    font-family: var(--font-family-light);
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 120%;
 }
 
 .markets-box .market-box .market-box-header .top-section .market-box-date span {
     margin-right: 6px;
+}
+
+.markets-box .market-box .market-box-header .top-section .market-box-date img {
+    height: 15px;
 }
 
 .markets-box .market-box .market-box-header .market-box-name {
@@ -2283,29 +2290,21 @@ button.swithToChain:hover {
     margin-bottom: 16px !important;
 }
 
-.market_tabs .market_option {
+.market-box .market_option {
     background-color: transparent !important;
     border: none !important;
-    margin: 0 !important;
-    padding: 10px 0px !important;
+    margin: -20px 0px !important;
+    padding: 0px 0px !important;
     color: var(--Text-1);
-
-    font-family: var(--font-family-light);
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 120%;
+    justify-content: center;
+    align-items: center;
 }
 
-.market_tabs .market_option p {
+.market-box .market_option p {
     padding: 0px;
 }
 
-.market_tabs .market_option p.price {
-    font-family: var(--font-family-light);
-}
-
-.market_tabs .slick-slide {
+.market-box .slick-slide {
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -2313,23 +2312,17 @@ button.swithToChain:hover {
     box-shadow: none !important;
 }
 
-.market_tabs .market-box-bottom {
+.market-box .market-box-bottom {
     color: var(--Text-1);
-
-    font-family: var(--font-family-light);
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 120%;
 }
 
-.market_tabs .slick-slider {
+.market-box .slick-slider {
     padding: 0px !important;
 }
 
 /************** SLICK SLIDER ****************/
 
-.market_tabs .slick-slider {
+.market-box .slick-slider {
     width: 100%;
     height: 100%;
     max-width: 1440px;
@@ -2339,10 +2332,10 @@ button.swithToChain:hover {
     border-bottom: 1px solid #6F75E5;
 }
 
-.market_tabs .slick-list {
-    height: 107px !important;
+.market-box .slick-list {
+    height: 100px !important;
+    margin-top: 0px;
 }
-
 
 .slick-prev,
 .slick-next {
@@ -2502,8 +2495,7 @@ button.swithToChain:hover {
 }
 
 .create-market-carousel .carousel-form .forms .elegant_input::placeholder {
-    color: var(--Secondary-blue-2) !important;
-    font-size: 13px;
+
 }
 
 .create-market-carousel .carousel-form .form_rect_img {

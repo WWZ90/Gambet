@@ -31,6 +31,7 @@ import { CardSwiperSlide } from '../components/CardSwiperSlide';
 import { browseMarkets, truncateTextSize } from '../utils/services';
 import { delay } from 'framer-motion';
 import { Footer } from '../components/Footer';
+import { MarketBox } from '../components/MarketBox';
 
 export const BrowseMarkets = () => {
 
@@ -54,9 +55,9 @@ export const BrowseMarkets = () => {
 
   useEffect(() => {
     if (!marketsArray) {
-        setPreviousRoute('browseMarkets');
-        console.log("Loading markets...");
-        setLoading(true);
+      setPreviousRoute('browseMarkets');
+      console.log("Loading markets...");
+      setLoading(true);
     } else {
       setLoading(false);
     }
@@ -133,40 +134,26 @@ export const BrowseMarkets = () => {
       <NavBarWeb3Onboard />
 
       <section className='browseMarket'>
-        {loading ? (
-          <>
-            <div className="container align-items-center text-center">
-              <div className="lds-ripple"><div></div><div></div></div>
-            </div>
-          </>
-        ) : (
-          <>
-            <h1>Bet on your beliefs</h1>
-            <Slider {...settings}>
-              {marketsArray.map(function (market, i) {
-                return <Link key={market.name} to={`/market/id/${market.marketId}`}>
-                  <div className="box_market">
-                    {market.marketImage && market.marketImage.match(/\.(jpeg|jpg|gif|png)$/) !== null ? (
-                      <div className='market_img'>
-                        <img src={market.marketImage}></img>
-                      </div>
-                    ) : (
-                      <div className='market_img'>
-                        <img src={Image1}></img>
-                      </div>
-                    )}
+        <div className="container">
+          {loading ? (
+            <>
+              <div className="container align-items-center text-center">
+                <div className="lds-ripple"><div></div><div></div></div>
+              </div>
+            </>
+          ) : (
+            <>
 
-                    <div className="market_info">
-                      <div className='market_title'>{truncateTextSize(market.name, 75)}</div>
-                      <div className='market_desc'>Shares: {market.totalShares}</div>
-                    </div>
-                  </div>
-                </Link>
+              <div className='markets-box d-flex'>
+                {marketsArray.map(function (market, i) {
+                  return MarketBox({ market, i })
 
-              })}
-            </Slider>
-          </>
-        )}
+                })}
+              </div>
+
+            </>
+          )}
+        </div>
       </section>
 
       <Footer />

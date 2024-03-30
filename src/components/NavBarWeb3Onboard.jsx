@@ -350,7 +350,7 @@ export const NavBarWeb3Onboard = () => {
                                     </div>
 
                                 </div>
-                                <div className="col-2">
+                                <div className="col-2 d-flex align-items-center">
                                     <div ref={dropdownRef}>
                                         <Dropdown
                                             onMouseEnter={handleMouseEnter}
