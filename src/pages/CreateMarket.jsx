@@ -286,26 +286,7 @@ export const CreateMarket = () => {
   };
 
   const handleConnectWallet = async () => {
-    await connect().then(async (result) => {
-      await handleDepositUSDC();
-    })
-  }
-
-  const handleDepositUSDC = async () => {
-    setAwaitingApproval(true);
-    try {
-        let balance = await usdc.balanceOf(owner);
-        let approvalTx = await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance);
-        await approvalTx.wait();
-        balance = await usdc.balanceOf(owner);
-        let allowance = usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS);
-        const walletBalance = balance > allowance ? allowance : balance;
-        let b = (Number(walletBalance) / 1e6).toFixed(3);
-        setUSDCBalance(b);
-        setAwaitingApproval(false);
-    } catch {
-      setAwaitingApproval(false);
-    }
+    await connect();
   }
 
   const handleCreateMarket = async () => {
@@ -764,7 +745,7 @@ export const CreateMarket = () => {
                 (awaitingApproval ? (
                   <button className='button standard mt-4'>Aproving...</button>
                 ) : (
-                  <button className='button standard mt-4' onClick={handleDepositUSDC}>Aprove USDC</button>
+                  <button className='button standard mt-4'>Aprove USDC</button>
                 ))
               ))
             ) : (

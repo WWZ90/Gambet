@@ -300,27 +300,7 @@ export const CreateMarketCarousel = () => {
     };
 
     const handleConnectWallet = async () => {
-        await connect().then(async (result) => {
-            await handleDepositUSDC();
-        })
-    }
-
-    const handleDepositUSDC = async () => {
-        console.log(activeContract);
-        setAwaitingApproval(true);
-        try {
-            let balance = await usdc.balanceOf(owner);
-            let approvalTx = await usdc.approve(import.meta.env.VITE_OO_CONTRACT_ADDRESS, balance);
-            await approvalTx.wait();
-            balance = await usdc.balanceOf(owner);
-            let allowance = usdc.allowance(owner, import.meta.env.VITE_OO_CONTRACT_ADDRESS);
-            const walletBalance = balance > allowance ? allowance : balance;
-            let b = (Number(walletBalance) / 1e6).toFixed(3);
-            setUSDCBalance(b);
-            setAwaitingApproval(false);
-        } catch {
-            setAwaitingApproval(false);
-        }
+        await connect()
     }
 
     const handleCreateMarket = async () => {
@@ -861,7 +841,7 @@ export const CreateMarketCarousel = () => {
                                     (awaitingApproval ? (
                                         <Button text='Aproving...' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} disabled="true"/>
                                     ) : (
-                                        <Button text='Aprove USDC' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} onClick={handleDepositUSDC} />
+                                        <Button text='Aprove USDC' iconSrc={party} backgroundColor='#6E6EEA' style={{ width: "184px" }} />
                                     ))
                                 ))
                             ) : (

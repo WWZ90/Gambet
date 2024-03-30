@@ -212,9 +212,7 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
     console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
     localStorage.txPool = `Processing pending orders...`;
     localStorage.txConfirmed = `Order completed! Market will be updated shortly`;
-    const filledOrder = await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
-    const resolved = await filledOrder.wait();
-    return resolved
+    await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
 }
 
 export const createBet = async (activeContract, usdc, owner, ooContractAddress, schema, address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages) => {
