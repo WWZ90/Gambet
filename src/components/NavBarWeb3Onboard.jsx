@@ -135,13 +135,19 @@ export const NavBarWeb3Onboard = () => {
     }
 
     const gaslessTransaction = async (contract, prop, args) => {
+        let tempSigner = signer;
         if (!signer || !contract || !owner) {
-            console.error("Missing required signer/contract", signer, contract);
-            return;
+            if (provider) {
+                tempSigner = await provider.getSigner();
+                setSigner(tempSigner || signer);
+            } else {
+                console.error("Missing required signer/contract", signer, contract);
+                return;
+            }
         }
         console.log(prop, args);
         const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
-        const [, builder] = await gasslessAddress(rpcUrl, signer);
+        const [, builder] = await gasslessAddress(rpcUrl, signer || tempSigner);
         // Encode the calls
         const callTo = [import.meta.env.VITE_USDC_ADDRESS, await contract.getAddress()];
         const costCalculator = {
