@@ -311,25 +311,25 @@ export const NavBarWeb3Onboard = () => {
             return;
         }
 
-        const tempSigner = await provider.getSigner();
-        const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
-        const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
-        setSigner(tempSigner);
-        const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
-        gasslessAddress(rpcUrl, tempSigner).then(([owner]) => {
-            console.log("Owner is " + owner);
-            setOwner(owner);
+            const tempSigner = await provider.getSigner();
+            const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
+            const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
+            setSigner(tempSigner);
+            const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
+            gasslessAddress(rpcUrl, tempSigner).then(([owner]) => {
+                console.log("Owner is " + owner);
+                setOwner(owner);
+            });
+            setUSDC(tempUsdc);
+            return tempActiveContract;
+        }
 
-        });
-        setUSDC(tempUsdc);
+        start().catch(err => {
+            console.error(err);
+            return null;
+        }).then(setupActiveContract);
 
-        const b = await tempUsdc.balanceOf(owner);
-        const balance = await tokenToNumber(b);
-        console.log("USDC: " + balance);
-        setUSDCBalance(balance);
-
-        return tempActiveContract;
-    }
+    }, [provider])
 
     const handleConnectWallet = async () => {
         await connect();
