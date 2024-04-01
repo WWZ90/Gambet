@@ -312,9 +312,9 @@ export const NavBarWeb3Onboard = () => {
             const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
             setSigner(tempSigner);
             const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
-            gasslessAddress(rpcUrl, tempSigner).then(([owner]) => {
-                console.log("Owner is " + owner);
-                setOwner(owner);
+            gasslessAddress(rpcUrl, tempSigner).then(async ([address]) => {
+                console.log("Wallet is " + (await tempSigner.getAddress()), "ERC4337 is " + address);
+                setOwner(address);
             });
             setUSDC(tempUsdc);
             return tempActiveContract;
