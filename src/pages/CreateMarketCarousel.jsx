@@ -146,7 +146,6 @@ export const CreateMarketCarousel = () => {
     }
 
     const handleAddBetChoice = () => {
-        //debugger;
         if (betChoice) {
             if (!betChoiceList.some(item => item.betChoice === betChoice)) {
                 setBetChoiceList([...betChoiceList, { id: idBetChoice, image: undefined, betChoice, percentage: 0 }]);
@@ -313,8 +312,6 @@ export const CreateMarketCarousel = () => {
                 if (item.image === null || item.image === undefined) {
                     return "";
                 }
-
-                //debugger;
 
                 const outcomeImageResponse = await handleImageSubmission(item.image[0].file);
                 const outcomeImageResult = await outcomeImageResponse.json();

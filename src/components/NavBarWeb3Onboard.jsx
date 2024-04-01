@@ -109,7 +109,6 @@ export const NavBarWeb3Onboard = () => {
         }
         const builder = await Presets.Builder.SimpleAccount.init(signer, rpcUrl, opts);
         const address = builder.getSender();
-        console.log(`Account address: ${address}`);
         return [address, builder];
     }
 
@@ -155,13 +154,13 @@ export const NavBarWeb3Onboard = () => {
             "createOptimisticBet": calculateCostForOptimisticBet
         }
         const cost = costCalculator[prop](args);
-        console.log(import.meta.env.VITE_OO_CONTRACT_ADDRESS, owner);
-        debugger;
+        const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
+        setUSDC(tempUsdc);
         const callData = [
-            usdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
+            tempUsdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
             contract.interface.encodeFunctionData(prop, args)
         ];
-        await usdc.transfer(owner, cost).then(tx => tx.wait());
+        await tempUsdc.transfer(owner, cost).then(tx => tx.wait());
         // Send the User Operation to the ERC-4337 mempool
         const client = await Client.init(rpcUrl);
         const res = await client.sendUserOperation(builder.executeBatch(callTo, callData), {
@@ -327,7 +326,6 @@ export const NavBarWeb3Onboard = () => {
     }
 
     useEffect(() => {
-        //debugger;
         if (!wallet?.provider) {
             setProvider(null)
         } else {
