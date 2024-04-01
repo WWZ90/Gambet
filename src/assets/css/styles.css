@@ -782,7 +782,7 @@ textarea.elegant_input::-webkit-scrollbar-thumb {
     z-index: 1;
     opacity: 1 !important;
     width: 206px;
-    transform: translate(-50px, 5px) !important;
+    transform: translate(-50px, 9px) !important;
     border-radius: 15px !important;
 
     /* Shadow/medium */
@@ -1478,7 +1478,7 @@ button.swithToChain:hover {
     z-index: 9;
     font-family: var(--font-family-regular);
     margin: 80px 0px 0px;
-    top: 0px;
+    top: 10px;
     right: 0;
     display: flex;
     -webkit-box-pack: center;

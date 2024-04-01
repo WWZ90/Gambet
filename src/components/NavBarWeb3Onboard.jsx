@@ -6,9 +6,8 @@ import { NavLink } from "react-router-dom";
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+import Modal from 'react-bootstrap/Modal';
 
 import { useConnectWallet, useSetChain } from "@web3-onboard/react";
 import { ethers } from "ethers";
@@ -43,6 +42,8 @@ export const NavBarWeb3Onboard = () => {
     const { owner, setOwner } = useStateContext();
     const { cartCount, setCartCount } = useStateContext();
     const [addedToCart, setAddedToCart] = useState(false);
+
+    const [modalShow, setModalShow] = useState(false);
 
     const [{ wallet, connecting }, connect, disconnect] = useConnectWallet();
     const [
@@ -354,6 +355,32 @@ export const NavBarWeb3Onboard = () => {
                     to Polygon-Mumbai</button></div>
             )}
 
+            <Modal
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+                className='body_2'
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Deposit USDC (Polygon)
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>
+                        To continue you must send USDC on the Polygon network to this address:
+                    </p>
+                    <p>
+                        {owner}
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button text='Close' onClick={() => setModalShow(false)} />
+                </Modal.Footer>
+            </Modal>
+
             <header id="header" className="header fixed-top d-flex align-items-center">
                 <Navbar expand="lg" className="navmenu fixed-top">
                     <Container>
@@ -443,7 +470,7 @@ export const NavBarWeb3Onboard = () => {
                                                     <div>Portfolio</div>
                                                     <div>$1002</div>
                                                 </div>
-                                                <Button cName="short-icon-button add" iconSrc={add} />
+                                                <Button cName="short-icon-button add" iconSrc={add} onClick={() => setModalShow(true)} />
                                             </div>
                                             <div className='cart_icon'>
                                                 <NavLink to="/cart">
