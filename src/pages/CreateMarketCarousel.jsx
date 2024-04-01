@@ -284,7 +284,6 @@ export const CreateMarketCarousel = () => {
     }
 
     const handleOnChangeMarketImage = (image) => {
-        console.log('okok');
         setMarketImage(image);
     };
 

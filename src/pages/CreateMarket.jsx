@@ -336,7 +336,7 @@ export const CreateMarket = () => {
         marketImageURL,
         outcomesImagesArray
       ).then((r) => {
-        console.log(r);
+        //console.log(r);
       });
     } catch (error) {
       console.error('Error:', error);

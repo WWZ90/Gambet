@@ -56,7 +56,7 @@ export const BrowseMarkets = () => {
   useEffect(() => {
     if (!marketsArray) {
       setPreviousRoute('browseMarkets');
-      console.log("Loading markets...");
+      //console.log("Loading markets...");
       setLoading(true);
     } else {
       setLoading(false);

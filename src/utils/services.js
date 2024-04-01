@@ -14,6 +14,18 @@ export function truncateTextSize(str, size) {
     return str.length > size ? str.substring(0, size) + "..." : str;
 }
 
+export const numberToToken = async (n, activeContract, activeMarketId) => {
+    if (!activeMarketId) return BigInt(n) * BigInt(1e6);
+    let d = await activeContract.tokenDecimals(await activeContract.betTokens(activeMarketId));
+    return BigInt(n) * BigInt(d);
+}
+
+export const tokenToNumber = async (n, activeContract, activeMarketId) => {
+    if (!activeMarketId) return (Number(n) / 1e6).toFixed(3);
+    let d = await activeContract.tokenDecimals(await activeContract.betTokens(activeMarketId));
+    return (Number(n) / Number(d)).toFixed(3);
+}
+
 export function formatDate(d) {
     const dateString = new Date(d * 1000);
 
@@ -44,7 +56,7 @@ export function formatDateShort(d) {
 
 
 export const browseMarkets = async (activeContract) => {
-    console.log(activeContract.filters);
+    //console.log(activeContract.filters);
     const filter = activeContract.filters.CreatedOptimisticBet();
     const markets = (await Promise.all((await activeContract.queryFilter(filter, 47239866, 'latest'))
         .map(e => [e.args[1], e.args[2], e.args[3]])
@@ -87,14 +99,14 @@ export const browseMarkets = async (activeContract) => {
             mkt.prices = mkt.outcomes.map(o => calculatePrice(mkt, o));
             return mkt;
         });
-    console.log(markets);
+    //console.log(markets);
     return markets;
 }
 
 const marketCache = {};
 
 export const getMarket = async (marketId, activeContract) => {
-    console.log('getMarket');
+    //console.log('getMarket');
 
     const m = await activeContract.markets(marketId).then(market => {
         let [marketId, created, finished, creation, outcomeIndex, kind, lockout, deadline, owner, totalShares, outcomes, shares, resolution, marketImage, outcomeImages] = market;
@@ -106,7 +118,7 @@ export const getMarket = async (marketId, activeContract) => {
 
         outcomes = outcomes.split(" || ");
 
-        console.log("SHARES | OUTCOMES | IMAGE | IMAGES", shares, outcomes, marketImage, outcomeImages);
+        //console.log("SHARES | OUTCOMES | IMAGE | IMAGES", shares, outcomes, marketImage, outcomeImages);
 
         return marketCache[marketId] = {
             marketId,
@@ -129,7 +141,7 @@ export const getMarket = async (marketId, activeContract) => {
     });
 
     let filter = activeContract.filters.CreatedOptimisticBet(marketId);
-    console.log(filter);
+    //console.log(filter);
     m.name = (await activeContract.queryFilter(filter))[0].args[2];
     m.terms = (await activeContract.queryFilter(activeContract.filters.CreatedOptimisticBet(marketId)))[0].args[3];
 
@@ -149,9 +161,9 @@ export const verifyMarketExist = async (marketId, activeContract) => {
 }
 
 export const getOwned = async (market, userAddress, activeContract) => {
-    console.log("Getting owned for", userAddress);
+    //console.log("Getting owned for", userAddress);
     const owned = await Promise.all(market.outcomes.map(outcome => activeContract.userPools(market.marketId, userAddress, outcome)));
-    console.log(owned);
+    //console.log(owned);
     return owned
 }
 
@@ -209,7 +221,7 @@ export const fillOrder = async (activeContract, activeMarketId, cart, orders) =>
         .filter(o => o.orderPosition !== action)
         .filter(o => price === 0 || (action === "BUY" ? (price >= o.pricePerShare) : (price <= o.pricePerShare)))
         .map(o => o.idx));
-    console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
+    //console.log(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);
     localStorage.txPool = `Processing pending orders...`;
     localStorage.txConfirmed = `Order completed! Market will be updated shortly`;
     await activeContract.fillOrder(amounts, prices, cart.map(o => o.action === "BUY" ? 0n : 1n), activeMarketId, newOrders.map(o => o.outcome), orderIndexes);

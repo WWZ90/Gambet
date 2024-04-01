@@ -60,7 +60,7 @@ export const Home = () => {
 
             if (!marketsArray) {
                 getMarkets().then(result => {
-                    console.log(result);
+                    //console.log(result);
                     setMarketsArray(result);
                 });
             }

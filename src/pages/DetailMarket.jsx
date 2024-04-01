@@ -176,7 +176,7 @@ export const DetailMarket = () => {
 
         const user = owner || "0x0000000000000000000000000000000000000000";
 
-        console.log(user);
+        //console.log(user);
 
         const owned = await getOwned(foundMarket, user, activeContract)
 
