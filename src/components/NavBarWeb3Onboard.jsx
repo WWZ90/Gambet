@@ -110,7 +110,6 @@ export const NavBarWeb3Onboard = () => {
         }
         const builder = await Presets.Builder.SimpleAccount.init(signer, rpcUrl, opts);
         const address = builder.getSender();
-        console.log(`Account address: ${address}`);
         return [address, builder];
     }
 
@@ -132,7 +131,7 @@ export const NavBarWeb3Onboard = () => {
             cost += buys.amounts[i] * (buys.prices[i] || 1e6);
         }
         console.log("Cost is", cost);
-        return cost;
+        return BigInt(cost);
     }
 
     const gaslessTransaction = async (contract, prop, args) => {
@@ -148,7 +147,8 @@ export const NavBarWeb3Onboard = () => {
         }
         console.log(prop, args);
         const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
-        const [, builder] = await gasslessAddress(rpcUrl, signer || tempSigner);
+        const [address, builder] = await gasslessAddress(rpcUrl, signer || tempSigner);
+        setOwner(address);
         // Encode the calls
         const callTo = [import.meta.env.VITE_USDC_ADDRESS, await contract.getAddress()];
         const costCalculator = {
@@ -156,13 +156,13 @@ export const NavBarWeb3Onboard = () => {
             "createOptimisticBet": calculateCostForOptimisticBet
         }
         const cost = costCalculator[prop](args);
-        console.log(import.meta.env.VITE_OO_CONTRACT_ADDRESS, owner);
-        debugger;
+        const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
+        setUSDC(tempUsdc);
         const callData = [
-            usdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
+            tempUsdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
             contract.interface.encodeFunctionData(prop, args)
         ];
-        await usdc.transfer(owner, cost).then(tx => tx.wait());
+        await tempUsdc.transfer(address, cost).then(tx => tx.wait());
         // Send the User Operation to the ERC-4337 mempool
         const client = await Client.init(rpcUrl);
         const res = await client.sendUserOperation(builder.executeBatch(callTo, callData), {
@@ -271,9 +271,13 @@ export const NavBarWeb3Onboard = () => {
                                     }
                                     return r;
                                 } catch (error) {
-                                    const r = await handleWalletCall(prop)(...arguments);
-                                    console.error("Error calling injected wallet async function, trying backend fallback handler: ", error, prop, originalReturn, r, [...arguments]);
-                                    return r;
+                                    console.error("Error calling injected wallet async function, trying backend fallback handler: ", error, prop, originalReturn, [...arguments]);
+                                    if (writeOps.includes(prop)) {
+                                        return null;
+                                    } else {
+                                        const r = await handleWalletCall(prop)(...arguments);
+                                        return r;
+                                    }
                                 }
                             }
                         } else if (originalReturn === undefined) {
@@ -328,7 +332,6 @@ export const NavBarWeb3Onboard = () => {
     }
 
     useEffect(() => {
-        //debugger;
         if (!wallet?.provider) {
             setProvider(null)
         } else {

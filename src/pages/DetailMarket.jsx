@@ -195,8 +195,6 @@ export const DetailMarket = () => {
             sharePayout: (1 / calculatePrice(foundMarket, outcome)).toFixed(3),
         }));
 
-        //debugger;
-
         setOutcomeData(outcomeD);
 
         const myOutcomeD = outcomeD.filter((entry) => entry.owned !== 0);

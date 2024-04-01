@@ -78,7 +78,7 @@ const web3Onboard = init({
       id: '0x13881',
       token: 'MATIC',
       label: 'Polygon - Mumbai',
-      rpcUrl: 'https://matic-mumbai.chainstacklabs.com	'
+      rpcUrl: 'https://public.stackup.sh/api/v1/node/polygon-mumbai'
     }
   ],
   appMetadata: {
