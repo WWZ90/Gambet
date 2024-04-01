@@ -311,25 +311,25 @@ export const NavBarWeb3Onboard = () => {
             return;
         }
 
-            const tempSigner = await provider.getSigner();
-            const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
-            const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
-            setSigner(tempSigner);
-            const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
-            gasslessAddress(rpcUrl, tempSigner).then(([owner]) => {
-                console.log("Owner is " + owner);
-                setOwner(owner);
-            });
-            setUSDC(tempUsdc);
-            return tempActiveContract;
-        }
+        const tempSigner = await provider.getSigner();
+        const tempActiveContract = new ethers.Contract(import.meta.env.VITE_OO_CONTRACT_ADDRESS, ooAbi, provider).connect(tempSigner);
+        const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
+        setSigner(tempSigner);
+        const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
+        gasslessAddress(rpcUrl, tempSigner).then(async ([owner]) => {
+            console.log("Owner is " + owner);
+            setOwner(owner);
 
-        start().catch(err => {
-            console.error(err);
-            return null;
-        }).then(setupActiveContract);
+            const b = await tempUsdc.balanceOf(owner);
+            const balance = await tokenToNumber(b);
+            setUSDCBalance(balance);
+            console.log('Balance USDC: ' + balance);
+        });
+        setUSDC(tempUsdc);
 
-    }, [provider])
+        return tempActiveContract;
+    }
+
 
     const handleConnectWallet = async () => {
         await connect();
@@ -349,13 +349,6 @@ export const NavBarWeb3Onboard = () => {
         }
 
     }, [connectedChain])
-
-    useEffect(() => {
-        if (owner) {
-            verifyCorrectChain();
-        }
-
-    }, [owner])
 
     const switchToChain = () => {
         setChain({ chainId: import.meta.env.VITE_CORRECT_CHAIN });
@@ -649,3 +642,4 @@ export const NavBarWeb3Onboard = () => {
         </>
     )
 }
+
