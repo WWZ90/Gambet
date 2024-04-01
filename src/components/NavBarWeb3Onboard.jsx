@@ -130,7 +130,7 @@ export const NavBarWeb3Onboard = () => {
             cost += buys.amounts[i] * (buys.prices[i] || 1e6);
         }
         console.log("Cost is", cost);
-        return cost;
+        return BigInt(cost);
     }
 
     const gaslessTransaction = async (contract, prop, args) => {
