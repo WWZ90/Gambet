@@ -25,6 +25,7 @@ import { Button } from '../components/Button';
 import ph_clock_2 from '../assets/icons/png/ph_clock_2.png';
 import share from '../assets/icons/png/share.png';
 import heart from '../assets/icons/png/heart.png';
+import { Loader } from '../components/Loader';
 
 export const DetailMarket = () => {
 
@@ -247,20 +248,12 @@ export const DetailMarket = () => {
             <div className="image-back">
                 <NavBarWeb3Onboard />
                 <div className='header-fill'></div>
-
-                {loading ? (
-                    <section className='detail_market'>
-                        <div className="container align-items-center text-center">
-                            <div className="lds-ripple">
-                                <div></div>
-                                <div></div>
-                            </div>
-                        </div>
-                    </section>
-                ) : (
-                    <>
-                        {outcomeData ? (
-                            <section className='detail_market'>
+                <section className='detail_market'>
+                    {loading ? (
+                        <Loader />
+                    ) : (
+                        <>
+                            {outcomeData ? (
                                 <div className="content">
                                     <div className="inside">
                                         <div className="left_panel">
@@ -445,13 +438,9 @@ export const DetailMarket = () => {
                                         <div className='stiky_block'>
                                             <ActionOrders loadDetailMarket={loadDetailMarket} />
                                         </div>
-
                                     </div>
-
                                 </div>
-                            </section>
-                        ) : (
-                            <section className='detail_market'>
+                            ) : (
                                 <div className="content no_market">
                                     <div>
                                         The market you are requesting does not exist
@@ -461,10 +450,12 @@ export const DetailMarket = () => {
                                             markets</NavLink>
                                     </div>
                                 </div>
-                            </section>
-                        )}
-                    </>
-                )}
+
+                            )}
+
+                        </>
+                    )}
+                </section>
 
 
                 <Footer />

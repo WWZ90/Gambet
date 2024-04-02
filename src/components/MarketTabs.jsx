@@ -6,6 +6,7 @@ import { useStateContext } from '../contexts/ContextProvider';
 
 import { Button } from './Button';
 import { MarketBox } from './MarketBox';
+import { Loader } from './Loader';
 
 export const MarketTabs = ({ categories, myRef }) => {
 
@@ -33,27 +34,20 @@ export const MarketTabs = ({ categories, myRef }) => {
                             </li>
                         ))}
                     </ul>
-
-                    {!marketsArray ? (
-                        <>
-                            <div className="container align-items-center text-center">
-                                <div className="lds-ripple">
-                                    <div></div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className='markets-box d-flex'>
+                    <div className='markets-box d-flex'>
+                        {!marketsArray ? (
+                            <Loader />
+                        ) : (
+                            <>
                                 {marketsArray?.map(function (market, i) {
-                                    return MarketBox({market, i})
+                                    return MarketBox({ market, i })
                                 })}
-                            </div>
-                        </>
-                    )}
+
+                            </>
+                        )}
+                    </div>
                 </div>
-            </section>
+            </section >
         </>
     )
 }
