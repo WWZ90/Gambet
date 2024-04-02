@@ -26,7 +26,7 @@ import logo from '../assets/img/gambeth-logo-text.png';
 import rocket from '../assets/icons/png/noto_rocket.png';
 import standing_coin_front from '../assets/icons/png/standing coin front.png';
 import add from "../assets/icons/png/+.png";
-import avatar from "../assets/icons/png/avatar.png";
+import {generateFromString} from "generate-avatar";
 
 export const NavBarWeb3Onboard = () => {
 
@@ -498,7 +498,7 @@ export const NavBarWeb3Onboard = () => {
                                             </div>
                                             <Dropdown className='user_dropdown'>
                                                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                                    <img src={avatar} />
+                                                    <img width={"32px"} src={`data:image/svg+xml;utf8,${generateFromString(owner || "")}`} />
                                                     <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M10.4419 14.0669C10.1979 14.311 9.80214 14.311 9.55806 14.0669L3.30806 7.81694C3.06398 7.57286 3.06398 7.17714 3.30806 6.93306C3.55214 6.68898 3.94786 6.68898 4.19194 6.93306L10 12.7411L15.8081 6.93306C16.0521 6.68898 16.4479 6.68898 16.6919 6.93306C16.936 7.17714 16.936 7.57286 16.6919 7.81694L10.4419 14.0669Z" fill="#F3F4D4" />
                                                     </svg>
