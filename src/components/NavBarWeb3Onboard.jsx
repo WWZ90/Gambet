@@ -26,7 +26,6 @@ import logo from '../assets/img/gambeth-logo-text.png';
 import rocket from '../assets/icons/png/noto_rocket.png';
 import standing_coin_front from '../assets/icons/png/standing coin front.png';
 import add from "../assets/icons/png/+.png";
-import {generateFromString} from "generate-avatar";
 
 export const NavBarWeb3Onboard = () => {
 
