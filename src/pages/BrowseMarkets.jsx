@@ -169,7 +169,7 @@ export const BrowseMarkets = () => {
             <Loader />
           ) : (
             <>
-              <div className="filters d-flex justify-content-center">
+              <div className="filters body_2 d-flex justify-content-center">
                 <Dropdown className='user_dropdown'>
                   <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-volume">
                     Volume
