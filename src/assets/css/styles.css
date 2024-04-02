@@ -247,13 +247,9 @@ body::-webkit-scrollbar-thumb {
 }
 
 a {
-    color: var(--color-3) !important;
+    color: var(--Text-5) !important;
     text-decoration: none !important;
     transition: 0.3s !important;
-}
-
-a:hover {
-    color: rgba(var(--color-nav-hover), 0.7) !important;
 }
 
 h1,
@@ -776,6 +772,11 @@ textarea.elegant_input::-webkit-scrollbar-thumb {
     border-top: 1px solid #062e56;
 }
 
+.dropdown {
+    margin-right: 10px;
+    margin-top: 2px;
+}
+
 .dropdown-menu {
     background-color: var(--Primary-blue-5) !important;
     padding: 0px 10px 0px 10px !important;
@@ -788,8 +789,65 @@ textarea.elegant_input::-webkit-scrollbar-thumb {
     /* Shadow/medium */
     box-shadow: 0px 4px 15px 0px rgba(255, 255, 255, 0.10);
     opacity: 0;
-    transform: translateY(-20px);
     transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+
+    font-family: var(--font-family-regular) !important;
+    color: var(--Text-5);
+
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: normal;
+
+    transition: 0.2s all;
+}
+
+.dropdown-item:first-child:hover {
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.dropdown-item:last-child:hover {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.dropdown .dropdown-toggle {
+    background-color: transparent !important;
+    border: 0px;
+    font-size: 14px !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: normal;
+    color: var(--Text-5);
+}
+
+.dropdown .dropdown-toggle::after {
+    content: none !important;
+}
+
+.dropdown .dropdown-toggle:hover {
+    color: var(--Accent-orange-5);
+}
+
+.dropdown .dropdown-toggle svg {
+    margin-left: 10px;
+    margin-bottom: 1px;
+}
+
+.dropdown .dropdown-toggle svg path {
+    transition: 0.2s all;
+}
+
+.dropdown .dropdown-toggle:hover svg path {
+    color: var(--Accent-orange-5);
+    fill: currentcolor;
+}
+
+.dropdown .dropdown-menu a {
+    display: flex;
+    align-items: center;
+    align-self: stretch;
 }
 
 .dropdown-menu.show {
@@ -815,12 +873,15 @@ textarea.elegant_input::-webkit-scrollbar-thumb {
 .dropdown-menu a a:hover svg path,
 .dropdown-menu a a.active svg path {
     filter: invert(32%) sepia(10%) saturate(1000%) hue-rotate(302deg) brightness(100%) contrast(100%);
-
-
 }
 
 .dropdown-menu .dropdown-divider {
     margin: 0px -10px 0px -10px !important;
+    height: 0;
+
+    overflow: hidden;
+    border-top: 1px solid #c2c2c2 !important;
+    opacity: 1;
 }
 
 .dropdown-menu span {
@@ -1034,55 +1095,9 @@ section h1 {
     margin-right: 30px;
 }
 
-.header .navmenu .dropdown {
-    margin-right: 10px;
-    margin-top: 2px;
-}
-
-.header .navmenu .dropdown .dropdown-toggle,
-.header .navmenu .dropdown .dropdown-menu {
-    font-family: var(--font-family-regular);
-    color: var(--Text-5);
-
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-
-    transition: 0.2s all;
-}
-
-.header .navmenu .dropdown .dropdown-toggle {
-    background-color: transparent !important;
-    border: 0px;
-}
-
-.header .navmenu .dropdown .dropdown-toggle:hover {
-    color: var(--Accent-orange-5);
-}
-
-.header .navmenu .dropdown .dropdown-toggle svg {
-    margin-left: 10px;
-    margin-bottom: 1px;
-}
-
-.header .navmenu .dropdown .dropdown-toggle svg path {
-    transition: 0.2s all;
-}
-
-.header .navmenu .dropdown .dropdown-toggle:hover svg path {
-    color: var(--Accent-orange-5);
-    fill: currentcolor;
-}
-
-.header .navmenu .dropdown .dropdown-menu a {
-    padding: 0px !important;
-}
-
 .header .navmenu a {
-    color: var(--color-link-nav) !important;
+    color: var(--Text-5) !important;
     background-color: transparent;
-    padding: 6px;
     transition: 0.5s all !important;
     position: relative;
 }
@@ -1339,7 +1354,7 @@ section h1 {
     height: 8px;
 }
 
-.header .user_dropdown .dropdown-menu{
+.header .user_dropdown .dropdown-menu {
     transform: translate(-123px, 5px) !important;
 }
 
@@ -1408,34 +1423,6 @@ button.swithToChain:hover {
 
 .header .dropdown-menu .dropdown-item {
     padding: 0px !important;
-}
-
-.header .dropdown-menu .animated-line {
-    height: 45px !important;
-    display: block;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-}
-
-.header .dropdown-menu .animated-line li {
-    transition: 0.3s all;
-}
-
-.header .dropdown-menu .animated-line:hover li {
-    color: var(--color-link-nav-hover) !important;
-}
-
-.header .dropdown-menu .animated-line.balance {
-    font-weight: 500;
-    padding-bottom: 0px !important;
-}
-
-.header .navmenu .dropdown .dropdown-divider {
-    height: 0;
-    margin: var(--bs-dropdown-divider-margin-y) 0;
-    overflow: hidden;
-    border-top: 1px solid #c2c2c2 !important;
-    opacity: 1;
 }
 
 .header .wallet_deposit,
@@ -1519,8 +1506,55 @@ button.swithToChain:hover {
     z-index: -10;
 }
 
-.browseMarket .slick-slide {
-    /*height: 320px !important;*/
+.browseMarket .filters {
+    margin-bottom: 36px;
+}
+
+.browseMarket .dropdown {
+    margin: 0px 15px 0px 15px;
+}
+
+.browseMarket .dropdown-menu {
+    transform: translate(-50px, 40px) !important;
+}
+
+.browseMarket .dropdown-menu.show {
+    padding: 0px !important;
+}
+
+.browseMarket .dropdown-menu .dropdown-divider {
+    margin: 0px !important;
+}
+
+.browseMarket .dropdown-menu a {
+    display: flex;
+    padding: 10px 0px 10px 16px;
+    align-items: center;
+    align-self: stretch;
+    overflow: hidden;
+}
+
+.browseMarket .dropdown-menu a:hover {
+    background-color: var(--Accent-orange-5);
+    overflow: hidden;
+    color: var(--Text-5) !important;
+}
+
+.browseMarket .active_filters .filter {
+    display: inline-flex;
+    color: var(--Text-5);
+    height: 40px;
+    padding: 10px;
+    margin: 0px 10px 20px 0px;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    background: var(--Accent-orange-5, #EE8C71);
+}
+
+.browseMarket .active_filters .filter:hover{
+    cursor: pointer;
 }
 
 /*--------------------------------------------------------------
@@ -1620,6 +1654,7 @@ button.swithToChain:hover {
     min-height: 60vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     background-color: var(--Primary-blue-5);
 }
 
