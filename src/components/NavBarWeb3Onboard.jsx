@@ -145,7 +145,7 @@ export const NavBarWeb3Onboard = () => {
         }
         console.log(prop, args);
         const rpcUrl = "https://public.stackup.sh/api/v1/node/polygon-mumbai";
-        const [address, builder] = await gasslessAddress(rpcUrl, signer || tempSigner);
+        const [address, builder] = await gasslessAddress(rpcUrl, tempSigner);
         setOwner(address);
         // Encode the calls
         const callTo = [import.meta.env.VITE_USDC_ADDRESS, await contract.getAddress()];
@@ -153,14 +153,14 @@ export const NavBarWeb3Onboard = () => {
             "fillOrder": calculateCostForFillOrder,
             "createOptimisticBet": calculateCostForOptimisticBet
         }
-        const cost = costCalculator[prop](args);
+        const maxCost = costCalculator[prop](args);
         const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
         setUSDC(tempUsdc);
         const callData = [
-            tempUsdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
+            tempUsdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, maxCost]),
             contract.interface.encodeFunctionData(prop, args)
         ];
-        await tempUsdc.transfer(address, cost).then(tx => tx.wait());
+
         // Send the User Operation to the ERC-4337 mempool
         const client = await Client.init(rpcUrl);
         const res = await client.sendUserOperation(builder.executeBatch(callTo, callData), {
