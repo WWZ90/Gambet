@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { motion } from "framer-motion";
+import Jazzicon, {jsNumberForAddress} from "react-jazzicon";
 
 import { NavLink } from "react-router-dom";
 
@@ -18,7 +18,7 @@ import ooAbi from '../libs/gambeth-oo-abi';
 import tokenAbi from '../libs/gambeth-oo-token-abi';
 import { useStateContext } from '../contexts/ContextProvider';
 
-import { formatAddress, tokenToNumber } from '../utils/services'
+import { tokenToNumber } from '../utils/services'
 
 import { Button } from './Button';
 
@@ -497,8 +497,8 @@ export const NavBarWeb3Onboard = () => {
                                                 </NavLink>
                                             </div>
                                             <Dropdown className='user_dropdown'>
-                                                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                                    <img width={"32px"} src={`data:image/svg+xml;utf8,${generateFromString(owner || "")}`} />
+                                                <Dropdown.Toggle variant="success" id="dropdown-basic" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                                    <Jazzicon diameter={32} seed={jsNumberForAddress(owner || "")} />
                                                     <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
                                                         <path fillRule="evenodd" clipRule="evenodd" d="M10.4419 14.0669C10.1979 14.311 9.80214 14.311 9.55806 14.0669L3.30806 7.81694C3.06398 7.57286 3.06398 7.17714 3.30806 6.93306C3.55214 6.68898 3.94786 6.68898 4.19194 6.93306L10 12.7411L15.8081 6.93306C16.0521 6.68898 16.4479 6.68898 16.6919 6.93306C16.936 7.17714 16.936 7.57286 16.6919 7.81694L10.4419 14.0669Z" fill="#F3F4D4" />
                                                     </svg>
