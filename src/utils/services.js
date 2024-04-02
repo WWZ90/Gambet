@@ -233,12 +233,6 @@ export const createBet = async (activeContract, usdc, owner, ooContractAddress, 
         deadline = Date.parse(deadline) / 1000;
         marketId = marketId.toLowerCase().trim();
 
-
-        if (await usdc.allowance(owner, ooContractAddress) === 0n) {
-            //triggerError(`Please approve a minimum of ${createBetTotalCost.innerHTML || "0 USDC"}  to create your market.`, undefined, async () => await usdc.approve(ooContractAddress, Number(createBetTotalCost.innerHTML.split(" USDC")[0] * 1e6) || await usdc.balanceOf(owner)));
-            return;
-        }
-
         /*
         if ((await getMarket(marketId, activeContract)).created) {
             return "Bet ID already exists";
@@ -252,12 +246,7 @@ export const createBet = async (activeContract, usdc, owner, ooContractAddress, 
                 break;
             */
             case "oo":
-                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages).then(async tx => {
-                    localStorage.txPool = "Market is being created...";
-                    localStorage.txConfirmed = "Market created!";
-                    return await tx.wait();
-                });
-                break;
+                await activeContract.createOptimisticBet(address, marketId, deadline, schedule, initialPool, outcomes, ratios, marketTitle, marketTerms, marketImage, outcomeImages);
         }
     } catch (error) {
         console.error(error);

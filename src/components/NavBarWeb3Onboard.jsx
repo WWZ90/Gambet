@@ -113,8 +113,11 @@ export const NavBarWeb3Onboard = () => {
 
     const writeOps = ["fillOrder", "createOptimisticBet"];
 
-    const calculateCostForOptimisticBet = (parameters) => {
-        throw "Unimplemented"
+    const calculateCostForOptimisticBet = async (parameters) => {
+        const decimals = await activeContract.tokenDecimals(await usdc.getAddress());
+        const total = BigInt(parameters[4]) * decimals;
+        console.log("Calculating cost for optimistic bet", parameters, total);
+        return total + 5n * decimals;
     }
 
     const calculateCostForFillOrder = (parameters) => {
@@ -153,7 +156,7 @@ export const NavBarWeb3Onboard = () => {
             "fillOrder": calculateCostForFillOrder,
             "createOptimisticBet": calculateCostForOptimisticBet
         }
-        const maxCost = costCalculator[prop](args);
+        const maxCost = await costCalculator[prop](args);
         const tempUsdc = new ethers.Contract(import.meta.env.VITE_USDC_ADDRESS, tokenAbi, provider).connect(tempSigner);
         setUSDC(tempUsdc);
         const callData = [
@@ -171,7 +174,7 @@ export const NavBarWeb3Onboard = () => {
         //console.log(`UserOpHash: ${res.userOpHash}`);
         //console.log("Waiting for transaction...");
         const ev = await res.wait();
-        //console.log(`Transaction hash: ${ev?.transactionHash ?? null}`);
+        console.log(`Transaction hash: ${ev?.transactionHash ?? null}`);
         //console.log(`View here: https://jiffyscan.xyz/userOpHash/${res.userOpHash}`);
     }
 
