@@ -160,7 +160,11 @@ export const NavBarWeb3Onboard = () => {
             tempUsdc.interface.encodeFunctionData("approve", [import.meta.env.VITE_OO_CONTRACT_ADDRESS, cost]),
             contract.interface.encodeFunctionData(prop, args)
         ];
-        await tempUsdc.transfer(address, cost).then(tx => tx.wait());
+
+        if (cost) {
+            await tempUsdc.transfer(address, cost).then(tx => tx.wait());
+        }
+
         // Send the User Operation to the ERC-4337 mempool
         const client = await Client.init(rpcUrl);
         const res = await client.sendUserOperation(builder.executeBatch(callTo, callData), {
