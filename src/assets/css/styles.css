@@ -2370,6 +2370,7 @@ button.swithToChain:hover {
 
 .markets-box {
     display: flex;
+    min-height: 277px;
     justify-content: center;
     flex-flow: wrap;
     gap: 20px;
@@ -3106,7 +3107,7 @@ button.swithToChain:hover {
     border: 4px solid #001d42;
     opacity: 1;
     border-radius: 50%;
-    margin-top: 180px;
+    margin-top: 0px;
     animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 

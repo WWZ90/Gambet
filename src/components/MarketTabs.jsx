@@ -33,27 +33,28 @@ export const MarketTabs = ({ categories, myRef }) => {
                             </li>
                         ))}
                     </ul>
-
-                    {!marketsArray ? (
-                        <>
-                            <div className="container align-items-center text-center">
-                                <div className="lds-ripple">
-                                    <div></div>
-                                    <div></div>
+                    <div className='markets-box d-flex'>
+                        {!marketsArray ? (
+                            <>
+                                <div className="container d-flex justify-content-center align-items-center text-center">
+                                    <div className="lds-ripple">
+                                        <div></div>
+                                        <div></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className='markets-box d-flex'>
+                            </>
+                        ) : (
+                            <>
+
                                 {marketsArray?.map(function (market, i) {
-                                    return MarketBox({market, i})
+                                    return MarketBox({ market, i })
                                 })}
-                            </div>
-                        </>
-                    )}
+
+                            </>
+                        )}
+                    </div>
                 </div>
-            </section>
+            </section >
         </>
     )
 }
