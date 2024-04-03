@@ -169,126 +169,129 @@ export const BrowseMarkets = () => {
             <Loader />
           ) : (
             <>
-              <div className="filters body_2 d-flex justify-content-center">
-                <Dropdown className='user_dropdown'>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-volume">
-                    Volume
-                    <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
-                    </svg>
-                  </Dropdown.Toggle>
+              <div className="filters body_2">
+                <div className="filters_options d-flex justify-content-center">
+                  <Dropdown className='user_dropdown'>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-volume">
+                      Volume
+                      <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
+                      </svg>
+                    </Dropdown.Toggle>
 
-                  <Dropdown.Menu className="dropdown-menu">
-                    <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Any')}>Any</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Under $10.000')}>Under $10.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Volume', '$10.000 - $50.000')}>$10.000 - $50.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Volume', '$50.000 - $100.000')}>$50.000 - $100.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Over $100.000')}>Over $100.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Custom')}>Custom</Dropdown.Item>
-
-
-                  </Dropdown.Menu>
-                </Dropdown>
-
-                <Dropdown className='user_dropdown'>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-liquidity">
-                    Liquidity
-                    <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
-                    </svg>
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu className="dropdown-menu">
-                    <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Any')}>Any</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Under $5.000')}>Under $5.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', '$5.000 - $10.000')}>$5.000 - $10.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', '$10.000 - $50.000')}>$10.000 - $50.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Over $50.000')}>Over $50.000</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Custom')}>Custom</Dropdown.Item>
+                    <Dropdown.Menu className="dropdown-menu">
+                      <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Any')}>Any</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Under $10.000')}>Under $10.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Volume', '$10.000 - $50.000')}>$10.000 - $50.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Volume', '$50.000 - $100.000')}>$50.000 - $100.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Over $100.000')}>Over $100.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Volume', 'Custom')}>Custom</Dropdown.Item>
 
 
-                  </Dropdown.Menu>
-                </Dropdown>
+                    </Dropdown.Menu>
+                  </Dropdown>
 
-                <Dropdown className='user_dropdown'>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-status">
-                    Status
-                    <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
-                    </svg>
-                  </Dropdown.Toggle>
+                  <Dropdown className='user_dropdown'>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-liquidity">
+                      Liquidity
+                      <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
+                      </svg>
+                    </Dropdown.Toggle>
 
-                  <Dropdown.Menu className="dropdown-menu">
-                    <Dropdown.Item onClick={() => handleDropdownChange('Status', 'All')}>All</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Status', 'Active')}>Active</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Status', 'Resolved')}>Resolved</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                    <Dropdown.Menu className="dropdown-menu">
+                      <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Any')}>Any</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Under $5.000')}>Under $5.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', '$5.000 - $10.000')}>$5.000 - $10.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', '$10.000 - $50.000')}>$10.000 - $50.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Over $50.000')}>Over $50.000</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Liquidity', 'Custom')}>Custom</Dropdown.Item>
 
-                <Dropdown className='user_dropdown'>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-end-date">
-                    End date
-                    <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
-                    </svg>
-                  </Dropdown.Toggle>
 
-                  <Dropdown.Menu className="dropdown-menu">
-                    <Dropdown.Item onClick={() => handleDropdownChange('End date', 'All')}>All</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Ends today')}>Ends today</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Ends this week')}>Ends this week</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Ends this month')}>Ends this month</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Custom')}>Custom</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                    </Dropdown.Menu>
+                  </Dropdown>
 
-                <Dropdown className='user_dropdown'>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-lock-date">
-                    Lock date
-                    <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
-                    </svg>
-                  </Dropdown.Toggle>
+                  <Dropdown className='user_dropdown'>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-status">
+                      Status
+                      <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
+                      </svg>
+                    </Dropdown.Toggle>
 
-                  <Dropdown.Menu className="dropdown-menu">
-                    <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'All')}>All</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Locks today')}>Locks today</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Locks this week')}>Locks this week</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Locks this month')}>Locks this month</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Custom')}>Custom</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                    <Dropdown.Menu className="dropdown-menu">
+                      <Dropdown.Item onClick={() => handleDropdownChange('Status', 'All')}>All</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Status', 'Active')}>Active</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Status', 'Resolved')}>Resolved</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+
+                  <Dropdown className='user_dropdown'>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-end-date">
+                      End date
+                      <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
+                      </svg>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="dropdown-menu">
+                      <Dropdown.Item onClick={() => handleDropdownChange('End date', 'All')}>All</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Ends today')}>Ends today</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Ends this week')}>Ends this week</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Ends this month')}>Ends this month</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('End date', 'Custom')}>Custom</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+
+                  <Dropdown className='user_dropdown'>
+                    <Dropdown.Toggle variant="success" id="dropdown-basic dropdown-lock-date">
+                      Lock date
+                      <svg className='more-icon' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.5303 16.2803C12.2374 16.5732 11.7626 16.5732 11.4697 16.2803L3.96967 8.78033C3.67678 8.48744 3.67678 8.01256 3.96967 7.71967C4.26256 7.42678 4.73744 7.42678 5.03033 7.71967L12 14.6893L18.9697 7.71967C19.2626 7.42678 19.7374 7.42678 20.0303 7.71967C20.3232 8.01256 20.3232 8.48744 20.0303 8.78033L12.5303 16.2803Z" fill="#F3F9D2" />
+                      </svg>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu className="dropdown-menu">
+                      <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'All')}>All</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Locks today')}>Locks today</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Locks this week')}>Locks this week</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Locks this month')}>Locks this month</Dropdown.Item>
+                      <Dropdown.Divider />
+                      <Dropdown.Item onClick={() => handleDropdownChange('Lock date', 'Custom')}>Custom</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+                <div className="active_filters body_2 d-flex">
+                  {activeFilters.map((filter, index) => (
+                    <div key={index} className="filter">
+                      {filter}{' '}
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" onClick={() => removeActiveFilter(index)}>
+                        <path d="M6.28033 5.21967C5.98744 4.92678 5.51256 4.92678 5.21967 5.21967C4.92678 5.51256 4.92678 5.98744 5.21967 6.28033L8.93934 10L5.21967 13.7197C4.92678 14.0126 4.92678 14.4874 5.21967 14.7803C5.51256 15.0732 5.98744 15.0732 6.28033 14.7803L10 11.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L11.0607 10L14.7803 6.28033C15.0732 5.98744 15.0732 5.51256 14.7803 5.21967C14.4874 4.92678 14.0126 4.92678 13.7197 5.21967L10 8.93934L6.28033 5.21967Z" fill="#F3F9D2" />
+                      </svg>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="active_filters body_2 d-flex">
-                {activeFilters.map((filter, index) => (
-                  <div key={index} className="filter">
-                    {filter}{' '}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" onClick={() => removeActiveFilter(index)}>
-                      <path d="M6.28033 5.21967C5.98744 4.92678 5.51256 4.92678 5.21967 5.21967C4.92678 5.51256 4.92678 5.98744 5.21967 6.28033L8.93934 10L5.21967 13.7197C4.92678 14.0126 4.92678 14.4874 5.21967 14.7803C5.51256 15.0732 5.98744 15.0732 6.28033 14.7803L10 11.0607L13.7197 14.7803C14.0126 15.0732 14.4874 15.0732 14.7803 14.7803C15.0732 14.4874 15.0732 14.0126 14.7803 13.7197L11.0607 10L14.7803 6.28033C15.0732 5.98744 15.0732 5.51256 14.7803 5.21967C14.4874 4.92678 14.0126 4.92678 13.7197 5.21967L10 8.93934L6.28033 5.21967Z" fill="#F3F9D2" />
-                    </svg>
-                  </div>
-                ))}
-              </div>
+
               <div className='markets-box d-flex'>
                 {marketsArray.map(function (market, i) {
                   return MarketBox({ market, i })

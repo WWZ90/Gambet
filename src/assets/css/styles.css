@@ -1500,14 +1500,15 @@ button.swithToChain:hover {
 --------------------------------------------------------------*/
 
 .browseMarket {
+    min-height: 30vh;
     margin-top: 160px;
     margin-bottom: 130px;
     /*background-image: radial-gradient(circle, rgb(111, 117, 229) 0%, rgb(255, 255, 255) 35%, rgb(255, 255, 255) 80%);*/
     z-index: -10;
 }
 
-.browseMarket .filters {
-    margin-bottom: 36px;
+.browseMarket .lds-ripple{
+    margin-top: 12vh;
 }
 
 .browseMarket .dropdown {
@@ -1538,6 +1539,15 @@ button.swithToChain:hover {
     background-color: var(--Accent-orange-5);
     overflow: hidden;
     color: var(--Text-5) !important;
+}
+
+.browseMarket .filters {
+    height: 96px;
+    margin-bottom: 20px;
+}
+
+.browseMarket .filters .filters_options {
+    margin-bottom: 23px;
 }
 
 .browseMarket .active_filters .filter {
@@ -2406,6 +2416,7 @@ button.swithToChain:hover {
 .markets-box {
     display: flex;
     min-height: 277px;
+    margin-bottom: 120px;
     justify-content: center;
     flex-flow: wrap;
     gap: 20px;
